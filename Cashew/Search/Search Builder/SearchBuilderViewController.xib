@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SearchBuilderViewController" customModule="Cashew" customModuleProvider="target">
+            <connections>
+                <outlet property="horizontalScroller" destination="7R1-zh-VoK" id="Ah2-6n-M9c"/>
+                <outlet property="scrollView" destination="69G-Pm-qap" id="2RB-yB-UZA"/>
+                <outlet property="searchNameTextField" destination="ubc-oW-fk0" id="rlL-E0-oF4"/>
+                <outlet property="stackView" destination="b66-kp-rpp" id="Lur-xy-2qa"/>
+                <outlet property="verticalScroller" destination="7IL-vk-hqE" id="piu-aD-Oxq"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="640" height="176"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Q2c-OS-tHh" customClass="SearchBuilderLabel" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="18" y="142" width="89" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Search Name:" id="qL1-Nj-HrX">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ubc-oW-fk0">
+                    <rect key="frame" x="113" y="139" width="507" height="22"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" placeholderString="Enter search name to save query" drawsBackground="YES" id="UR0-Bv-iJw">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Tzl-PW-hAx" customClass="SearchBuilderLabel" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="18" y="105" width="320" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Contains issues that match the following conditions:" id="L8N-cr-bk5">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="c2j-C5-NwJ" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="20" y="46" width="600" height="45"/>
+                    <subviews>
+                        <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69G-Pm-qap">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                            <clipView key="contentView" id="6VP-a5-czt">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="1000" verticalStackHuggingPriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b66-kp-rpp">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="600" placeholder="YES" id="BjG-na-YOz"/>
+                                            <constraint firstAttribute="height" constant="45" placeholder="YES" id="uTX-vz-pgI"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="b66-kp-rpp" secondAttribute="bottom" priority="750" id="9EZ-cb-tRf"/>
+                                    <constraint firstItem="b66-kp-rpp" firstAttribute="leading" secondItem="6VP-a5-czt" secondAttribute="leading" id="VZi-d6-AIk"/>
+                                    <constraint firstItem="b66-kp-rpp" firstAttribute="top" secondItem="6VP-a5-czt" secondAttribute="top" id="XM1-Ta-qtc"/>
+                                    <constraint firstAttribute="trailing" secondItem="b66-kp-rpp" secondAttribute="trailing" id="iJy-0f-Tzn"/>
+                                </constraints>
+                            </clipView>
+                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="7R1-zh-VoK" customClass="SRBaseScroller">
+                                <rect key="frame" x="-100" y="-100" width="600" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </scroller>
+                            <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="7IL-vk-hqE" customClass="SRBaseScroller">
+                                <rect key="frame" x="584" y="0.0" width="16" height="45"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </scroller>
+                        </scrollView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="69G-Pm-qap" firstAttribute="top" secondItem="c2j-C5-NwJ" secondAttribute="top" id="Rnm-2f-rK5"/>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="450" id="SuR-2L-1qM"/>
+                        <constraint firstItem="69G-Pm-qap" firstAttribute="leading" secondItem="c2j-C5-NwJ" secondAttribute="leading" id="V7h-W6-fMQ"/>
+                        <constraint firstAttribute="bottom" secondItem="69G-Pm-qap" secondAttribute="bottom" id="hku-ML-Txz"/>
+                        <constraint firstAttribute="trailing" secondItem="69G-Pm-qap" secondAttribute="trailing" id="xKe-7q-25x"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ubc-oW-fk0" secondAttribute="trailing" constant="20" id="3vt-fO-5Ti"/>
+                <constraint firstItem="c2j-C5-NwJ" firstAttribute="top" secondItem="Tzl-PW-hAx" secondAttribute="bottom" constant="14" id="8Hj-mS-mBd"/>
+                <constraint firstItem="ubc-oW-fk0" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="15" id="Faz-r6-bQW"/>
+                <constraint firstAttribute="trailing" secondItem="c2j-C5-NwJ" secondAttribute="trailing" constant="20" id="IoX-AT-1dq"/>
+                <constraint firstItem="Tzl-PW-hAx" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="Lxn-yR-Pyl"/>
+                <constraint firstItem="Q2c-OS-tHh" firstAttribute="centerY" secondItem="ubc-oW-fk0" secondAttribute="centerY" id="U1x-e9-3rQ"/>
+                <constraint firstItem="ubc-oW-fk0" firstAttribute="leading" secondItem="Q2c-OS-tHh" secondAttribute="trailing" constant="8" id="XKe-an-udd"/>
+                <constraint firstItem="Tzl-PW-hAx" firstAttribute="top" secondItem="ubc-oW-fk0" secondAttribute="bottom" constant="17" id="XNh-m1-OrT"/>
+                <constraint firstItem="c2j-C5-NwJ" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="Zg1-L3-dO3"/>
+                <constraint firstItem="Q2c-OS-tHh" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="qq0-44-FeA"/>
+                <constraint firstAttribute="bottom" secondItem="c2j-C5-NwJ" secondAttribute="bottom" constant="46" id="xUf-l3-15t"/>
+            </constraints>
+            <point key="canvasLocation" x="617" y="378"/>
+        </customView>
+    </objects>
+</document>

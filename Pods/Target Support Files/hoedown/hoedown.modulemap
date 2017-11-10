@@ -1,0 +1,6 @@
+framework module hoedown {
+  umbrella header "hoedown-umbrella.h"
+
+  export *
+  module * { export * }
+}

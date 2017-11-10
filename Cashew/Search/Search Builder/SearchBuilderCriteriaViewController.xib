@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SearchBuilderCriteriaViewController" customModule="Cashew" customModuleProvider="target">
+            <connections>
+                <outlet property="addNewFilterButton" destination="gVQ-aL-D1F" id="NLk-fA-uKa"/>
+                <outlet property="filterTypeButton" destination="bOw-ej-RCm" id="aYg-w7-Kcm"/>
+                <outlet property="partOfSentenceButton" destination="xBs-qq-hTr" id="3ip-bP-z33"/>
+                <outlet property="removeCurrentFilterButton" destination="oBL-00-Cwz" id="lwo-CD-mQg"/>
+                <outlet property="valueComboBox" destination="qbL-Pn-Bl7" id="KJo-Dl-jCO"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="692" height="45"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bOw-ej-RCm">
+                    <rect key="frame" x="10" y="9" width="242" height="26"/>
+                    <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="mIo-6t-nM7" id="cZT-lF-2VH">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="a2U-14-Oak">
+                            <items>
+                                <menuItem title="Item 1" state="on" id="mIo-6t-nM7"/>
+                                <menuItem title="Item 2" id="Jp3-NN-InG"/>
+                                <menuItem title="Item 3" id="RS3-s0-AkQ"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xBs-qq-hTr">
+                    <rect key="frame" x="255" y="9" width="115" height="26"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="8IU-Da-7Gg"/>
+                        <constraint firstAttribute="width" constant="110" id="EjY-7f-yMe"/>
+                    </constraints>
+                    <popUpButtonCell key="cell" type="push" title="is" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="o44-2L-kp5" id="Yzs-Kh-Aof">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="aLH-DJ-fB3">
+                            <items>
+                                <menuItem title="is" state="on" id="o44-2L-kp5"/>
+                                <menuItem title="is equal" id="YA5-Ye-JjO"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                </popUpButton>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gVQ-aL-D1F">
+                    <rect key="frame" x="648" y="0.0" width="39" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="26" id="NCg-yh-bOv"/>
+                        <constraint firstAttribute="height" constant="26" id="ry4-oS-aby"/>
+                    </constraints>
+                    <buttonCell key="cell" type="round" bezelStyle="circular" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lxg-8n-LhV">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickCreateNewFilterButton:" target="-2" id="Rr0-Hd-743"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oBL-00-Cwz">
+                    <rect key="frame" x="618" y="0.0" width="39" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="26" id="M1s-lD-dcR"/>
+                        <constraint firstAttribute="height" constant="26" id="qgT-0E-cDo"/>
+                    </constraints>
+                    <buttonCell key="cell" type="round" bezelStyle="circular" image="NSRemoveTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cDs-PU-O7E">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickRemoveCurrentFilterButton:" target="-2" id="FlO-JA-hOh"/>
+                    </connections>
+                </button>
+                <comboBox focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qbL-Pn-Bl7" customClass="SearchBuilderValueComboBox" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="375" y="9" width="240" height="26"/>
+                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" focusRingType="none" drawsBackground="YES" usesSingleLineMode="YES" numberOfVisibleItems="5" id="Uab-jn-Hu4">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        <objectValues>
+                            <string>Item 1</string>
+                            <string>Item 2</string>
+                            <string>Item 3</string>
+                        </objectValues>
+                    </comboBoxCell>
+                </comboBox>
+            </subviews>
+            <constraints>
+                <constraint firstItem="gVQ-aL-D1F" firstAttribute="leading" secondItem="oBL-00-Cwz" secondAttribute="trailing" constant="4" id="4eb-7y-0FO"/>
+                <constraint firstItem="bOw-ej-RCm" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="8k2-Og-dzI"/>
+                <constraint firstItem="qbL-Pn-Bl7" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="Ddi-gQ-VKV"/>
+                <constraint firstAttribute="trailing" secondItem="gVQ-aL-D1F" secondAttribute="trailing" constant="12" id="EgZ-aY-KEm"/>
+                <constraint firstItem="oBL-00-Cwz" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="REv-mD-Fgv"/>
+                <constraint firstItem="xBs-qq-hTr" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="VNf-jd-VQM"/>
+                <constraint firstItem="bOw-ej-RCm" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="beT-eq-kZU"/>
+                <constraint firstItem="gVQ-aL-D1F" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="cak-xv-91u"/>
+                <constraint firstItem="oBL-00-Cwz" firstAttribute="leading" secondItem="qbL-Pn-Bl7" secondAttribute="trailing" constant="12" id="cfR-bK-Y8r"/>
+                <constraint firstItem="qbL-Pn-Bl7" firstAttribute="leading" secondItem="xBs-qq-hTr" secondAttribute="trailing" constant="8" id="hGk-N8-FaQ"/>
+                <constraint firstItem="xBs-qq-hTr" firstAttribute="leading" secondItem="bOw-ej-RCm" secondAttribute="trailing" constant="8" id="l1Z-Kx-Gap"/>
+                <constraint firstItem="qbL-Pn-Bl7" firstAttribute="width" secondItem="bOw-ej-RCm" secondAttribute="width" id="n0F-o0-A5C"/>
+            </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                    <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="shouldAllowVibrancy" value="YES"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                    <real key="value" value="0.0"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <point key="canvasLocation" x="526" y="264.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+    </resources>
+</document>

@@ -1,0 +1,56 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - CocoaLumberjack/Core (2.3.0)
+  - CocoaLumberjack/Default (2.3.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.3.0):
+    - CocoaLumberjack/Default
+  - CocoaLumberjack/Swift (2.3.0):
+    - CocoaLumberjack/Extensions
+  - Crashlytics (3.8.1):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.8)
+  - FMDB/FTS (2.6.2):
+    - FMDB/standard
+  - FMDB/standard (2.6.2)
+  - FXKeychain (1.5.3)
+  - hoedown (3.0.3):
+    - hoedown/standard (= 3.0.3)
+  - hoedown/standard (3.0.3)
+  - iRate (1.11.6)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.0)
+  - CocoaLumberjack/Swift
+  - Crashlytics
+  - Fabric
+  - FMDB/FTS
+  - FXKeychain (~> 1.5)
+  - hoedown
+  - iRate (~> 1.11)
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
+  Crashlytics: 4391d8df0b125345e9f209c5db6e7f40a6a8435d
+  Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  FXKeychain: 2fe54573946ffef634f4e2a2851e6c8f4ea15e76
+  hoedown: c1327bbbc96d269595ed86bf97f1d09867ec7529
+  iRate: 61e558919c4a7fde63b3c22ebbd6c114a1eee658
+
+PODFILE CHECKSUM: e2dca22c39f67a1a1eb60740fa90826ec6c708ed
+
+COCOAPODS: 1.0.1

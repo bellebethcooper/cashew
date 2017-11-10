@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11129.15" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11129.15"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ImageViewerViewController" customModule="Cashew" customModuleProvider="target">
+            <connections>
+                <outlet property="arrowContainerView" destination="GxP-0U-FI9" id="aUr-dR-cjf"/>
+                <outlet property="nextImageButton" destination="8ja-HC-cEX" id="CGv-02-dWx"/>
+                <outlet property="pageControllerView" destination="BQR-zx-4IN" id="VSa-dZ-FLN"/>
+                <outlet property="previousImageButton" destination="yXQ-za-Bvs" id="NkD-RK-NuY"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="BQR-zx-4IN" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="26" width="480" height="220"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="GxP-0U-FI9" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="214" y="0.0" width="52" height="26"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yXQ-za-Bvs">
+                            <rect key="frame" x="0.0" y="0.0" width="26" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="26" id="SZL-q0-qMi"/>
+                            </constraints>
+                            <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSGoLeftTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="QvR-pw-5zk">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="smallSystemBold"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickPreviousButton:" target="-2" id="gNj-tX-pbw"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8ja-HC-cEX">
+                            <rect key="frame" x="26" y="0.0" width="26" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="26" id="p0u-QM-ugf"/>
+                            </constraints>
+                            <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSGoRightTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="l1O-NX-Vur">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="smallSystemBold"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickNextButton:" target="-2" id="fJX-Ko-u3e"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="26" id="6aU-N9-koP"/>
+                        <constraint firstItem="yXQ-za-Bvs" firstAttribute="leading" secondItem="GxP-0U-FI9" secondAttribute="leading" id="DPS-ha-ldD"/>
+                        <constraint firstAttribute="width" constant="52" id="FZO-ih-oJ1"/>
+                        <constraint firstAttribute="trailing" secondItem="8ja-HC-cEX" secondAttribute="trailing" id="Ghy-Da-jo1"/>
+                        <constraint firstItem="8ja-HC-cEX" firstAttribute="top" secondItem="GxP-0U-FI9" secondAttribute="top" id="JqM-xp-eiR"/>
+                        <constraint firstAttribute="bottom" secondItem="yXQ-za-Bvs" secondAttribute="bottom" id="axM-9z-39i"/>
+                        <constraint firstAttribute="bottom" secondItem="8ja-HC-cEX" secondAttribute="bottom" id="cz1-xM-jDG"/>
+                        <constraint firstItem="yXQ-za-Bvs" firstAttribute="top" secondItem="GxP-0U-FI9" secondAttribute="top" id="jRO-VL-gXm"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="BQR-zx-4IN" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="26" id="2K1-BI-CEN"/>
+                <constraint firstAttribute="trailing" secondItem="BQR-zx-4IN" secondAttribute="trailing" id="6CR-6B-yYW"/>
+                <constraint firstAttribute="bottom" secondItem="BQR-zx-4IN" secondAttribute="bottom" constant="26" id="ekh-nF-iCj"/>
+                <constraint firstItem="GxP-0U-FI9" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="kl3-kE-ySQ"/>
+                <constraint firstItem="BQR-zx-4IN" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="lGL-HJ-9Sm"/>
+                <constraint firstAttribute="bottom" secondItem="GxP-0U-FI9" secondAttribute="bottom" id="u47-9k-7g2"/>
+            </constraints>
+            <point key="canvasLocation" x="-32" y="158"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSGoLeftTemplate" width="9" height="12"/>
+        <image name="NSGoRightTemplate" width="9" height="12"/>
+    </resources>
+</document>

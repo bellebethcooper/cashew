@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ReactionsPickerViewController" customModule="Cashew" customModuleProvider="target">
+            <connections>
+                <outlet property="confusedButton" destination="W2R-CQ-3Gh" id="UIu-O2-SdW"/>
+                <outlet property="heartButton" destination="QJi-63-zDg" id="Qbq-pZ-flO"/>
+                <outlet property="hoorayButton" destination="ss8-12-Zkh" id="FfA-ed-Fdd"/>
+                <outlet property="laughButton" destination="5Qs-UO-pKC" id="4Nn-r8-mhx"/>
+                <outlet property="thumbsDownButton" destination="oPT-de-3qn" id="vKZ-8O-GcI"/>
+                <outlet property="thumbsUpButton" destination="PYj-R9-xQh" id="C9l-kX-MJk"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="288" height="48"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="PYj-R9-xQh">
+                    <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="Ob6-UF-rXt"/>
+                        <constraint firstAttribute="height" constant="48" id="o6f-9p-g1N"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="👍" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="1Yz-DQ-UXc">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="24"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickThumbsUp:" target="-2" id="6U3-Kh-hHH"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="oPT-de-3qn">
+                    <rect key="frame" x="48" y="0.0" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="U6M-RJ-rLf"/>
+                        <constraint firstAttribute="height" constant="48" id="bGE-cp-Mfq"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="👎" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="njJ-Gh-6Sy">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="24"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickThumbsDown:" target="-2" id="chY-R1-fVE"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="5Qs-UO-pKC">
+                    <rect key="frame" x="96" y="0.0" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="AAj-9C-KQ4"/>
+                        <constraint firstAttribute="height" constant="48" id="fco-ob-LyV"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="😄" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="xjl-Ce-eL0">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="24"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickLaughButton:" target="-2" id="T9P-mC-YV6"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="ss8-12-Zkh">
+                    <rect key="frame" x="144" y="0.0" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="MO7-PT-UJS"/>
+                        <constraint firstAttribute="width" constant="48" id="Qid-P2-VCn"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="🎉" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="QOI-5d-RF2">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="24"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickHoorayButton:" target="-2" id="4Nm-8Z-kfs"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="W2R-CQ-3Gh">
+                    <rect key="frame" x="192" y="0.0" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="DUU-Jv-f09"/>
+                        <constraint firstAttribute="width" constant="48" id="vLb-fw-ali"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="😕" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="khE-bb-wuw">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="24"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickConfusedButton:" target="-2" id="mDV-eG-gL2"/>
+                    </connections>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="QJi-63-zDg">
+                    <rect key="frame" x="240" y="0.0" width="48" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="2hj-65-wJm"/>
+                        <constraint firstAttribute="width" constant="48" id="pCz-NT-Zqo"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="❤️" bezelStyle="shadowlessSquare" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="6UE-8d-nt2">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system" size="24"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickHeartButton:" target="-2" id="Dm3-Xs-pG2"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="QJi-63-zDg" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="0B2-L1-PeE"/>
+                <constraint firstItem="QJi-63-zDg" firstAttribute="centerY" secondItem="PYj-R9-xQh" secondAttribute="centerY" id="3qV-38-HYs"/>
+                <constraint firstAttribute="bottom" secondItem="PYj-R9-xQh" secondAttribute="bottom" id="7Cy-WP-o6W"/>
+                <constraint firstItem="5Qs-UO-pKC" firstAttribute="leading" secondItem="oPT-de-3qn" secondAttribute="trailing" id="8kn-W3-uCv"/>
+                <constraint firstItem="oPT-de-3qn" firstAttribute="leading" secondItem="PYj-R9-xQh" secondAttribute="trailing" id="B5g-tw-674"/>
+                <constraint firstItem="PYj-R9-xQh" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="FIi-QQ-e90"/>
+                <constraint firstAttribute="bottom" secondItem="W2R-CQ-3Gh" secondAttribute="bottom" id="IRN-GB-GhZ"/>
+                <constraint firstItem="5Qs-UO-pKC" firstAttribute="centerY" secondItem="PYj-R9-xQh" secondAttribute="centerY" id="Ilh-nQ-Edc"/>
+                <constraint firstItem="W2R-CQ-3Gh" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="NBQ-Mr-x6S"/>
+                <constraint firstItem="QJi-63-zDg" firstAttribute="leading" secondItem="W2R-CQ-3Gh" secondAttribute="trailing" id="Q0I-pC-OuH"/>
+                <constraint firstAttribute="bottom" secondItem="5Qs-UO-pKC" secondAttribute="bottom" id="Ssh-gC-8nn"/>
+                <constraint firstItem="PYj-R9-xQh" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="UZZ-6Z-dfy"/>
+                <constraint firstAttribute="bottom" secondItem="ss8-12-Zkh" secondAttribute="bottom" id="bpD-nq-yGi"/>
+                <constraint firstAttribute="bottom" secondItem="QJi-63-zDg" secondAttribute="bottom" id="cTi-Si-eWT"/>
+                <constraint firstItem="W2R-CQ-3Gh" firstAttribute="centerY" secondItem="PYj-R9-xQh" secondAttribute="centerY" id="e9d-Pu-Kdl"/>
+                <constraint firstItem="W2R-CQ-3Gh" firstAttribute="leading" secondItem="ss8-12-Zkh" secondAttribute="trailing" id="ejn-gc-fOk"/>
+                <constraint firstItem="ss8-12-Zkh" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="h2q-eC-ThV"/>
+                <constraint firstItem="5Qs-UO-pKC" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="jbD-Om-GMb"/>
+                <constraint firstItem="ss8-12-Zkh" firstAttribute="centerY" secondItem="PYj-R9-xQh" secondAttribute="centerY" id="o5p-DN-3FP"/>
+                <constraint firstItem="ss8-12-Zkh" firstAttribute="leading" secondItem="5Qs-UO-pKC" secondAttribute="trailing" id="pDV-f4-YeY"/>
+                <constraint firstAttribute="bottom" secondItem="oPT-de-3qn" secondAttribute="bottom" id="uQs-OA-AYx"/>
+                <constraint firstItem="oPT-de-3qn" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="ufF-xX-et5"/>
+                <constraint firstItem="oPT-de-3qn" firstAttribute="centerY" secondItem="PYj-R9-xQh" secondAttribute="centerY" id="yfS-qb-u9F"/>
+                <constraint firstAttribute="trailing" secondItem="QJi-63-zDg" secondAttribute="trailing" id="zek-XI-75n"/>
+            </constraints>
+            <point key="canvasLocation" x="269.5" y="291"/>
+        </customView>
+    </objects>
+</document>

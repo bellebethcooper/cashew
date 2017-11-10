@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SRUserQueryNameViewController">
+            <connections>
+                <outlet property="containerView" destination="abz-Xm-aTH" id="Ist-3u-w2e"/>
+                <outlet property="searchField" destination="aIC-zl-pP0" id="362-wg-AEw"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="278" height="88"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="abz-Xm-aTH" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="10" y="44" width="258" height="34"/>
+                    <subviews>
+                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aIC-zl-pP0" customClass="_SRUserQueryTextField">
+                            <rect key="frame" x="5" y="6" width="247" height="22"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="22" id="dah-JD-cct"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" placeholderString="Search Name" drawsBackground="YES" id="XGm-Ox-waO">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="aIC-zl-pP0" firstAttribute="centerY" secondItem="abz-Xm-aTH" secondAttribute="centerY" id="2Fz-5T-JjX"/>
+                        <constraint firstAttribute="height" constant="34" id="4Im-Jl-WYw"/>
+                        <constraint firstAttribute="width" constant="258" id="aAI-ga-HgP"/>
+                        <constraint firstAttribute="trailing" secondItem="aIC-zl-pP0" secondAttribute="trailing" constant="6" id="eed-2A-Ao2"/>
+                        <constraint firstItem="aIC-zl-pP0" firstAttribute="leading" secondItem="abz-Xm-aTH" secondAttribute="leading" constant="5" id="hDU-Xh-sFX"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="abz-Xm-aTH" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="10" id="Xam-e5-dqs"/>
+                <constraint firstAttribute="bottom" secondItem="abz-Xm-aTH" secondAttribute="bottom" constant="44" id="ZDO-nS-ZQm"/>
+                <constraint firstItem="abz-Xm-aTH" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="10" id="iqE-3y-YsI"/>
+                <constraint firstAttribute="trailing" secondItem="abz-Xm-aTH" secondAttribute="trailing" constant="10" id="oWM-tq-u8V"/>
+            </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                    <color key="value" red="0.31764705879999999" green="0.66666666669999997" blue="0.19215686269999999" alpha="0.0" colorSpace="calibratedRGB"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <point key="canvasLocation" x="369" y="214"/>
+        </customView>
+    </objects>
+</document>

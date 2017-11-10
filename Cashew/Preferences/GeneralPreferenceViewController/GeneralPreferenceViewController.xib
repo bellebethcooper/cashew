@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferenceViewController" customModule="Cashew" customModuleProvider="target">
+            <connections>
+                <outlet property="closeIssuePopupButton" destination="Xl2-DV-dty" id="QXn-8E-Cub"/>
+                <outlet property="closeIssueWarningContainerView" destination="rCu-bN-DEJ" id="sDK-WW-HYt"/>
+                <outlet property="layoutPopupButton" destination="xd1-0p-Jf4" id="yGi-lP-3aJ"/>
+                <outlet property="milestoneIssueCreationButton" destination="YFx-8e-Usv" id="Msl-zt-vpp"/>
+                <outlet property="milestoneSearchPopupButton" destination="ygG-X7-g4I" id="9hq-8a-pNd"/>
+                <outlet property="notificationPopupButton" destination="5aR-Qp-bqD" id="QoJ-Pf-oyT"/>
+                <outlet property="repositorySearchPopupButton" destination="Fmc-k7-Brc" id="CeP-zN-xki"/>
+                <outlet property="themePopupButton" destination="VAW-s0-ApT" id="Kdx-Xm-t6b"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="349"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="ryr-7F-H7X" userLabel="Theme Container View">
+                    <rect key="frame" x="100" y="277" width="400" height="21"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Amk-ZM-6Ig">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="160" id="XA3-T1-Wn7"/>
+                                <constraint firstAttribute="height" constant="17" id="XZo-Nk-fPz"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Theme:" id="Fpt-j2-J4x">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VAW-s0-ApT">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="3b8-d3-DW5"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="iHl-Lr-zmn">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="Ghf-FG-1aA">
+                                    <items>
+                                        <menuItem title="Light mode" id="SIH-md-L5n">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Dark mode" id="iz4-q4-9qF"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickThemeButton:" target="-2" id="PNm-eO-2ng"/>
+                            </connections>
+                        </popUpButton>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="VAW-s0-ApT" firstAttribute="centerY" secondItem="Amk-ZM-6Ig" secondAttribute="centerY" id="18K-aq-Xnf"/>
+                        <constraint firstAttribute="height" constant="21" id="4Cz-Gw-a29"/>
+                        <constraint firstItem="VAW-s0-ApT" firstAttribute="top" secondItem="ryr-7F-H7X" secondAttribute="top" id="EYd-Gd-6C9"/>
+                        <constraint firstAttribute="bottom" secondItem="VAW-s0-ApT" secondAttribute="bottom" id="Ewi-Cl-jW2"/>
+                        <constraint firstItem="Amk-ZM-6Ig" firstAttribute="leading" secondItem="ryr-7F-H7X" secondAttribute="leading" id="KoR-a2-TZl"/>
+                        <constraint firstAttribute="trailing" secondItem="VAW-s0-ApT" secondAttribute="trailing" id="Lhs-yH-iRN"/>
+                        <constraint firstAttribute="width" constant="400" id="S0T-Ph-Ght"/>
+                        <constraint firstItem="VAW-s0-ApT" firstAttribute="leading" secondItem="Amk-ZM-6Ig" secondAttribute="trailing" constant="8" id="fGh-61-5zG"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="KaE-x6-AjM" userLabel="Repository Search Container View">
+                    <rect key="frame" x="100" y="142" width="400" height="21"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="8lF-hU-v26">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="CSd-Mj-Amk"/>
+                                <constraint firstAttribute="width" constant="160" id="yxw-sC-h19"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Repository  Search:" id="khS-JL-a2V">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fmc-k7-Brc">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="7he-sC-wDA"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" title="Both open &amp; closed" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="p9W-WO-k5q" id="cyT-jo-EEV">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="uYd-4o-JJH">
+                                    <items>
+                                        <menuItem title="Both open &amp; closed" state="on" id="p9W-WO-k5q"/>
+                                        <menuItem title="Only open" id="Epy-Tq-ob9"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickRepositorySearchButton:" target="-2" id="0BU-5v-bg9"/>
+                            </connections>
+                        </popUpButton>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Fmc-k7-Brc" firstAttribute="leading" secondItem="8lF-hU-v26" secondAttribute="trailing" constant="8" id="9Ax-TI-d4q"/>
+                        <constraint firstAttribute="bottom" secondItem="Fmc-k7-Brc" secondAttribute="bottom" id="Bvj-FU-XbV"/>
+                        <constraint firstAttribute="height" constant="21" id="GwT-0a-JcK"/>
+                        <constraint firstAttribute="width" constant="400" id="IQl-LM-A2L"/>
+                        <constraint firstItem="Fmc-k7-Brc" firstAttribute="top" secondItem="KaE-x6-AjM" secondAttribute="top" id="nYd-NL-J7H"/>
+                        <constraint firstAttribute="trailing" secondItem="Fmc-k7-Brc" secondAttribute="trailing" id="s7t-Tg-ER0"/>
+                        <constraint firstItem="8lF-hU-v26" firstAttribute="leading" secondItem="KaE-x6-AjM" secondAttribute="leading" id="vne-wu-BE9"/>
+                        <constraint firstItem="8lF-hU-v26" firstAttribute="centerY" secondItem="Fmc-k7-Brc" secondAttribute="centerY" id="yJL-el-fBd"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="g2p-uT-bbN" userLabel="Milestone Search Container View">
+                    <rect key="frame" x="100" y="173" width="400" height="21"/>
+                    <subviews>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ygG-X7-g4I">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="FRR-FK-fw8"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" title="Both open &amp; closed" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="sKA-L1-ubs" id="02v-8P-KMQ">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="rKt-Ic-zmL">
+                                    <items>
+                                        <menuItem title="Both open &amp; closed" state="on" id="sKA-L1-ubs"/>
+                                        <menuItem title="Only open" id="mEZ-Tj-cyn"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickMilestonSearchButton:" target="-2" id="Aaw-nu-ZFP"/>
+                            </connections>
+                        </popUpButton>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="YHz-Zu-dqf">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="160" id="Ip1-ny-HfD"/>
+                                <constraint firstAttribute="height" constant="17" id="OXk-RQ-487"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Milestone Search:" id="n7f-TC-kRh">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="3QE-CD-LfM"/>
+                        <constraint firstItem="ygG-X7-g4I" firstAttribute="top" secondItem="g2p-uT-bbN" secondAttribute="top" id="AlO-YO-cWu"/>
+                        <constraint firstItem="ygG-X7-g4I" firstAttribute="leading" secondItem="YHz-Zu-dqf" secondAttribute="trailing" constant="8" id="DZo-06-ZpR"/>
+                        <constraint firstItem="YHz-Zu-dqf" firstAttribute="centerY" secondItem="ygG-X7-g4I" secondAttribute="centerY" id="Y9i-ef-orQ"/>
+                        <constraint firstItem="YHz-Zu-dqf" firstAttribute="leading" secondItem="g2p-uT-bbN" secondAttribute="leading" id="b2b-qD-0V5"/>
+                        <constraint firstAttribute="width" constant="400" id="dfp-tT-4Oq"/>
+                        <constraint firstAttribute="trailing" secondItem="ygG-X7-g4I" secondAttribute="trailing" id="eIa-va-nqo"/>
+                        <constraint firstAttribute="bottom" secondItem="ygG-X7-g4I" secondAttribute="bottom" id="ls2-FQ-pXF"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="ffb-ec-2qh" userLabel="Milestone Issue Creation Container View">
+                    <rect key="frame" x="100" y="204" width="400" height="21"/>
+                    <subviews>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YFx-8e-Usv">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="8gt-Vl-E3s"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="kfp-GD-fXi">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="nKQ-3b-FN3">
+                                    <items>
+                                        <menuItem title="Both open &amp; closed" id="yIW-eI-xLT"/>
+                                        <menuItem title="Only open" id="ofT-Gs-nrx"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickMilestoneIssueCreationButton:" target="-2" id="FLd-pJ-mHa"/>
+                            </connections>
+                        </popUpButton>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="SLe-KC-3jR">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="160" id="KtG-5U-bbU"/>
+                                <constraint firstAttribute="height" constant="17" id="LGF-iI-se1"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Milestone Issue Creation:" id="7SO-Bp-K1i">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="400" id="H9L-1D-Vqc"/>
+                        <constraint firstItem="YFx-8e-Usv" firstAttribute="leading" secondItem="SLe-KC-3jR" secondAttribute="trailing" constant="8" id="ICz-Uq-YzJ"/>
+                        <constraint firstAttribute="height" constant="21" id="JZ5-Wc-bMl"/>
+                        <constraint firstAttribute="trailing" secondItem="YFx-8e-Usv" secondAttribute="trailing" id="M7A-JD-0lz"/>
+                        <constraint firstAttribute="bottom" secondItem="YFx-8e-Usv" secondAttribute="bottom" id="eUu-YJ-6x5"/>
+                        <constraint firstItem="YFx-8e-Usv" firstAttribute="top" secondItem="ffb-ec-2qh" secondAttribute="top" id="jZs-L1-eZV"/>
+                        <constraint firstItem="SLe-KC-3jR" firstAttribute="leading" secondItem="ffb-ec-2qh" secondAttribute="leading" id="k8K-zB-cAq"/>
+                        <constraint firstItem="SLe-KC-3jR" firstAttribute="centerY" secondItem="YFx-8e-Usv" secondAttribute="centerY" id="rsw-8u-xLU"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="nZV-cu-7ei" userLabel="Notification Container View">
+                    <rect key="frame" x="100" y="246" width="400" height="21"/>
+                    <subviews>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5aR-Qp-bqD">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="dYc-7o-USO"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="JGv-nv-Cg3">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="Oc5-8r-A4z">
+                                    <items>
+                                        <menuItem title="Enabled" id="uoD-03-YLK"/>
+                                        <menuItem title="Disabled" id="Vxw-78-k0a"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickNotificationButton:" target="-2" id="znf-y1-4G4"/>
+                            </connections>
+                        </popUpButton>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FbX-fV-ah8">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="160" id="cBd-lg-CxW"/>
+                                <constraint firstAttribute="height" constant="17" id="dPZ-15-ths"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Notifications:" id="uXe-Qz-pyv">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="0Xf-e3-6iP"/>
+                        <constraint firstItem="5aR-Qp-bqD" firstAttribute="leading" secondItem="FbX-fV-ah8" secondAttribute="trailing" constant="8" id="0kR-0J-jgL"/>
+                        <constraint firstAttribute="trailing" secondItem="5aR-Qp-bqD" secondAttribute="trailing" id="A9c-me-Sdf"/>
+                        <constraint firstItem="5aR-Qp-bqD" firstAttribute="top" secondItem="nZV-cu-7ei" secondAttribute="top" id="FGw-zR-dL9"/>
+                        <constraint firstItem="FbX-fV-ah8" firstAttribute="centerY" secondItem="5aR-Qp-bqD" secondAttribute="centerY" id="Uct-GJ-Oar"/>
+                        <constraint firstAttribute="width" constant="400" id="mFA-uo-yHn"/>
+                        <constraint firstItem="FbX-fV-ah8" firstAttribute="leading" secondItem="nZV-cu-7ei" secondAttribute="leading" id="s0p-VX-Tga"/>
+                        <constraint firstAttribute="bottom" secondItem="5aR-Qp-bqD" secondAttribute="bottom" id="zan-dY-bVQ"/>
+                    </constraints>
+                </customView>
+                <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1dr-2x-hr8" customClass="SRBaseSeparatorView">
+                    <rect key="frame" x="124" y="235" width="352" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="fWp-GZ-hY0"/>
+                        <constraint firstAttribute="width" constant="352" id="pue-8H-EhT"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="rCu-bN-DEJ" userLabel="Close Issue Warning">
+                    <rect key="frame" x="100" y="101" width="400" height="21"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ykv-7i-MJP">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="ABk-Dd-p35"/>
+                                <constraint firstAttribute="width" constant="160" id="ALe-wC-9BU"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Close Issue Warning:" id="zwZ-3U-ooJ">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xl2-DV-dty">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="r4q-Ah-9JI"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="7cb-5X-JMY">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="x80-ga-J1W">
+                                    <items>
+                                        <menuItem title="Enabled" state="on" id="Nv3-xN-PgV"/>
+                                        <menuItem title="Disabled" id="BNz-Ak-xVL"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickCloseIssueWarningButton:" target="-2" id="tZF-GB-54q"/>
+                            </connections>
+                        </popUpButton>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="0g8-KJ-y6S"/>
+                        <constraint firstAttribute="width" constant="400" id="2Lb-ab-EXw"/>
+                        <constraint firstItem="Xl2-DV-dty" firstAttribute="leading" secondItem="ykv-7i-MJP" secondAttribute="trailing" constant="8" id="TqL-eN-BlU"/>
+                        <constraint firstItem="ykv-7i-MJP" firstAttribute="centerY" secondItem="Xl2-DV-dty" secondAttribute="centerY" id="Vue-fk-aT9"/>
+                        <constraint firstItem="Xl2-DV-dty" firstAttribute="top" secondItem="rCu-bN-DEJ" secondAttribute="top" id="bhz-7K-gHv"/>
+                        <constraint firstItem="ykv-7i-MJP" firstAttribute="leading" secondItem="rCu-bN-DEJ" secondAttribute="leading" id="idt-sL-qoV"/>
+                        <constraint firstAttribute="trailing" secondItem="Xl2-DV-dty" secondAttribute="trailing" id="khR-Xy-Zvb"/>
+                        <constraint firstAttribute="bottom" secondItem="Xl2-DV-dty" secondAttribute="bottom" id="w49-Sn-S8e"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="d4e-D0-H6H" userLabel="Layout Container View">
+                    <rect key="frame" x="100" y="308" width="400" height="21"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ao2-by-5Dz">
+                            <rect key="frame" x="-2" y="2" width="164" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="17" id="1J7-QQ-iQa"/>
+                                <constraint firstAttribute="width" constant="160" id="rON-f8-tpK"/>
+                            </constraints>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Issue List Layout:" id="bPf-js-XC9">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xd1-0p-Jf4">
+                            <rect key="frame" x="166" y="-3" width="237" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="uoD-fM-rlH"/>
+                            </constraints>
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="OD5-Co-t9x">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="Fnc-yD-mQB">
+                                    <items>
+                                        <menuItem title="Standard" state="on" id="Dex-XG-rFA">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Hide Assignee Photo" id="jP7-oE-nSl"/>
+                                        <menuItem title="Classic" id="lz4-No-iYP"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickLayoutButton:" target="-2" id="GZj-bm-h0X"/>
+                            </connections>
+                        </popUpButton>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="400" id="Mbe-dX-Q1q"/>
+                        <constraint firstItem="Ao2-by-5Dz" firstAttribute="leading" secondItem="d4e-D0-H6H" secondAttribute="leading" id="OUl-Gq-HKN"/>
+                        <constraint firstAttribute="height" constant="21" id="Wmo-2E-NoU"/>
+                        <constraint firstAttribute="bottom" secondItem="xd1-0p-Jf4" secondAttribute="bottom" id="XW5-ff-gKy"/>
+                        <constraint firstItem="xd1-0p-Jf4" firstAttribute="leading" secondItem="Ao2-by-5Dz" secondAttribute="trailing" constant="8" id="c6m-oE-hOP"/>
+                        <constraint firstItem="xd1-0p-Jf4" firstAttribute="top" secondItem="d4e-D0-H6H" secondAttribute="top" id="cSd-UA-IUW"/>
+                        <constraint firstItem="xd1-0p-Jf4" firstAttribute="centerY" secondItem="Ao2-by-5Dz" secondAttribute="centerY" id="iiA-bf-S8i"/>
+                        <constraint firstAttribute="trailing" secondItem="xd1-0p-Jf4" secondAttribute="trailing" id="pCr-gD-87z"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="rCu-bN-DEJ" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="ByS-z2-P3l"/>
+                <constraint firstItem="g2p-uT-bbN" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="JqF-uh-Z22"/>
+                <constraint firstItem="KaE-x6-AjM" firstAttribute="top" secondItem="g2p-uT-bbN" secondAttribute="bottom" constant="10" id="LNw-ed-6ID"/>
+                <constraint firstItem="ffb-ec-2qh" firstAttribute="top" secondItem="1dr-2x-hr8" secondAttribute="bottom" constant="10" id="NBF-My-E2I"/>
+                <constraint firstItem="nZV-cu-7ei" firstAttribute="top" secondItem="ryr-7F-H7X" secondAttribute="bottom" constant="10" id="Rze-Fx-MHV"/>
+                <constraint firstItem="KaE-x6-AjM" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="TPU-Lp-tEd"/>
+                <constraint firstItem="d4e-D0-H6H" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="aAw-vw-UPC"/>
+                <constraint firstItem="ryr-7F-H7X" firstAttribute="top" secondItem="d4e-D0-H6H" secondAttribute="bottom" constant="10" id="bYI-Cc-1jm"/>
+                <constraint firstItem="d4e-D0-H6H" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="dYQ-2M-4W3"/>
+                <constraint firstItem="g2p-uT-bbN" firstAttribute="top" secondItem="1dr-2x-hr8" secondAttribute="bottom" constant="41" id="etk-Qz-3kN"/>
+                <constraint firstItem="nZV-cu-7ei" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gwO-q1-dnl"/>
+                <constraint firstItem="ryr-7F-H7X" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="mEz-Kr-iOW"/>
+                <constraint firstItem="1dr-2x-hr8" firstAttribute="top" secondItem="nZV-cu-7ei" secondAttribute="bottom" constant="10" id="nic-bP-GZc"/>
+                <constraint firstItem="rCu-bN-DEJ" firstAttribute="top" secondItem="KaE-x6-AjM" secondAttribute="bottom" constant="20" id="wy7-S7-5xY"/>
+                <constraint firstItem="1dr-2x-hr8" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="yXB-bW-4VB"/>
+                <constraint firstItem="ffb-ec-2qh" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="zRM-o9-zf7"/>
+            </constraints>
+            <point key="canvasLocation" x="457" y="327.5"/>
+        </customView>
+    </objects>
+</document>

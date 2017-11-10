@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SRStatusBarViewController">
+            <connections>
+                <outlet property="footerSeparatorView" destination="Evo-8X-OQ3" id="z1P-Up-1df"/>
+                <outlet property="footerView" destination="sPP-hi-r8U" id="lrX-U6-uY6"/>
+                <outlet property="headerSeparatorView" destination="oRd-Jx-5QV" id="RyC-MG-Smp"/>
+                <outlet property="headerView" destination="alN-D1-sf2" id="RZz-0y-wwF"/>
+                <outlet property="newIssueButton" destination="Sls-dA-gzl" id="zih-DS-7Al"/>
+                <outlet property="openCashewAppButton" destination="8gk-Gw-JwA" id="Gy8-cf-yDE"/>
+                <outlet property="refreshButton" destination="eMB-Wb-pBl" id="M8A-IG-wuo"/>
+                <outlet property="settingsButton" destination="5dC-OT-lch" id="6xx-iB-TNr"/>
+                <outlet property="tabButton" destination="3bb-ZD-p2J" id="0SU-lB-a4O"/>
+                <outlet property="tableView" destination="kop-pp-pTk" id="rgt-wd-fsr"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY" customClass="StatusBarView" customModule="Cashew" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="521" height="569"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYk-Us-ZX7" customClass="SRBaseScrollView">
+                    <rect key="frame" x="0.0" y="30" width="521" height="494"/>
+                    <clipView key="contentView" id="L0F-5U-4Uh" customClass="SRBaseClipView">
+                        <rect key="frame" x="0.0" y="0.0" width="521" height="494"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="kop-pp-pTk" customClass="SRBaseTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="521" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                <tableColumns>
+                                    <tableColumn width="521" minWidth="40" maxWidth="1000" id="NVA-ql-jOa">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="Mkt-pu-79f">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView id="zkI-rs-8mU">
+                                                <rect key="frame" x="0.0" y="0.0" width="521" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fyn-kd-rmh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="DrM-qG-ADT">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
+                                                <connections>
+                                                    <outlet property="textField" destination="fyn-kd-rmh" id="e6d-R1-Po7"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="-2" id="VqW-a8-76P"/>
+                                    <outlet property="delegate" destination="-2" id="oSI-Ad-tHY"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="0hY-qT-6Ts" customClass="SRBaseScroller">
+                        <rect key="frame" x="1" y="-15" width="11" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="rSX-i2-IbQ" customClass="SRBaseScroller">
+                        <rect key="frame" x="224" y="17" width="11" height="102"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="alN-D1-sf2" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="524" width="521" height="45"/>
+                    <subviews>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sls-dA-gzl" customClass="SRStatusBarButton">
+                            <rect key="frame" x="479" y="10" width="30" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="22" id="d1w-8N-t8S"/>
+                                <constraint firstAttribute="width" constant="30" id="hL2-wt-P2n"/>
+                            </constraints>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSAddTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wQw-5f-Psn">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickCreateIssueButton:" target="-2" id="uDn-gq-5qQ"/>
+                            </connections>
+                        </button>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8gk-Gw-JwA" customClass="SRStatusBarButton">
+                            <rect key="frame" x="12" y="10" width="30" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="HQ3-Ve-hb2"/>
+                                <constraint firstAttribute="height" constant="22" id="Zwq-RU-nnH"/>
+                            </constraints>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="status_bar_icon" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fd7-Dm-gPU">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickOpenCashewAppStatusBarButton:" target="-2" id="oRu-of-apj"/>
+                            </connections>
+                        </button>
+                        <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3bb-ZD-p2J" customClass="SRStatusBarSegmentedControl">
+                            <rect key="frame" x="111" y="10" width="299" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="295" id="pKu-3T-YJT"/>
+                                <constraint firstAttribute="height" constant="21" id="zJy-cn-N3x"/>
+                            </constraints>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="IHD-Lm-L23">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment label="Notification" width="90" selected="YES"/>
+                                    <segment label="My Open Issues" width="111" tag="1"/>
+                                    <segment label="Favorites" width="90"/>
+                                </segments>
+                            </segmentedCell>
+                            <connections>
+                                <action selector="didClickSegmentatedControleButton:" target="-2" id="ogE-0f-YDL"/>
+                            </connections>
+                        </segmentedControl>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="oRd-Jx-5QV" customClass="SRBaseSeparatorView">
+                            <rect key="frame" x="0.0" y="0.0" width="521" height="1"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="Bh4-24-sBc"/>
+                            </constraints>
+                        </customView>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eMB-Wb-pBl" customClass="SRStatusBarButton">
+                            <rect key="frame" x="46" y="10" width="30" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="22" id="1l8-Uw-Vd6"/>
+                                <constraint firstAttribute="width" constant="30" id="qE7-QX-1q6"/>
+                            </constraints>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lU9-tn-JWo">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickRefreshButton:" target="-2" id="3x3-lo-H4g"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="oRd-Jx-5QV" secondAttribute="trailing" id="03F-bc-uep"/>
+                        <constraint firstItem="3bb-ZD-p2J" firstAttribute="centerX" secondItem="alN-D1-sf2" secondAttribute="centerX" id="Dor-gX-t3N"/>
+                        <constraint firstAttribute="height" constant="45" id="HzC-hi-15r"/>
+                        <constraint firstItem="eMB-Wb-pBl" firstAttribute="leading" secondItem="8gk-Gw-JwA" secondAttribute="trailing" constant="4" id="LZD-cO-KII"/>
+                        <constraint firstItem="8gk-Gw-JwA" firstAttribute="leading" secondItem="alN-D1-sf2" secondAttribute="leading" constant="12" id="QRB-K5-fAG"/>
+                        <constraint firstAttribute="bottom" secondItem="oRd-Jx-5QV" secondAttribute="bottom" id="RtK-2E-e23"/>
+                        <constraint firstItem="Sls-dA-gzl" firstAttribute="centerY" secondItem="alN-D1-sf2" secondAttribute="centerY" id="Ts0-w4-Eom"/>
+                        <constraint firstItem="eMB-Wb-pBl" firstAttribute="centerY" secondItem="alN-D1-sf2" secondAttribute="centerY" id="nQq-ma-myx"/>
+                        <constraint firstItem="8gk-Gw-JwA" firstAttribute="centerY" secondItem="alN-D1-sf2" secondAttribute="centerY" id="pdO-wc-v6G"/>
+                        <constraint firstItem="oRd-Jx-5QV" firstAttribute="leading" secondItem="alN-D1-sf2" secondAttribute="leading" id="vJ0-1Y-BF2"/>
+                        <constraint firstItem="3bb-ZD-p2J" firstAttribute="centerY" secondItem="alN-D1-sf2" secondAttribute="centerY" id="xV4-NB-ziw"/>
+                        <constraint firstAttribute="trailing" secondItem="Sls-dA-gzl" secondAttribute="trailing" constant="12" id="zJz-Tr-y92"/>
+                    </constraints>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="sPP-hi-r8U" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="521" height="30"/>
+                    <subviews>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="Evo-8X-OQ3" customClass="SRBaseSeparatorView">
+                            <rect key="frame" x="0.0" y="29" width="521" height="1"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="edd-dh-ANv"/>
+                            </constraints>
+                        </customView>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5dC-OT-lch" customClass="SRStatusBarButton">
+                            <rect key="frame" x="493" y="5" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="PFe-sO-DJo"/>
+                                <constraint firstAttribute="width" constant="20" id="yor-59-Tah"/>
+                            </constraints>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="gear" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyUpOrDown" inset="2" id="Psg-60-zNg">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickSettingsButton:" target="-2" id="KEc-hO-hb4"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="5dC-OT-lch" firstAttribute="centerY" secondItem="sPP-hi-r8U" secondAttribute="centerY" id="1LG-QV-8yb"/>
+                        <constraint firstAttribute="trailing" secondItem="Evo-8X-OQ3" secondAttribute="trailing" id="3kd-zR-riC"/>
+                        <constraint firstItem="Evo-8X-OQ3" firstAttribute="top" secondItem="sPP-hi-r8U" secondAttribute="top" id="4Yh-7M-AAC"/>
+                        <constraint firstAttribute="height" constant="30" id="hZe-6s-Ssi"/>
+                        <constraint firstItem="Evo-8X-OQ3" firstAttribute="leading" secondItem="sPP-hi-r8U" secondAttribute="leading" id="iku-8N-apB"/>
+                        <constraint firstAttribute="trailing" secondItem="5dC-OT-lch" secondAttribute="trailing" constant="8" id="k1j-vu-91s"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="UYk-Us-ZX7" secondAttribute="trailing" id="1K9-hU-FXb"/>
+                <constraint firstItem="sPP-hi-r8U" firstAttribute="top" secondItem="UYk-Us-ZX7" secondAttribute="bottom" id="7Zw-OA-T1B"/>
+                <constraint firstItem="UYk-Us-ZX7" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Awa-vH-Chq"/>
+                <constraint firstItem="UYk-Us-ZX7" firstAttribute="top" secondItem="alN-D1-sf2" secondAttribute="bottom" id="THf-t1-eA3"/>
+                <constraint firstAttribute="trailing" secondItem="sPP-hi-r8U" secondAttribute="trailing" id="Xt6-dH-KAw"/>
+                <constraint firstAttribute="trailing" secondItem="alN-D1-sf2" secondAttribute="trailing" id="agf-Vm-hJP"/>
+                <constraint firstItem="alN-D1-sf2" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="lGB-5a-7Kl"/>
+                <constraint firstItem="sPP-hi-r8U" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="qNd-1N-JNP"/>
+                <constraint firstAttribute="bottom" secondItem="sPP-hi-r8U" secondAttribute="bottom" id="sTc-i4-OW3"/>
+                <constraint firstItem="alN-D1-sf2" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="uPv-Ez-ZCG"/>
+            </constraints>
+            <point key="canvasLocation" x="345.5" y="537.5"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="gear" width="11" height="12"/>
+        <image name="status_bar_icon" width="64" height="64"/>
+    </resources>
+</document>

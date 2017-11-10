@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="QSourceListParentViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="17"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nDX-aw-tQg">
+                    <rect key="frame" x="447" y="1" width="43" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="43" id="Vzs-kb-fHi"/>
+                    </constraints>
+                    <buttonCell key="cell" type="inline" title="Show" bezelStyle="inline" imagePosition="overlaps" alignment="right" imageScaling="proportionallyDown" inset="2" id="RxV-lp-5Cx">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystemBold"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickToggleButton:" target="c22-O7-iKe" id="Mf9-5E-DLN"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="7Nz-Gq-dEB">
+                    <rect key="frame" x="3" y="-3" width="416" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="Gde-tU-qbh"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="56c-Wv-Ud5">
+                        <font key="font" metaFont="cellTitle"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5W5-fF-KXj">
+                    <rect key="frame" x="417" y="1" width="30" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="fI7-zl-kD4"/>
+                    </constraints>
+                    <buttonCell key="cell" type="inline" bezelStyle="inline" image="gear" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="zKm-8x-Sc8">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="systemUltraLight" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="didClickMenuButton:" target="c22-O7-iKe" id="kGw-jP-S47"/>
+                    </connections>
+                </button>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="dsf-ja-A47" customClass="QView">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="1"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="i1I-nf-Cb7"/>
+                    </constraints>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="5W5-fF-KXj" firstAttribute="leading" secondItem="7Nz-Gq-dEB" secondAttribute="trailing" id="AeW-gb-Ki0"/>
+                <constraint firstItem="7Nz-Gq-dEB" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" constant="3" id="LLO-GV-3JP"/>
+                <constraint firstItem="nDX-aw-tQg" firstAttribute="leading" secondItem="5W5-fF-KXj" secondAttribute="trailing" id="MtK-CS-jET"/>
+                <constraint firstItem="nDX-aw-tQg" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="Nbz-3M-jkG"/>
+                <constraint firstAttribute="trailing" secondItem="nDX-aw-tQg" secondAttribute="trailing" constant="-10" id="PxW-Jn-44X"/>
+                <constraint firstAttribute="bottom" secondItem="dsf-ja-A47" secondAttribute="bottom" id="WSL-GC-MZZ"/>
+                <constraint firstItem="dsf-ja-A47" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="WdX-8r-8BT"/>
+                <constraint firstItem="dsf-ja-A47" firstAttribute="top" secondItem="nDX-aw-tQg" secondAttribute="bottom" id="WwN-LJ-4VG"/>
+                <constraint firstItem="nDX-aw-tQg" firstAttribute="leading" secondItem="7Nz-Gq-dEB" secondAttribute="trailing" constant="30" id="aqh-9E-h36"/>
+                <constraint firstItem="5W5-fF-KXj" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="mtf-nZ-6w1"/>
+                <constraint firstItem="dsf-ja-A47" firstAttribute="top" secondItem="5W5-fF-KXj" secondAttribute="bottom" id="rQg-sz-tpZ"/>
+                <constraint firstItem="7Nz-Gq-dEB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="5" id="tgQ-V0-Xr7"/>
+                <constraint firstAttribute="trailing" secondItem="dsf-ja-A47" secondAttribute="trailing" id="waW-l7-Kmr"/>
+            </constraints>
+            <connections>
+                <outlet property="bottomLineView" destination="dsf-ja-A47" id="Rwy-8D-wU2"/>
+                <outlet property="headerLabel" destination="7Nz-Gq-dEB" id="V4c-Fp-UBd"/>
+                <outlet property="menuButton" destination="5W5-fF-KXj" id="yvP-bl-uOO"/>
+                <outlet property="toggleButton" destination="nDX-aw-tQg" id="3kN-y6-r41"/>
+            </connections>
+            <point key="canvasLocation" x="508" y="413"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="gear" width="11" height="12"/>
+    </resources>
+</document>

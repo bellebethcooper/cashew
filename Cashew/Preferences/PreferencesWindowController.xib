@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="Cashew" customModuleProvider="target">
+            <connections>
+                <outlet property="accountsToolbarItem" destination="OL1-O8-c3y" id="oNG-9S-tB1"/>
+                <outlet property="generalToolbarItem" destination="O6z-vX-3xR" id="gTR-Jg-93B"/>
+                <outlet property="issueExtensionToolbarItem" destination="AFH-rN-2iU" id="6Nb-FZ-Xjj"/>
+                <outlet property="toolbar" destination="8BG-Wv-fTS" id="NX5-GH-Dz1"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" visibleAtLaunch="NO" frameAutosaveName="CashewPreferences" animationBehavior="default" id="F0z-JX-Cv5" customClass="SRBaseWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="440" height="440"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <value key="minSize" type="size" width="440" height="440"/>
+            <value key="maxSize" type="size" width="440" height="440"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="440" height="440"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="BBC0DD85-7B6A-4B13-8096-3DC43DF8B085" autosavesConfiguration="NO" allowsUserCustomization="NO" displayMode="iconAndLabel" sizeMode="regular" id="8BG-Wv-fTS">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="1F497CA6-0040-47B4-BE1C-FF3B2B9799C6" explicitItemIdentifier="AccountsToolbarItem" label="Accounts" paletteLabel="Accounts" tag="2" image="NSUserGroup" selectable="YES" id="OL1-O8-c3y">
+                        <connections>
+                            <action selector="didClickAccountsToolbarItem:" target="-2" id="gwj-R1-AL5"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="6EFC0517-E846-4B10-B695-0D1EBF4B105B" explicitItemIdentifier="GeneralToolbarItem" label="General" paletteLabel="General" tag="1" image="NSPreferencesGeneral" selectable="YES" id="O6z-vX-3xR">
+                        <connections>
+                            <action selector="didClickGeneralToolbarItem:" target="-2" id="fxr-f8-XMk"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="22CD7F3F-6349-41DC-8CC3-4C53DE0505D2" explicitItemIdentifier="IssueExtensionsToolbarItem" label="Extensions" paletteLabel="Extensions" tag="3" image="extensions" selectable="YES" id="AFH-rN-2iU">
+                        <connections>
+                            <action selector="didClickIssueExtensionToolbarItem:" target="-2" id="t1q-Rl-ujw"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="O6z-vX-3xR"/>
+                    <toolbarItem reference="OL1-O8-c3y"/>
+                    <toolbarItem reference="AFH-rN-2iU"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="126.5" y="182.5"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="NSUserGroup" width="32" height="32"/>
+        <image name="extensions" width="73" height="73"/>
+    </resources>
+</document>

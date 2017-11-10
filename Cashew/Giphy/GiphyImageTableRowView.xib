@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.AVKitIBPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView identifier="GiphyImageTableRowView" id="c22-O7-iKe" customClass="SRGiphyImageTableRowView">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <avPlayerView controlsStyle="none" translatesAutoresizingMaskIntoConstraints="NO" id="EBM-z9-Wfh" customClass="SRGiphyPlayerView">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
+                </avPlayerView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="EBM-z9-Wfh" secondAttribute="trailing" id="8G4-Jg-GTg"/>
+                <constraint firstItem="EBM-z9-Wfh" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="DeH-of-xn5"/>
+                <constraint firstAttribute="bottom" secondItem="EBM-z9-Wfh" secondAttribute="bottom" id="l1r-7c-ied"/>
+                <constraint firstItem="EBM-z9-Wfh" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="xg0-yN-YqZ"/>
+            </constraints>
+            <connections>
+                <outlet property="viewPlayer" destination="EBM-z9-Wfh" id="ZRs-jJ-Rnh"/>
+            </connections>
+            <point key="canvasLocation" x="424" y="302"/>
+        </customView>
+    </objects>
+</document>

@@ -1,0 +1,6 @@
+framework module Pods_CashewTests {
+  umbrella header "Pods-CashewTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

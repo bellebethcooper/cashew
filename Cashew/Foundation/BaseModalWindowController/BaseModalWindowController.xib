@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BaseModalWindowController">
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="transparentTitleBar" value="YES"/>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="titleLabel" destination="X6Y-fl-6PL" id="47o-5O-mIo"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="p7Y-qc-L10"/>
+                <outlet property="windowContentView" destination="se5-gp-TjO" id="dvs-Gz-XY5"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5" customClass="SRBaseWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" unifiedTitleAndToolbar="YES" fullSizeContentView="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="400" height="455"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <view key="contentView" id="se5-gp-TjO" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="455"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X6Y-fl-6PL">
+                        <rect key="frame" x="-2" y="428" width="404" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="PhB-LQ-v3t"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="aPD-WA-Xw1">
+                            <font key="font" metaFont="systemSemibold" size="11"/>
+                            <color key="textColor" red="0.43529411764705883" green="0.43529411764705883" blue="0.43529411764705883" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="X6Y-fl-6PL" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="1tL-u7-elZ"/>
+                    <constraint firstAttribute="trailing" secondItem="X6Y-fl-6PL" secondAttribute="trailing" id="8oW-dk-kzn"/>
+                    <constraint firstItem="X6Y-fl-6PL" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="5" id="ccv-uO-IDR"/>
+                </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </userDefinedRuntimeAttribute>
+                </userDefinedRuntimeAttributes>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="447" y="283.5"/>
+        </window>
+    </objects>
+</document>

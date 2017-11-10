@@ -1,0 +1,302 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9539BC551D44328F00038D09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539BC541D44328F00038D09 /* AppDelegate.swift */; };
+		9539BC571D44328F00038D09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9539BC561D44328F00038D09 /* Assets.xcassets */; };
+		9539BC5A1D44328F00038D09 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9539BC581D44328F00038D09 /* MainMenu.xib */; };
+		9539BC621D44329900038D09 /* ace in Resources */ = {isa = PBXBuildFile; fileRef = 9539BC611D44329900038D09 /* ace */; };
+		9539BC651D4432C000038D09 /* editor.html in Resources */ = {isa = PBXBuildFile; fileRef = 9539BC641D4432C000038D09 /* editor.html */; };
+		9539BC671D44337100038D09 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539BC661D44337100038D09 /* CodeEditorView.swift */; };
+		9539BC691D443E7600038D09 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9539BC681D443E7600038D09 /* WebKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9539BC511D44328F00038D09 /* AceEditorCocoa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AceEditorCocoa.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9539BC541D44328F00038D09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9539BC561D44328F00038D09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9539BC591D44328F00038D09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		9539BC5B1D44328F00038D09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9539BC611D44329900038D09 /* ace */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ace; sourceTree = "<group>"; };
+		9539BC641D4432C000038D09 /* editor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editor.html; sourceTree = "<group>"; };
+		9539BC661D44337100038D09 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		9539BC681D443E7600038D09 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9539BC4E1D44328F00038D09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9539BC691D443E7600038D09 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9539BC481D44328F00038D09 = {
+			isa = PBXGroup;
+			children = (
+				9539BC681D443E7600038D09 /* WebKit.framework */,
+				9539BC531D44328F00038D09 /* AceEditorCocoa */,
+				9539BC521D44328F00038D09 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9539BC521D44328F00038D09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9539BC511D44328F00038D09 /* AceEditorCocoa.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9539BC531D44328F00038D09 /* AceEditorCocoa */ = {
+			isa = PBXGroup;
+			children = (
+				9539BC631D44329D00038D09 /* Code Editor */,
+				9539BC541D44328F00038D09 /* AppDelegate.swift */,
+				9539BC561D44328F00038D09 /* Assets.xcassets */,
+				9539BC581D44328F00038D09 /* MainMenu.xib */,
+				9539BC5B1D44328F00038D09 /* Info.plist */,
+			);
+			path = AceEditorCocoa;
+			sourceTree = "<group>";
+		};
+		9539BC631D44329D00038D09 /* Code Editor */ = {
+			isa = PBXGroup;
+			children = (
+				9539BC611D44329900038D09 /* ace */,
+				9539BC641D4432C000038D09 /* editor.html */,
+				9539BC661D44337100038D09 /* CodeEditorView.swift */,
+			);
+			name = "Code Editor";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9539BC501D44328F00038D09 /* AceEditorCocoa */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9539BC5E1D44328F00038D09 /* Build configuration list for PBXNativeTarget "AceEditorCocoa" */;
+			buildPhases = (
+				9539BC4D1D44328F00038D09 /* Sources */,
+				9539BC4E1D44328F00038D09 /* Frameworks */,
+				9539BC4F1D44328F00038D09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AceEditorCocoa;
+			productName = AceEditorCocoa;
+			productReference = 9539BC511D44328F00038D09 /* AceEditorCocoa.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9539BC491D44328F00038D09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "SimpleRocket LLC";
+				TargetAttributes = {
+					9539BC501D44328F00038D09 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 9539BC4C1D44328F00038D09 /* Build configuration list for PBXProject "AceEditorCocoa" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9539BC481D44328F00038D09;
+			productRefGroup = 9539BC521D44328F00038D09 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9539BC501D44328F00038D09 /* AceEditorCocoa */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9539BC4F1D44328F00038D09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9539BC621D44329900038D09 /* ace in Resources */,
+				9539BC571D44328F00038D09 /* Assets.xcassets in Resources */,
+				9539BC5A1D44328F00038D09 /* MainMenu.xib in Resources */,
+				9539BC651D4432C000038D09 /* editor.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9539BC4D1D44328F00038D09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9539BC671D44337100038D09 /* CodeEditorView.swift in Sources */,
+				9539BC551D44328F00038D09 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9539BC581D44328F00038D09 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9539BC591D44328F00038D09 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9539BC5C1D44328F00038D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9539BC5D1D44328F00038D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9539BC5F1D44328F00038D09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = AceEditorCocoa/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.AceEditorCocoa;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9539BC601D44328F00038D09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = AceEditorCocoa/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.AceEditorCocoa;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9539BC4C1D44328F00038D09 /* Build configuration list for PBXProject "AceEditorCocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9539BC5C1D44328F00038D09 /* Debug */,
+				9539BC5D1D44328F00038D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9539BC5E1D44328F00038D09 /* Build configuration list for PBXNativeTarget "AceEditorCocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9539BC5F1D44328F00038D09 /* Debug */,
+				9539BC601D44328F00038D09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9539BC491D44328F00038D09 /* Project object */;
+}

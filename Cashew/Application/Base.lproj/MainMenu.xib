@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
+            <connections>
+                <outlet property="accountsPopUpButton" destination="k8q-Wb-zNA" id="hLJ-XT-oUo"/>
+                <outlet property="centerContainerView" destination="7Z9-ow-HXl" id="MbM-hv-Gye"/>
+                <outlet property="centerContainerViewWidthConstraint" destination="7WV-6c-yAX" id="oH9-pz-tga"/>
+                <outlet property="classicModeDetailsContainerView" destination="ltU-aW-Qod" id="RkZ-Hp-7s6"/>
+                <outlet property="classicModeIssueListContainerView" destination="Rkh-DG-cCc" id="EQ1-zF-t8T"/>
+                <outlet property="classicModeSplitView" destination="Jdx-Y0-EMm" id="FKs-Tg-pSM"/>
+                <outlet property="closeOrOpenIssuesMenuItem" destination="r3J-kr-c7A" id="smt-0x-f0u"/>
+                <outlet property="createIssueToolbarItem" destination="WGB-rq-4xX" id="6oj-fx-FiM"/>
+                <outlet property="issueExtensionsMenuItem" destination="fEt-Lg-h9s" id="h1a-Cq-HBE"/>
+                <outlet property="leftCenterLineSplitterView" destination="WSt-vX-gtp" id="3h8-iM-je9"/>
+                <outlet property="leftContainerView" destination="mZY-ad-2aD" id="c3N-Zi-lxF"/>
+                <outlet property="leftContainerViewWidthConstraint" destination="qrS-KX-ig8" id="obM-HV-wmr"/>
+                <outlet property="modalOverlayView" destination="6Eo-Ia-n1B" id="K6p-Og-gow"/>
+                <outlet property="refreshToolbarItem" destination="Vpb-K3-1dp" id="qcX-QK-m8s"/>
+                <outlet property="rightCenterLineSplitterView" destination="1ps-cL-5Fs" id="WIf-Ot-Ob8"/>
+                <outlet property="rightContainerView" destination="9qu-Cb-Wd2" id="2OG-gn-Shb"/>
+                <outlet property="searchBarToolbarItem" destination="3mv-62-m4R" id="VWS-vF-cNF"/>
+                <outlet property="searchBuilderButton" destination="yX6-SS-M0y" id="Wej-M2-USO"/>
+                <outlet property="shareIssueMenuItem" destination="3MD-85-xI7" id="wEp-Er-gmA"/>
+                <outlet property="syncButton" destination="hEs-Bh-yI3" id="74A-k5-BYW"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+                <outlet property="windowMainView" destination="EiT-Mj-1SZ" id="qqa-DE-5Lq"/>
+            </connections>
+        </customObject>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
+            <items>
+                <menuItem title="Cashew" id="1Xt-HY-uBw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Cashew" systemMenu="apple" id="uQy-DD-JDr">
+                        <items>
+                            <menuItem title="About Cashew" id="5kV-Vb-QxS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                <connections>
+                                    <action selector="_didClickShowPreferences:" target="Voe-Tx-rLC" id="dau-uW-kAF"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
+                            <menuItem title="Services" id="NMo-om-nkz">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
+                            <menuItem title="Feedback" id="5QF-kR-hZL">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="didClickBetaFeedbackLabel:" target="Voe-Tx-rLC" id="JEc-ml-g6q"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Cashew" keyEquivalent="h" id="Olw-nP-bQN">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Others" keyEquivalent="h" id="Vdr-fp-XzO">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="VT4-aY-XCT"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="Kd2-mp-pUS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="Dhg-Le-xox"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                            <menuItem title="Quit Issues" keyEquivalent="q" id="4sb-4s-VLi">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="File" id="dMs-cI-mzQ">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="File" id="bib-Uj-vzu">
+                        <items>
+                            <menuItem title="New Issue" keyEquivalent="n" id="Was-JA-tGl">
+                                <connections>
+                                    <action selector="_didClickNewIssue:" target="-1" id="Cna-Hj-ul9"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
+                                <connections>
+                                    <action selector="openDocument:" target="-1" id="bVn-NM-KNZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open Recent" id="tXI-mr-wws">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="oas-Oc-fiZ">
+                                    <items>
+                                        <menuItem title="Clear Menu" id="vNY-rz-j42">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="clearRecentDocuments:" target="-1" id="Daa-9d-B3U"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
+                            <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
+                                <connections>
+                                    <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Save…" keyEquivalent="s" id="pxx-59-PXV">
+                                <connections>
+                                    <action selector="saveDocument:" target="-1" id="teZ-XB-qJY"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Save As…" keyEquivalent="S" id="Bw7-FT-i3A">
+                                <connections>
+                                    <action selector="saveDocumentAs:" target="-1" id="mDf-zr-I0C"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Revert to Saved" id="KaW-ft-85H">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="revertDocumentToSaved:" target="-1" id="iJ3-Pv-kwq"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Edit" id="5QF-Oa-p0T">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Edit" id="W48-6f-4Dl">
+                        <items>
+                            <menuItem title="Undo" keyEquivalent="z" id="dRJ-4n-Yzg">
+                                <connections>
+                                    <action selector="undo:" target="-1" id="M6e-cu-g7V"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Redo" keyEquivalent="Z" id="6dh-zS-Vam">
+                                <connections>
+                                    <action selector="redo:" target="-1" id="oIA-Rs-6OD"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="WRV-NI-Exz"/>
+                            <menuItem title="Cut" keyEquivalent="x" id="uRl-iY-unG">
+                                <connections>
+                                    <action selector="cut:" target="-1" id="YJe-68-I9s"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy" keyEquivalent="c" id="x3v-GG-iWU">
+                                <connections>
+                                    <action selector="copy:" target="-1" id="G1f-GL-Joy"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">
+                                <connections>
+                                    <action selector="paste:" target="-1" id="UvS-8e-Qdg"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste and Match Style" keyEquivalent="V" id="WeT-3V-zwk">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="pasteAsPlainText:" target="-1" id="cEh-KX-wJQ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Delete" id="pa3-QI-u2k">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="delete:" target="-1" id="0Mk-Ml-PaM"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
+                                <connections>
+                                    <action selector="selectAll:" target="-1" id="VNm-Mi-diN"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="uyl-h8-XO2"/>
+                            <menuItem title="Find" id="4EN-yA-p0u">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Find" id="1b7-l0-nxx">
+                                    <items>
+                                        <menuItem title="Find…" tag="1" keyEquivalent="f" id="Xz5-n4-O0W">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="cD7-Qs-BN4"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Find and Replace…" tag="12" keyEquivalent="f" id="YEy-JH-Tfz">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="WD3-Gg-5AJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Find Next" tag="2" keyEquivalent="g" id="q09-fT-Sye">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="NDo-RZ-v9R"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="OwM-mh-QMV">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="HOh-sY-3ay"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="buJ-ug-pKt">
+                                            <connections>
+                                                <action selector="performFindPanelAction:" target="-1" id="U76-nv-p5D"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Jump to Selection" keyEquivalent="j" id="S0p-oC-mLd">
+                                            <connections>
+                                                <action selector="centerSelectionInVisibleArea:" target="-1" id="IOG-6D-g5B"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Spelling and Grammar" id="Dv1-io-Yv7">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Spelling" id="3IN-sU-3Bg">
+                                    <items>
+                                        <menuItem title="Show Spelling and Grammar" keyEquivalent=":" id="HFo-cy-zxI">
+                                            <connections>
+                                                <action selector="showGuessPanel:" target="-1" id="vFj-Ks-hy3"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Check Document Now" keyEquivalent=";" id="hz2-CU-CR7">
+                                            <connections>
+                                                <action selector="checkSpelling:" target="-1" id="fz7-VC-reM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="bNw-od-mp5"/>
+                                        <menuItem title="Check Spelling While Typing" id="rbD-Rh-wIN">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleContinuousSpellChecking:" target="-1" id="7w6-Qz-0kB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Check Grammar With Spelling" id="mK6-2p-4JG">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleGrammarChecking:" target="-1" id="muD-Qn-j4w"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Correct Spelling Automatically" id="78Y-hA-62v">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAutomaticSpellingCorrection:" target="-1" id="2lM-Qi-WAP"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Substitutions" id="9ic-FL-obx">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Substitutions" id="FeM-D8-WVr">
+                                    <items>
+                                        <menuItem title="Show Substitutions" id="z6F-FW-3nz">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="orderFrontSubstitutionsPanel:" target="-1" id="oku-mr-iSq"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="gPx-C9-uUO"/>
+                                        <menuItem title="Smart Copy/Paste" id="9yt-4B-nSM">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleSmartInsertDelete:" target="-1" id="3IJ-Se-DZD"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Smart Quotes" id="hQb-2v-fYv">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAutomaticQuoteSubstitution:" target="-1" id="ptq-xd-QOA"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Smart Dashes" id="rgM-f4-ycn">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAutomaticDashSubstitution:" target="-1" id="oCt-pO-9gS"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Smart Links" id="cwL-P1-jid">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAutomaticLinkDetection:" target="-1" id="Gip-E3-Fov"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Data Detectors" id="tRr-pd-1PS">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAutomaticDataDetection:" target="-1" id="R1I-Nq-Kbl"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Text Replacement" id="HFQ-gK-NFA">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="toggleAutomaticTextReplacement:" target="-1" id="DvP-Fe-Py6"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Transformations" id="2oI-Rn-ZJC">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Transformations" id="c8a-y6-VQd">
+                                    <items>
+                                        <menuItem title="Make Upper Case" id="vmV-6d-7jI">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="uppercaseWord:" target="-1" id="sPh-Tk-edu"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Make Lower Case" id="d9M-CD-aMd">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="lowercaseWord:" target="-1" id="iUZ-b5-hil"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Capitalize" id="UEZ-Bs-lqG">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="capitalizeWord:" target="-1" id="26H-TL-nsh"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Speech" id="xrE-MZ-jX0">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Speech" id="3rS-ZA-NoH">
+                                    <items>
+                                        <menuItem title="Start Speaking" id="Ynk-f8-cLZ">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="startSpeaking:" target="-1" id="654-Ng-kyl"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Stop Speaking" id="Oyz-dy-DGm">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="stopSpeaking:" target="-1" id="dX8-6p-jy9"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Format" id="jxT-CU-nIS">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Format" id="GEO-Iw-cKr">
+                        <items>
+                            <menuItem title="Font" id="Gi5-1S-RQB">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Font" systemMenu="font" id="aXa-aM-Jaq">
+                                    <items>
+                                        <menuItem title="Bold" tag="2" keyEquivalent="b" id="GB9-OM-e27">
+                                            <connections>
+                                                <action selector="didClickBoldMenuItem:" target="Voe-Tx-rLC" id="6Pw-Hd-h1D"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Italic" tag="1" keyEquivalent="i" id="Vjx-xi-njq">
+                                            <connections>
+                                                <action selector="didClickItalicMenuItem:" target="Voe-Tx-rLC" id="YVk-Sg-ssE"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Link" tag="1" keyEquivalent="k" id="5us-XE-kGv">
+                                            <connections>
+                                                <action selector="didClickLinkMenuItem:" target="Voe-Tx-rLC" id="q48-HL-2dN"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Issue" id="EDc-U7-uVe">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Issue" id="iUN-kO-cmd">
+                        <items>
+                            <menuItem title="Open Issue" id="r3J-kr-c7A">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Favorite Issue" keyEquivalent="b" id="wXd-8s-fHA">
+                                <connections>
+                                    <action selector="sr_favoriteIssues:" target="Voe-Tx-rLC" id="xmh-Eb-WLL"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="fQ6-pK-rTU"/>
+                            <menuItem title="Label Picker" keyEquivalent="1" id="yBx-i3-Qf1">
+                                <connections>
+                                    <action selector="didClickAddLabelInMenuItem:" target="Voe-Tx-rLC" id="dbi-cE-pkK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Milestone Picker" keyEquivalent="2" id="yFA-0t-65U">
+                                <connections>
+                                    <action selector="didClickAddMilestoneInMenuItem:" target="Voe-Tx-rLC" id="Ghj-pn-fZd"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Assignee Picker" keyEquivalent="3" id="ou7-wX-n1j">
+                                <connections>
+                                    <action selector="didClickAddAssigneeInMenuItem:" target="Voe-Tx-rLC" id="hFJ-k1-k2T"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="vbg-hs-fzp"/>
+                            <menuItem title="Extensions" id="fEt-Lg-h9s">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="sr_dummyExtensionsAction:" target="Voe-Tx-rLC" id="HIV-16-445"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Share" id="3MD-85-xI7">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="sr_dummyShareAction:" target="Voe-Tx-rLC" id="oF3-vH-RrD"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="View" id="H8h-7b-M4v">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="View" id="HyV-fh-RgO">
+                        <items>
+                            <menuItem title="Show Toolbar" keyEquivalent="t" id="snW-S8-Cw5">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="toggleToolbarShown:" target="-1" id="BXY-wc-z0C"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Customize Toolbar…" id="1UK-8n-QPP">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="runToolbarCustomizationPalette:" target="-1" id="pQI-g3-MTW"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="PTT-mU-FKf"/>
+                            <menuItem title="Reload Search Results" keyEquivalent="r" id="Gs7-PZ-or2">
+                                <connections>
+                                    <action selector="didClickReloadSearchResults:" target="Voe-Tx-rLC" id="9xA-LM-mav"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="h9k-XA-wkK"/>
+                            <menuItem title="Repository Picker" keyEquivalent="r" id="PlE-IT-aDd">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="didClickRepositoryPickerViewMenuItem:" target="Voe-Tx-rLC" id="Ifd-dD-X1h"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="aUF-d1-5bR">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="OY7-WF-poV">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="VwT-WD-YPe"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Zoom" id="R4o-n2-Eq4">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="performZoom:" target="-1" id="DIl-cC-cCs"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="eu3-7i-yIM"/>
+                            <menuItem title="Bring All to Front" id="LE2-aR-0XJ">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="arrangeInFront:" target="-1" id="DRN-fu-gQh"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="wpr-3q-Mcd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
+                        <items>
+                            <menuItem title="Queues Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="53" y="-33"/>
+        </menu>
+        <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" frameAutosaveName="IssuesMainWindow" animationBehavior="default" id="QvC-M9-y7g" customClass="SRBaseWindow">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="0.0" y="377" width="1140" height="800"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <value key="minSize" type="size" width="660" height="700"/>
+            <view key="contentView" id="EiT-Mj-1SZ" customClass="QView">
+                <rect key="frame" x="0.0" y="0.0" width="1140" height="800"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="6Eo-Ia-n1B" userLabel="Modal Overlay View" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="1140" height="800"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </customView>
+                    <splitView arrangesAllSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jdx-Y0-EMm" customClass="SRClassicModeSplitView">
+                        <rect key="frame" x="240" y="0.0" width="900" height="800"/>
+                        <subviews>
+                            <customView fixedFrame="YES" id="Rkh-DG-cCc">
+                                <rect key="frame" x="0.0" y="0.0" width="900" height="386.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </customView>
+                            <customView fixedFrame="YES" id="ltU-aW-Qod">
+                                <rect key="frame" x="0.0" y="395.5" width="900" height="404.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </customView>
+                        </subviews>
+                        <holdingPriorities>
+                            <real value="250"/>
+                            <real value="250"/>
+                        </holdingPriorities>
+                    </splitView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="7Z9-ow-HXl" customClass="QView">
+                        <rect key="frame" x="240" y="0.0" width="600" height="800"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="1000" id="6nJ-2r-WSO"/>
+                            <constraint firstAttribute="width" priority="999" constant="600" id="7WV-6c-yAX"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="nextKeyView" destination="9qu-Cb-Wd2" id="eqw-4b-REh"/>
+                        </connections>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="mZY-ad-2aD" customClass="QView">
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="800"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="1000" id="Pja-wh-E2z"/>
+                            <constraint firstAttribute="width" priority="999" constant="240" id="qrS-KX-ig8"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="nextKeyView" destination="7Z9-ow-HXl" id="Zig-6E-CMz"/>
+                        </connections>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="9qu-Cb-Wd2" customClass="QView">
+                        <rect key="frame" x="840" y="0.0" width="300" height="800"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="w19-JA-NFN"/>
+                        </constraints>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="WSt-vX-gtp" customClass="QLineSplitterView">
+                        <rect key="frame" x="240" y="0.0" width="8" height="800"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="eJJ-UP-lBG" customClass="SRBaseSeparatorView">
+                                <rect key="frame" x="0.0" y="0.0" width="1" height="800"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="1" id="HSq-ST-qpP"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" red="0.96078431372549022" green="0.97254901960784312" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="eJJ-UP-lBG" secondAttribute="bottom" id="JLa-wz-InQ"/>
+                            <constraint firstItem="eJJ-UP-lBG" firstAttribute="top" secondItem="WSt-vX-gtp" secondAttribute="top" id="Unu-8Z-cVW"/>
+                            <constraint firstAttribute="width" constant="8" id="gIH-S9-Sqx"/>
+                            <constraint firstItem="eJJ-UP-lBG" firstAttribute="leading" secondItem="WSt-vX-gtp" secondAttribute="leading" id="oER-lV-Iu3"/>
+                        </constraints>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="1ps-cL-5Fs" customClass="QLineSplitterView">
+                        <rect key="frame" x="836" y="0.0" width="8" height="800"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="2rM-gk-4mM" customClass="SRBaseSeparatorView">
+                                <rect key="frame" x="3" y="0.0" width="1" height="800"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="1" id="ysT-TI-puT"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" red="0.96078431369999995" green="0.97254901959999995" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="2rM-gk-4mM" secondAttribute="bottom" id="4A5-5A-5s6"/>
+                            <constraint firstItem="2rM-gk-4mM" firstAttribute="top" secondItem="1ps-cL-5Fs" secondAttribute="top" id="7h9-9G-FDh"/>
+                            <constraint firstAttribute="trailing" secondItem="2rM-gk-4mM" secondAttribute="trailing" constant="4" id="YeF-2w-XgK"/>
+                            <constraint firstAttribute="width" constant="8" id="g9z-JR-UWr"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Jdx-Y0-EMm" firstAttribute="leading" secondItem="mZY-ad-2aD" secondAttribute="trailing" id="0Sc-S3-3GC"/>
+                    <constraint firstItem="7Z9-ow-HXl" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="0g5-dB-PZt"/>
+                    <constraint firstAttribute="bottom" secondItem="1ps-cL-5Fs" secondAttribute="bottom" id="9c8-NY-Gz0"/>
+                    <constraint firstAttribute="bottom" secondItem="mZY-ad-2aD" secondAttribute="bottom" id="Avz-bx-Kjx"/>
+                    <constraint firstAttribute="trailing" secondItem="Jdx-Y0-EMm" secondAttribute="trailing" id="B1W-0l-m1a"/>
+                    <constraint firstItem="9qu-Cb-Wd2" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="Bse-hz-WdA"/>
+                    <constraint firstItem="6Eo-Ia-n1B" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Cch-eW-goT"/>
+                    <constraint firstAttribute="bottom" secondItem="9qu-Cb-Wd2" secondAttribute="bottom" id="DxT-m4-Xb2"/>
+                    <constraint firstItem="Jdx-Y0-EMm" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="IIc-vU-wC1"/>
+                    <constraint firstItem="9qu-Cb-Wd2" firstAttribute="leading" secondItem="7Z9-ow-HXl" secondAttribute="trailing" id="J2w-GO-gP8"/>
+                    <constraint firstAttribute="trailing" secondItem="6Eo-Ia-n1B" secondAttribute="trailing" id="Qer-aK-lvl"/>
+                    <constraint firstItem="WSt-vX-gtp" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="Uqc-aK-Szx"/>
+                    <constraint firstAttribute="trailing" secondItem="9qu-Cb-Wd2" secondAttribute="trailing" id="Xdr-Eo-UDE"/>
+                    <constraint firstAttribute="bottom" secondItem="6Eo-Ia-n1B" secondAttribute="bottom" id="eW9-mD-Vvr"/>
+                    <constraint firstItem="mZY-ad-2aD" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="eWN-Ln-c54"/>
+                    <constraint firstAttribute="bottom" secondItem="Jdx-Y0-EMm" secondAttribute="bottom" id="fg5-Hm-wSq"/>
+                    <constraint firstItem="1ps-cL-5Fs" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="ifQ-Sd-exR"/>
+                    <constraint firstItem="mZY-ad-2aD" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="lV3-tS-EMj"/>
+                    <constraint firstAttribute="bottom" secondItem="WSt-vX-gtp" secondAttribute="bottom" id="q8C-QE-QLN"/>
+                    <constraint firstItem="1ps-cL-5Fs" firstAttribute="leading" secondItem="7Z9-ow-HXl" secondAttribute="trailing" constant="-4" id="qoA-aV-8U9"/>
+                    <constraint firstItem="7Z9-ow-HXl" firstAttribute="leading" secondItem="mZY-ad-2aD" secondAttribute="trailing" id="rlC-AF-N5I"/>
+                    <constraint firstItem="6Eo-Ia-n1B" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="twY-V3-RMQ"/>
+                    <constraint firstItem="WSt-vX-gtp" firstAttribute="leading" secondItem="mZY-ad-2aD" secondAttribute="trailing" id="uuM-mS-AoN"/>
+                    <constraint firstAttribute="bottom" secondItem="7Z9-ow-HXl" secondAttribute="bottom" id="yiv-QN-D4c"/>
+                </constraints>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="6F174F0A-1638-46E1-AD00-76F9F9EFB07D" allowsUserCustomization="NO" displayMode="iconOnly" sizeMode="regular" id="Xzk-bk-FNl">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="03A72D12-3AD7-4473-B112-1EEBB8796B36" label="Search Bar" paletteLabel="Search Bar" tag="-1" id="3mv-62-m4R">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="600" height="26"/>
+                        <size key="maxSize" width="600" height="26"/>
+                        <customView key="view" id="fcX-gS-R7w">
+                            <rect key="frame" x="0.0" y="14" width="600" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </customView>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="liM-Z8-eni"/>
+                    <toolbarItem implicitItemIdentifier="92DBF5B6-23F6-4572-9611-4C6576D33D28" label="Accounts" paletteLabel="Accounts" image="NSUser" id="b16-t9-coN">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="130" height="26"/>
+                        <size key="maxSize" width="130" height="26"/>
+                        <popUpButton key="view" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="k8q-Wb-zNA">
+                            <rect key="frame" x="0.0" y="14" width="130" height="26"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="NiY-pZ-D0h">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="jKz-MP-3IP">
+                                    <items>
+                                        <menuItem title="Item 1" state="on" image="NSUser" hidden="YES" id="piG-d1-n2d"/>
+                                        <menuItem title="Item 2" id="mRn-Sj-2Tm"/>
+                                        <menuItem title="Item 3" id="AEL-XJ-5wm"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="didClickAccountsToolbarItemButton:" target="Voe-Tx-rLC" id="Q5Q-7a-7v5"/>
+                            </connections>
+                        </popUpButton>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="DF7124CC-380C-434E-81D7-F42B47BD59C2" label="New Issue" paletteLabel="New Issue" image="NSAddTemplate" id="WGB-rq-4xX">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="32"/>
+                        <size key="maxSize" width="40" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="fN5-yo-UMe">
+                            <rect key="frame" x="11" y="14" width="40" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSAddTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OiZ-7X-kDl">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickCreateIssueToolbarItemButton:" target="Voe-Tx-rLC" id="6vx-Cm-Kx3"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="390B6983-B11F-431B-BB9F-560519A44DCA" label="Sync" paletteLabel="Sync" image="sync" id="hEs-Bh-yI3">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="32"/>
+                        <size key="maxSize" width="40" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="fe3-SC-cMF">
+                            <rect key="frame" x="0.0" y="14" width="40" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="sync" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JKz-zZ-eny">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickSyncButton:" target="Voe-Tx-rLC" id="z0i-o3-7Iv"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F3840F62-5BF7-42F6-A420-B20AFBDCBF02" label="Search Builder" paletteLabel="Search Builder" image="manage_search" id="yX6-SS-M0y">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="32"/>
+                        <size key="maxSize" width="40" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="RH5-d5-1RM">
+                            <rect key="frame" x="22" y="14" width="40" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="manage_search" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="J03-JB-S3o">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickSearchBuilderButton:" target="Voe-Tx-rLC" id="uNc-IK-ddM"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="9D6194BC-0941-4FD6-B555-8782A38653EE" label="Refresh" paletteLabel="Refresh" image="NSRefreshTemplate" id="Vpb-K3-1dp">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="40" height="32"/>
+                        <size key="maxSize" width="40" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="tOf-nE-6t3">
+                            <rect key="frame" x="4" y="14" width="40" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HeR-wz-gVU">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="didClickRefreshToolbarItemButton:" target="Voe-Tx-rLC" id="oKd-sQ-rmn"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="b16-t9-coN"/>
+                    <toolbarItem reference="liM-Z8-eni"/>
+                    <toolbarItem reference="Vpb-K3-1dp"/>
+                    <toolbarItem reference="3mv-62-m4R"/>
+                    <toolbarItem reference="yX6-SS-M0y"/>
+                    <toolbarItem reference="liM-Z8-eni"/>
+                    <toolbarItem reference="WGB-rq-4xX"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <outlet property="initialFirstResponder" destination="mZY-ad-2aD" id="hDD-kv-Zgw"/>
+            </connections>
+            <point key="canvasLocation" x="677" y="591"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="NSUser" width="32" height="32"/>
+        <image name="manage_search" width="17" height="12"/>
+        <image name="sync" width="20" height="22"/>
+    </resources>
+</document>
