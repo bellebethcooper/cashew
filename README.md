@@ -23,3 +23,7 @@ Send ethers or bitcoins to the following adddress.
 
 - Bitcoin: 1MhFfhwtYw7KVHdNbs8nmVLnphrUtBSzmy
 - Ethereum: 0x51561AAEF617d1c800c737aaee7EE527fc7D8024
+
+Please follow us on Twitter <a href="http://twitter.com/cashewappco">cashewappco</a>
+
+Download app here <a href="https://itunes.apple.com/us/app/cashew/id1126100185?mt=12">Cashew on Mac App Store</a>
