@@ -19,10 +19,11 @@ Recently, we've been getting alot of interest to fix the current version of Cash
 
 
 ### Want to donate to this project? Every bit helps!
-Send ethers or bitcoins to the following adddress.
+Send ethers or bitcoins to the following address:
 
 - Bitcoin: 1MhFfhwtYw7KVHdNbs8nmVLnphrUtBSzmy
 - Ethereum: 0x51561AAEF617d1c800c737aaee7EE527fc7D8024
+- Litecoin: LN5rComsBgGvDhBu1wANMDnLgrbQwS1Fc8
 
 Please follow us on Twitter <a href="http://twitter.com/cashewappco">cashewappco</a>
 
