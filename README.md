@@ -28,3 +28,7 @@ Send ethers or bitcoins to the following address:
 Please follow us on Twitter <a href="http://twitter.com/cashewappco">cashewappco</a>
 
 Download app here <a href="https://itunes.apple.com/us/app/cashew/id1126100185?mt=12">Cashew on Mac App Store</a>
+
+### License
+
+OpenCashew is distributed under the MIT License (see LICENSE for details).
