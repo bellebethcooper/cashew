@@ -12,29 +12,29 @@ class SearchSuggestionWindowController: NSWindowController {
     
     @IBOutlet weak var contentContainerView: BaseView!
     
-    let suggestionViewController = SearchSuggestionViewController(nibName: "SearchSuggestionViewController", bundle:nil)
+    let suggestionViewController = SearchSuggestionViewController(nibName: NSNib.Name(rawValue: "SearchSuggestionViewController"), bundle:nil)
     
     override func windowDidLoad() {
         super.windowDidLoad()
         guard let window = self.window else { return }
         
-        window.backgroundColor = NSColor.clearColor()
+        window.backgroundColor = NSColor.clear
 
-        guard let suggestionViewController = suggestionViewController else { return }
+        let suggestionViewController = self.suggestionViewController
         
         contentContainerView.addSubview(suggestionViewController.view)
         suggestionViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
-        suggestionViewController.view.leftAnchor.constraintEqualToAnchor(contentContainerView.leftAnchor).active = true
-        suggestionViewController.view.rightAnchor.constraintEqualToAnchor(contentContainerView.rightAnchor).active = true
-        suggestionViewController.view.topAnchor.constraintEqualToAnchor(contentContainerView.topAnchor).active = true
-        suggestionViewController.view.bottomAnchor.constraintEqualToAnchor(contentContainerView.bottomAnchor).active = true
+        suggestionViewController.view.leftAnchor.constraint(equalTo: contentContainerView.leftAnchor).isActive = true
+        suggestionViewController.view.rightAnchor.constraint(equalTo: contentContainerView.rightAnchor).isActive = true
+        suggestionViewController.view.topAnchor.constraint(equalTo: contentContainerView.topAnchor).isActive = true
+        suggestionViewController.view.bottomAnchor.constraint(equalTo: contentContainerView.bottomAnchor).isActive = true
         
-        if (.Dark == NSUserDefaults.themeMode()) {
-            let appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+        if (.dark == UserDefaults.themeMode()) {
+            let appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             window.appearance = appearance;
         } else {
-            let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+            let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             window.appearance = appearance;
         }
         

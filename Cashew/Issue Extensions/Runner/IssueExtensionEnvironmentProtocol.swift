@@ -11,46 +11,46 @@ import JavaScriptCore
 
 @objc(SRLogLevel)
 enum LogLevel: Int {
-    case Log;
-    case Debug;
-    case Error;
+    case log;
+    case debug;
+    case error;
 }
 
 @objc(SRMilestoneServiceExtensionEnvironmentProtocol)
 protocol MilestoneServiceExtensionEnvironmentProtocol: NSObjectProtocol {
-    func milestonesForRepository(repository: NSDictionary, onCompletion: JSValue);
+    func milestonesForRepository(_ repository: NSDictionary, onCompletion: JSValue);
 }
 
 @objc(SROwnerServiceExtensionEnvironmentProtocol)
 protocol OwnerServiceExtensionEnvironmentProtocol: NSObjectProtocol {
-    func usersForRepository(repository: NSDictionary, onCompletion: JSValue);
+    func usersForRepository(_ repository: NSDictionary, onCompletion: JSValue);
 }
 
 @objc(SRLabelServiceExtensionEnvironmentProtocol)
 protocol LabelServiceExtensionEnvironmentProtocol: NSObjectProtocol {
-    func labelsForRepository(repository: NSDictionary, onCompletion: JSValue);
+    func labelsForRepository(_ repository: NSDictionary, onCompletion: JSValue);
 }
 
 @objc(SRIssueServiceExtensionEnvironmentProtocol)
 protocol IssueServiceExtensionEnvironmentProtocol: NSObjectProtocol {
     
-    func closeIssue(issue: NSDictionary, onCompletion: JSValue);
-    func openIssue(issue: NSDictionary, onCompletion: JSValue);
-    func assignMilestoneToIssue(issue: NSDictionary, milestone: NSDictionary?, onCompletion: JSValue);
-    func assignUserToIssue(issue: NSDictionary, user: NSDictionary?, onCompletion: JSValue);
-    func assignLabelsToIssue(issue: NSDictionary, labels: NSArray?, onCompletion: JSValue);
-    func createIssueComment(issue: NSDictionary, comment: String, onCompletion: JSValue);
-    func saveIssueTitle(issue: NSDictionary, title: String, onCompletion: JSValue);
-    func saveIssueBody(issue: NSDictionary, body: String?, onCompletion: JSValue);
+    func closeIssue(_ issue: NSDictionary, onCompletion: JSValue);
+    func openIssue(_ issue: NSDictionary, onCompletion: JSValue);
+    func assignMilestoneToIssue(_ issue: NSDictionary, milestone: NSDictionary?, onCompletion: JSValue);
+    func assignUserToIssue(_ issue: NSDictionary, user: NSDictionary?, onCompletion: JSValue);
+    func assignLabelsToIssue(_ issue: NSDictionary, labels: NSArray?, onCompletion: JSValue);
+    func createIssueComment(_ issue: NSDictionary, comment: String, onCompletion: JSValue);
+    func saveIssueTitle(_ issue: NSDictionary, title: String, onCompletion: JSValue);
+    func saveIssueBody(_ issue: NSDictionary, body: String?, onCompletion: JSValue);
     
 }
 
 @objc(SRCodeExtensionEnvironmentProtocol)
 protocol CodeExtensionEnvironmentProtocol: NSObjectProtocol, IssueServiceExtensionEnvironmentProtocol, MilestoneServiceExtensionEnvironmentProtocol, OwnerServiceExtensionEnvironmentProtocol, LabelServiceExtensionEnvironmentProtocol {
     
-    func consoleLog(arguments: [AnyObject], logLevel: LogLevel);
-    func exceptionLog(line: String, column: String, stacktrace: String, exception: String);
+    func consoleLog(_ arguments: [AnyObject], logLevel: LogLevel);
+    func exceptionLog(_ line: String, column: String, stacktrace: String, exception: String);
     
-    func writeToPasteboard(str: String)
+    func writeToPasteboard(_ str: String)
 
 }

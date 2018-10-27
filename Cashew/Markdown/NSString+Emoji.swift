@@ -9,7 +9,7 @@
 import Foundation
 
 extension NSString {
-    @objc class func emoji(str: NSString) -> String {
+    @objc class func emoji(_ str: NSString) -> String {
         let string = str as String
         return string.emojiUnescapedString
     }

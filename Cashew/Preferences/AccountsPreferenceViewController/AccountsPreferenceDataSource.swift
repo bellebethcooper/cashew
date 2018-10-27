@@ -10,7 +10,7 @@ import Cocoa
 
 class AccountsPreferenceDataSource: NSObject {
 
-    private var accounts = [QAccount]()
+    fileprivate var accounts = [QAccount]()
     
     func reloadData() {
         accounts = QAccountStore.accounts()
@@ -22,7 +22,7 @@ class AccountsPreferenceDataSource: NSObject {
         }
     }
     
-    func itemAtIndex(index: Int) -> QAccount {
+    func itemAtIndex(_ index: Int) -> QAccount {
         return accounts[index]
     }
     

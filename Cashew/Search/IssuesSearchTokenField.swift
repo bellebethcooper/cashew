@@ -11,29 +11,29 @@ import Cocoa
 @objc(SRIssuesSearchTokenField)
 class IssuesSearchTokenField: NSTokenField {
     
-    var didBecomeFirstResponderBlock: dispatch_block_t?
+    var didBecomeFirstResponderBlock: (()->())?
 
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         let txtColor = NSColor(calibratedWhite: 174/255.0, alpha: 1)
-        let txtDict = [NSForegroundColorAttributeName: txtColor, NSFontAttributeName: NSFont.systemFontOfSize(13)]
+        let txtDict = [NSAttributedStringKey.foregroundColor: txtColor, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13)]
         let placeholderString = NSAttributedString(string: "Search Issues", attributes: txtDict)
         
         let isEmptyField = (stringValue == "")
         if isEmptyField || (isEmptyField && self != window?.firstResponder) {
-            placeholderString.drawAtPoint(CGPoint(x: 5, y: 0))
+            placeholderString.draw(at: CGPoint(x: 5, y: 0))
         }
     }
     
     override var stringValue: String {
         didSet {
-            self.toolTip = stringValue.componentsSeparatedByString(",").joinWithSeparator(" ")
+            self.toolTip = stringValue.components(separatedBy: ",").joined(separator: " ")
         }
     }
     
-    override var objectValue: AnyObject? {
+    override var objectValue: Any? {
         didSet {
-            self.toolTip = stringValue.componentsSeparatedByString(",").joinWithSeparator(" ")
+            self.toolTip = stringValue.components(separatedBy: ",").joined(separator: " ")
         }
     }
     

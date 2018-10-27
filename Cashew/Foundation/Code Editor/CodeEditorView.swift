@@ -12,10 +12,10 @@ import WebKit
 @objc(SRCodeEditorView)
 class CodeEditorView: NSView {
     
-    private let webView = WebView()
+    fileprivate let webView = WebView()
     
     
-    private func setup() {
+    fileprivate func setup() {
         
         addSubview(webView)
 
@@ -25,17 +25,17 @@ class CodeEditorView: NSView {
         code = ""
     }
     
-    private var _code: String = ""
+    fileprivate var _code: String = ""
     var code: String {
         set(newValue) {
             if _code == newValue {
                 return
             }
             _code = newValue
-            guard let editorHtmlPath = NSBundle.mainBundle().pathForResource("editor", ofType: "html") else { fatalError() }
+            guard let editorHtmlPath = Bundle.main.path(forResource: "editor", ofType: "html") else { fatalError() }
             do {
-                let editorHtmlContent = try NSString(contentsOfFile: editorHtmlPath, encoding: NSUTF8StringEncoding).stringByReplacingOccurrencesOfString("__SOURCECODE__", withString: _code)
-                let baseURL = NSBundle.mainBundle().bundleURL.URLByAppendingPathComponent("Contents")!.URLByAppendingPathComponent("Resources")!.URLByAppendingPathComponent("ace")
+                let editorHtmlContent = try NSString(contentsOfFile: editorHtmlPath, encoding: String.Encoding.utf8.rawValue).replacingOccurrences(of: "__SOURCECODE__", with: _code)
+                let baseURL = Bundle.main.bundleURL.appendingPathComponent("Contents").appendingPathComponent("Resources").appendingPathComponent("ace")
                 
                 webView.mainFrame.loadHTMLString(editorHtmlContent as String, baseURL: baseURL)
             } catch {
@@ -63,22 +63,22 @@ class CodeEditorView: NSView {
         super.layout()
     }
     
-    override class func isSelectorExcludedFromWebScript(selector: Selector) -> Bool {
+    override class func isSelectorExcluded(fromWebScript selector: Selector) -> Bool {
         if NSStringFromSelector(selector) == "aceTextDidChange:" {
             return false
         }
-        return super.isSelectorExcludedFromWebScript(selector)
+        return super.isSelectorExcluded(fromWebScript: selector)
     }
     
-    override class func webScriptNameForSelector(selector: Selector) -> String {
+    override class func webScriptName(for selector: Selector) -> String {
         if NSStringFromSelector(selector) == "aceTextDidChange:" {
             return "aceTextDidChange"
         }
-        return super.webScriptNameForSelector(selector)
+        return super.webScriptName(for: selector)
     }
     
     @objc
-    func aceTextDidChange(text: String) {
+    func aceTextDidChange(_ text: String) {
         //DDLogDebug("text did change \(text)")
         _code = text
     }
@@ -99,13 +99,13 @@ extension CodeEditorView: WebPolicyDelegate {
 
 extension CodeEditorView: WebFrameLoadDelegate {
     
-    func webView(webView: WebView!, didCreateJavaScriptContext context: JSContext!, forFrame frame: WebFrame!) {
+    func webView(_ webView: WebView!, didCreateJavaScriptContext context: JSContext!, for frame: WebFrame!) {
         context.exceptionHandler =  { (context, value) in
             DDLogDebug("web error: \(value)")
         }
     }
     
-    func webView(sender: WebView!, didFinishLoadForFrame frame: WebFrame!) {
+    func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {
         webView.windowScriptObject.callWebScriptMethod("updateEditorValue", withArguments: [_code])
         webView.windowScriptObject.setValue(self, forKey: "ACEView")
     }

@@ -21,26 +21,26 @@ class AccountsPreferenceViewController: NSViewController {
     @IBOutlet weak var clipView: BaseClipView!
     
     deinit {
-        QAccountStore.removeObserver(self)
+        QAccountStore.remove(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.disableThemeObserver = true
-        tableView.backgroundColor = NSColor.whiteColor()
+        tableView.backgroundColor = NSColor.white
         
         clipView.disableThemeObserver = true
-        clipView.backgroundColor = NSColor.whiteColor()
+        clipView.backgroundColor = NSColor.white
         
         bottomBarContainerView.disableThemeObserver = true
-        bottomBarContainerView.backgroundColor = NSColor.whiteColor()
+        bottomBarContainerView.backgroundColor = NSColor.white
         
         bottomBarTopSeparatorView.disableThemeObserver = true
         bottomBarTopSeparatorView.backgroundColor = LightModeColor.sharedInstance.separatorColor()
         
-        removeAccountButton.enabled = false
+        removeAccountButton.isEnabled = false
         
-        QAccountStore.addObserver(self)
+        QAccountStore.add(self)
         tableView.registerAdapter(AccountsPreferenceTableViewAdapter(), forClass: QAccount.self)
         dataSource.reloadData()
         tableView.reloadData()
@@ -49,7 +49,7 @@ class AccountsPreferenceViewController: NSViewController {
         
         
         containerView.wantsLayer = true
-        containerView.layer?.borderColor = NSColor(calibratedWhite: 164/255.0, alpha: 1).CGColor
+        containerView.layer?.borderColor = NSColor(calibratedWhite: 164/255.0, alpha: 1).cgColor
         containerView.layer?.borderWidth = 1
     }
     
@@ -59,18 +59,18 @@ class AccountsPreferenceViewController: NSViewController {
     
     
     @objc
-    private func didSelectRow() {
+    fileprivate func didSelectRow() {
         let selectedRow = tableView.selectedRow
         if selectedRow >= 0 {
-            removeAccountButton.enabled = true
+            removeAccountButton.isEnabled = true
         } else {
-            removeAccountButton.enabled = false
+            removeAccountButton.isEnabled = false
         }
     }
     
     // MARK: Actions
     
-    @IBAction func didClickRemoveButton(sender: AnyObject) {
+    @IBAction func didClickRemoveButton(_ sender: AnyObject) {
         let selectedRow = tableView.selectedRow
         guard selectedRow >= 0 else { return }
         
@@ -78,39 +78,39 @@ class AccountsPreferenceViewController: NSViewController {
         NSAlert.showWarningMessage("Are you sure you want to remove \"\(account.username)\" account?", onConfirmation: { [weak self] in
             guard let strongSelf = self else { return }
             
-            strongSelf.addAccountButton.enabled = false
-            strongSelf.removeAccountButton.enabled = false
+            strongSelf.addAccountButton.isEnabled = false
+            strongSelf.removeAccountButton.isEnabled = false
             
             QAccountStore.deleteAccount(account)
             
-            strongSelf.addAccountButton.enabled = true
-            strongSelf.removeAccountButton.enabled = true
+            strongSelf.addAccountButton.isEnabled = true
+            strongSelf.removeAccountButton.isEnabled = true
         });
     }
     
-    @IBAction func didClickAddButton(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName(kSRShowAddAccountNotification, object: nil)
+    @IBAction func didClickAddButton(_ sender: AnyObject) {
+        NotificationCenter.default.post(name: NSNotification.Name.srShowAddAccount, object: nil)
     }
 }
 
 extension AccountsPreferenceViewController: QStoreObserver {
     
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
+        DispatchQueue.main.async {
         self.dataSource.reloadData()
         self.tableView.reloadData()
         }
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
+        DispatchQueue.main.async {
             self.dataSource.reloadData()
             self.tableView.reloadData()
         }
     }
     
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
+        DispatchQueue.main.async {
             self.dataSource.reloadData()
             self.tableView.reloadData()
         }
@@ -119,18 +119,18 @@ extension AccountsPreferenceViewController: QStoreObserver {
 }
 
 extension AccountsPreferenceViewController: NSTableViewDataSource {
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return dataSource.numberOfRows
     }
 }
 
 extension AccountsPreferenceViewController: NSTableViewDelegate {
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         return nil;
     }
     
-    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         if row > dataSource.numberOfRows - 1 {
             return nil
         }
@@ -139,7 +139,7 @@ extension AccountsPreferenceViewController: NSTableViewDelegate {
         return self.tableView.adaptForItem(item, row: row, owner: self)
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         let item = dataSource.itemAtIndex(row)
         return self.tableView.heightForItem(item, row: row)
     }

@@ -18,13 +18,13 @@ class ImageViewerViewController: NSViewController {
     @IBOutlet weak var previousImageButton: NSButton!
     
     @IBOutlet weak var arrowContainerView: BaseView!
-    private var pageController: NSPageController?
+    fileprivate var pageController: NSPageController?
     @IBOutlet weak var pageControllerView: BaseView!
-    private let imageCache = NSCache()
+    fileprivate let imageCache = NSCache<AnyObject, AnyObject>()
     var onScrollToPage: ((Int) -> ())?
-    var imageURLs = [NSURL]() {
+    var imageURLs = [URL]() {
         didSet {
-            Analytics.logCustomEventWithName("Show Image Viewer Controller", customAttributes: ["imageURLCount": imageURLs.count])
+            Analytics.logCustomEventWithName("Show Image Viewer Controller", customAttributes: ["imageURLCount": imageURLs.count as AnyObject])
             preCacheImages()
             self.pageControllerView.subviews.forEach { (view) in
                 view.removeFromSuperview()
@@ -35,14 +35,14 @@ class ImageViewerViewController: NSViewController {
             pageController.delegate = self
             pageController.arrangedObjects = self.imageURLs
             pageController.selectedIndex = 0
-            pageController.transitionStyle = .HorizontalStrip
+            pageController.transitionStyle = .horizontalStrip
             
             if (pageController.arrangedObjects.count == 1) {
-                self.nextImageButton.hidden = true
-                self.previousImageButton.hidden  = true
+                self.nextImageButton.isHidden = true
+                self.previousImageButton.isHidden  = true
             } else {
-                self.nextImageButton.hidden = false
-                self.previousImageButton.hidden  = false
+                self.nextImageButton.isHidden = false
+                self.previousImageButton.isHidden  = false
             }
             if let onScrollToPage = self.onScrollToPage {
                 onScrollToPage(1)
@@ -51,64 +51,64 @@ class ImageViewerViewController: NSViewController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ImageViewerViewController.windowDidEndLiveResize(_:)), name: kQWindowDidEndLiveNotificationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ImageViewerViewController.windowWillStartLiveResize(_:)), name: kQWindowWillStartLiveNotificationNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ImageViewerViewController.windowDidEndLiveResize(_:)), name: NSNotification.Name.qWindowDidEndLiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ImageViewerViewController.windowWillStartLiveResize(_:)), name: NSNotification.Name.qWindowWillStartLiveNotification, object: nil)
         
         view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.blackColor().CGColor
+        view.layer?.backgroundColor = NSColor.black.cgColor
         
         configureButtons()
         imageCache.countLimit = 50
         arrowContainerView.disableThemeObserver = true
-        arrowContainerView.backgroundColor = NSColor.clearColor()
+        arrowContainerView.backgroundColor = NSColor.clear
         pageControllerView.disableThemeObserver = true
-        pageControllerView.backgroundColor = NSColor.blackColor()
+        pageControllerView.backgroundColor = NSColor.black
     }
     
-    private func configureButtons() {
-        nextImageButton.image = nextImageButton.image?.imageWithTintColor(NSColor.whiteColor())
-        previousImageButton.image = previousImageButton.image?.imageWithTintColor(NSColor.whiteColor())
+    fileprivate func configureButtons() {
+        nextImageButton.image = nextImageButton.image?.withTintColor(NSColor.white)
+        previousImageButton.image = previousImageButton.image?.withTintColor(NSColor.white)
     }
     
-    func windowWillStartLiveResize(notification: NSNotification) {
-        guard let window = self.view.window, senderWindow = notification.object as? NSWindow where senderWindow == window else { return }
+    func windowWillStartLiveResize(_ notification: Notification) {
+        guard let window = self.view.window, let senderWindow = notification.object as? NSWindow , senderWindow == window else { return }
         //pageWhileResizing = currentPage
     }
     
-    func windowDidEndLiveResize(notification: NSNotification) {
+    func windowDidEndLiveResize(_ notification: Notification) {
         // guard let window = self.view.window, senderWindow = notification.object as? NSWindow where senderWindow == window else { return }
         //  pageWhileResizing = nil
     }
     
-    func scrollViewDidScroll(notification: NSNotification) {
+    func scrollViewDidScroll(_ notification: Notification) {
         //DDLogDebug("scrollOffset \(collectionViewScrollView.documentVisibleRect)")
     }
     
-    private func preCacheImages() {
+    fileprivate func preCacheImages() {
         imageCache.removeAllObjects()
         for url in imageURLs {
-            QImageManager.sharedImageManager().downloadImageURL(url, onCompletion: { [weak self] (image, downloadURL, err) in
+            QImageManager.shared().downloadImageURL(url, onCompletion: { [weak self] (image, downloadURL, err) in
                 guard let image = image else  { return }
-                self?.imageCache.setObject(image, forKey: downloadURL)
+                self?.imageCache.setObject(image, forKey: downloadURL as AnyObject)
                 })
         }
     }
     
     
     // MARK: Actions
-    @IBAction func didClickPreviousButton(sender: AnyObject) {
+    @IBAction func didClickPreviousButton(_ sender: AnyObject) {
         //pageController.selectedIndex = max(0, pageController.selectedIndex - 1)
         guard let pageController = pageController else { return }
         pageController.navigateBack(sender)
     }
     
-    @IBAction func didClickNextButton(sender: AnyObject) {
+    @IBAction func didClickNextButton(_ sender: AnyObject) {
         //pageController.selectedIndex = min(imageURLs.count - 1, pageController.selectedIndex + 1)
         guard let pageController = pageController else { return }
         pageController.navigateForward(sender)
@@ -119,22 +119,22 @@ class ImageViewerViewController: NSViewController {
 
 extension ImageViewerViewController: NSPageControllerDelegate {
     
-    func pageController(pageController: NSPageController, didTransitionToObject object: AnyObject) {
+    func pageController(_ pageController: NSPageController, didTransitionTo object: Any) {
         if let onScrollToPage = onScrollToPage {
             onScrollToPage(pageController.selectedIndex + 1)
         }
     }
     
-    func pageController(pageController: NSPageController, identifierForObject object: AnyObject) -> String {
+    func pageController(_ pageController: NSPageController, identifierFor object: Any) -> String {
         
-        if let url = object as? NSURL, index = imageURLs.indexOf(url) {
+        if let url = object as? URL, let index = imageURLs.index(of: url) {
             return String(index)
         }
         
         return ""
     }
     
-    func pageController(pageController: NSPageController, viewControllerForIdentifier identifier: String) -> NSViewController {
+    func pageController(_ pageController: NSPageController, viewControllerForIdentifier identifier: String) -> NSViewController {
         let index = (identifier as NSString).integerValue
         
         let viewController = ImageViewerItemViewController()
@@ -148,30 +148,30 @@ extension ImageViewerViewController: NSPageControllerDelegate {
         imageViewContainerView.addSubview(imageView)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        [imageView.leftAnchor.constraintEqualToAnchor(imageViewContainerView.leftAnchor),
-            imageView.rightAnchor.constraintEqualToAnchor(imageViewContainerView.rightAnchor),
-            imageView.bottomAnchor.constraintEqualToAnchor(imageViewContainerView.bottomAnchor),
-            imageView.topAnchor.constraintEqualToAnchor(imageViewContainerView.topAnchor)
+        [imageView.leftAnchor.constraint(equalTo: imageViewContainerView.leftAnchor),
+            imageView.rightAnchor.constraint(equalTo: imageViewContainerView.rightAnchor),
+            imageView.bottomAnchor.constraint(equalTo: imageViewContainerView.bottomAnchor),
+            imageView.topAnchor.constraint(equalTo: imageViewContainerView.topAnchor)
             ].forEach { (constraint) in
                 // constraint.priority = NSLayoutPriorityWindowSizeStayPut - 1
-                constraint.active = true
+                constraint.isActive = true
         }
         
         imageView.wantsLayer = true
-        imageView.imageScaling = .ScaleProportionallyUpOrDown
-        imageView.layer?.backgroundColor = NSColor.blackColor().CGColor
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+        imageView.layer?.backgroundColor = NSColor.black.cgColor
         
-        viewController.view.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
+        viewController.view.autoresizingMask = [.width, .height]
         viewController.view.frame = pageController.view.bounds
         viewController.view.wantsLayer = true
         if let viewControllerView = viewController.view as? BaseView {
             viewControllerView.disableThemeObserver = true
         }
-        viewController.view.layer?.backgroundColor = NSColor.blackColor().CGColor
+        viewController.view.layer?.backgroundColor = NSColor.black.cgColor
         
         let url = imageURLs[index]
         
-        if let image = imageCache.objectForKey(url) as? NSImage {
+        if let image = imageCache.object(forKey: url as AnyObject) as? NSImage {
             //let aspectRatio = image.size.width /
             if image.size.width >= image.size.height {
                 image.size = NSSize(width: view.bounds.size.width, height: view.bounds.size.width * (image.size.height / image.size.width) )
@@ -184,29 +184,29 @@ extension ImageViewerViewController: NSPageControllerDelegate {
             }
         } else {
             let progressIndicator = NSProgressIndicator()
-            progressIndicator.style = .SpinningStyle
+            progressIndicator.style = .spinning
             viewController.view.addSubview(progressIndicator)
             progressIndicator.translatesAutoresizingMaskIntoConstraints = false
-            progressIndicator.centerXAnchor.constraintEqualToAnchor(viewController.view.centerXAnchor).active = true
-            progressIndicator.centerYAnchor.constraintEqualToAnchor(viewController.view.centerYAnchor).active = true
-            progressIndicator.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            progressIndicator.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor).isActive = true
+            progressIndicator.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor).isActive = true
+            progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             progressIndicator.startAnimation(nil)
-            QImageManager.sharedImageManager().downloadImageURL(url, onCompletion: { [weak self] (image, downloadURL, err) in
-                guard let strongSelf = self where downloadURL == url && err == nil else {
+            QImageManager.shared().downloadImageURL(url, onCompletion: { [weak self] (image, downloadURL, err) in
+                guard let strongSelf = self , downloadURL == url && err == nil else {
                     DDLogDebug("error downloading \(err)")
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         progressIndicator.stopAnimation(nil)
                         progressIndicator.removeFromSuperview()
                     }
                     return
                 }
                 // let aspectRatio = image.size.width / image.size.height
-                if image.size.width >= image.size.height {
-                    image.size = NSSize(width: strongSelf.view.bounds.size.width, height: strongSelf.view.bounds.size.width * (image.size.height / image.size.width) )
+                if (image?.size.width)! >= (image?.size.height)! {
+                    image?.size = NSSize(width: strongSelf.view.bounds.size.width, height: strongSelf.view.bounds.size.width * ((image?.size.height)! / (image?.size.width)!) )
                 } else {
-                    image.size = NSSize(width: strongSelf.view.bounds.size.height * (image.size.width / image.size.height) , height: strongSelf.view.bounds.size.height)
+                    image?.size = NSSize(width: strongSelf.view.bounds.size.height * ((image?.size.width)! / (image?.size.height)!) , height: strongSelf.view.bounds.size.height)
                 }
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     imageView.image = image
                     progressIndicator.stopAnimation(nil)
                     progressIndicator.removeFromSuperview()

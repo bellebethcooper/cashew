@@ -16,55 +16,55 @@ class RepositorySyncController: NSObject {
 //    @property (nonatomic) SRSourceListRepositorySyncer *sourceListRepositorySyncer;
 //    @property (nonatomic) SRSourceListUserQuerySyncher *sourceListUserQuerySyncher;
     
-    private let sourceListRepositorySyncher = SourceListRepositorySyncer()
-    private let sourceListUserQuerySyncher = SourceListUserQuerySyncher()
+    fileprivate let sourceListRepositorySyncher = SourceListRepositorySyncer()
+    fileprivate let sourceListUserQuerySyncher = SourceListUserQuerySyncher()
     
-    private let operationQueue = NSOperationQueue()
-    private var timer: NSTimer?
-    private let controllerAccessQueue = dispatch_queue_create("co.cashewapp.RepositorySyncController.controllerAccessQueue", DISPATCH_QUEUE_SERIAL)
+    fileprivate let operationQueue = OperationQueue()
+    fileprivate var timer: Timer?
+    fileprivate let controllerAccessQueue = DispatchQueue(label: "co.cashewapp.RepositorySyncController.controllerAccessQueue", attributes: [])
     
-    private var repositoryOperations = [QRepository: NSOperation]()
-    private let accessQueue = dispatch_queue_create("co.cashewapp.RepositorySyncController.accessQueue", DISPATCH_QUEUE_SERIAL)
+    fileprivate var repositoryOperations = [QRepository: Operation]()
+    fileprivate let accessQueue = DispatchQueue(label: "co.cashewapp.RepositorySyncController.accessQueue", attributes: [])
     
-    private let totalSyncsAccessQueue = dispatch_queue_create("co.cashewapp.RepositorySyncController.totalSyncsAccessQueue", DISPATCH_QUEUE_SERIAL)
-    private var totalSyncs: UInt = 0
+    fileprivate let totalSyncsAccessQueue = DispatchQueue(label: "co.cashewapp.RepositorySyncController.totalSyncsAccessQueue", attributes: [])
+    fileprivate var totalSyncs: UInt = 0
     
     deinit {
-        QRepositoryStore.removeObserver(self)
-        QAccountStore.removeObserver(self)
+        QRepositoryStore.remove(self)
+        QAccountStore.remove(self)
     }
     
-    private override init() {
+    fileprivate override init() {
         super.init()
         
-        QRepositoryStore.addObserver(self)
-        QAccountStore.addObserver(self)
+        QRepositoryStore.add(self)
+        QAccountStore.add(self)
         
-        operationQueue.suspended = true
+        operationQueue.isSuspended = true
         operationQueue.maxConcurrentOperationCount = 1
-        operationQueue.underlyingQueue = dispatch_queue_create("co.cashewapp.RepositorySyncController.operationQueue", DISPATCH_QUEUE_CONCURRENT)
+        operationQueue.underlyingQueue = DispatchQueue(label: "co.cashewapp.RepositorySyncController.operationQueue", attributes: DispatchQueue.Attributes.concurrent)
     }
     
-    func start(forced: Bool) {
-        dispatch_sync(controllerAccessQueue) { [weak self] in
+    func start(_ forced: Bool) {
+        controllerAccessQueue.sync { [weak self] in
             // bail out if queue already running
             guard let strongSelf = self else { return }
             
-            if strongSelf.operationQueue.suspended == true {
-                strongSelf.operationQueue.suspended = false
+            if strongSelf.operationQueue.isSuspended == true {
+                strongSelf.operationQueue.isSuspended = false
             }
             
             if strongSelf.timer == nil {
-                strongSelf.timer = NSTimer(timeInterval: 10 * 60, target: strongSelf, selector: #selector(RepositorySyncController.runSyncher(_:)), userInfo: nil, repeats: true)
-                let interval: NSTimeInterval = 10
-                let now = NSDate()
-                let components = NSCalendar.currentCalendar().components([.Era, .Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: now)
-                components.minute += 1
+                strongSelf.timer = Timer(timeInterval: 10 * 60, target: strongSelf, selector: #selector(RepositorySyncController.runSyncher(_:)), userInfo: nil, repeats: true)
+                let interval: TimeInterval = 10
+                let now = Date()
+                var components = (Calendar.current as NSCalendar).components([.era, .year, .month, .day, .hour, .minute, .second], from: now)
+                components.minute! += 1
                 components.second  = 0
-                let nextDate = NSCalendar.currentCalendar().dateFromComponents(components)!
-                strongSelf.timer = NSTimer(fireDate: nextDate, interval: interval * 60, target: strongSelf, selector: #selector(RepositorySyncController.runSyncher(_:)), userInfo: nil, repeats: true)
+                let nextDate = Calendar.current.date(from: components)!
+                strongSelf.timer = Timer(fireAt: nextDate, interval: interval * 60, target: strongSelf, selector: #selector(RepositorySyncController.runSyncher(_:)), userInfo: nil, repeats: true)
                 // [[NSRunLoop mainRunLoop] addTimer:_syncTimer forMode:NSDefaultRunLoopMode];
-                NSRunLoop.mainRunLoop().addTimer(strongSelf.timer!, forMode: NSDefaultRunLoopMode)
+                RunLoop.main.add(strongSelf.timer!, forMode: RunLoopMode.defaultRunLoopMode)
             } else if forced {
                 strongSelf.runSyncerNow(forced: forced)
             }
@@ -72,12 +72,12 @@ class RepositorySyncController: NSObject {
     }
     
     func stop() {
-        dispatch_sync(controllerAccessQueue) { [weak self] in
+        controllerAccessQueue.sync { [weak self] in
             // bail out if queue already stopped
-            guard let strongSelf = self where strongSelf.operationQueue.suspended == false && strongSelf.timer == nil else { return }
+            guard let strongSelf = self , strongSelf.operationQueue.isSuspended == false && strongSelf.timer == nil else { return }
             
             strongSelf.operationQueue.cancelAllOperations()
-            strongSelf.operationQueue.suspended = true
+            strongSelf.operationQueue.isSuspended = true
             if let timer = strongSelf.timer {
                 timer.invalidate()
                 strongSelf.timer = nil
@@ -87,17 +87,17 @@ class RepositorySyncController: NSObject {
     
     
     @objc
-    func runSyncher(timer: NSTimer) {
+    func runSyncher(_ timer: Timer) {
         runSyncerNow(forced: false)
     }
     
-    private func runSyncerNow(forced forced: Bool) {
-        dispatch_sync(totalSyncsAccessQueue) {
+    fileprivate func runSyncerNow(forced: Bool) {
+        totalSyncsAccessQueue.sync {
             let includeAllOperations = (self.totalSyncs % 3 == 0) || forced
             let accounts = QAccountStore.accounts()
-            for account in accounts {
-                let repositories = QRepositoryStore.repositoriesForAccountId(account.identifier)
-                for repository in repositories {
+            for account in accounts! {
+                let repositories = QRepositoryStore.repositories(forAccountId: account.identifier)
+                for repository in repositories! {
                     self.syncRepository(repository, includeAllOperations: includeAllOperations)
                 }
             }
@@ -113,30 +113,30 @@ class RepositorySyncController: NSObject {
         sourceListUserQuerySyncher.sync()
     }
     
-    private func syncRepository(repository: QRepository, includeAllOperations: Bool) {
-        dispatch_sync(accessQueue) {
+    fileprivate func syncRepository(_ repository: QRepository, includeAllOperations: Bool) {
+        accessQueue.sync {
             guard self.repositoryOperations[repository] == nil else { return }
-            let isFullSync: NSNumber = NSNumber(bool: !repository.initialSyncCompleted)
+            let isFullSync: NSNumber = NSNumber(value: !repository.initialSyncCompleted)
             
             let issueSyncOperation = RepositoryIssueSyncOperation(repository: repository)
             self.repositoryOperations[repository] = issueSyncOperation
             
             issueSyncOperation.completionBlock = { [weak self] in
                 guard let strongSelf = self else { return }
-                dispatch_sync(strongSelf.accessQueue) {
+                strongSelf.accessQueue.sync {
                     strongSelf.repositoryOperations[repository] = nil
                     
                     if QAccountStore.isDeletedAccount(repository.account) {
                         QAccountStore.deleteAccount(repository.account)
                         
                     } else if QRepositoryStore.isDeletedRepository(repository) {
-                        QRepositoryStore.deleteRepository(repository)
+                        QRepositoryStore.delete(repository)
                     }
-                    NSNotificationCenter.defaultCenter().postNotificationName(kDidFinishSynchingRepositoryNotification, object: repository, userInfo: ["isFullSync" : isFullSync])
+                    NotificationCenter.default.post(name: NSNotification.Name.didFinishSynchingRepository, object: repository, userInfo: ["isFullSync" : isFullSync])
                 }
             }
             
-            NSNotificationCenter.defaultCenter().postNotificationName(kWillStartSynchingRepositoryNotification, object: repository, userInfo: ["isFullSync" : isFullSync])
+            NotificationCenter.default.post(name: NSNotification.Name.willStartSynchingRepository, object: repository, userInfo: ["isFullSync" : isFullSync])
             if includeAllOperations {
                 let milestoneOperation = RepositoryMilestoneSyncOperation(repository: repository)
                 let labelOperation = RepositoryLabelsSyncOperation(repository: repository)
@@ -159,27 +159,27 @@ class RepositorySyncController: NSObject {
 
 extension RepositorySyncController: QStoreObserver {
     
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
         
-        if let record = record as? QRepository where store == QRepositoryStore.self {
+        if let record = record as? QRepository , store == QRepositoryStore.self {
             syncRepository(record, includeAllOperations: true)
         }
     }
     
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
         
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
         
-        if let record = record as? QRepository where store == QRepositoryStore.self {
-            dispatch_sync(self.accessQueue) {
+        if let record = record as? QRepository , store == QRepositoryStore.self {
+            self.accessQueue.sync {
                 guard let operation = self.repositoryOperations[record] else { return }
                 operation.cancel()
             }
             
-        } else if let record = record as? QAccount where store == QAccountStore.self {
-            dispatch_sync(self.accessQueue) {
+        } else if let record = record as? QAccount , store == QAccountStore.self {
+            (self.accessQueue).sync {
                 self.repositoryOperations.forEach({ (repository, operation) in
                     if repository.account == record {
                         operation.cancel()

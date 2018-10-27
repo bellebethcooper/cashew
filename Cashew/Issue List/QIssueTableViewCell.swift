@@ -27,7 +27,7 @@ private class IssueTableViewCellTextAttachmentCell: NSTextAttachmentCell {
 
 class QIssueTableViewCellCircleImageView: NSImageView {
     
-    private var roundedCornerMask: CALayer?
+    fileprivate var roundedCornerMask: CALayer?
     
     var shouldAllowVibrancy = true
     
@@ -38,13 +38,13 @@ class QIssueTableViewCellCircleImageView: NSImageView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        let bezierPath = NSBezierPath(roundedRect: bounds, xRadius: CGRectGetWidth(bounds), yRadius: CGRectGetHeight(bounds))
+        let bezierPath = NSBezierPath(roundedRect: bounds, xRadius: bounds.width, yRadius: bounds.height)
         let maskLayer = CAShapeLayer()
         wantsLayer = true
         maskLayer.frame = bounds
-        maskLayer.fillColor = NSColor.whiteColor().CGColor
+        maskLayer.fillColor = NSColor.white.cgColor
         maskLayer.path = bezierPath.toCGPath()
-        maskLayer.backgroundColor = NSColor.clearColor().CGColor
+        maskLayer.backgroundColor = NSColor.clear.cgColor
         roundedCornerMask = maskLayer
         self.layer?.mask = maskLayer //addSublayer(maskLayer)
         CATransaction.commit()
@@ -65,21 +65,21 @@ class QIssueTableViewCell: NSTableRowView {
     @IBOutlet weak var textContainerLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var readCircleView: BaseView!
     @IBOutlet weak var unassignedImageView: QIssueTableViewCellCircleImageView!
-    @IBOutlet weak private var openIssueImageView: QIssueTableViewCellCircleImageView!
-    @IBOutlet weak private var closedIssueImageView: QIssueTableViewCellCircleImageView!
-    @IBOutlet weak private var assigneeImageView: BaseView!
-    @IBOutlet weak private var titleLabel: IssueTableViewCellTextField!
-    @IBOutlet weak private var subtitleLabel: IssueTableViewCellTextField!
-    @IBOutlet weak private var updatedAtLabel: IssueTableViewCellTextField!
-    @IBOutlet weak private var bottomLineView: BaseSeparatorView!
-    @IBOutlet weak private var labelContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak private var labelsContainerView: BaseView!
-    @IBOutlet weak private var titlesContainerView: BaseView!
+    @IBOutlet weak fileprivate var openIssueImageView: QIssueTableViewCellCircleImageView!
+    @IBOutlet weak fileprivate var closedIssueImageView: QIssueTableViewCellCircleImageView!
+    @IBOutlet weak fileprivate var assigneeImageView: BaseView!
+    @IBOutlet weak fileprivate var titleLabel: IssueTableViewCellTextField!
+    @IBOutlet weak fileprivate var subtitleLabel: IssueTableViewCellTextField!
+    @IBOutlet weak fileprivate var updatedAtLabel: IssueTableViewCellTextField!
+    @IBOutlet weak fileprivate var bottomLineView: BaseSeparatorView!
+    @IBOutlet weak fileprivate var labelContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak fileprivate var labelsContainerView: BaseView!
+    @IBOutlet weak fileprivate var titlesContainerView: BaseView!
     
-    private var viewType: LayoutPreference = NSUserDefaults.layoutModePreference() {
+    fileprivate var viewType: LayoutPreference = UserDefaults.layoutModePreference() {
         didSet {
             switch viewType {
-            case .NoAssigneeImage:
+            case .noAssigneeImage:
                 transitionToCompactView()
             default:
                 transitionToStandardView()
@@ -87,34 +87,34 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
-    private var labelsView = QIssueLabelContainerView()
-    private var mouseTrackingArea: NSTrackingArea?
-    private var issueStatusTooltipTag: NSToolTipTag?
-    private var assigneeTooltipTag: NSToolTipTag?
-    private var assigneeLeftEdgeTooltipTag: NSToolTipTag?
+    fileprivate var labelsView = QIssueLabelContainerView()
+    fileprivate var mouseTrackingArea: NSTrackingArea?
+    fileprivate var issueStatusTooltipTag: NSView.ToolTipTag?
+    fileprivate var assigneeTooltipTag: NSView.ToolTipTag?
+    fileprivate var assigneeLeftEdgeTooltipTag: NSView.ToolTipTag?
     
     // NSColor(red: 245/255.0 , green: 248/255.0 , blue: 247/255.0 , alpha: 1);
-    private static let separatorLineHeight: CGFloat = 1.0
+    fileprivate static let separatorLineHeight: CGFloat = 1.0
     
-    private static let titleLabelFont = NSFont.systemFontOfSize(13, weight: NSFontWeightBold)
-    private static let subtitleFont = NSFont.systemFontOfSize(12, weight: NSFontWeightRegular)
+    fileprivate static let titleLabelFont = NSFont.systemFont(ofSize: 13, weight: .bold)
+    fileprivate static let subtitleFont = NSFont.systemFont(ofSize: 12, weight: .regular)
     
-    private static let subtitleRepoMilestoneFont = NSFont.systemFontOfSize(11, weight: NSFontWeightMedium)
+    fileprivate static let subtitleRepoMilestoneFont = NSFont.systemFont(ofSize: 11, weight: .medium)
     
-    private static let selectionColor = NSColor(calibratedRed: 62/255.0, green: 96/255.0, blue: 218/255.0, alpha: 1)
+    fileprivate static let selectionColor = NSColor(calibratedRed: 62/255.0, green: 96/255.0, blue: 218/255.0, alpha: 1)
     
-    private static let labelsViewHeight: CGFloat = 17.0
+    fileprivate static let labelsViewHeight: CGFloat = 17.0
     
-    private static let textContainerLeftPaddingWithImage: CGFloat = 80
-    private static let textContainerLeftPaddingWithoutImage: CGFloat = 35
+    fileprivate static let textContainerLeftPaddingWithImage: CGFloat = 80
+    fileprivate static let textContainerLeftPaddingWithoutImage: CGFloat = 35
     
-    private static let textContainerTopPaddingCompactMode: CGFloat = 12
-    private static let textContainerTopPaddingStandardMode: CGFloat = 55
+    fileprivate static let textContainerTopPaddingCompactMode: CGFloat = 12
+    fileprivate static let textContainerTopPaddingStandardMode: CGFloat = 55
     
-    private static let closedImageViewTopPaddingStandardMode: CGFloat = 55
+    fileprivate static let closedImageViewTopPaddingStandardMode: CGFloat = 55
     
-    private static let closedImageViewLeftPaddingCompactMode: CGFloat = 12
-    private static let closedImageViewLeftPaddingStandardMode: CGFloat = 48
+    fileprivate static let closedImageViewLeftPaddingCompactMode: CGFloat = 12
+    fileprivate static let closedImageViewLeftPaddingStandardMode: CGFloat = 48
     
     
     var shouldAllowVibrancy: Bool = true {
@@ -141,9 +141,9 @@ class QIssueTableViewCell: NSTableRowView {
     }
     
     deinit {
-        QIssueStore.removeObserver(self)
-        QIssueNotificationStore.removeObserver(self)
-        NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: NSUserDefaults.PreferenceConstant.layoutMode) //, options: .New, context: nil)
+        QIssueStore.remove(self)
+        QIssueNotificationStore.remove(self)
+        UserDefaults.standard.removeObserver(self, forKeyPath: UserDefaults.PreferenceConstant.layoutMode) //, options: .New, context: nil)
     }
     
     override init(frame frameRect: NSRect) {
@@ -156,48 +156,48 @@ class QIssueTableViewCell: NSTableRowView {
         self.setup()
     }
     
-    private func transitionToStandardView() {
+    fileprivate func transitionToStandardView() {
         if let closedImageViewCenterYConstraint = closedImageViewCenterYConstraint {
-            closedImageViewCenterYConstraint.active = false
+            closedImageViewCenterYConstraint.isActive = false
         }
         
         textContainerLeftConstraint.constant = QIssueTableViewCell.textContainerLeftPaddingWithImage
-        closedImageViewTopConstraint.active = true
+        closedImageViewTopConstraint.isActive = true
         closedImageViewLeftConstraint.constant = QIssueTableViewCell.closedImageViewLeftPaddingStandardMode
         
         updateAssigneViews()
     }
     
-    private func transitionToCompactView() {
+    fileprivate func transitionToCompactView() {
         textContainerLeftConstraint.constant = QIssueTableViewCell.textContainerLeftPaddingWithoutImage
         //closedImageViewTopConstraint.constant = QIssueTableViewCell.closedImageViewTopPaddingCompactMode
         closedImageViewLeftConstraint.constant = QIssueTableViewCell.closedImageViewLeftPaddingCompactMode
         
-        closedImageViewTopConstraint.active = false
-        closedImageViewCenterYConstraint = closedIssueImageView.centerYAnchor.constraintEqualToAnchor(centerYAnchor)
+        closedImageViewTopConstraint.isActive = false
+        closedImageViewCenterYConstraint = closedIssueImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
         
         if let closedImageViewCenterYConstraint = closedImageViewCenterYConstraint {
-            closedImageViewCenterYConstraint.active = true
+            closedImageViewCenterYConstraint.isActive = true
         }
         
         updateAssigneViews()
     }
     
-    private func setup() {
-        QIssueStore.addObserver(self)
-        QIssueNotificationStore.addObserver(self)
+    fileprivate func setup() {
+        QIssueStore.add(self)
+        QIssueNotificationStore.add(self)
         
-        NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: NSUserDefaults.PreferenceConstant.layoutMode, options: .New, context: nil)
+        UserDefaults.standard.addObserver(self, forKeyPath: UserDefaults.PreferenceConstant.layoutMode, options: .new, context: nil)
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if keyPath == NSUserDefaults.PreferenceConstant.layoutMode {
-            viewType = NSUserDefaults.layoutModePreference()
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == UserDefaults.PreferenceConstant.layoutMode {
+            viewType = UserDefaults.layoutModePreference()
         }
     }
     
-    override func drawSelectionInRect(dirtyRect: NSRect) {
-        if self.selectionHighlightStyle != .None {
+    override func drawSelection(in dirtyRect: NSRect) {
+        if self.selectionHighlightStyle != .none {
             let rect = NSInsetRect(self.bounds, 0, 0)
             QIssueTableViewCell.selectionColor.setFill()
             let selectionPath = NSBezierPath(roundedRect: rect, xRadius: 0, yRadius: 0)
@@ -207,10 +207,10 @@ class QIssueTableViewCell: NSTableRowView {
     
     var titleLabelColor: NSColor {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return LightModeColor.sharedInstance.foregroundColor()
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return DarkModeColor.sharedInstance.foregroundColor()
             }
             return NSColor(calibratedWhite: 0, alpha: 0.80)
@@ -219,10 +219,10 @@ class QIssueTableViewCell: NSTableRowView {
     
     var subtitleLabelColor: NSColor {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return LightModeColor.sharedInstance.foregroundSecondaryColor()
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return DarkModeColor.sharedInstance.foregroundSecondaryColor()
             }
             
@@ -235,10 +235,10 @@ class QIssueTableViewCell: NSTableRowView {
     
     var subtitleRepoMilestoneColor: NSColor {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return LightModeColor.sharedInstance.foregroundTertiaryColor()
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return DarkModeColor.sharedInstance.foregroundTertiaryColor()
             }
             
@@ -246,15 +246,15 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
-    private static let repoMilestoneSelectedDarkColor = NSColor(calibratedWhite: 200/255.0, alpha: 1.0)
-    private static let repoMilestoneSelectedLightColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
+    fileprivate static let repoMilestoneSelectedDarkColor = NSColor(calibratedWhite: 200/255.0, alpha: 1.0)
+    fileprivate static let repoMilestoneSelectedLightColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
     
     var subtitleRepoMilestoneSelectedColor: NSColor {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return QIssueTableViewCell.repoMilestoneSelectedLightColor
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return QIssueTableViewCell.repoMilestoneSelectedDarkColor
             }
             
@@ -263,85 +263,85 @@ class QIssueTableViewCell: NSTableRowView {
     }
     
     
-    private static let imageCache: [String: NSImage] = {
+    fileprivate static let imageCache: [String: NSImage] = {
         var dict = [String: NSImage]()
         
-        let repoImage = NSImage(named: "repo")!
+        let repoImage = NSImage(named: NSImage.Name(rawValue: "repo"))!
         repoImage.size = NSSize(width: 9.0, height: 12.0)
         
-        let milestoneImage = NSImage(named: "milestone")!
+        let milestoneImage = NSImage(named: NSImage.Name(rawValue: "milestone"))!
         milestoneImage.size = NSSize(width: 10.0, height: 12.0)
         
-        dict["repo-small-light-selected"] = repoImage.imageWithTintColor(QIssueTableViewCell.repoMilestoneSelectedLightColor)
-        dict["repo-small-light"] = repoImage.imageWithTintColor(LightModeColor.sharedInstance.foregroundTertiaryColor())
+        dict["repo-small-light-selected"] = repoImage.withTintColor(QIssueTableViewCell.repoMilestoneSelectedLightColor)
+        dict["repo-small-light"] = repoImage.withTintColor(LightModeColor.sharedInstance.foregroundTertiaryColor())
         
-        dict["repo-small-dark-selected"] = repoImage.imageWithTintColor(QIssueTableViewCell.repoMilestoneSelectedDarkColor)
-        dict["repo-small-dark"] = repoImage.imageWithTintColor(DarkModeColor.sharedInstance.foregroundTertiaryColor())
+        dict["repo-small-dark-selected"] = repoImage.withTintColor(QIssueTableViewCell.repoMilestoneSelectedDarkColor)
+        dict["repo-small-dark"] = repoImage.withTintColor(DarkModeColor.sharedInstance.foregroundTertiaryColor())
         
-        dict["milestone-small-light-selected"] = milestoneImage.imageWithTintColor(QIssueTableViewCell.repoMilestoneSelectedLightColor)
-        dict["milestone-small-light"] = milestoneImage.imageWithTintColor(LightModeColor.sharedInstance.foregroundTertiaryColor())
+        dict["milestone-small-light-selected"] = milestoneImage.withTintColor(QIssueTableViewCell.repoMilestoneSelectedLightColor)
+        dict["milestone-small-light"] = milestoneImage.withTintColor(LightModeColor.sharedInstance.foregroundTertiaryColor())
         
-        dict["milestone-small-dark-selected"] = milestoneImage.imageWithTintColor(QIssueTableViewCell.repoMilestoneSelectedDarkColor)
-        dict["milestone-small-dark"] = milestoneImage.imageWithTintColor(DarkModeColor.sharedInstance.foregroundTertiaryColor())
+        dict["milestone-small-dark-selected"] = milestoneImage.withTintColor(QIssueTableViewCell.repoMilestoneSelectedDarkColor)
+        dict["milestone-small-dark"] = milestoneImage.withTintColor(DarkModeColor.sharedInstance.foregroundTertiaryColor())
         
         return dict
     }()
     
-    private var repoImage: NSImage {
+    fileprivate var repoImage: NSImage {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return QIssueTableViewCell.imageCache["repo-small-light"]!
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return QIssueTableViewCell.imageCache["repo-small-dark"]!
             }
             
-            return NSImage(named: "repo-small")!
+            return NSImage(named: NSImage.Name(rawValue: "repo-small"))!
         }
     }
     
-    private var selectedRepoImage: NSImage {
+    fileprivate var selectedRepoImage: NSImage {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return QIssueTableViewCell.imageCache["repo-small-light-selected"]!
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return QIssueTableViewCell.imageCache["repo-small-dark-selected"]!
             }
             
-            return NSImage(named: "repo-small-selected")!
+            return NSImage(named: NSImage.Name(rawValue: "repo-small-selected"))!
         }
     }
     
-    private var milestoneImage: NSImage {
+    fileprivate var milestoneImage: NSImage {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return QIssueTableViewCell.imageCache["milestone-small-light"]!
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return QIssueTableViewCell.imageCache["milestone-small-dark"]!
             }
             
-            return NSImage(named: "milestone-small")!
+            return NSImage(named: NSImage.Name(rawValue: "milestone-small"))!
         }
     }
     
-    private var selectedMilestoneImage: NSImage {
+    fileprivate var selectedMilestoneImage: NSImage {
         get {
-            let themeMode = NSUserDefaults.themeMode()
-            if themeMode == .Light {
+            let themeMode = UserDefaults.themeMode()
+            if themeMode == .light {
                 return QIssueTableViewCell.imageCache["milestone-small-light-selected"]!
-            } else if themeMode == .Dark {
+            } else if themeMode == .dark {
                 return QIssueTableViewCell.imageCache["milestone-small-dark-selected"]!
             }
             
-            return NSImage(named: "milestone-small-selected")!
+            return NSImage(named: NSImage.Name(rawValue: "milestone-small-selected"))!
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            if selected {
+            if isSelected {
                 titleLabel.textColor = titleLabelSelectedColor
                 updatedAtLabel.textColor = subtitleRepoMilestoneSelectedColor
                 readCircleView.backgroundColor = titleLabel.textColor
@@ -351,7 +351,7 @@ class QIssueTableViewCell: NSTableRowView {
                 updatedAtLabel.textColor = subtitleRepoMilestoneColor
                 readCircleView.backgroundColor = CashewColor.notificationDotColor()
             }
-            bottomLineView.selected = selected
+            bottomLineView.selected = isSelected
             
             subtitleLabel.attributedStringValue = subtitleTextForCurrentIssue()
             updateLabelsModeBasedOnSelectionAndHover()
@@ -369,7 +369,7 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
-    private func didSetIssue() {
+    fileprivate func didSetIssue() {
         
         guard let anIssue = self.issue else {
             subtitleLabel.stringValue = ""
@@ -378,7 +378,7 @@ class QIssueTableViewCell: NSTableRowView {
             assigneeImageView.setImageURL(nil)
             labelsView.labels = nil
             labelContainerHeightConstraint.constant = 0.0
-            readCircleView.hidden = true
+            readCircleView.isHidden = true
             return
         }
         
@@ -411,22 +411,23 @@ class QIssueTableViewCell: NSTableRowView {
         
         let subtitle = subtitleTextForCurrentIssue()
         subtitleLabel.attributedStringValue = subtitle
+        let updated = anIssue.updatedAt as NSDate
         
-        updatedAtLabel.stringValue = anIssue.updatedAt.timeAgoSimpleForWeekOrLessAndUserShortForm(true)
+        updatedAtLabel.stringValue = updated.timeAgoSimple(forWeekOrLessAndUserShortForm: true)
         titleLabel.stringValue = anIssue.title
         
         updateAssigneViews()
         
         if anIssue.state == "closed" {
-            openIssueImageView.hidden = true
-            closedIssueImageView.hidden = false
+            openIssueImageView.isHidden = true
+            closedIssueImageView.isHidden = false
         } else if anIssue.state == "open" {
-            openIssueImageView.hidden = false
-            closedIssueImageView.hidden = true
+            openIssueImageView.isHidden = false
+            closedIssueImageView.isHidden = true
         }
         
         labelsView.labels = anIssue.labels
-        if let labels = labelsView.labels where labels.count > 0 {
+        if let labels = labelsView.labels , labels.count > 0 {
             labelContainerHeightConstraint.constant = QIssueTableViewCell.labelsViewHeight
         } else {
             labelContainerHeightConstraint.constant = 0.0
@@ -434,9 +435,9 @@ class QIssueTableViewCell: NSTableRowView {
         
         
         if let notification = anIssue.notification {
-            readCircleView.hidden = notification.read
+            readCircleView.isHidden = notification.read
         } else {
-            readCircleView.hidden = true
+            readCircleView.isHidden = true
         }
         
         openIssueImageView.image = anIssue.type == "pull_request" ? QView.openPullRequestImage() : QView.openIssueImage();
@@ -446,71 +447,71 @@ class QIssueTableViewCell: NSTableRowView {
             let openPR = QView.openPullRequestImage()
             let closedPR = QView.closedPullRequestImage()
             
-            openPR.size = NSMakeSize(8, 10)
-            closedPR.size = NSMakeSize(8, 10)
+            openPR?.size = NSMakeSize(8, 10)
+            closedPR?.size = NSMakeSize(8, 10)
             openIssueImageView.image = openPR
             closedIssueImageView.image = closedPR
-            openIssueImageView.imageScaling = .ScaleNone
-            closedIssueImageView.imageScaling = .ScaleNone
-            openIssueImageView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 192/255.0, blue: 44/255.0, alpha: 1).CGColor
-            closedIssueImageView.layer?.borderColor = NSColor(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).CGColor
+            openIssueImageView.imageScaling = .scaleNone
+            closedIssueImageView.imageScaling = .scaleNone
+            openIssueImageView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 192/255.0, blue: 44/255.0, alpha: 1).cgColor
+            closedIssueImageView.layer?.borderColor = NSColor(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
         } else {
             openIssueImageView.image = QView.openIssueImage();
             closedIssueImageView.image = QView.closedIssueImage();
-            openIssueImageView.imageScaling = .ScaleProportionallyUpOrDown
-            closedIssueImageView.imageScaling = .ScaleProportionallyUpOrDown
-            openIssueImageView.layer?.borderColor = CashewColor.backgroundColor().CGColor
-            closedIssueImageView.layer?.borderColor = CashewColor.backgroundColor().CGColor
+            openIssueImageView.imageScaling = .scaleProportionallyUpOrDown
+            closedIssueImageView.imageScaling = .scaleProportionallyUpOrDown
+            openIssueImageView.layer?.borderColor = CashewColor.backgroundColor().cgColor
+            closedIssueImageView.layer?.borderColor = CashewColor.backgroundColor().cgColor
         }
     }
     
-    private func updateAssigneViews() {
+    fileprivate func updateAssigneViews() {
         switch viewType {
-        case .NoAssigneeImage:
-            self.assigneeImageView.hidden = true
-            self.unassignedImageView.hidden = true
+        case .noAssigneeImage:
+            self.assigneeImageView.isHidden = true
+            self.unassignedImageView.isHidden = true
         default:
             if let anAssignee = issue?.assignee {
                 self.assigneeImageView.setImageURL(anAssignee.avatarURL)
-                self.assigneeImageView.hidden = false
-                self.unassignedImageView.hidden = true
+                self.assigneeImageView.isHidden = false
+                self.unassignedImageView.isHidden = true
             } else {
                 self.assigneeImageView.setImageURL(nil)
-                self.assigneeImageView.hidden = true
-                self.unassignedImageView.hidden = false
+                self.assigneeImageView.isHidden = true
+                self.unassignedImageView.isHidden = false
             }
         }
     }
     
-    private func subtitleTextForCurrentIssue() -> NSAttributedString {
+    fileprivate func subtitleTextForCurrentIssue() -> NSAttributedString {
         
         guard let issue = issue else { return NSAttributedString(string: "") }
         
-        let subtitleTextColor = selected ? subtitleLabelSelectedColor : subtitleLabelColor
+        let subtitleTextColor = isSelected ? subtitleLabelSelectedColor : subtitleLabelColor
         let subtitleAttrString = NSMutableAttributedString(string: "#\(issue.number) • Opened \(issue.createdAtTimeAgo) by \(issue.authorUsername)   ")
         let subtitleRange = NSMakeRange(0, subtitleAttrString.length)
-        subtitleAttrString.addAttribute(NSFontAttributeName, value: QIssueTableViewCell.subtitleFont, range: subtitleRange)
-        subtitleAttrString.addAttribute(NSForegroundColorAttributeName, value: subtitleTextColor, range: subtitleRange)
+        subtitleAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleFont, range: subtitleRange)
+        subtitleAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: subtitleTextColor, range: subtitleRange)
         
         // repo
-        let repoMilestoneTextColor = selected ? subtitleRepoMilestoneSelectedColor : subtitleRepoMilestoneColor
+        let repoMilestoneTextColor = isSelected ? subtitleRepoMilestoneSelectedColor : subtitleRepoMilestoneColor
         let repoImageAttachment = NSTextAttachment()
         let attachmentCell = IssueTableViewCellTextAttachmentCell()
         attachmentCell.yOffset = 3
         repoImageAttachment.attachmentCell = attachmentCell
         
-        let img = selected ? selectedRepoImage : repoImage
+        let img = isSelected ? selectedRepoImage : repoImage
         attachmentCell.image = img
         
         let repoAttrString = NSMutableAttributedString()
-        repoAttrString.appendAttributedString(NSAttributedString(attachment: repoImageAttachment))
-        repoAttrString.appendAttributedString(NSAttributedString(string: " \(issue.repositoryName)"))
+        repoAttrString.append(NSAttributedString(attachment: repoImageAttachment))
+        repoAttrString.append(NSAttributedString(string: " \(issue.repositoryName)"))
         
         
         let repoRange = NSMakeRange(0, repoAttrString.length)
-        repoAttrString.addAttribute(NSFontAttributeName, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: repoRange)
-        repoAttrString.addAttribute(NSForegroundColorAttributeName, value: repoMilestoneTextColor, range: repoRange)
-        subtitleAttrString.appendAttributedString(repoAttrString)
+        repoAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: repoRange)
+        repoAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: repoMilestoneTextColor, range: repoRange)
+        subtitleAttrString.append(repoAttrString)
         
         // milestone
         if let _ = issue.milestone {
@@ -519,23 +520,23 @@ class QIssueTableViewCell: NSTableRowView {
             attachmentCell.yOffset = 0
             milestoneImageAttachment.attachmentCell = attachmentCell
             
-            let img = selected ? selectedMilestoneImage : milestoneImage
+            let img = isSelected ? selectedMilestoneImage : milestoneImage
             attachmentCell.image = img
             
             let milestoneAttrString = NSMutableAttributedString()
-            milestoneAttrString.appendAttributedString(NSAttributedString(string: "  "))
-            milestoneAttrString.appendAttributedString(NSAttributedString(attachment: milestoneImageAttachment))
-            milestoneAttrString.appendAttributedString(NSAttributedString(string: " \(issue.milestoneTitle)"))
+            milestoneAttrString.append(NSAttributedString(string: "  "))
+            milestoneAttrString.append(NSAttributedString(attachment: milestoneImageAttachment))
+            milestoneAttrString.append(NSAttributedString(string: " \(issue.milestoneTitle)"))
             
             let milestoneRange = NSMakeRange(0, milestoneAttrString.length)
-            milestoneAttrString.addAttribute(NSFontAttributeName, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: milestoneRange)
-            milestoneAttrString.addAttribute(NSForegroundColorAttributeName, value: repoMilestoneTextColor, range: milestoneRange)
-            subtitleAttrString.appendAttributedString(milestoneAttrString)
+            milestoneAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: milestoneRange)
+            milestoneAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: repoMilestoneTextColor, range: milestoneRange)
+            subtitleAttrString.append(milestoneAttrString)
         }
         
         let paragaphStyle = NSMutableParagraphStyle()
-        paragaphStyle.lineBreakMode = .ByTruncatingTail;
-        subtitleAttrString.addAttribute(NSParagraphStyleAttributeName, value: paragaphStyle, range: NSMakeRange(0, subtitleAttrString.length))
+        paragaphStyle.lineBreakMode = .byTruncatingTail;
+        subtitleAttrString.addAttribute(kCTParagraphStyleAttributeName as NSAttributedStringKey, value: paragaphStyle, range: NSMakeRange(0, subtitleAttrString.length))
         
         return subtitleAttrString
     }
@@ -547,67 +548,67 @@ class QIssueTableViewCell: NSTableRowView {
         
         readCircleView.disableThemeObserver = true
         readCircleView.cornerRadius = readCircleView.frame.height / 2.0
-        readCircleView.hidden = true
-        readCircleView.backgroundColor = NSColor.redColor()
+        readCircleView.isHidden = true
+        readCircleView.backgroundColor = NSColor.red
         readCircleView.toolTip = "Unread"
         
         assigneeImageView.disableThemeObserver = true
-        assigneeImageView.backgroundColor = NSColor.clearColor()
-        self.assigneeImageView.cornerRadius = CGRectGetHeight(self.assigneeImageView.frame) / 2.0
+        assigneeImageView.backgroundColor = NSColor.clear
+        self.assigneeImageView.cornerRadius = self.assigneeImageView.frame.height / 2.0
         //self.assigneeImageView.backgroundColor = NSColor(white: 222/255.0, alpha: 1)
         
         self.openIssueImageView.wantsLayer = true
-        self.openIssueImageView.layer?.borderColor = NSColor.whiteColor().CGColor
+        self.openIssueImageView.layer?.borderColor = NSColor.white.cgColor
         self.openIssueImageView.layer?.borderWidth = 1
-        self.openIssueImageView.layer?.backgroundColor = NSColor.whiteColor().CGColor
-        self.openIssueImageView.layer?.cornerRadius = CGRectGetHeight(self.openIssueImageView.frame) / 2.0
+        self.openIssueImageView.layer?.backgroundColor = NSColor.white.cgColor
+        self.openIssueImageView.layer?.cornerRadius = self.openIssueImageView.frame.height / 2.0
         
         self.closedIssueImageView.wantsLayer = true
-        self.closedIssueImageView.layer?.borderColor = NSColor.whiteColor().CGColor
+        self.closedIssueImageView.layer?.borderColor = NSColor.white.cgColor
         self.closedIssueImageView.layer?.borderWidth = 1
-        self.closedIssueImageView.layer?.backgroundColor = NSColor.whiteColor().CGColor
-        self.closedIssueImageView.layer?.cornerRadius = CGRectGetHeight(self.closedIssueImageView.frame) / 2.0
+        self.closedIssueImageView.layer?.backgroundColor = NSColor.white.cgColor
+        self.closedIssueImageView.layer?.cornerRadius = self.closedIssueImageView.frame.height / 2.0
         
         
         self.unassignedImageView.image = QView.defaultAvatarImage()
         self.unassignedImageView.wantsLayer = true
         self.unassignedImageView.layer?.masksToBounds = true
-        self.unassignedImageView.layer?.backgroundColor = NSColor(white: 222/255.0, alpha: 1).CGColor
+        self.unassignedImageView.layer?.backgroundColor = NSColor(white: 222/255.0, alpha: 1).cgColor
         CATransaction.commit()
-        self.unassignedImageView.layer?.cornerRadius = CGRectGetHeight(self.assigneeImageView.frame) / 2.0
+        self.unassignedImageView.layer?.cornerRadius = self.assigneeImageView.frame.height / 2.0
         
         
         labelsView.translatesAutoresizingMaskIntoConstraints = false
         labelsContainerView.addSubview(labelsView)
-        labelsView.leftAnchor.constraintEqualToAnchor(labelsContainerView.leftAnchor).active = true
-        labelsView.rightAnchor.constraintEqualToAnchor(labelsContainerView.rightAnchor).active = true
-        labelsView.topAnchor.constraintEqualToAnchor(labelsContainerView.topAnchor).active = true
-        labelsView.bottomAnchor.constraintEqualToAnchor(labelsContainerView.bottomAnchor).active = true
+        labelsView.leftAnchor.constraint(equalTo: labelsContainerView.leftAnchor).isActive = true
+        labelsView.rightAnchor.constraint(equalTo: labelsContainerView.rightAnchor).isActive = true
+        labelsView.topAnchor.constraint(equalTo: labelsContainerView.topAnchor).isActive = true
+        labelsView.bottomAnchor.constraint(equalTo: labelsContainerView.bottomAnchor).isActive = true
         
         
-        self.labelsContainerView.backgroundColor = NSColor.clearColor()
+        self.labelsContainerView.backgroundColor = NSColor.clear
         
         
         titleLabel.font = QIssueTableViewCell.titleLabelFont
         
         titlesContainerView.disableThemeObserver = true
-        titlesContainerView.backgroundColor = NSColor.clearColor()
+        titlesContainerView.backgroundColor = NSColor.clear
         labelsContainerView.disableThemeObserver = true
-        labelsContainerView.backgroundColor = NSColor.clearColor()
+        labelsContainerView.backgroundColor = NSColor.clear
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else {
                 return;
             }
-            if mode == .Light {
-                let color = LightModeColor.sharedInstance.backgroundColor().CGColor
+            if mode == .light {
+                let color = LightModeColor.sharedInstance.backgroundColor().cgColor
                 self?.openIssueImageView.layer?.borderColor = color
                 self?.openIssueImageView.layer?.backgroundColor = color
                 self?.closedIssueImageView.layer?.borderColor = color
                 self?.closedIssueImageView.layer?.backgroundColor = color
                 self?.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
                 
-            } else if mode == .Dark {
-                let color = DarkModeColor.sharedInstance.backgroundColor().CGColor
+            } else if mode == .dark {
+                let color = DarkModeColor.sharedInstance.backgroundColor().cgColor
                 self?.openIssueImageView.layer?.borderColor = color
                 self?.openIssueImageView.layer?.backgroundColor = color
                 self?.closedIssueImageView.layer?.borderColor = color
@@ -616,12 +617,12 @@ class QIssueTableViewCell: NSTableRowView {
             }
             
             self?.assigneeImageView.backgroundColor = self?.backgroundColor
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
             //strongSelf.unassignedImageView.layer?.borderColor = CashewColor.foregroundSecondaryColor().CGColor
         }
         
-        if viewType == .NoAssigneeImage {
+        if viewType == .noAssigneeImage {
             transitionToCompactView()
         } else {
             transitionToStandardView()
@@ -638,12 +639,12 @@ class QIssueTableViewCell: NSTableRowView {
             removeTrackingArea(trackingArea)
         }
         
-        let trackingArea = NSTrackingArea(rect: bounds, options: [NSTrackingAreaOptions.ActiveInKeyWindow, NSTrackingAreaOptions.MouseEnteredAndExited] , owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: bounds, options: [NSTrackingArea.Options.activeInKeyWindow, NSTrackingArea.Options.mouseEnteredAndExited] , owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea);
         self.mouseTrackingArea = trackingArea
     }
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         updateLabelsModeBasedOnSelectionAndHover()
         //        labelsView.mode = .ColoredBackground
         //        NSAnimationContext.runAnimationGroup({ (context) in
@@ -652,7 +653,7 @@ class QIssueTableViewCell: NSTableRowView {
         //            }, completionHandler: nil)
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         updateLabelsModeBasedOnSelectionAndHover()
         //        NSAnimationContext.runAnimationGroup({ (context) in
         //            context.duration = 0.2
@@ -660,14 +661,14 @@ class QIssueTableViewCell: NSTableRowView {
         //            }, completionHandler: nil)
     }
     
-    private func updateLabelsModeBasedOnSelectionAndHover() {
+    fileprivate func updateLabelsModeBasedOnSelectionAndHover() {
         
         // let isMouseOver = isMouseOverCurrentView()
         
-        if selected {
-            labelsView.mode = .ColoredBackground
+        if isSelected {
+            labelsView.mode = .coloredBackground
         } else {
-            labelsView.mode =  .ColoredBackground //.ColoredForeground
+            labelsView.mode =  .coloredBackground //.ColoredForeground
         }
         
         //        switch (selected, isMouseOver) {
@@ -711,27 +712,27 @@ class QIssueTableViewCell: NSTableRowView {
         }
         
         // DDLogDebug("leftEdgeRect = \(leftEdgeRect) \t rect = \(rect)")
-        issueStatusTooltipTag = addToolTipRect(self.closedIssueImageView.frame, owner: self, userData: nil)
+        issueStatusTooltipTag = addToolTip(self.closedIssueImageView.frame, owner: self, userData: nil)
         
-        if viewType == .Standard {
+        if viewType == .standard {
             let rect = NSRect(x: assigneeImageView.frame.minX, y: assigneeImageView.frame.minY, width: assigneeImageView.frame.width - closedIssueImageView.frame.width, height: assigneeImageView.frame.height)
             let leftEdgeRect = NSRect(x: closedIssueImageView.frame.minX, y: assigneeImageView.frame.minY, width: closedIssueImageView.frame.width, height: assigneeImageView.frame.height - closedIssueImageView.frame.height)
             
-            assigneeTooltipTag = addToolTipRect(rect, owner: self, userData: nil)
-            assigneeLeftEdgeTooltipTag = addToolTipRect(leftEdgeRect, owner: self, userData: nil)
+            assigneeTooltipTag = addToolTip(rect, owner: self, userData: nil)
+            assigneeLeftEdgeTooltipTag = addToolTip(leftEdgeRect, owner: self, userData: nil)
         }
     }
     
-    override func view(view: NSView, stringForToolTip tag: NSToolTipTag, point: NSPoint, userData data: UnsafeMutablePointer<Void>) -> String {
+    override func view(_ view: NSView, stringForToolTip tag: NSView.ToolTipTag, point: NSPoint, userData data: UnsafeMutableRawPointer?) -> String {
         guard let issue = self.issue else { return "" }
         if  issueStatusTooltipTag == tag { //NSPointInRect(point, self.closedIssueImageView.frame) {
             switch viewType {
-            case .NoAssigneeImage:
+            case .noAssigneeImage:
                 let state = issue.state == "open" ? "Open" : "Closed"
                 if let assignee = self.issue?.assignee {
                     return "\(state) issue assigned to \(assignee.login)"
                 } else {
-                    return "Unassigned \(state.lowercaseString) issue"
+                    return "Unassigned \(state.lowercased()) issue"
                 }
             default:
                 return issue.state == "open" ? "Open" : "Closed"
@@ -754,13 +755,13 @@ class QIssueTableViewCell: NSTableRowView {
 
 extension QIssueTableViewCell: QStoreObserver {
     
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
         
     }
     
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
         
-        guard let anIssue = record as? QIssue, currentIssue = self.issue where anIssue.isEqualToIssue(currentIssue) else { return }
+        guard let anIssue = record as? QIssue, let currentIssue = self.issue , anIssue.isEqual(to: currentIssue) else { return }
         
         //        let newRecordHasNotification = anIssue.notification != nil
         //        let oldRecordHasNotification = self.issue?.notification != nil
@@ -780,7 +781,7 @@ extension QIssueTableViewCell: QStoreObserver {
         })
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
         
     }
 }
@@ -788,11 +789,11 @@ extension QIssueTableViewCell: QStoreObserver {
 extension QIssueTableViewCell {
     class func instantiateFromNib() -> QIssueTableViewCell? {
         var viewArray: NSArray?
-        let className = NSStringFromClass(QIssueTableViewCell).componentsSeparatedByString(".").last! as String
+        let className = NSStringFromClass(QIssueTableViewCell.self).components(separatedBy: ".").last! as String
         
         //DDLogDebug(" viewType = %@", className)
-        assert(NSThread.isMainThread())
-        NSBundle.mainBundle().loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
+        assert(Thread.isMainThread)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == QIssueTableViewCell.self {

@@ -32,41 +32,41 @@ class EmbedLabelsInIssuesConversion: NSObject {
         DDLogDebug("END EmbedLabelsInIssuesConversion")
     }
     
-    private func updateLabelsOnIssue(issue: MissingLabelsConversionIssue) {
+    fileprivate func updateLabelsOnIssue(_ issue: MissingLabelsConversionIssue) {
         var labels = [String]()
         
-        QBaseStore.doWriteInTransaction { (db, rollback) in
+        QBaseStore.doWrite { (db, rollback) in
             do {
-                let rs = try db.executeQuery("SELECT name FROM issue_label l WHERE l.account_id = ? AND l.repository_id = ? AND l.issue_id = ?", values: [issue.accountId, issue.repositoryId, issue.issueId])
-                while rs.next() {
-                    let name = rs.stringForColumn("name")
-                    labels.append(name)
+                let rs = try db?.executeQuery("SELECT name FROM issue_label l WHERE l.account_id = ? AND l.repository_id = ? AND l.issue_id = ?", values: [issue.accountId, issue.repositoryId, issue.issueId])
+                while (rs?.next())! {
+                    let name = rs?.string(forColumn: "name")
+                    labels.append(name!)
                 }
-                rs.close()
+                rs?.close()
                 
                 
-                let data = try NSJSONSerialization.dataWithJSONObject(labels, options: NSJSONWritingOptions())
-                let json = NSString(data: data, encoding: NSUTF8StringEncoding)!
+                let data = try JSONSerialization.data(withJSONObject: labels, options: JSONSerialization.WritingOptions())
+                let json = NSString(data: data, encoding: String.Encoding.utf8.rawValue)!
                 
-                try db.executeUpdate("UPDATE issue SET labels = ? WHERE  account_id = ? AND repository_id = ? AND identifier = ?", values: [json, issue.accountId, issue.repositoryId, issue.issueId])
+                try db?.executeUpdate("UPDATE issue SET labels = ? WHERE  account_id = ? AND repository_id = ? AND identifier = ?", values: [json, issue.accountId, issue.repositoryId, issue.issueId])
                 
             } catch {
-                rollback.memory = true
+//                rollback.memory = true
             }
         }
         
     }
     
-    private func issuesWithNoEmbededLabel() -> [MissingLabelsConversionIssue] {
+    fileprivate func issuesWithNoEmbededLabel() -> [MissingLabelsConversionIssue] {
         var issues = [MissingLabelsConversionIssue]()
-        QBaseStore.doReadInTransaction { (db) in
+        QBaseStore.doRead { (db) in
             do {
-                let rs = try db.executeQuery("SELECT account_id, repository_id, identifier FROM issue WHERE labels is null LIMIT 1000", values: [])
-                while rs.next() {
-                    let issue = MissingLabelsConversionIssue(accountId: NSNumber(int: rs.intForColumn("account_id")), repositoryId: NSNumber(int: rs.intForColumn("repository_id")), issueId: NSNumber(int: rs.intForColumn("identifier"))) //, searchKey: rs.stringForColumn("search_uniq_key"))
+                let rs = try db?.executeQuery("SELECT account_id, repository_id, identifier FROM issue WHERE labels is null LIMIT 1000", values: [])
+                while (rs?.next())! {
+                    let issue = MissingLabelsConversionIssue(accountId: NSNumber(value: (rs?.int(forColumn: "account_id"))!), repositoryId: NSNumber(value: (rs?.int(forColumn: "repository_id"))!), issueId: NSNumber(value: (rs?.int(forColumn: "identifier"))!)) //, searchKey: rs.stringForColumn("search_uniq_key"))
                     issues.append(issue)
                 }
-                rs.close()
+                rs?.close()
             } catch {
                 
             }

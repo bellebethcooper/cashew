@@ -19,7 +19,7 @@ class ReactionsPickerViewController: NSViewController {
     
     weak var popover: NSPopover?
     
-    private let reactionService = SRReactionsService(forAccount: QContext.sharedContext().currentAccount)
+    fileprivate let reactionService = SRReactionsService(for: QContext.shared().currentAccount)
     
     var commentInfo: QIssueCommentInfo? {
         didSet {
@@ -39,9 +39,9 @@ class ReactionsPickerViewController: NSViewController {
             guard let strongSelf = self else { return }
             
             let backgroundColor: NSColor
-            strongSelf.view.appearance = NSAppearance(named: NSAppearanceNameAqua)
+            strongSelf.view.appearance = NSAppearance(named: NSAppearance.Name.aqua)
             
-            if mode == .Dark {
+            if mode == .dark {
                 //
                 backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
@@ -55,43 +55,43 @@ class ReactionsPickerViewController: NSViewController {
             
             
             [strongSelf.thumbsUpButton, strongSelf.thumbsDownButton, strongSelf.laughButton, strongSelf.hoorayButton, strongSelf.confusedButton, strongSelf.heartButton].forEach({ (btn) in
-                btn.appearance = strongSelf.view.appearance
-                btn.wantsLayer = true
-                btn.layer?.backgroundColor = backgroundColor.CGColor
+                btn?.appearance = strongSelf.view.appearance
+                btn?.wantsLayer = true
+                btn?.layer?.backgroundColor = backgroundColor.cgColor
             })
         }
     }
     
-    private func didSetCommentInfo() {
+    fileprivate func didSetCommentInfo() {
         
     }
     
     // MARK: Actions
-    @IBAction func didClickThumbsDown(sender: AnyObject) {
+    @IBAction func didClickThumbsDown(_ sender: AnyObject) {
         fetchReactionsThenToggleReactionContent("-1")
     }
     
-    @IBAction func didClickThumbsUp(sender: AnyObject) {
+    @IBAction func didClickThumbsUp(_ sender: AnyObject) {
         fetchReactionsThenToggleReactionContent("+1")
     }
     
-    @IBAction func didClickLaughButton(sender: AnyObject) {
+    @IBAction func didClickLaughButton(_ sender: AnyObject) {
         fetchReactionsThenToggleReactionContent("laugh")
     }
     
-    @IBAction func didClickHoorayButton(sender: AnyObject) {
+    @IBAction func didClickHoorayButton(_ sender: AnyObject) {
         fetchReactionsThenToggleReactionContent("hooray")
     }
     
-    @IBAction func didClickConfusedButton(sender: AnyObject) {
+    @IBAction func didClickConfusedButton(_ sender: AnyObject) {
         fetchReactionsThenToggleReactionContent("confused")
     }
     
-    @IBAction func didClickHeartButton(sender: AnyObject) {
+    @IBAction func didClickHeartButton(_ sender: AnyObject) {
         fetchReactionsThenToggleReactionContent("heart")
     }
     
-    private func fetchReactionsThenToggleReactionContent(content: String) {
+    fileprivate func fetchReactionsThenToggleReactionContent(_ content: String) {
         if let issue = commentInfo as? QIssue {
             
             handleReactionsForIssue(issue, content: content)
@@ -100,23 +100,23 @@ class ReactionsPickerViewController: NSViewController {
         }
     }
     
-    private func handleReactionsForIssue(issue: QIssue, content: String) {
+    fileprivate func handleReactionsForIssue(_ issue: QIssue, content: String) {
         var issuesReactionSet = Set<SRIssueReaction>()
-        let savedReactions = SRIssueReactionStore.issueReactionsForIssue(issue)
+        let savedReactions = SRIssueReactionStore.issueReactions(for: issue)
         
-        savedReactions.forEach { (savedReaction) in
+        savedReactions?.forEach { (savedReaction) in
             issuesReactionSet.insert(savedReaction)
         }
         
         reactionService.reactionsForIssue(issue, onCompletion: { [weak self] (responseObject, context, err) in
-            guard let reactions = responseObject as? [SRIssueReaction] where err == nil else { return }
+            guard let reactions = responseObject as? [SRIssueReaction] , err == nil else { return }
             reactions.forEach({ (reaction) in
-                SRIssueReactionStore.saveIssueReaction(reaction)
+                SRIssueReactionStore.save(reaction)
                 issuesReactionSet.remove(reaction)
             })
             
             issuesReactionSet.forEach({ (deleteReaction) in
-                SRIssueReactionStore.deleteIssueReaction(deleteReaction)
+                SRIssueReactionStore.delete(deleteReaction)
             })
             
             
@@ -124,24 +124,24 @@ class ReactionsPickerViewController: NSViewController {
             })
     }
     
-    private func handleReactionsForIssueComment(issueComment: QIssueComment, content: String) {
+    fileprivate func handleReactionsForIssueComment(_ issueComment: QIssueComment, content: String) {
         var issueCommentsReactionSet = Set<SRIssueCommentReaction>()
-        let savedReactions = SRIssueCommentReactionStore.issueCommentReactionsForIssueComment(issueComment)
+        let savedReactions = SRIssueCommentReactionStore.issueCommentReactions(for: issueComment)
         
-        savedReactions.forEach { (savedReaction) in
+        savedReactions?.forEach { (savedReaction) in
             issueCommentsReactionSet.insert(savedReaction)
         }
         
         
         reactionService.reactionsForIssueComment(issueComment, onCompletion: { [weak self] (responseObject, context, err) in
-            guard let reactions = responseObject as? [SRIssueCommentReaction] where err == nil else { return }
+            guard let reactions = responseObject as? [SRIssueCommentReaction] , err == nil else { return }
             reactions.forEach({ (reaction) in
-                SRIssueCommentReactionStore.saveIssueCommentReaction(reaction)
+                SRIssueCommentReactionStore.save(reaction)
                 issueCommentsReactionSet.remove(reaction)
             })
             
             issueCommentsReactionSet.forEach({ (deleteReaction) in
-                SRIssueCommentReactionStore.deleteIssueCommentReaction(deleteReaction)
+                SRIssueCommentReactionStore.delete(deleteReaction)
             })
             
             
@@ -149,44 +149,44 @@ class ReactionsPickerViewController: NSViewController {
             })
     }
     
-    private func didClickButtonWithContent(content: String) {
-        let userId = QContext.sharedContext().currentAccount.userId
+    fileprivate func didClickButtonWithContent(_ content: String) {
+        let userId = QContext.shared().currentAccount.userId
         if let issue = commentInfo as? QIssue {
-            if let reaction = SRIssueReactionStore.didUserId(userId, addReactionToIssue: issue, withContent: content) {
+            if let reaction = SRIssueReactionStore.didUserId(userId, addReactionTo: issue, withContent: content) {
                 //DDLogDebug("issue.reaction \(reaction)")
                 reactionService.deleteReactionWithId(reaction.identifier, onCompletion: { [weak self] (obj, context, err) in
                     if  err == nil {
-                        SRIssueReactionStore.deleteIssueReaction(reaction)
+                        SRIssueReactionStore.delete(reaction)
                     }
-                    QIssueStore.updateIssueReactionCountsForIssue(issue)
+                    QIssueStore.updateIssueReactionCounts(for: issue)
                     self?.popover?.close()
                     })
             } else {
                 reactionService.createReactionForIssue(issue, content: content, onCompletion: { [weak self] (reaction, context, err) in
-                    if let reaction = reaction as? SRIssueReaction where err == nil {
-                        SRIssueReactionStore.saveIssueReaction(reaction)
+                    if let reaction = reaction as? SRIssueReaction , err == nil {
+                        SRIssueReactionStore.save(reaction)
                     }
-                    QIssueStore.updateIssueReactionCountsForIssue(issue)
+                    QIssueStore.updateIssueReactionCounts(for: issue)
                     self?.popover?.close()
                     })
             }
             
         } else if let issueComment = commentInfo as? QIssueComment {
-            if let reaction = SRIssueCommentReactionStore.didUserId(userId, addReactionToIssueComment: issueComment, withContent: content) {
+            if let reaction = SRIssueCommentReactionStore.didUserId(userId, addReactionTo: issueComment, withContent: content) {
                 //DDLogDebug("issueComment.reaction \(reaction)")
                 reactionService.deleteReactionWithId(reaction.identifier, onCompletion: { [weak self] (obj, context, err) in
                     if err == nil {
-                        SRIssueCommentReactionStore.deleteIssueCommentReaction(reaction)
+                        SRIssueCommentReactionStore.delete(reaction)
                     }
-                    QIssueCommentStore.updateIssueCommentReactionCountsForIssueComment(issueComment)
+                    QIssueCommentStore.updateIssueCommentReactionCounts(for: issueComment)
                     self?.popover?.close()
                     })
             } else {
                 reactionService.createReactionForIssueComment(issueComment, content: content, onCompletion: { [weak self] (reaction, context, err) in
-                    if let reaction = reaction as? SRIssueCommentReaction where err == nil {
-                        SRIssueCommentReactionStore.saveIssueCommentReaction(reaction)
+                    if let reaction = reaction as? SRIssueCommentReaction , err == nil {
+                        SRIssueCommentReactionStore.save(reaction)
                     }
-                    QIssueCommentStore.updateIssueCommentReactionCountsForIssueComment(issueComment)
+                    QIssueCommentStore.updateIssueCommentReactionCounts(for: issueComment)
                     self?.popover?.close()
                     })
             }

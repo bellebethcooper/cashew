@@ -11,25 +11,25 @@ import Cocoa
 @objc(SRCoalescer)
 class Coalescer: NSObject {
     
-    private var timer: NSTimer?
-    private var interval: NSTimeInterval?
-    private var block: dispatch_block_t?
-    private let accessQueue: dispatch_queue_t
-    private let executionQueue: dispatch_queue_t
+    fileprivate var timer: Timer?
+    fileprivate var interval: TimeInterval?
+    fileprivate var block: (()->())?
+    fileprivate let accessQueue: DispatchQueue
+    fileprivate let executionQueue: DispatchQueue
     
-    required init(interval: NSTimeInterval, name: String, executionQueue: dispatch_queue_t = dispatch_get_main_queue()) {
-        self.accessQueue = dispatch_queue_create(name, DISPATCH_QUEUE_SERIAL)
+    required init(interval: TimeInterval, name: String, executionQueue: DispatchQueue = DispatchQueue.main) {
+        self.accessQueue = DispatchQueue(label: name, attributes: [])
         self.interval = interval
         self.executionQueue = executionQueue
         super.init()
     }
     
-    func executeBlock(block: dispatch_block_t) {
+    func executeBlock(_ block: @escaping ()->()) {
         guard let interval = interval else {
             fatalError()
         }
         
-        dispatch_async(accessQueue) {
+        accessQueue.async {
             if let timer = self.timer {
                 timer.invalidate()
                 self.timer = nil
@@ -37,23 +37,23 @@ class Coalescer: NSObject {
             
             self.block = block
             DispatchOnMainQueue {
-                self.timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(Coalescer.fire(_:)), userInfo: nil, repeats: false)
+                self.timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(Coalescer.fire(_:)), userInfo: nil, repeats: false)
             }
         }
         
     }
     
     @objc
-    func fire(timer: NSTimer) {
-        dispatch_async(accessQueue) {
-            if let aTimer = self.timer where timer == aTimer {
+    func fire(_ timer: Timer) {
+        accessQueue.async {
+            if let aTimer = self.timer , timer == aTimer {
                 aTimer.invalidate()
                 self.timer = nil
             } else {
                 return
             }
             if let block = self.block {
-                dispatch_async(self.executionQueue, block)
+                self.executionQueue.async(execute: block)
             }
         }
     }

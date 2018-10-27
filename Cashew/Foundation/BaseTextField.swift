@@ -15,12 +15,12 @@ class BaseTextField: NSTextField {
     override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
         
-        if let fieldEditor = window?.fieldEditor(true, forObject: self) as? NSTextView where success {
+        if let fieldEditor = window?.fieldEditor(true, for: self) as? NSTextView , success {
            // fieldEditor.insertionPointColor = CashewColor.foregroundColor()
-            if NSUserDefaults.themeMode() == .Dark {
-                fieldEditor.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if UserDefaults.themeMode() == .dark {
+                fieldEditor.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {
-                fieldEditor.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                fieldEditor.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             }
         }
         

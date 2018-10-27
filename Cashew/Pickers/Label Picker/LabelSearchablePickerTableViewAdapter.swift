@@ -20,7 +20,7 @@ class LabelSearchablePickerTableViewAdapter: NSObject, SearchablePickerTableAdap
         self.dataSource = dataSource
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         guard let label = item as? QLabel else { return nil }
         
         let handler = { [weak self] (rowView: LabelSearchResultTableRowView) in
@@ -33,7 +33,7 @@ class LabelSearchablePickerTableViewAdapter: NSObject, SearchablePickerTableAdap
                 rowView.checked = strongSelf.dataSource.isSelectedItem(label)
             }
             rowView.accessoryView?.disableThemeObserver = true
-            rowView.accessoryView?.backgroundColor = NSColor.clearColor()
+            rowView.accessoryView?.backgroundColor = NSColor.clear
         }
         
         if let view = view as? LabelSearchResultTableRowView {

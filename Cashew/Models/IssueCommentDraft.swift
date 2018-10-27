@@ -10,8 +10,8 @@ import Cocoa
 
 @objc(SRIssueCommentDraftType)
 enum IssueCommentDraftType: NSInteger {
-    case Issue
-    case Comment
+    case issue
+    case comment
 }
 
 @objc(SRIssueCommentDraft)

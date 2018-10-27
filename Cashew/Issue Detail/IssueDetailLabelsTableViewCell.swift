@@ -19,7 +19,7 @@ class IssueDetailLabelsTableViewModel: NSObject {
 }
 
 extension IssueDetailLabelsTableViewModel: SRIssueDetailItem {
-    func sortDate() -> NSDate! {
+    func sortDate() -> Date! {
         return self.issue.createdAt
     }
 }
@@ -32,7 +32,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
     @IBOutlet weak var noLabelTextField: NSTextField!
     @IBOutlet weak var tagButton: IssueDetailsLabelTagButton!
     
-    private var labelPopover: NSPopover?
+    fileprivate var labelPopover: NSPopover?
     
     var enabled: Bool  = true {
         didSet {
@@ -44,18 +44,18 @@ class IssueDetailLabelsTableViewCell: BaseView {
         didSet {
             
             if let issue = viewModel?.issue {
-                self.addLabelButton.hidden = !QAccount.isCurrentUserCollaboratorOfRepository(issue.repo())
+                self.addLabelButton.isHidden = !QAccount.isCurrentUserCollaboratorOfRepository(issue.repo())
             } else {
-                self.addLabelButton.hidden = false
+                self.addLabelButton.isHidden = false
             }
             
-            if let labels = viewModel?.issue.labels where labels.count > 0 {
+            if let labels = viewModel?.issue.labels , labels.count > 0 {
                 issueLabelContainerView.labels = viewModel?.issue.labels
-                noLabelTextField.hidden = true
-                issueLabelContainerView.hidden = false
+                noLabelTextField.isHidden = true
+                issueLabelContainerView.isHidden = false
             } else {
-                noLabelTextField.hidden = false
-                issueLabelContainerView.hidden = true
+                noLabelTextField.isHidden = false
+                issueLabelContainerView.isHidden = true
             }
         }
     }
@@ -75,27 +75,27 @@ class IssueDetailLabelsTableViewCell: BaseView {
                 return;
             }
             
-            if mode == .Light {
+            if mode == .light {
                 strongSelf.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
                 strongSelf.noLabelTextField.textColor = LightModeColor.sharedInstance.foregroundColor()
-            } else if mode == .Dark {
+            } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
                 strongSelf.noLabelTextField.textColor = DarkModeColor.sharedInstance.foregroundColor()
             }
         }
     }
     
-    private func setupNoLabelTextField() {
-        let font = NSFontManager.sharedFontManager().convertFont(NSFont.systemFontOfSize(12, weight: NSFontWeightThin), toHaveTrait: .ItalicFontMask)
+    fileprivate func setupNoLabelTextField() {
+        let font = NSFontManager.shared.convert(NSFont.systemFont(ofSize: 12, weight: NSFont.Weight.thin), toHaveTrait: .italicFontMask)
         self.noLabelTextField.font = font
     }
     
-    private func setupAddLabelButton() {
+    fileprivate func setupAddLabelButton() {
         let color = NSColor(calibratedWhite: 147/255.0, alpha: 0.85)
         self.addLabelButton.wantsLayer = true
-        self.addLabelButton.image = self.addLabelButton.image?.imageWithTintColor(color)
+        self.addLabelButton.image = self.addLabelButton.image?.withTintColor(color)
         self.addLabelButton.layer?.borderWidth = 1
-        self.addLabelButton.layer?.borderColor = color.CGColor
+        self.addLabelButton.layer?.borderColor = color.cgColor
         self.addLabelButton.layer?.cornerRadius = self.addLabelButton.bounds.height / 2.0
         
         let clickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(IssueDetailLabelsTableViewCell.didClickAddLabel(_:)))
@@ -104,7 +104,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
     }
     
     @objc
-    private func didClickAddLabel(sender: AnyObject) {
+    fileprivate func didClickAddLabel(_ sender: AnyObject) {
         Analytics.logCustomEventWithName("Clicked Labels on Issue Details", customAttributes:nil)
         let labelSearchablePicker = LabelSearchablePickerViewController()
         labelSearchablePicker.sourceIssue = viewModel?.issue;
@@ -116,11 +116,11 @@ class IssueDetailLabelsTableViewCell: BaseView {
         let popover = NSPopover()
         
         
-        if .Dark == NSUserDefaults.themeMode() {
-            let appearance = NSAppearance(named: NSAppearanceNameAqua)
+        if .dark == UserDefaults.themeMode() {
+            let appearance = NSAppearance(named: NSAppearance.Name.aqua)
             popover.appearance = appearance;
         } else {
-            let appearance = NSAppearance(named: NSAppearanceNameAqua)
+            let appearance = NSAppearance(named: NSAppearance.Name.aqua)
             popover.appearance = appearance;
         }
         
@@ -130,8 +130,8 @@ class IssueDetailLabelsTableViewCell: BaseView {
         popover.contentSize = size
         popover.contentViewController = labelSearchablePicker
         popover.animates = true
-        popover.behavior = .Transient
-        popover.showRelativeToRect(addLabelButton.bounds, ofView:addLabelButton, preferredEdge:.MaxY);
+        popover.behavior = .transient
+        popover.show(relativeTo: addLabelButton.bounds, of:addLabelButton, preferredEdge:.maxY);
         labelSearchablePicker.popover = popover;
     }
     
@@ -144,8 +144,8 @@ class IssueDetailLabelsTableViewCell: BaseView {
         let className = "IssueDetailLabelsTableViewCell"
         
         //DDLogDebug(" viewType = %@", className)
-        assert(NSThread.isMainThread())
-        NSBundle.mainBundle().loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
+        assert(Thread.isMainThread)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == IssueDetailLabelsTableViewCell.self {
@@ -158,7 +158,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
 }
 
 class IssueDetailsLabelTagButton: BaseView {
-    private var cursorTrackingArea: NSTrackingArea?
+    fileprivate var cursorTrackingArea: NSTrackingArea?
     
     var enabled = true
 
@@ -167,20 +167,20 @@ class IssueDetailsLabelTagButton: BaseView {
             removeTrackingArea(cursorTrackingArea)
         }
         
-        let trackingArea = NSTrackingArea(rect: bounds, options: [.CursorUpdate, .ActiveAlways] , owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: bounds, options: [NSTrackingArea.Options.cursorUpdate, NSTrackingArea.Options.activeAlways] , owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea);
         self.cursorTrackingArea = trackingArea
     }
     
-    override func cursorUpdate(event: NSEvent) {
+    override func cursorUpdate(with event: NSEvent) {
         guard enabled else { return }
-        NSCursor.pointingHandCursor().set()
+        NSCursor.pointingHand.set()
     }
 }
 
 extension IssueDetailLabelsTableViewCell: NSPopoverDelegate {
     
-    func popoverDidClose(notification: NSNotification) {
+    func popoverDidClose(_ notification: Notification) {
         self.labelPopover = nil
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2016 Hicham Bouabdallah. All rights reserved.
 //
 
-@objc(SROrganization)
+//(SROrganization)
 class Organization: NSObject {
     
     let login: String
@@ -24,7 +24,7 @@ class Organization: NSObject {
         super.init()
     }
 
-    class func fromJSON(dict: NSDictionary, account: QAccount) -> Organization? {
+    class func fromJSON(_ dict: NSDictionary, account: QAccount) -> Organization? {
         guard let login = dict["login"] as? String, let identifier = dict["id"] as? NSNumber else {
             return nil
         }

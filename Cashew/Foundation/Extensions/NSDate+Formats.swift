@@ -9,39 +9,35 @@
 import Foundation
 
 
-public extension NSDate {
+public extension Date {
     
     // MARK: full date formatter
-    private static var fullDateFormatterToken: dispatch_once_t = 0
-    private static var fullDateFormatterInstance: NSDateFormatter?
+    fileprivate static var fullDateFormatterToken: Int = 0
+    fileprivate static var fullDateFormatterInstance: DateFormatter?
     
-    public static func fullDateFormatter() -> NSDateFormatter! {
-        dispatch_once(&fullDateFormatterToken) {
-            fullDateFormatterInstance = NSDateFormatter()
-            fullDateFormatterInstance?.dateFormat = "M/d/yy"
-        }
-        return fullDateFormatterInstance
-    }
+    public static var fullDateFormatter: DateFormatter = {
+        fullDateFormatterInstance = DateFormatter()
+        fullDateFormatterInstance?.dateFormat = "M/d/yy"
+        return fullDateFormatterInstance!
+    }()
     
     func toFullDateString() -> NSString {
-        return NSDate.fullDateFormatter().stringFromDate(self)
+        return Date.fullDateFormatter.string(from: self) as NSString
     }
     
     
     // MARK: github date formatter
-    private static var githubDateFormatterToken: dispatch_once_t = 0
-    private static var githubDateFormatterInstance: NSDateFormatter?
+    fileprivate static var githubDateFormatterToken: Int = 0
+    fileprivate static var githubDateFormatterInstance: DateFormatter?
     
-    public static func githubDateFormatter() -> NSDateFormatter! {
-        dispatch_once(&githubDateFormatterToken) {
-            githubDateFormatterInstance = NSDateFormatter()
-            githubDateFormatterInstance?.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        }
-        return githubDateFormatterInstance
-    }
+    public static var githubDateFormatter: DateFormatter = {
+        githubDateFormatterInstance = DateFormatter()
+        githubDateFormatterInstance?.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return githubDateFormatterInstance!
+    }()
     
     func toGithubDateString() -> NSString {
-        return NSDate.fullDateFormatter().stringFromDate(self)
+        return Date.fullDateFormatter.string(from: self) as NSString
     }
 
     

@@ -11,23 +11,25 @@ import Foundation
 @objc(SRMilestoneCache)
 class MilestoneCache: NSObject {
     
-    private static var token: dispatch_once_t = 0
-    private static var _sharedCache: MilestoneCache?
+    private static var __once: () = {
+            _sharedCache = MilestoneCache()
+        }()
     
-    private let cache = BaseCache<QMilestone>(countLimit: 1000)
+    fileprivate static var token: Int = 0
+    fileprivate static var _sharedCache: MilestoneCache?
+    
+    fileprivate let cache = BaseCache<QMilestone>(countLimit: 1000)
     
     class func sharedCache() -> MilestoneCache {
-        dispatch_once(&token) {
-            _sharedCache = MilestoneCache()
-        }
+        _ = MilestoneCache.__once
         return _sharedCache!
     }
     
-    func removeObjectForKey(key: String) {
+    func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(key: String, fetcher: ( () -> QMilestone? )) -> QMilestone? {
+    func fetch(_ key: String, fetcher: ( () -> QMilestone? )) -> QMilestone? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
@@ -35,7 +37,7 @@ class MilestoneCache: NSObject {
         cache.removeAll()
     }
     
-    class func MilestoneCacheKeyForAccountId(accountId: NSNumber, repositoryId: NSNumber, milestoneId: NSNumber) -> String {
+    class func MilestoneCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber, milestoneId: NSNumber) -> String {
         return "milestone_\(accountId)_\(repositoryId)_\(milestoneId)"
     }
 }

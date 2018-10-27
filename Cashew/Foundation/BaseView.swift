@@ -13,14 +13,14 @@ private class PopoverFixBackgroundView: NSView {
     var backgroundColor: NSColor? {
         didSet {
             needsDisplay = true
-            needsToDrawRect(bounds)
+            needsToDraw(bounds)
         }
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if let color = backgroundColor {
             color.set()
-            NSRectFill(self.bounds);
+//            NSRect.fill(self.bounds)
         }
     }
 }
@@ -28,8 +28,8 @@ private class PopoverFixBackgroundView: NSView {
 
 @IBDesignable class BaseView: NSView {
     
-    private let popoverFixBgView = PopoverFixBackgroundView()
-    private var roundedCornerMask: CAShapeLayer?
+    fileprivate let popoverFixBgView = PopoverFixBackgroundView()
+    fileprivate var roundedCornerMask: CAShapeLayer?
     
     var allowMouseToMoveWindow = true
     var disableThemeObserver = false {
@@ -54,10 +54,10 @@ private class PopoverFixBackgroundView: NSView {
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
         
-        if let aFrameView = window?.contentView?.superview where popoverBackgroundColorFixEnabed {
+        if let aFrameView = window?.contentView?.superview , popoverBackgroundColorFixEnabed {
             popoverFixBgView.frame = aFrameView.bounds
-            popoverFixBgView.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
-            aFrameView.addSubview(popoverFixBgView, positioned:NSWindowOrderingMode.Below, relativeTo: aFrameView)
+            popoverFixBgView.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
+            aFrameView.addSubview(popoverFixBgView, positioned:NSWindow.OrderingMode.below, relativeTo: aFrameView)
         }
     }
     
@@ -65,7 +65,7 @@ private class PopoverFixBackgroundView: NSView {
         didSet {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            self.layer?.backgroundColor = self.backgroundColor.CGColor
+            self.layer?.backgroundColor = self.backgroundColor.cgColor
             CATransaction.commit()
             popoverFixBgView.backgroundColor = backgroundColor
         }
@@ -75,7 +75,7 @@ private class PopoverFixBackgroundView: NSView {
         didSet {
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            self.layer?.borderColor = borderColor?.CGColor
+            self.layer?.borderColor = borderColor?.cgColor
             self.layer?.borderWidth = 1
             CATransaction.commit()
             self.window?.contentView
@@ -99,19 +99,19 @@ private class PopoverFixBackgroundView: NSView {
     var userInteractionEnabled: Bool = true
 
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         if userInteractionEnabled {
-            super.mouseDown(theEvent)
+            super.mouseDown(with: theEvent)
         }
     }
     
-    static func instantiateFromNib<T: BaseView>(viewType: T.Type) -> T? {
+    static func instantiateFromNib<T: BaseView>(_ viewType: T.Type) -> T? {
         var viewArray: NSArray?
-        let className = NSStringFromClass(viewType).componentsSeparatedByString(".").last! as String
+        let className = NSStringFromClass(viewType).components(separatedBy: ".").last! as String
         
         //DDLogDebug(" viewType = %@", className)
-        assert(NSThread.isMainThread())
-        NSBundle.mainBundle().loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
+        assert(Thread.isMainThread)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == viewType {
@@ -145,7 +145,7 @@ private class PopoverFixBackgroundView: NSView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
         self.canDrawConcurrently = true;
         
@@ -166,7 +166,7 @@ private class PopoverFixBackgroundView: NSView {
         }
     }
 
-    override var flipped: Bool {
+    override var isFlipped: Bool {
         get {
             return true
         }
@@ -179,55 +179,55 @@ private class PopoverFixBackgroundView: NSView {
         super.layout()
     }
     
-    func setImageURL(url: NSURL?) {
+    func setImageURL(_ url: URL?) {
         if let aURL = url {
-            if let cachedImage = QImageManager.sharedImageManager().cachedImageForURL(aURL) {
+            if let cachedImage = QImageManager.shared().cachedImage(for: aURL) {
                 self.layer?.contents = cachedImage
                 return
             }
-            QImageManager.sharedImageManager().downloadImageURL(aURL, onCompletion: {[weak self] (image, downloadURL, err) -> Void in
-                guard aURL.isEqualTo(downloadURL) else { return }
+            QImageManager.shared().downloadImageURL(aURL, onCompletion: {[weak self] (image, downloadURL, err) -> Void in
+                guard aURL == downloadURL else { return }
                 
                 if err != nil {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async {
                         CATransaction.begin()
                         CATransaction.setDisableActions(true)
                         self?.layer?.contents = nil
                         CATransaction.commit()
-                    })
+                    }
                     return
                 }
                 
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                    assert(NSThread.isMainThread() == false)
+                DispatchQueue.global(qos: .background).async {
+                    assert(Thread.isMainThread == false)
                     guard let strongSelf = self else {
                         return;
                     }
                     
                     let strongSelfSize = strongSelf.bounds.size
                     
-                    guard strongSelfSize.width > 0 && strongSelfSize.height > 0 && image.size.height > 0 && image.size.width > 0 else {
+                    guard strongSelfSize.width > 0 && strongSelfSize.height > 0 && (image?.size.height)! > CGFloat(0) && (image?.size.width)! > 0 else {
                         return
                     }
                     
                     //if let strongSelf = self where image.size.height > 0 && image.size.width > 0 {
                     let smallImage = NSImage(size: strongSelfSize)
                     smallImage.lockFocus()
-                    image.size = strongSelfSize
-                    NSGraphicsContext.currentContext()?.imageInterpolation = .High
-                    image.drawAtPoint(NSPoint.zero, fromRect: CGRectMake(0, 0, strongSelfSize.width, strongSelfSize.height), operation: .Copy, fraction: 1.0)
+                    image?.size = strongSelfSize
+                    NSGraphicsContext.current?.imageInterpolation = .high
+                    image?.draw(at: NSPoint.zero, from: CGRect(x: 0, y: 0, width: strongSelfSize.width, height: strongSelfSize.height), operation: .copy, fraction: 1.0)
                     smallImage.unlockFocus()
                     
-                    let cgImage = smallImage.CGImageForProposedRect(nil, context: nil, hints: nil)
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let cgImage = smallImage.cgImage(forProposedRect: nil, context: nil, hints: nil)
+                    DispatchQueue.main.async {
                         CATransaction.begin()
                         CATransaction.setDisableActions(true)
                         self?.layer?.contents = cgImage; //image
                         CATransaction.commit()
-                    })
+                    }
                     // }
-                })
+                }
                 })
         } else {
             self.layer?.contents = nil

@@ -12,7 +12,7 @@ import Foundation
 @objc(SRIssueStateBadgeView)
 class IssueStateBadgeView: BaseView {
     
-    private var cursorTrackingArea: NSTrackingArea?
+    fileprivate var cursorTrackingArea: NSTrackingArea?
     
     var enabled: Bool = true
     
@@ -22,11 +22,11 @@ class IssueStateBadgeView: BaseView {
         }
     }
     
-    var onClick: dispatch_block_t?
+    var onClick: (()->())?
     
-    private let contentContainerView = BaseView()
-    private let imageView = NSImageView()
-    private let label = NSTextField()
+    fileprivate let contentContainerView = BaseView()
+    fileprivate let imageView = NSImageView()
+    fileprivate let label = NSTextField()
     
     required init(open: Bool) {
         self.open = open
@@ -50,43 +50,43 @@ class IssueStateBadgeView: BaseView {
     }
     
     
-    private func didSetOpen() {
+    fileprivate func didSetOpen() {
         
-        let font = NSFont.systemFontOfSize(13, weight: NSFontWeightSemibold)
+        let font = NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)
         
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Center
+        paragraphStyle.alignment = NSTextAlignment.center
         paragraphStyle.lineSpacing = 0
         paragraphStyle.maximumLineHeight = 15
         paragraphStyle.minimumLineHeight = 15
-        let textColor = NSColor.whiteColor()
+        let textColor = NSColor.white
         
         let text: NSAttributedString
         if open {
-            text = NSAttributedString(string: "Open", attributes: [NSForegroundColorAttributeName: textColor, NSParagraphStyleAttributeName: paragraphStyle, NSFontAttributeName: font])
+            text = NSAttributedString(string: "Open", attributes: [NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font])
             
-            let image = NSImage(named: "issue-opened")
+            let image = NSImage(named: NSImage.Name(rawValue: "issue-opened"))
             image?.size = CGSize(width: 12.2, height: 14)
-            imageView.image = image?.imageWithTintColor(NSColor.whiteColor())
+            imageView.image = image?.withTintColor(NSColor.white)
             contentContainerView.backgroundColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1);
         } else {
-            text = NSAttributedString(string: "Closed", attributes: [NSForegroundColorAttributeName: textColor, NSParagraphStyleAttributeName: paragraphStyle, NSFontAttributeName: font])
+            text = NSAttributedString(string: "Closed", attributes: [NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font])
             
-            let image = NSImage(named: "issue-closed")
+            let image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))
             image?.size = CGSize(width: 14, height: 14)
-            imageView.image = image?.imageWithTintColor(NSColor.whiteColor())
+            imageView.image = image?.withTintColor(NSColor.white)
             contentContainerView.backgroundColor = NSColor(calibratedRed: 175/255.0, green: 25/255.0, blue: 0/255.0, alpha: 1)
         }
         label.attributedStringValue = text
-        backgroundColor = NSColor.clearColor() //contentContainerView.backgroundColor
-        label.backgroundColor = NSColor.clearColor()
+        backgroundColor = NSColor.clear //contentContainerView.backgroundColor
+        label.backgroundColor = NSColor.clear
         invalidateIntrinsicContentSize()
     }
     
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         guard enabled else { return }
-        if let onClick = onClick where isMouseOver() {
+        if let onClick = onClick , isMouseOver() {
             onClick()
         }
         
@@ -97,7 +97,7 @@ class IssueStateBadgeView: BaseView {
         }
     }
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         guard enabled else { return }
         if open {
             contentContainerView.backgroundColor = NSColor(calibratedRed: 64/255.0, green: 129/255.0, blue: 43/255.0, alpha: 1.0)
@@ -112,34 +112,34 @@ class IssueStateBadgeView: BaseView {
         
         addSubview(contentContainerView)
         contentContainerView.translatesAutoresizingMaskIntoConstraints = false
-        contentContainerView.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-        contentContainerView.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-        contentContainerView.heightAnchor.constraintEqualToConstant(20).active = true
-        contentContainerView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
+        contentContainerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        contentContainerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        contentContainerView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        contentContainerView.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
        // contentContainerView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
         contentContainerView.cornerRadius = 3
         
-        label.editable = false
-        label.selectable = false
-        label.bordered = false
-        label.textColor = NSColor.whiteColor()
+        label.isEditable = false
+        label.isSelectable = false
+        label.isBordered = false
+        label.textColor = NSColor.white
         
         contentContainerView.addSubview(label)
-        label.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
+        label.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
        // label.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.rightAnchor.constraintEqualToAnchor(contentContainerView.rightAnchor, constant: -5.0).active = true
-        label.centerYAnchor.constraintEqualToAnchor(contentContainerView.centerYAnchor).active = true
-        label.bottomAnchor.constraintEqualToAnchor(contentContainerView.bottomAnchor, constant: -2.0).active = true
+        label.rightAnchor.constraint(equalTo: contentContainerView.rightAnchor, constant: -5.0).isActive = true
+        label.centerYAnchor.constraint(equalTo: contentContainerView.centerYAnchor).isActive = true
+        label.bottomAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: -2.0).isActive = true
         
         contentContainerView.addSubview(imageView)
-        imageView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
+        imageView.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
      //   imageView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageView.leftAnchor.constraintEqualToAnchor(contentContainerView.leftAnchor, constant: 5.0).active = true
-        imageView.rightAnchor.constraintEqualToAnchor(label.leftAnchor, constant: 0.0).active = true
-        imageView.centerYAnchor.constraintEqualToAnchor(label.centerYAnchor).active = true
+        imageView.leftAnchor.constraint(equalTo: contentContainerView.leftAnchor, constant: 5.0).isActive = true
+        imageView.rightAnchor.constraint(equalTo: label.leftAnchor, constant: 0.0).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: label.centerYAnchor).isActive = true
         
         imageView.wantsLayer = true
     }
@@ -152,13 +152,13 @@ class IssueStateBadgeView: BaseView {
         
         guard enabled else { return }
         
-        let trackingArea = NSTrackingArea(rect: bounds, options: [.CursorUpdate, .ActiveAlways] , owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: bounds, options: [NSTrackingArea.Options.cursorUpdate, NSTrackingArea.Options.activeAlways] , owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea);
         self.cursorTrackingArea = trackingArea
     }
     
-    override func cursorUpdate(event: NSEvent) {
+    override func cursorUpdate(with event: NSEvent) {
         guard enabled else { return }
-        NSCursor.pointingHandCursor().set()
+        NSCursor.pointingHand.set()
     }
 }

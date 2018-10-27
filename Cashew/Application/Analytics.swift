@@ -13,28 +13,28 @@ import Crashlytics
 class Analytics: NSObject {
     
     
-    class func logContentViewWithName(contentNameOrNil: String?, contentType contentTypeOrNil: String?, contentId contentIdOrNil: String?, customAttributes customAttributesOrNil: [String : AnyObject]?) {
+    class func logContentViewWithName(_ contentNameOrNil: String?, contentType contentTypeOrNil: String?, contentId contentIdOrNil: String?, customAttributes customAttributesOrNil: [String : AnyObject]?) {
         #if DEBUG
             DDLogDebug("logContentViewWithName \(contentNameOrNil) \(contentTypeOrNil) \(contentIdOrNil) \(customAttributesOrNil)")
         #else
-            Answers.logContentViewWithName(contentNameOrNil, contentType: contentTypeOrNil, contentId: contentIdOrNil, customAttributes: customAttributesOrNil)
+            Answers.logContentView(withName: contentNameOrNil, contentType: contentTypeOrNil, contentId: contentIdOrNil, customAttributes: customAttributesOrNil)
         #endif
         
     }
     
-    class func logCustomEventWithName(eventName: String, customAttributes customAttributesOrNil: [String : AnyObject]? = nil) {
+    class func logCustomEventWithName(_ eventName: String, customAttributes customAttributesOrNil: [String : AnyObject]? = nil) {
         #if DEBUG
             DDLogDebug("logCustomEventWithName \(eventName) \(customAttributesOrNil)")
         #else
-            Answers.logCustomEventWithName(eventName, customAttributes: customAttributesOrNil)
+            Answers.logCustomEvent(withName: eventName, customAttributes: customAttributesOrNil)
         #endif
     }
     
-    class func logLoginWithMethod(loginMethodOrNil: String?, success loginSucceededOrNil: NSNumber?, customAttributes customAttributesOrNil: [String : AnyObject]?) {
+    class func logLoginWithMethod(_ loginMethodOrNil: String?, success loginSucceededOrNil: NSNumber?, customAttributes customAttributesOrNil: [String : AnyObject]?) {
         #if DEBUG
             DDLogDebug("logLoginWithMethod \(loginMethodOrNil) \(loginSucceededOrNil) \(customAttributesOrNil)")
         #else
-            Answers.logLoginWithMethod(loginMethodOrNil, success: loginSucceededOrNil, customAttributes: customAttributesOrNil)
+            Answers.logLogin(withMethod: loginMethodOrNil, success: loginSucceededOrNil, customAttributes: customAttributesOrNil)
         #endif
     }
 

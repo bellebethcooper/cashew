@@ -11,57 +11,57 @@ import Foundation
 
 extension NSAlert {
     
-    class func showWarningMessage(message: String, body: String, onConfirmation: dispatch_block_t) {
+    class func showWarningMessage(_ message: String, body: String, onConfirmation: (() -> ())) {
         let alert = NSAlert()
         
-        alert.addButtonWithTitle("OK")
-        alert.addButtonWithTitle("Cancel")
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
         alert.messageText = message
-        alert.informativeText = body ?? ""
-        alert.alertStyle = .Warning // .Warning
+        alert.informativeText = body
+        alert.alertStyle = .warning // .Warning
         
-        if alert.runModal() == NSAlertFirstButtonReturn {
+        if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
             onConfirmation()
         }
     }
     
-    class func showWarningMessage(message: String, onConfirmation: dispatch_block_t) {
+    class func showWarningMessage(_ message: String, onConfirmation: (() -> ())) {
         let alert = NSAlert()
         
-        alert.addButtonWithTitle("OK")
-        alert.addButtonWithTitle("Cancel")
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
         alert.messageText = message
-        alert.alertStyle = .Warning // .Warning
+        alert.alertStyle = .warning // .Warning
         
-        if alert.runModal() == NSAlertFirstButtonReturn {
+        if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
             onConfirmation()
         }
     }
     
     
-    class func showOKWarningMessage(message: String, onCompletion: dispatch_block_t? = nil) {
+    class func showOKWarningMessage(_ message: String, onCompletion: (() -> ())? = nil) {
         let alert = NSAlert()
         
-        alert.addButtonWithTitle("OK")
+        alert.addButton(withTitle: "OK")
         alert.messageText = message
-        alert.alertStyle = .Warning // .Warning
+        alert.alertStyle = .warning // .Warning
         
-        if alert.runModal() == NSAlertFirstButtonReturn {
+        if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
             if let onCompletion = onCompletion {
                 onCompletion()
             }
         }
     }
     
-    class func showOKMessage(message: String, body: String? = nil, onCompletion: dispatch_block_t? = nil) {
+    class func showOKMessage(_ message: String, body: String? = nil, onCompletion: (() -> ())? = nil) {
         let alert = NSAlert()
         
-        alert.addButtonWithTitle("OK")
+        alert.addButton(withTitle: "OK")
         alert.messageText = message
         alert.informativeText = body ?? ""
-        alert.alertStyle = .Warning // .Warning
+        alert.alertStyle = .warning // .Warning
         
-        if alert.runModal() == NSAlertFirstButtonReturn {
+        if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
             if let onCompletion = onCompletion {
                 onCompletion()
             }

@@ -84,7 +84,7 @@ static NSString *kQTitleKey = @"Title";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [SRThemeObserverController.sharedInstance removeThemeObserver:self];
-    [QIssueStore removeObserver:self];
+    [QIssueStore remove:self];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:[NSUserDefaults layoutModeKeyPath]];
 }
 

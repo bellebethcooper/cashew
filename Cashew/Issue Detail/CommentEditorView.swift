@@ -14,20 +14,20 @@ private class TextViewContainerView: BaseView {
 
 class CommentEditorView: BaseView {
     
-    private static let buttonSize = CGSize(width: 80, height: 24)
-    private static let verticalSpacing: CGFloat = 8.0
-    private static let leftSpacing: CGFloat = 8.0
-    private static let rightSpacing: CGFloat = 8.0
+    fileprivate static let buttonSize = CGSize(width: 80, height: 24)
+    fileprivate static let verticalSpacing: CGFloat = 8.0
+    fileprivate static let leftSpacing: CGFloat = 8.0
+    fileprivate static let rightSpacing: CGFloat = 8.0
     
-    private static let buttonVerticalPadding: CGFloat = 3.0
-    private static let buttonHorizontalPadding: CGFloat = 6.0
-    private static let progressIndicatorSize = CGSizeMake(17, 17)
-    private static let firstReponderMinTextViewHeight: CGFloat = 120.0
+    fileprivate static let buttonVerticalPadding: CGFloat = 3.0
+    fileprivate static let buttonHorizontalPadding: CGFloat = 6.0
+    fileprivate static let progressIndicatorSize = CGSize(width: 17, height: 17)
+    fileprivate static let firstReponderMinTextViewHeight: CGFloat = 120.0
     
     
-    var onSubmit: dispatch_block_t?
-    var onTextChange: dispatch_block_t?
-    var onDiscard: dispatch_block_t?
+    var onSubmit: (()->())?
+    var onTextChange: (()->())?
+    var onDiscard: (()->())?
     var text: String? {
         get {
             return textView.string
@@ -45,12 +45,12 @@ class CommentEditorView: BaseView {
         }
     }
     
-    private let textView = MarkdownEditorTextView()
-    private let uploadFileProgressIndicator = LabeledProgressIndicatorView()
-    private let textViewContainerView = TextViewContainerView()
-    private let submitButton = BaseButton.greenButton()
-    private let cancelButton = BaseButton.whiteButton()
-    private let progressIndicator = NSProgressIndicator()
+    fileprivate let textView = MarkdownEditorTextView()
+    fileprivate let uploadFileProgressIndicator = LabeledProgressIndicatorView()
+    fileprivate let textViewContainerView = TextViewContainerView()
+    fileprivate let submitButton = BaseButton.greenButton()
+    fileprivate let cancelButton = BaseButton.whiteButton()
+    fileprivate let progressIndicator = NSProgressIndicator()
     
     var activateTextViewConstraints: Bool = false {
         didSet {
@@ -61,12 +61,12 @@ class CommentEditorView: BaseView {
     var loading: Bool = false {
         didSet {
             if loading {
-                progressIndicator.hidden = false
+                progressIndicator.isHidden = false
                 progressIndicator.startAnimation(nil)
                 cancelButton.enabled = false
                 submitButton.enabled = false
             } else {
-                progressIndicator.hidden = true
+                progressIndicator.isHidden = true
                 progressIndicator.stopAnimation(nil)
                 cancelButton.enabled = true
                 submitButton.enabled = true
@@ -86,7 +86,7 @@ class CommentEditorView: BaseView {
         onDiscard = nil
         textView.delegate = nil
         
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
@@ -117,36 +117,36 @@ class CommentEditorView: BaseView {
             let size = rect.size
             let expandedHeight = (isFirstResponder ? layouts.submitButtonRect.height + CommentEditorView.verticalSpacing : 0)
             let calculatedHeight = size.height + CommentEditorView.verticalSpacing * 2.0 + expandedHeight
-            let contentSize = CGSizeMake(textContentSize().width, calculatedHeight)
+            let contentSize = CGSize(width: textContentSize().width, height: calculatedHeight)
             
             return contentSize
         }
     }
     
-    private func setupFileUploadProgressIndicator() {
+    fileprivate func setupFileUploadProgressIndicator() {
         guard uploadFileProgressIndicator.superview == nil else { return }
         
         addSubview(uploadFileProgressIndicator)
         
-        uploadFileProgressIndicator.backgroundColor = NSColor.clearColor()
-        uploadFileProgressIndicator.hidden = true
+        uploadFileProgressIndicator.backgroundColor = NSColor.clear
+        uploadFileProgressIndicator.isHidden = true
         uploadFileProgressIndicator.translatesAutoresizingMaskIntoConstraints = false
-        uploadFileProgressIndicator.leftAnchor.constraintEqualToAnchor(textView.leftAnchor).active = true
+        uploadFileProgressIndicator.leftAnchor.constraint(equalTo: textView.leftAnchor).isActive = true
         
-        uploadFileProgressIndicator.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        uploadFileProgressIndicator.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        uploadFileProgressIndicator.heightAnchor.constraintEqualToConstant(CommentEditorView.buttonSize.height).active = true
-        uploadFileProgressIndicator.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -CommentEditorView.verticalSpacing).active = true
+        uploadFileProgressIndicator.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        uploadFileProgressIndicator.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        uploadFileProgressIndicator.heightAnchor.constraint(equalToConstant: CommentEditorView.buttonSize.height).isActive = true
+        uploadFileProgressIndicator.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -CommentEditorView.verticalSpacing).isActive = true
     }
     
     @objc
-    private func didBecomeFirstResponderNotifiation(notification: NSNotification) {
-        if let obj = notification.object as? NSObject where textView.isEqualToTextView(obj) {
+    fileprivate func didBecomeFirstResponderNotifiation(_ notification: Notification) {
+        if let obj = notification.object as? NSObject , textView.isEqualToTextView(obj) {
             needsLayout = true
             invalidateIntrinsicContentSize()
             layoutSubtreeIfNeeded()
             textView.collapseToolbar = !isFirstResponder
-        } else if let window = self.window where textView.collapseToolbar != true && textView.textSizePopover == nil && !textView.isShowingPopover && window.keyWindow && !textView.isShowingPreview {
+        } else if let window = self.window , textView.collapseToolbar != true && textView.textSizePopover == nil && !textView.isShowingPopover && window.isKeyWindow && !textView.isShowingPreview {
             textView.collapseToolbar = true
             needsLayout = true
             invalidateIntrinsicContentSize()
@@ -154,8 +154,8 @@ class CommentEditorView: BaseView {
         }
     }
     
-    private func setupEditor() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommentEditorView.didBecomeFirstResponderNotifiation(_:)), name: kDidBecomeFirstResponderNotification, object: nil)
+    fileprivate func setupEditor() {
+        NotificationCenter.default.addObserver(self, selector: #selector(CommentEditorView.didBecomeFirstResponderNotifiation(_:)), name: NSNotification.Name.didBecomeFirstResponder, object: nil)
         
         self.allowMouseToMoveWindow = false
 
@@ -164,14 +164,14 @@ class CommentEditorView: BaseView {
                 return
             }
             
-            if mode == .Dark {
+            if mode == .dark {
                 strongSelf.backgroundColor = CashewColor.currentLineBackgroundColor()
-                strongSelf.textViewContainerView.borderColor = NSColor.whiteColor()
-                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+                strongSelf.textViewContainerView.borderColor = NSColor.white
+                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {
                 strongSelf.backgroundColor = CashewColor.sidebarBackgroundColor()
                 strongSelf.textViewContainerView.borderColor = NSColor(calibratedWhite: 200/255.0, alpha: 1)
-                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             }
         }
         
@@ -181,7 +181,7 @@ class CommentEditorView: BaseView {
         textViewContainerView.addSubview(textView)
         
         textViewContainerView.disableThemeObserver = true
-        textViewContainerView.backgroundColor = NSColor.whiteColor()
+        textViewContainerView.backgroundColor = NSColor.white
         //textViewContainerView.borderColor = CashewColor.separatorColor() //NSColor(calibratedWhite: 220/255.0, alpha: 1)
         textViewContainerView.cornerRadius = 3.0
 //        let clickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(CommentEditorView.didClickTextViewContainerView(_:)))
@@ -189,9 +189,9 @@ class CommentEditorView: BaseView {
         
         textView.forceLightModeForMarkdownPreview = true
         textView.delegate = self
-        textView.textColor = NSColor.blackColor()
-        textView.backgroundColor = NSColor.whiteColor()
-        textView.font = NSFont.systemFontOfSize(14)
+        textView.textColor = NSColor.black
+        textView.backgroundColor = NSColor.white
+        textView.font = NSFont.systemFont(ofSize: 14)
         textView.disableScrollViewBounce = true
         
         textView.onEnterKeyPressed = { [weak self] in
@@ -201,14 +201,14 @@ class CommentEditorView: BaseView {
         textView.onDragExited = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.textViewContainerView.layer?.borderWidth = 1
-            strongSelf.textViewContainerView.layer?.borderColor = CashewColor.separatorColor().CGColor
+            strongSelf.textViewContainerView.layer?.borderColor = CashewColor.separatorColor().cgColor
             strongSelf.invalidateIntrinsicContentSize()
         }
         
         textView.onDragEntered = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.textViewContainerView.layer?.borderWidth = 2
-            strongSelf.textViewContainerView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).CGColor
+            strongSelf.textViewContainerView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
             strongSelf.invalidateIntrinsicContentSize()
         }
         
@@ -217,12 +217,12 @@ class CommentEditorView: BaseView {
             let fileUploadCount = strongSelf.textView.currentUploadCount
             if fileUploadCount == 0 {
                 strongSelf.uploadFileProgressIndicator.hideProgress()
-                strongSelf.uploadFileProgressIndicator.hidden = true
+                strongSelf.uploadFileProgressIndicator.isHidden = true
                 strongSelf.submitButton.enabled = true
                 strongSelf.cancelButton.enabled = true
             } else {
                 strongSelf.uploadFileProgressIndicator.showProgressWithString("Uploading \(fileUploadCount) file\(fileUploadCount == 1 ? "" : "s")")
-                strongSelf.uploadFileProgressIndicator.hidden = false
+                strongSelf.uploadFileProgressIndicator.isHidden = false
                 strongSelf.submitButton.enabled = false
                 strongSelf.cancelButton.enabled = false
             }
@@ -238,7 +238,7 @@ class CommentEditorView: BaseView {
     }
     
     @objc
-    private func didClickTextViewContainerView(sender: AnyObject) {
+    fileprivate func didClickTextViewContainerView(_ sender: AnyObject) {
         if !textView.isFirstResponder {
             textView.makeFirstResponder()
         }
@@ -248,8 +248,8 @@ class CommentEditorView: BaseView {
         
         let layouts = calculateLayouts(isFirstResponder)
         
-        submitButton.hidden = !isFirstResponder
-        cancelButton.hidden = !isFirstResponder
+        submitButton.isHidden = !isFirstResponder
+        cancelButton.isHidden = !isFirstResponder
         
         textView.frame = layouts.textViewRect
         textViewContainerView.frame = layouts.textViewContainerViewRect
@@ -260,7 +260,7 @@ class CommentEditorView: BaseView {
         super.layout()
     }
     
-    private func calculateLayouts(isFirstResponse: Bool) -> (textViewRect: CGRect, textViewContainerViewRect: CGRect, cancelButtonRect: CGRect, submitButtonRect: CGRect, progressIndicatorRect: CGRect) {
+    fileprivate func calculateLayouts(_ isFirstResponse: Bool) -> (textViewRect: CGRect, textViewContainerViewRect: CGRect, cancelButtonRect: CGRect, submitButtonRect: CGRect, progressIndicatorRect: CGRect) {
         let containerWidth: CGFloat = bounds.width - CommentEditorView.leftSpacing - CommentEditorView.rightSpacing
         //  let isFirstResponse = self.window?.firstResponder == textView
         
@@ -294,21 +294,21 @@ class CommentEditorView: BaseView {
         return (textViewRect: textViewRect, textViewContainerViewRect: textViewContainerViewRect, cancelButtonRect: cancelButtonRect, submitButtonRect: submitButtonRect, progressIndicatorRect: progressIndicatorRect)
     }
     
-    private func textContentSize() -> NSSize {
+    fileprivate func textContentSize() -> NSSize {
         let containerWidth: CGFloat = bounds.width - CommentEditorView.leftSpacing - CommentEditorView.rightSpacing
         return textView.calculatedSizeForWidth(containerWidth)
     }
     
-    private func textSizeForAttributedString(stringVal: NSAttributedString) -> NSSize {
+    fileprivate func textSizeForAttributedString(_ stringVal: NSAttributedString) -> NSSize {
         let textStorage = NSTextStorage(attributedString: stringVal)
-        let textContainer = NSTextContainer(containerSize: CGSizeMake(CGFloat.max, CGFloat.max) )
+        let textContainer = NSTextContainer(containerSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude) )
         let layoutManager = NSLayoutManager()
         
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
         
-        layoutManager.glyphRangeForTextContainer(textContainer)
-        let size = layoutManager.usedRectForTextContainer(textContainer).size
+        layoutManager.glyphRange(for: textContainer)
+        let size = layoutManager.usedRect(for: textContainer).size
         
         return size
     }
@@ -323,14 +323,14 @@ class CommentEditorView: BaseView {
     
     // MARK: Setup code
     
-    private func setupProgressIndicator() {
+    fileprivate func setupProgressIndicator() {
         guard progressIndicator.superview == nil else { return }
         addSubview(progressIndicator)
-        progressIndicator.hidden = true
-        progressIndicator.style = .SpinningStyle
+        progressIndicator.isHidden = true
+        progressIndicator.style = .spinning
     }
     
-    private func setupCancelButton() {
+    fileprivate func setupCancelButton() {
         guard cancelButton.superview == nil else { return }
         addSubview(cancelButton)
         cancelButton.text = "Discard"
@@ -339,7 +339,7 @@ class CommentEditorView: BaseView {
         }
     }
     
-    private func setupSubmitButton() {
+    fileprivate func setupSubmitButton() {
         guard submitButton.superview == nil else { return }
         addSubview(submitButton)
         submitButton.text = "Comment"
@@ -351,13 +351,13 @@ class CommentEditorView: BaseView {
     // MARK: Actions
     
     @objc
-    private func didClickCancel() {
+    fileprivate func didClickCancel() {
         guard let onDiscard = onDiscard else  { return }
         onDiscard()
     }
     
     @objc
-    private func didClickSubmit() {
+    fileprivate func didClickSubmit() {
         guard let onSubmit = onSubmit else { return }
         onSubmit()
     }
@@ -366,28 +366,28 @@ class CommentEditorView: BaseView {
 
 extension CommentEditorView: NSTextViewDelegate {
     
-    func textViewDidChangeSelection(notification: NSNotification) {
+    func textViewDidChangeSelection(_ notification: Notification) {
         guard textView.editable else { return }
         
         invalidateIntrinsicContentSize()
-        setNeedsDisplayInRect(bounds)
+        setNeedsDisplay(bounds)
         if let onTextChange = onTextChange {
             onTextChange()
         }
     }
     
-    func textDidBeginEditing(notification: NSNotification) {
+    func textDidBeginEditing(_ notification: Notification) {
         guard textView.editable else { return }
         invalidateIntrinsicContentSize()
-        setNeedsDisplayInRect(bounds)
+        setNeedsDisplay(bounds)
     }
     
-    func textDidEndEditing(notification: NSNotification) {
+    func textDidEndEditing(_ notification: Notification) {
         guard textView.editable && !textView.isShowingPopover && !textView.isShowingPreview else { return }
         invalidateIntrinsicContentSize()
         textView.undoManager?.removeAllActions()
-        dispatch_async(dispatch_get_main_queue(), {
-            self.setNeedsDisplayInRect(self.bounds)
+        DispatchQueue.main.async(execute: {
+            self.setNeedsDisplay(self.bounds)
             self.loading = false
             self.superview?.window?.makeFirstResponder(self.superview) // makes sure the current text view doesn't get first responder after nspopover
         })

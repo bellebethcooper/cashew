@@ -10,55 +10,52 @@ import CloudKit
 
 class UserQueriesCloudKitService: BaseCloudKitService {
     
-    func saveUserQuery(userQuery: UserQuery, onCompletion: CloudOnCompletion) {
-        let db = CKContainer.defaultContainer().publicCloudDatabase
+    func saveUserQuery(_ userQuery: UserQuery, onCompletion: @escaping CloudOnCompletion) {
+        let db = CKContainer.default().publicCloudDatabase
         
-        let container = CKContainer.defaultContainer()
-        container.fetchUserRecordIDWithCompletionHandler { (currentUserId, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        let container = CKContainer.default()
+        container.fetchUserRecordID { (currentUserId, err) in
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
                 guard let currentUserId = currentUserId else {
                     onCompletion(nil, nil)
                     return
                 }
                 
-                guard let baseURL = userQuery.account.baseURL.absoluteString else {
-                    onCompletion(nil, NSError(domain: "co.cashewapp.URLError", code: 0, userInfo: nil ))
-                    return
-                }
+                let baseURL = userQuery.account.baseURL.absoluteString
                 let trimmedBaseURL = (baseURL as NSString).trimmedString()
                 
                 if let recordName = userQuery.externalId {
                     let recordId = CKRecordID(recordName: recordName)
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                        db.fetchRecordWithID(recordId, completionHandler: { (record, err) in
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                                guard let record = record where err == nil else {
-                                    onCompletion(nil, err)
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                        db.fetch(withRecordID: recordId, completionHandler: { (record, err) in
+                            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                                guard let record = record , err == nil else {
+                                    onCompletion(nil, err as NSError?)
                                     return;
                                 }
                                 
-                                if let isDeleted = record["deleted"] as? Bool, updatedAt = record.modificationDate ?? record.creationDate where !isDeleted && updatedAt != userQuery.updatedAt && userQuery.updatedAt != nil {
+                                if let isDeleted = record["deleted"] as? Bool, let updatedAt = record.modificationDate ?? record.creationDate , !isDeleted && updatedAt != userQuery.updatedAt && userQuery.updatedAt != nil {
                                     onCompletion(userQuery, nil)
                                     return
                                 }
                                 
-                                record["name"] = userQuery.displayName
-                                record["query"] = userQuery.query
+                                record["name"] = userQuery.displayName as CKRecordValue?
+                                record["query"] = userQuery.query as CKRecordValue?
                                 record["baseURL"] = trimmedBaseURL
                                 record["userId"] = userQuery.account.userId
-                                record["deleted"] = false
-                                record["creatorId"] = currentUserId.recordName
+                                record["deleted"] = false as CKRecordValue?
+                                record["creatorId"] = currentUserId.recordName as CKRecordValue?
                                 
-                                db.saveRecord(record, completionHandler: { (saveRecord, saveError) in
-                                    guard let saveRecord = saveRecord where saveError == nil else {
-                                        onCompletion(nil, saveError)
+                                db.save(record, completionHandler: { (saveRecord, saveError) in
+                                    guard let saveRecord = saveRecord , saveError == nil else {
+                                        onCompletion(nil, saveError as NSError?)
                                         return;
                                     }
                                     
                                     userQuery.externalId = saveRecord.recordID.recordName
                                     userQuery.updatedAt = saveRecord.modificationDate ?? saveRecord.modificationDate
-                                    QUserQueryStore.saveUserQueryWithQuery(userQuery.query, account: userQuery.account, name: userQuery.displayName, externalId: userQuery.externalId, updatedAt: userQuery.updatedAt)
+                                    QUserQueryStore.saveUserQuery(withQuery: userQuery.query, account: userQuery.account, name: userQuery.displayName, externalId: userQuery.externalId, updatedAt: userQuery.updatedAt)
                                     onCompletion(userQuery, nil)
                                 })
                                 
@@ -68,35 +65,35 @@ class UserQueriesCloudKitService: BaseCloudKitService {
                     }
                 } else {
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                        let container = CKContainer.defaultContainer()
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                        let container = CKContainer.default()
                         let privateDatabase = container.publicCloudDatabase
                         let predicate = NSPredicate(format: "baseURL = %@ && name = %@ && userId = %@", trimmedBaseURL, userQuery.displayName, userQuery.account.userId)
                         let query = CKQuery(recordType: CloudRecordType.UserQuery.rawValue, predicate: predicate)
                         
-                        privateDatabase.performQuery(query, inZoneWithID: nil) { (foundRecords, err) in
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
+                            DispatchQueue.global(qos: .background).async {
                                 //                        guard  else {
                                 //                            DDLogDebug("error fetching records for repository -> \(err)")
                                 //                            return
                                 //                        }
-                                if let firstRecord = foundRecords?.first where err == nil {
-                                    firstRecord["name"] = userQuery.displayName
-                                    firstRecord["query"] = userQuery.query
+                                if let firstRecord = foundRecords?.first , err == nil {
+                                    firstRecord["name"] = userQuery.displayName as CKRecordValue
+                                    firstRecord["query"] = userQuery.query as CKRecordValue
                                     firstRecord["baseURL"] = trimmedBaseURL
                                     firstRecord["userId"] = userQuery.account.userId
-                                    firstRecord["deleted"] = false
-                                    firstRecord["creatorId"] = currentUserId.recordName
+                                    firstRecord["deleted"] = false as CKRecordValue
+                                    firstRecord["creatorId"] = currentUserId.recordName as CKRecordValue
                                     
-                                    db.saveRecord(firstRecord, completionHandler: { (saveRecord, saveError) in
-                                        guard let saveRecord = saveRecord where saveError == nil else {
-                                            onCompletion(nil, saveError)
+                                    db.save(firstRecord, completionHandler: { (saveRecord, saveError) in
+                                        guard let saveRecord = saveRecord , saveError == nil else {
+                                            onCompletion(nil, saveError as! NSError)
                                             return;
                                         }
                                         
                                         userQuery.externalId = saveRecord.recordID.recordName
                                         userQuery.updatedAt = saveRecord.modificationDate ?? saveRecord.modificationDate
-                                        QUserQueryStore.saveUserQueryWithQuery(userQuery.query, account: userQuery.account, name: userQuery.displayName, externalId: userQuery.externalId, updatedAt: userQuery.updatedAt)
+                                        QUserQueryStore.saveUserQuery(withQuery: userQuery.query, account: userQuery.account, name: userQuery.displayName, externalId: userQuery.externalId, updatedAt: userQuery.updatedAt)
                                         onCompletion(userQuery, nil)
                                     })
                                     
@@ -104,22 +101,22 @@ class UserQueriesCloudKitService: BaseCloudKitService {
                                     
                                     let record = CKRecord(recordType: CloudRecordType.UserQuery.rawValue)
                                     
-                                    record["name"] = userQuery.displayName
-                                    record["query"] = userQuery.query
+                                    record["name"] = userQuery.displayName as CKRecordValue
+                                    record["query"] = userQuery.query as CKRecordValue
                                     record["baseURL"] = trimmedBaseURL
                                     record["userId"] = userQuery.account.userId
-                                    record["deleted"] = false
-                                    record["creatorId"] = currentUserId.recordName
+                                    record["deleted"] = false as CKRecordValue
+                                    record["creatorId"] = currentUserId.recordName as CKRecordValue
                                     
-                                    db.saveRecord(record, completionHandler: { (saveRecord, saveError) in
-                                        guard let saveRecord = saveRecord where saveError == nil else {
-                                            onCompletion(nil, saveError)
+                                    db.save(record, completionHandler: { (saveRecord, saveError) in
+                                        guard let saveRecord = saveRecord , saveError == nil else {
+                                            onCompletion(nil, saveError as! NSError)
                                             return;
                                         }
                                         
                                         userQuery.externalId = saveRecord.recordID.recordName
                                         userQuery.updatedAt = saveRecord.modificationDate ?? saveRecord.modificationDate
-                                        QUserQueryStore.saveUserQueryWithQuery(userQuery.query, account: userQuery.account, name: userQuery.displayName, externalId: userQuery.externalId, updatedAt: userQuery.updatedAt)
+                                        QUserQueryStore.saveUserQuery(withQuery: userQuery.query, account: userQuery.account, name: userQuery.displayName, externalId: userQuery.externalId, updatedAt: userQuery.updatedAt)
                                         onCompletion(userQuery, nil)
                                     })
                                     
@@ -135,8 +132,8 @@ class UserQueriesCloudKitService: BaseCloudKitService {
         }
     }
     
-    func deleteUserQuery(userQuery: UserQuery, onCompletion: CloudOnCompletion) {
-        let db = CKContainer.defaultContainer().publicCloudDatabase
+    func deleteUserQuery(_ userQuery: UserQuery, onCompletion: @escaping CloudOnCompletion) {
+        let db = CKContainer.default().publicCloudDatabase
         guard let recordName = userQuery.externalId else {
             onCompletion(userQuery, nil);
             return
@@ -144,48 +141,45 @@ class UserQueriesCloudKitService: BaseCloudKitService {
         
         let recordId = CKRecordID(recordName: recordName)
         
-        db.fetchRecordWithID(recordId, completionHandler: { (currentRecord, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                guard let currentRecord = currentRecord where err == nil else {
-                    onCompletion(nil, err)
+        db.fetch(withRecordID: recordId, completionHandler: { (currentRecord, err) in
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                guard let currentRecord = currentRecord , err == nil else {
+                    onCompletion(nil, err as NSError?)
                     return;
                 }
                 
-                currentRecord["deleted"] = true
+                currentRecord["deleted"] = true as CKRecordValue?
                 
-                db.saveRecord(currentRecord, completionHandler: { (record, saveError) in
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                db.save(currentRecord, completionHandler: { (record, saveError) in
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
                         self.deleteDuplicateRecordsForUserQuery(userQuery)
                     }
                     
-                    onCompletion(userQuery, saveError)
+                    onCompletion(userQuery, saveError as NSError?)
                 })
             }
             
         })
     }
     
-    private func deleteDuplicateRecordsForUserQuery(userQuery: UserQuery) {
-        guard let baseURL = userQuery.account.baseURL.absoluteString else {
-            //onCompletion(nil, NSError(domain: "co.cashewapp.URLError", code: 0, userInfo: nil ))
-            return
-        }
+    fileprivate func deleteDuplicateRecordsForUserQuery(_ userQuery: UserQuery) {
+        let baseURL = userQuery.account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
         
-        let container = CKContainer.defaultContainer()
+        let container = CKContainer.default()
         let privateDatabase = container.publicCloudDatabase
         let predicate = NSPredicate(format: "baseURL = %@ && name = %@ && userId = %@", trimmedBaseURL, userQuery.displayName, userQuery.account.userId)
         let query = CKQuery(recordType: CloudRecordType.UserQuery.rawValue, predicate: predicate)
         
-        privateDatabase.performQuery(query, inZoneWithID: nil) { (foundRecords, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
+            DispatchQueue.global(qos: .background).async {
                 guard err == nil else {
                     DDLogDebug("error fetching records for repository -> \(err)")
                     return
                 }
                 foundRecords?.forEach({ (record) in
-                    if let isDeleted = record["deleted"] as? Bool where !isDeleted {
-                        privateDatabase.deleteRecordWithID(record.recordID, completionHandler: { (record, err) in
+                    if let isDeleted = record["deleted"] as? Bool , !isDeleted {
+                        privateDatabase.delete(withRecordID: record.recordID, completionHandler: { (record, err) in
                             DDLogDebug("Did delete duplicate user query record \(userQuery.displayName)")
                         })
                     }
@@ -195,57 +189,56 @@ class UserQueriesCloudKitService: BaseCloudKitService {
         }
     }
     
-    func syncUserQueriesForAccount(account: QAccount, onCompletion: CloudOnCompletion) {
-        let container = CKContainer.defaultContainer()
+    func syncUserQueriesForAccount(_ account: QAccount, onCompletion: @escaping CloudOnCompletion) {
+        let container = CKContainer.default()
         
-        guard let baseURL = account.baseURL.absoluteString else {
-            onCompletion(nil, NSError(domain: "co.cashewapp.URLError", code: 0, userInfo: nil ))
-            return
-        }
+        let baseURL = account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
         
-        container.fetchUserRecordIDWithCompletionHandler { (currentUserId, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        container.fetchUserRecordID { (currentUserId, err) in
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
-                guard let currentUserId = currentUserId where err == nil else {
-                    onCompletion(nil, err)
+                guard let currentUserId = currentUserId , err == nil else {
+                    onCompletion(nil, err as NSError?)
                     return
                 }
                 
                 let predicate = NSPredicate(format: "creatorId = %@", currentUserId.recordName)
                 let query = CKQuery(recordType: CloudRecordType.UserQuery.rawValue, predicate: predicate)
-                let db = CKContainer.defaultContainer().publicCloudDatabase
+                let db = CKContainer.default().publicCloudDatabase
                 
-                db.performQuery(query, inZoneWithID: nil, completionHandler: { (records, queryErr) in
-                    guard let records = records where queryErr == nil else {
-                        onCompletion(nil, queryErr)
+                db.perform(query, inZoneWith: nil, completionHandler: { (records, queryErr) in
+                    guard let records = records , queryErr == nil else {
+                        onCompletion(nil, queryErr as NSError?)
                         return;
                     }
                     
                     var userQueries = [UserQuery]()
                     records.forEach({ (record) in
                         
-                        guard let baseURL = record["baseURL"] as? String, userId = record["userId"] as? NSNumber where baseURL == trimmedBaseURL && userId == account.userId else { return }
-                        guard let displayName = record["name"] as? String, query = record["query"] as? String else { return }
+//                        let baseURL = record["baseURL"] as? String,
+//                            userId = record["userId"] as? NSNumber,
+//                            baseURL == trimmedBaseURL as String && userId == account.userId
+                        guard let displayName = record["name"] as? String, let query = record["query"] as? String else { return }
                         
-                        if let isDeleted = record["deleted"] as? Bool where isDeleted == true {
-                            if let userQuery = QUserQueryStore.fetchUserQueryForAccount(account, name: displayName) as? UserQuery {
+                        if let isDeleted = record["deleted"] as? Bool, isDeleted == true {
+                            if let userQuery = QUserQueryStore.fetchUserQuery(for: account, name: displayName) as? UserQuery {
                                 QUserQueryStore.deleteUserQuery(userQuery)
                             }
                         } else {
-                            if let userQuery = QUserQueryStore.fetchUserQueryForAccount(account, name: displayName) as? UserQuery {
+                            if let userQuery = QUserQueryStore.fetchUserQuery(for: account, name: displayName) as? UserQuery {
                                 userQueries.append(userQuery)
                             } else {
-                                QUserQueryStore.saveUserQueryWithQuery(query, account: account, name: displayName, externalId: record.recordID.recordName, updatedAt: record.modificationDate ?? record.creationDate)
+                                QUserQueryStore.saveUserQuery(withQuery: query, account: account, name: displayName, externalId: record.recordID.recordName, updatedAt: record.modificationDate ?? record.creationDate)
                                 
-                                if let userQuery = QUserQueryStore.fetchUserQueryForAccount(account, name: displayName) as? UserQuery {
+                                if let userQuery = QUserQueryStore.fetchUserQuery(for: account, name: displayName) as? UserQuery {
                                     userQueries.append(userQuery)
                                 }
                             }
                         }
                     })
                     
-                    onCompletion(userQueries, nil)
+                    onCompletion(userQueries as AnyObject?, nil)
                 })
             }
         }

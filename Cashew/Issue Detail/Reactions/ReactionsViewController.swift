@@ -29,7 +29,7 @@ class ReactionsViewController: NSViewController {
         super.viewDidLoad()
         
         reactionsStackView.wantsLayer = true
-        reactionsStackView.layer?.borderColor = CashewColor.separatorColor().CGColor
+        reactionsStackView.layer?.borderColor = CashewColor.separatorColor().cgColor
         reactionsStackView.layer?.borderWidth = 1
         
         thumbsUpCountView.icon = "👍"
@@ -63,15 +63,15 @@ class ReactionsViewController: NSViewController {
         guard let commentInfo = commentInfo else {
             let block = {
                 buttons.forEach({ (btn) in
-                    btn.commentInfo = nil
-                    btn.hidden = true
+                    btn?.commentInfo = nil
+                    btn?.isHidden = true
                 })
             }
             
-            if NSThread.isMainThread() {
+            if Thread.isMainThread {
                 block()
             } else {
-                dispatch_sync(dispatch_get_main_queue(), block)
+                DispatchQueue.main.sync(execute: block)
             }
             
             return
@@ -84,7 +84,7 @@ class ReactionsViewController: NSViewController {
         }
     }
     
-    func layoutViewsUsingReactions(thumbsUpCount: Int, thumbsDownCount: Int, laughCount: Int, hoorayCount: Int, confusedCount: Int, heartCount: Int) {
+    func layoutViewsUsingReactions(_ thumbsUpCount: Int, thumbsDownCount: Int, laughCount: Int, hoorayCount: Int, confusedCount: Int, heartCount: Int) {
 
         let buttons = [thumbsUpCountView, thumbsDownCountView, laughCountView, hoorayCountView, confusedCountView, heartCountView]
         
@@ -92,32 +92,32 @@ class ReactionsViewController: NSViewController {
             guard let strongSelf = self else { return }
             
             buttons.forEach({ (btn) in
-                btn.commentInfo = strongSelf.commentInfo
+                btn?.commentInfo = strongSelf.commentInfo
             })
             
-            strongSelf.thumbsUpCountView.hidden = (thumbsUpCount == 0)
+            strongSelf.thumbsUpCountView.isHidden = (thumbsUpCount == 0)
             strongSelf.thumbsUpCountView.count = thumbsUpCount
             
-            strongSelf.thumbsDownCountView.hidden = (thumbsDownCount == 0)
+            strongSelf.thumbsDownCountView.isHidden = (thumbsDownCount == 0)
             strongSelf.thumbsDownCountView.count = thumbsDownCount
             
-            strongSelf.laughCountView.hidden = (laughCount == 0)
+            strongSelf.laughCountView.isHidden = (laughCount == 0)
             strongSelf.laughCountView.count = laughCount
             
-            strongSelf.hoorayCountView.hidden = (hoorayCount == 0)
+            strongSelf.hoorayCountView.isHidden = (hoorayCount == 0)
             strongSelf.hoorayCountView.count = hoorayCount
             
-            strongSelf.confusedCountView.hidden = (confusedCount == 0)
+            strongSelf.confusedCountView.isHidden = (confusedCount == 0)
             strongSelf.confusedCountView.count = confusedCount
             
-            strongSelf.heartCountView.hidden = (heartCount == 0)
+            strongSelf.heartCountView.isHidden = (heartCount == 0)
             strongSelf.heartCountView.count = heartCount
         }
         
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             block()
         } else {
-            dispatch_sync(dispatch_get_main_queue(), block)
+            DispatchQueue.main.sync(execute: block)
         }
     }
     

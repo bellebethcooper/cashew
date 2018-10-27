@@ -11,12 +11,12 @@ import Foundation
 
 extension QAccount {
     
-    class func isCurrentUserCollaboratorOfRepository(repository: QRepository) -> Bool {
-        let account = QContext.sharedContext().currentAccount
-        return account.isCollaboratorOfRepository(repository)
+    class func isCurrentUserCollaboratorOfRepository(_ repository: QRepository) -> Bool {
+        let account = QContext.shared().currentAccount
+        return (account?.isCollaboratorOfRepository(repository))!
     }
     
-    func isCollaboratorOfRepository(repository: QRepository) -> Bool {
+    func isCollaboratorOfRepository(_ repository: QRepository) -> Bool {
         return QOwnerStore.isCollaboratorUserId(userId, forAccountId: identifier, repositoryId: repository.identifier)
     }
     

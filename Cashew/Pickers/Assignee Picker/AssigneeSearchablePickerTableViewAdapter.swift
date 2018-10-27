@@ -20,7 +20,7 @@ class AssigneeSearchablePickerTableViewAdapter: NSObject, SearchablePickerTableA
         self.dataSource = dataSource
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         guard let assignee = item as? QOwner else { return nil }
         
         let handler = { [weak self] (rowView: AssigneeSearchResultTableRowView) in
@@ -33,7 +33,7 @@ class AssigneeSearchablePickerTableViewAdapter: NSObject, SearchablePickerTableA
                 rowView.checked = strongSelf.dataSource.isSelectedItem(assignee)
             }
             rowView.accessoryView?.disableThemeObserver = true
-            rowView.accessoryView?.backgroundColor = NSColor.clearColor()
+            rowView.accessoryView?.backgroundColor = NSColor.clear
         }
         
         if let view = view as? AssigneeSearchResultTableRowView {

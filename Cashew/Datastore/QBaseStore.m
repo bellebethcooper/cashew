@@ -118,7 +118,7 @@
     }
 }
 
-+ (void)removeObserver:(id<QStoreObserver>)observer;
++ (void)remove:(id<QStoreObserver>)observer;
 {
 //    dispatch_sync([[self class] _observersSerialQueue], ^{
 //        [[[self class] _observers] removeObject:observer];

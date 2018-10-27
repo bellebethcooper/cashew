@@ -19,7 +19,7 @@ enum IssueEventTypeInfo: String {
 protocol IssueEventInfo: NSObjectProtocol, SRIssueDetailItem {
     var actor: QOwner! { get set }
     var event: NSString? { get set }
-    var createdAt: NSDate! { get set }
+    var createdAt: Date! { get set }
     
     var additions: NSMutableOrderedSet { get }
     var removals: NSMutableOrderedSet { get }

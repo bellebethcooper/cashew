@@ -11,14 +11,14 @@ import Cocoa
 class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     
     var sourceIssue: QIssue?
-    private var results = [QLabel]()
+    fileprivate var results = [QLabel]()
     var allowResetToOriginal: Bool = true
     var repository: QRepository? = nil {
         didSet {
             
         }
     }
-    private(set) var selectionMap: [QIssue: Set<QLabel>]?
+    fileprivate(set) var selectionMap: [QIssue: Set<QLabel>]?
     
     required init(sourceIssue: QIssue?) {
         self.sourceIssue = sourceIssue
@@ -36,7 +36,7 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         if let sourceIssue = sourceIssue {
             issues = [sourceIssue]
         } else {
-            issues = QContext.sharedContext().currentIssues
+            issues = QContext.shared().currentIssues
         }
         
         issues.forEach { (issue) in
@@ -54,11 +54,11 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return [QRepository]()
         }
         let issues = Array(selectionMap.keys)
-        let repos = Array(Set(issues.flatMap { $0.repository })).sort({ $0.fullName.compare($1.fullName) == .OrderedAscending })
+        let repos = Array(Set(issues.flatMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
         return repos
     }
     
-    func isPartialSelection(label: QLabel) -> Bool {
+    func isPartialSelection(_ label: QLabel) -> Bool {
         guard let selectionMap = selectionMap else { return false }
         
         let total:Int = selectionMap.filter({ $0.1.contains(label) && $0.0.repository == label.repository }).count
@@ -67,10 +67,10 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         return total > 0 && total != repoTotal
     }
     
-    func isFullSelection(label: QLabel) -> Bool {
-        if let issues = selectionMap?.keys where issues.count > 0 {
+    func isFullSelection(_ label: QLabel) -> Bool {
+        if let issues = selectionMap?.keys , issues.count > 0 {
             for issue in issues {
-                if let labels = selectionMap?[issue] where !labels.contains(label) && label.repository == issue.repository {
+                if let labels = selectionMap?[issue] , !labels.contains(label) && label.repository == issue.repository {
                     return false
                 }
             }
@@ -81,10 +81,10 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     }
     
     // MARK: SearchablePickerDataSource
-    var mode: SearchablePickerDataSourceMode = .SearchResults {
+    var mode: SearchablePickerDataSourceMode = .searchResults {
         didSet {
             switch mode {
-            case .SelectedItems:
+            case .selectedItems:
                 if let selectionMap = selectionMap {
                     var selectedItems = Set<QLabel>()
                     for (k, v) in selectionMap {
@@ -107,21 +107,21 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         return results.count
     }
     
-    var selectedIndexes: NSIndexSet {
+    var selectedIndexes: IndexSet {
         let set = NSMutableIndexSet()
-        for (i , _) in results.enumerate() {
+        for (i , _) in results.enumerated() {
             if selectedLabelSet.contains(results[i]) {
-                set.addIndex(i)
+                set.add(i)
             }
         }
-        return set
+        return set as IndexSet
     }
     
     var selectedLabels: [QLabel] {
         return Array(selectedLabelSet)
     }
     
-    private var selectedLabelSet: Set<QLabel> {
+    fileprivate var selectedLabelSet: Set<QLabel> {
         guard let selectionMap = selectionMap else { return Set<QLabel>() }
         var selectedLabelSet = Set<QLabel>()
         for (_, v) in selectionMap {
@@ -134,46 +134,46 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         return selectedLabelSet.count
     }
     
-    func itemAtIndex(index: Int) -> AnyObject {
+    func itemAtIndex(_ index: Int) -> AnyObject {
         return results[index]
     }
     
-    func search(string: String, onCompletion: dispatch_block_t) {
-        mode = .SearchResults
+    func search(_ string: String, onCompletion: @escaping ()->()) {
+        mode = .searchResults
         guard let repository = self.repository else {
             self.results = []
             onCompletion()
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            if let results = QLabelStore.searchLabelsWithQuery("\(string)*", forAccountId: repository.account.identifier, repositoryId: repository.identifier) as NSArray as? [QLabel] {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            if let results = QLabelStore.searchLabels(withQuery: "\(string)*", forAccountId: repository.account.identifier, repositoryId: repository.identifier) as NSArray as? [QLabel] {
                 self.results = results
             }
             onCompletion()
         }
     }
     
-    func defaults(onCompletion: dispatch_block_t) {
-        mode = .DefaultResults
+    func defaults(_ onCompletion: @escaping ()->()) {
+        mode = .defaultResults
         guard let repository = self.repository else {
             self.results = []
             onCompletion()
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            if let results = QLabelStore.labelsForAccountId(repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as NSArray as? [QLabel] {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            if let results = QLabelStore.labels(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as NSArray as? [QLabel] {
                 
-                self.results = results.sort({ (repo1, repo2) -> Bool in
+                self.results = results.sorted(by: { (repo1, repo2) -> Bool in
                     if self.isSelectedItem(repo1) && self.isSelectedItem(repo2) {
-                        return repo1.name < repo2.name
+                        return repo1.name! < repo2.name!
                     } else  if self.isSelectedItem(repo1) {
                         return true
                     } else  if self.isSelectedItem(repo2) {
                         return false
                     } else {
-                        return repo1.name < repo2.name
+                        return repo1.name! < repo2.name!
                     }
                 })
             }
@@ -182,19 +182,19 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         
     }
     
-    func selectItem(item: AnyObject) {
+    func selectItem(_ item: AnyObject) {
         if let label = item as? QLabel {
             tappedLabel(label)
         }
     }
     
-    func unselectItem(item: AnyObject) {
+    func unselectItem(_ item: AnyObject) {
         if let label = item as? QLabel {
             tappedLabel(label)
         }
     }
     
-    func isSelectedItem(item: AnyObject) -> Bool {
+    func isSelectedItem(_ item: AnyObject) -> Bool {
         if let label = item as? QLabel {
             return isFullSelection(label) || isPartialSelection(label)
         }
@@ -214,7 +214,7 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         self.selectionMap = newSelectionMap
     }
     
-    private func tappedLabel(label: QLabel) {
+    fileprivate func tappedLabel(_ label: QLabel) {
         guard var selectionMap = selectionMap else { return }
         if isPartialSelection(label) {
             for (k, v) in selectionMap {

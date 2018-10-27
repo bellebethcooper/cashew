@@ -8,14 +8,14 @@
 
 import Cocoa
 
-@objc(SRReactionCountView)
+//@objc(SRReactionCountView)
 class ReactionCountView: BaseView {
     
-    private static let buttonLabelPadding: CGFloat = 5
-    private static let labelRightPadding: CGFloat = 10
+    fileprivate static let buttonLabelPadding: CGFloat = 5
+    fileprivate static let labelRightPadding: CGFloat = 10
     
-    private lazy var reactionService: SRReactionsService = {
-        return SRReactionsService(forAccount: QContext.sharedContext().currentAccount)
+    fileprivate lazy var reactionService: SRReactionsService = {
+        return SRReactionsService(for: QContext.shared().currentAccount)
     }()
     
     let button = NSButton()
@@ -24,7 +24,7 @@ class ReactionCountView: BaseView {
     var content: String?
     var commentInfo: QIssueCommentInfo? /* {
         didSet {
-            let userId = QContext.sharedContext().currentAccount.userId
+            let userId = QContext.shared().currentAccount.userId
             guard let content = content else { return }
             
             if let issue = commentInfo as? QIssue {
@@ -35,7 +35,7 @@ class ReactionCountView: BaseView {
                     
                 } else {
                     DispatchOnMainQueue({
-                        self.backgroundColor = NSColor.clearColor()
+                        self.backgroundColor = NSColor.clear()
                     })
                 }
                 
@@ -46,7 +46,7 @@ class ReactionCountView: BaseView {
                     })
                 } else {
                     DispatchOnMainQueue({
-                        self.backgroundColor = NSColor.clearColor()
+                        self.backgroundColor = NSColor.clear()
                     })
                 }
             }
@@ -83,53 +83,53 @@ class ReactionCountView: BaseView {
         setup()
     }
     
-    override func mouseDown(theEvent: NSEvent) {
-        super.mouseDown(theEvent)
+    override func mouseDown(with theEvent: NSEvent) {
+        super.mouseDown(with: theEvent)
         didClick()
     }
     
     @objc
-    private func didClick() {
-        let userId = QContext.sharedContext().currentAccount.userId
+    fileprivate func didClick() {
+        let userId = QContext.shared().currentAccount.userId
         guard let content = content else { return }
         
         if let issue = commentInfo as? QIssue {
             
             var issuesReactionSet = Set<SRIssueReaction>()
-            let savedReactions = SRIssueReactionStore.issueReactionsForIssue(issue)
-            
-            savedReactions.forEach { (savedReaction) in
-                issuesReactionSet.insert(savedReaction)
+            if let savedReactions = SRIssueReactionStore.issueReactions(for: issue) {
+                savedReactions.forEach { (savedReaction) in
+                    issuesReactionSet.insert(savedReaction)
+                }
             }
             
             reactionService.reactionsForIssue(issue, onCompletion: { [weak self] (responseObject, context, err) in
-                guard let reactions = responseObject as? [SRIssueReaction] where err == nil else { return }
+                guard let reactions = responseObject as? [SRIssueReaction] , err == nil else { return }
                 reactions.forEach({ (reaction) in
-                    SRIssueReactionStore.saveIssueReaction(reaction)
+                    SRIssueReactionStore.save(reaction)
                     issuesReactionSet.remove(reaction)
                 })
                 
                 issuesReactionSet.forEach({ (deleteReaction) in
-                    SRIssueReactionStore.deleteIssueReaction(deleteReaction)
+                    SRIssueReactionStore.delete(deleteReaction)
                 })
                 
-                if let reaction = SRIssueReactionStore.didUserId(userId, addReactionToIssue: issue, withContent: content) {
+                if let reaction = SRIssueReactionStore.didUserId(userId, addReactionTo: issue, withContent: content) {
                     //DDLogDebug("issue.reaction \(reaction)")
                     self?.reactionService.deleteReactionWithId(reaction.identifier, onCompletion: { (obj, context, err) in
                         if  err == nil {
-                            SRIssueReactionStore.deleteIssueReaction(reaction)
-                            QIssueStore.updateIssueReactionCountsForIssue(issue)
+                            SRIssueReactionStore.delete(reaction)
+                            QIssueStore.updateIssueReactionCounts(for: issue)
 //                            DispatchOnMainQueue({
-//                                self?.backgroundColor = NSColor.clearColor()
+//                                self?.backgroundColor = NSColor.clear()
 //                            })
                             
                         }
                         })
                 } else {
                     self?.reactionService.createReactionForIssue(issue, content: content, onCompletion: { (reaction, context, err) in
-                        if let reaction = reaction as? SRIssueReaction where err == nil {
-                            SRIssueReactionStore.saveIssueReaction(reaction)
-                            QIssueStore.updateIssueReactionCountsForIssue(issue)
+                        if let reaction = reaction as? SRIssueReaction , err == nil {
+                            SRIssueReactionStore.save(reaction)
+                            QIssueStore.updateIssueReactionCounts(for: issue)
 //                            DispatchOnMainQueue({
 //                                self?.backgroundColor = CashewColor.currentLineBackgroundColor()
 //                            })
@@ -143,40 +143,40 @@ class ReactionCountView: BaseView {
         } else if let issueComment = commentInfo as? QIssueComment {
             
             var issueCommentsReactionSet = Set<SRIssueCommentReaction>()
-            let savedReactions = SRIssueCommentReactionStore.issueCommentReactionsForIssueComment(issueComment)
-            
-            savedReactions.forEach { (savedReaction) in
-                issueCommentsReactionSet.insert(savedReaction)
+            if let savedReactions = SRIssueCommentReactionStore.issueCommentReactions(for: issueComment) {
+                savedReactions.forEach { (savedReaction) in
+                    issueCommentsReactionSet.insert(savedReaction)
+                }
             }
             
             reactionService.reactionsForIssueComment(issueComment, onCompletion: { [weak self] (responseObject, context, err) in
                 
-                guard let reactions = responseObject as? [SRIssueCommentReaction] where err == nil else { return }
+                guard let reactions = responseObject as? [SRIssueCommentReaction] , err == nil else { return }
                 reactions.forEach({ (reaction) in
-                    SRIssueCommentReactionStore.saveIssueCommentReaction(reaction)
+                    SRIssueCommentReactionStore.save(reaction)
                     issueCommentsReactionSet.remove(reaction)
                 })
                 
                 issueCommentsReactionSet.forEach({ (deleteReaction) in
-                    SRIssueCommentReactionStore.deleteIssueCommentReaction(deleteReaction)
+                    SRIssueCommentReactionStore.delete(deleteReaction)
                 })
                 
-                if let reaction = SRIssueCommentReactionStore.didUserId(userId, addReactionToIssueComment: issueComment, withContent: content) {
+                if let reaction = SRIssueCommentReactionStore.didUserId(userId, addReactionTo: issueComment, withContent: content) {
                     //DDLogDebug("issueComment.reaction \(reaction)")
                     self?.reactionService.deleteReactionWithId(reaction.identifier, onCompletion: { (obj, context, err) in
                         if err == nil {
-                            SRIssueCommentReactionStore.deleteIssueCommentReaction(reaction)
-                            QIssueCommentStore.updateIssueCommentReactionCountsForIssueComment(issueComment)
+                            SRIssueCommentReactionStore.delete(reaction)
+                            QIssueCommentStore.updateIssueCommentReactionCounts(for: issueComment)
 //                            DispatchOnMainQueue({
-//                                self?.backgroundColor = NSColor.clearColor()
+//                                self?.backgroundColor = NSColor.clear()
 //                            })
                         }
                         })
                 } else {
                     self?.reactionService.createReactionForIssueComment(issueComment, content: content, onCompletion: {  (reaction, context, err) in
-                        if let reaction = reaction as? SRIssueCommentReaction where err == nil {
-                            SRIssueCommentReactionStore.saveIssueCommentReaction(reaction)
-                            QIssueCommentStore.updateIssueCommentReactionCountsForIssueComment(issueComment)
+                        if let reaction = reaction as? SRIssueCommentReaction , err == nil {
+                            SRIssueCommentReactionStore.save(reaction)
+                            QIssueCommentStore.updateIssueCommentReactionCounts(for: issueComment)
 //                            DispatchOnMainQueue({
 //                                self?.backgroundColor = CashewColor.currentLineBackgroundColor()
 //                            })
@@ -193,12 +193,12 @@ class ReactionCountView: BaseView {
     
     func setup() {
         
-        backgroundColor = NSColor.clearColor()
+        backgroundColor = NSColor.clear
         
-        button.bordered = false
+        button.isBordered = false
         button.wantsLayer = true
-        button.font = NSFont.systemFontOfSize(15)
-        button.setButtonType(.MomentaryChange)
+        button.font = NSFont.systemFont(ofSize: 15)
+        button.setButtonType(.momentaryChange)
         button.action = #selector(ReactionCountView.didClick)
         button.target = self
         
@@ -208,27 +208,27 @@ class ReactionCountView: BaseView {
         
         button.translatesAutoresizingMaskIntoConstraints = false
         countLabel.translatesAutoresizingMaskIntoConstraints = false
-        countLabel.font = NSFont.systemFontOfSize(13)
+        countLabel.font = NSFont.systemFont(ofSize: 13)
         
-        button.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: ReactionCountView.labelRightPadding).active = true
-        button.centerYAnchor.constraintEqualToAnchor(centerYAnchor ,constant: 1).active = true
+        button.leftAnchor.constraint(equalTo: leftAnchor, constant: ReactionCountView.labelRightPadding).isActive = true
+        button.centerYAnchor.constraint(equalTo: centerYAnchor ,constant: 1).isActive = true
         //        button.topAnchor.constraintEqualToAnchor(topAnchor).active = true
         //        button.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
-        button.rightAnchor.constraintEqualToAnchor(countLabel.leftAnchor, constant: -ReactionCountView.buttonLabelPadding).active = true
+        button.rightAnchor.constraint(equalTo: countLabel.leftAnchor, constant: -ReactionCountView.buttonLabelPadding).isActive = true
         
         
         //        countLabel.topAnchor.constraintEqualToAnchor(topAnchor).active = true
         //        countLabel.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
-        countLabel.centerYAnchor.constraintEqualToAnchor(centerYAnchor ,constant: 0).active = true
-        countLabel.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -ReactionCountView.labelRightPadding).active = true
+        countLabel.centerYAnchor.constraint(equalTo: centerYAnchor ,constant: 0).isActive = true
+        countLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -ReactionCountView.labelRightPadding).isActive = true
         
-        countLabel.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        countLabel.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        countLabel.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        countLabel.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
+        countLabel.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        countLabel.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        countLabel.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .vertical)
         
-        button.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        button.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
+        button.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        button.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
         icon = ""
         count = 0
     }

@@ -11,23 +11,25 @@ import Foundation
 @objc(SROwnerCache)
 class OwnerCache: NSObject {
     
-    private static var token: dispatch_once_t = 0
-    private static var _sharedCache: OwnerCache?
+    private static var __once: () = {
+            _sharedCache = OwnerCache()
+        }()
     
-    private let cache = BaseCache<QOwner>(countLimit: 1000)
+    fileprivate static var token: Int = 0
+    fileprivate static var _sharedCache: OwnerCache?
+    
+    fileprivate let cache = BaseCache<QOwner>(countLimit: 1000)
     
     class func sharedCache() -> OwnerCache {
-        dispatch_once(&token) {
-            _sharedCache = OwnerCache()
-        }
+        _ = OwnerCache.__once
         return _sharedCache!
     }
     
-    func removeObjectForKey(key: String) {
+    func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(key: String, fetcher: ( () -> QOwner? )) -> QOwner? {
+    func fetch(_ key: String, fetcher: ( () -> QOwner? )) -> QOwner? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
@@ -35,7 +37,7 @@ class OwnerCache: NSObject {
         cache.removeAll()
     }
     
-    class func OwnerCacheKeyForAccountId(accountId: NSNumber, ownerId: NSNumber) -> String {
+    class func OwnerCacheKeyForAccountId(_ accountId: NSNumber, ownerId: NSNumber) -> String {
         return "owner_\(accountId)_\(ownerId)"
     }
     

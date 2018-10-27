@@ -10,11 +10,11 @@ import Cocoa
 
 class EditableMarkdownView: BaseView {
     
-    private static let textViewEdgeInset = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    fileprivate static let textViewEdgeInset = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
-    private var markdownWebView: QIssueMarkdownWebView?
-    private let textView = MarkdownEditorTextView()
-    private var mardownWebViewContentSize: CGSize?
+    fileprivate var markdownWebView: QIssueMarkdownWebView?
+    fileprivate let textView = MarkdownEditorTextView()
+    fileprivate var mardownWebViewContentSize: CGSize?
     
     deinit {
         markdownWebView = nil
@@ -53,21 +53,21 @@ class EditableMarkdownView: BaseView {
         }
     }
     
-    var onTextChange: dispatch_block_t?
+    var onTextChange: (()->())?
     
-    var onHeightChanged: dispatch_block_t? {
+    var onHeightChanged: (()->())? {
         didSet {
             didSetHeightChanged()
         }
     }
     
-    var didClickImageBlock: ((url: NSURL!) -> ())? {
+    var didClickImageBlock: ((_ url: URL?) -> ())? {
         didSet {
             markdownWebView?.didClickImageBlock = didClickImageBlock
         }
     }
     
-    var onEnterKeyPressed: dispatch_block_t? {
+    var onEnterKeyPressed: (()->())? {
         didSet {
             textView.onEnterKeyPressed = onEnterKeyPressed
         }
@@ -81,9 +81,9 @@ class EditableMarkdownView: BaseView {
         }
     }
     
-    var imageURLs: [NSURL] {
+    var imageURLs: [URL] {
         get {
-            return markdownWebView?.imageURLs ?? [NSURL]()
+            return markdownWebView?.imageURLs ?? [URL]()
         }
     }
     
@@ -99,37 +99,37 @@ class EditableMarkdownView: BaseView {
         }
     }
     
-    var didDoubleClick: dispatch_block_t? {
+    var didDoubleClick: (()->())? {
         didSet {
             markdownWebView?.didDoubleClick = didDoubleClick
         }
     }
     
-    var onFileUploadChange: dispatch_block_t? {
+    var onFileUploadChange: (()->())? {
         didSet {
             textView.onFileUploadChange = onFileUploadChange
         }
     }
     
-    var onDragEntered: dispatch_block_t? {
+    var onDragEntered: (()->())? {
         didSet {
             textView.onDragEntered = onDragEntered
         }
     }
     
-    var onDragExited: dispatch_block_t? {
+    var onDragExited: (()->())? {
         didSet {
             textView.onDragExited = onDragExited
         }
     }
     
-    private(set) var markdown: String {
+    fileprivate(set) var markdown: String {
         didSet {
             didSetMarkdownString()
         }
     }
     
-    private(set) var html: String?
+    fileprivate(set) var html: String?
     
     required init(commentInfo: QIssueCommentInfo) {
         self.commentInfo = commentInfo
@@ -150,10 +150,10 @@ class EditableMarkdownView: BaseView {
             }
             strongSelf.backgroundColor = CashewColor.backgroundColor()
             strongSelf.textView.textColor = CashewColor.foregroundColor()
-            if mode == .Dark {
-                strongSelf.textView.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if mode == .dark {
+                strongSelf.textView.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {
-                strongSelf.textView.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                strongSelf.textView.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             }
         }
     }
@@ -162,14 +162,14 @@ class EditableMarkdownView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func didSetMarkdownString() {
+    fileprivate func didSetMarkdownString() {
         setupMarkdownWebView()
         if textView.string != self.markdown {
             textView.string = self.markdown
         }
     }
     
-    private func didSetHeightChanged() {
+    fileprivate func didSetHeightChanged() {
         guard let markdownWebView  = markdownWebView else { return }
         markdownWebView.didResizeBlock = { [weak self] (rect) in
             
@@ -180,23 +180,23 @@ class EditableMarkdownView: BaseView {
         }
     }
     
-    private func didSetEditing() {
+    fileprivate func didSetEditing() {
         setupMarkdownWebView()
         guard let markdownWebView = markdownWebView else { return }
         
         if editing {
-            textView.hidden = false
-            markdownWebView.hidden = true
+            textView.isHidden = false
+            markdownWebView.isHidden = true
             self.textView.collapseToolbar = false
             self.textView.activateTextViewConstraints = true
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 //self.window?.makeFirstResponder(self.textView)
                 self.textView.makeFirstResponder()
             });
         } else {
-            textView.hidden = true
-            markdownWebView.hidden = false
+            textView.isHidden = true
+            markdownWebView.isHidden = false
             self.textView.activateTextViewConstraints = false
         }
         
@@ -220,7 +220,7 @@ class EditableMarkdownView: BaseView {
         }
     }
     
-    private func textContentSize() -> NSSize {
+    fileprivate func textContentSize() -> NSSize {
         let containerWidth: CGFloat = bounds.width //- EditableMarkdownView.textViewEdgeInset.left - EditableMarkdownView.textViewEdgeInset.right
 
         //borderColor = NSColor.redColor()
@@ -229,25 +229,25 @@ class EditableMarkdownView: BaseView {
     
     // MARK: General Setup
     
-    private func setupTextView() {
+    fileprivate func setupTextView() {
         textView.string = self.markdown
         
         addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.delegate = self
         textView.drawsBackground = false
-        textView.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: 0).active = true
-        textView.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: 0).active = true
-        textView.topAnchor.constraintEqualToAnchor(topAnchor, constant: EditableMarkdownView.textViewEdgeInset.top).active = true
-        textView.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -EditableMarkdownView.textViewEdgeInset.bottom).active = true
-        textView.focusRingType = NSFocusRingType.Default
-        textView.font = NSFont.systemFontOfSize(14)
+        textView.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
+        textView.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        textView.topAnchor.constraint(equalTo: topAnchor, constant: EditableMarkdownView.textViewEdgeInset.top).isActive = true
+        textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -EditableMarkdownView.textViewEdgeInset.bottom).isActive = true
+        textView.focusRingType = NSFocusRingType.default
+        textView.font = NSFont.systemFont(ofSize: 14)
         textView.collapseToolbar = false
         textView.disableScrollViewBounce = true
         textView.registerDragAndDrop()
     }
     
-    private func setupMarkdownWebView() {
+    fileprivate func setupMarkdownWebView() {
         guard self.editing == false else { return }
         
         if let currentMarkdownWebView = self.markdownWebView {
@@ -256,9 +256,9 @@ class EditableMarkdownView: BaseView {
         }
         
         let markdownParser = MarkdownParser()
-        let html = markdownParser.parse(commentInfo.commentBody(), forRepository: commentInfo.repo())
+        let html = markdownParser.parse(commentInfo.commentBody(), for: commentInfo.repo())
         self.html = html
-        let markdownWebView = QIssueMarkdownWebView(HTMLString: html) { [weak self] (rect) in
+        let markdownWebView = QIssueMarkdownWebView(htmlString: html) { [weak self] (rect) in
             self?.mardownWebViewContentSize = rect.size
             self?.invalidateIntrinsicContentSize()
             if let onHeightChanged = self?.onHeightChanged {
@@ -266,15 +266,15 @@ class EditableMarkdownView: BaseView {
             }
         }
         self.markdownWebView = markdownWebView
-        markdownWebView.didDoubleClick = didDoubleClick
+        markdownWebView?.didDoubleClick = didDoubleClick
         
-        addSubview(markdownWebView)
-        markdownWebView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(markdownWebView!)
+        markdownWebView?.translatesAutoresizingMaskIntoConstraints = false
         
-        markdownWebView.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
-        markdownWebView.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -EditableMarkdownView.textViewEdgeInset.right).active = true
-        markdownWebView.topAnchor.constraintEqualToAnchor(topAnchor).active = true
-        markdownWebView.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+        markdownWebView?.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        markdownWebView?.rightAnchor.constraint(equalTo: rightAnchor, constant: -EditableMarkdownView.textViewEdgeInset.right).isActive = true
+        markdownWebView?.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        markdownWebView?.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         didSetHeightChanged()
     }
 }
@@ -285,10 +285,10 @@ extension EditableMarkdownView: NSTextViewDelegate {
 //        
 //    }
     
-    func textDidChange(notification: NSNotification) {
+    func textDidChange(_ notification: Notification) {
         markdown = textView.string ?? ""
         invalidateIntrinsicContentSize()
-        setNeedsDisplayInRect(bounds)
+        setNeedsDisplay(bounds)
         if let onHeightChanged = onHeightChanged {
             onHeightChanged()
         }
@@ -297,14 +297,14 @@ extension EditableMarkdownView: NSTextViewDelegate {
         }
     }
     
-    func textDidBeginEditing(notification: NSNotification) {
+    func textDidBeginEditing(_ notification: Notification) {
         invalidateIntrinsicContentSize()
-        setNeedsDisplayInRect(bounds)
+        setNeedsDisplay(bounds)
     }
     
-    func textDidEndEditing(notification: NSNotification) {
+    func textDidEndEditing(_ notification: Notification) {
         invalidateIntrinsicContentSize()
-        setNeedsDisplayInRect(bounds)
+        setNeedsDisplay(bounds)
         if !textView.isShowingPopover {
         textView.undoManager?.removeAllActions()
         }

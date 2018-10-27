@@ -45,7 +45,7 @@ class StandardSearchBuilderCriteriaViewControllerDataSource: NSObject, SearchBui
         return StandardSearchBuilderCriteriaType.allValues().map({ $0.rawValue })
     }
     
-    func partsOfSpeechForCriteriaField(field: String) -> [String] {
+    func partsOfSpeechForCriteriaField(_ field: String) -> [String] {
         guard let type = StandardSearchBuilderCriteriaType(rawValue: field) else { return [] }
         
         switch type {
@@ -60,24 +60,24 @@ class StandardSearchBuilderCriteriaViewControllerDataSource: NSObject, SearchBui
         }
     }
     
-    func shouldHideValueForPartOfSpeech(pos: String) -> Bool {
-        guard let partOfSpeech = StandardSearchBuilderPartOfSpeech(rawValue: pos) where StandardSearchBuilderPartOfSpeech.Unspecified == partOfSpeech else { return false }
+    func shouldHideValueForPartOfSpeech(_ pos: String) -> Bool {
+        guard let partOfSpeech = StandardSearchBuilderPartOfSpeech(rawValue: pos) , StandardSearchBuilderPartOfSpeech.Unspecified == partOfSpeech else { return false }
         return true
     }
     
-    func valuesForCriteriaField(field: String) -> [String] {
+    func valuesForCriteriaField(_ field: String) -> [String] {
         guard let type = StandardSearchBuilderCriteriaType(rawValue: field) else { return [] }
         return valuesForType(type)
     }
     
-    func numberOfItemsInComboBox(aComboBox: NSComboBox) -> Int {
-        guard let comboBox = aComboBox as? SearchBuilderValueComboBox, typeString = comboBox.representedObject as? String, type = StandardSearchBuilderCriteriaType(rawValue: typeString) else { return 0 }
+    func numberOfItems(in aComboBox: NSComboBox) -> Int {
+        guard let comboBox = aComboBox as? SearchBuilderValueComboBox, let typeString = comboBox.representedObject as? String, let type = StandardSearchBuilderCriteriaType(rawValue: typeString) else { return 0 }
         let values = valuesForType(type)
         return values.count
     }
     
-    func comboBox(aComboBox: NSComboBox, objectValueForItemAtIndex index: Int) -> AnyObject? {
-        guard let comboBox = aComboBox as? SearchBuilderValueComboBox, let typeString = comboBox.representedObject as? String, type = StandardSearchBuilderCriteriaType(rawValue: typeString) else { return 0 }
+    func comboBox(_ aComboBox: NSComboBox, objectValueForItemAt index: Int) -> Any? {
+        guard let comboBox = aComboBox as? SearchBuilderValueComboBox, let typeString = comboBox.representedObject as? String, let type = StandardSearchBuilderCriteriaType(rawValue: typeString) else { return 0 }
         let values = valuesForType(type)
         let value = values[index]
         return value
@@ -90,8 +90,8 @@ class StandardSearchBuilderCriteriaViewControllerDataSource: NSObject, SearchBui
         labels = nil
     }
     
-    private func valuesForType(type: StandardSearchBuilderCriteriaType) -> [String] {
-        let account = QContext.sharedContext().currentAccount
+    fileprivate func valuesForType(_ type: StandardSearchBuilderCriteriaType) -> [String] {
+        let account = QContext.shared().currentAccount
         switch type {
         case .IssueNumber, .Text:
             return []
@@ -101,28 +101,28 @@ class StandardSearchBuilderCriteriaViewControllerDataSource: NSObject, SearchBui
             if let users = users {
                 return users
             } else {
-                self.users = QOwnerStore.ownersForAccountId(account.identifier).uniqueMap({ $0.login })
+                self.users = QOwnerStore.owners(forAccountId: account?.identifier).uniqueMap({ $0.login })
                 return self.users!
             }
         case .Repository:
             if let repositories = repositories {
                 return repositories
             } else {
-                self.repositories = QRepositoryStore.repositoriesForAccountId(account.identifier).uniqueMap({ $0.fullName })
+                self.repositories = QRepositoryStore.repositories(forAccountId: account?.identifier).uniqueMap({ $0.fullName })
                 return self.repositories!
             }
         case .Milestone:
             if let milestones = milestones {
                 return milestones
             } else {
-                self.milestones = QMilestoneStore.milestonesForAccountId(account.identifier).uniqueMap({ $0.title })
+                self.milestones = QMilestoneStore.milestones(forAccountId: account!.identifier).uniqueMap({ ($0 as AnyObject).title })
                 return self.milestones!
             }
         case .Label:
             if let labels = labels {
                 return labels
             } else {
-                self.labels = QLabelStore.labelsForAccountId(account.identifier).uniqueMap({ $0.name })
+                self.labels = QLabelStore.labels(forAccountId: account!.identifier).uniqueMap({ ($0 as AnyObject).name })
                 return self.labels!
             }
         }

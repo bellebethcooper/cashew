@@ -26,14 +26,14 @@ import Cocoa
 @objc(SRLightModeColor)
 class LightModeColor: NSObject, ThemeColor {
     
-    private static let bgColor = NSColor.whiteColor() // NSColor(fromHexadecimalValue: "#fdf6e3") // NSColor.whiteColor()
-    private static let currentLineBgColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
-    private static let fgColor = NSColor(calibratedWhite: 0, alpha: 0.90) //NSColor(calibratedRed: 77/255.0, green: 77/255.0, blue: 76/255.0, alpha: 1.0)
-    private static let fgSecondaryColor = NSColor(calibratedRed: 120/255.0, green: 120/255.0, blue: 120/255.0, alpha: 1.0)
-    private static let fgTertiaryColor = NSColor(calibratedWhite: 100/255.0, alpha: 1.0)
-    private static let separatorLineColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0) //NSColor(calibratedWhite: 0/255.0, alpha: 0.05)
-    private static let aYellowColor = NSColor(calibratedRed: 234/255.0, green: 183/255.0, blue: 0, alpha: 1)
-    private static let sidebarBgColor = NSColor(calibratedWhite: 245/255.0, alpha: 1.0)
+    fileprivate static let bgColor = NSColor.white // NSColor(fromHexadecimalValue: "#fdf6e3") // NSColor.whiteColor()
+    fileprivate static let currentLineBgColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
+    fileprivate static let fgColor = NSColor(calibratedWhite: 0, alpha: 0.90) //NSColor(calibratedRed: 77/255.0, green: 77/255.0, blue: 76/255.0, alpha: 1.0)
+    fileprivate static let fgSecondaryColor = NSColor(calibratedRed: 120/255.0, green: 120/255.0, blue: 120/255.0, alpha: 1.0)
+    fileprivate static let fgTertiaryColor = NSColor(calibratedWhite: 100/255.0, alpha: 1.0)
+    fileprivate static let separatorLineColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0) //NSColor(calibratedWhite: 0/255.0, alpha: 0.05)
+    fileprivate static let aYellowColor = NSColor(calibratedRed: 234/255.0, green: 183/255.0, blue: 0, alpha: 1)
+    fileprivate static let sidebarBgColor = NSColor(calibratedWhite: 245/255.0, alpha: 1.0)
     
     static let sharedInstance = LightModeColor()
     

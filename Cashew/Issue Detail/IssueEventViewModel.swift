@@ -12,12 +12,12 @@ import Cocoa
 class IssueEventViewModel: NSObject, IssueEventInfo {
 
     var actor: QOwner!
-    var createdAt: NSDate!
+    var createdAt: Date!
     var event: NSString?
     var additions: NSMutableOrderedSet
     var removals: NSMutableOrderedSet
     
-    required init(actor: QOwner, createdAt: NSDate, event: NSString) {
+    required init(actor: QOwner, createdAt: Date, event: NSString) {
         self.actor = actor
         self.createdAt = createdAt
         self.event = event
@@ -29,7 +29,7 @@ class IssueEventViewModel: NSObject, IssueEventInfo {
 
 
 extension IssueEventViewModel: SRIssueDetailItem {
-    func sortDate() -> NSDate! {
+    func sortDate() -> Date! {
         return self.createdAt
     }
 }

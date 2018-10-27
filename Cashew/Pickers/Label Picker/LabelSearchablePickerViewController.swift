@@ -11,8 +11,8 @@ import Cocoa
 @objc(SRLabelSearchablePickerViewController)
 class LabelSearchablePickerViewController: BaseViewController {
     
-    private var dataSource: LabelSearchablePickerDataSource?
-    private var searchablePickerController: SearchablePickerViewController?
+    fileprivate var dataSource: LabelSearchablePickerDataSource?
+    fileprivate var searchablePickerController: SearchablePickerViewController?
     
     
     weak var popover: NSPopover?
@@ -25,8 +25,8 @@ class LabelSearchablePickerViewController: BaseViewController {
     }
     
     @objc
-    private func issueSelectionChanged(notification: NSNotification) {
-        guard let searchablePickerController = searchablePickerController where searchablePickerController.dirtyFlag else {
+    fileprivate func issueSelectionChanged(_ notification: Notification) {
+        guard let searchablePickerController = searchablePickerController , searchablePickerController.dirtyFlag else {
             reloadPicker()
             return
         }
@@ -37,7 +37,7 @@ class LabelSearchablePickerViewController: BaseViewController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     var popoverBackgroundColorFixEnabed = true {
@@ -46,8 +46,8 @@ class LabelSearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func reloadPicker() {
-        guard let issue = sourceIssue ?? QContext.sharedContext().currentIssues.first else {
+    fileprivate func reloadPicker() {
+        guard let issue = sourceIssue ?? QContext.shared().currentIssues.first else {
             return
         }
         
@@ -73,7 +73,7 @@ class LabelSearchablePickerViewController: BaseViewController {
         searchablePickerController.registerAdapter(LabelSearchablePickerTableViewAdapter(dataSource: dataSource), clazz: QLabel.self)
         searchablePickerController.showNumberOfSelections = true
         searchablePickerController.onTappedItemBlock = { [weak self] (cell, item) in
-            guard let cell = cell as? LabelSearchResultTableRowView, item = item as? QLabel, dataSource = self?.dataSource else { return }
+            guard let cell = cell as? LabelSearchResultTableRowView, let item = item as? QLabel, let dataSource = self?.dataSource else { return }
             
             if dataSource.isPartialSelection(item) {
                 cell.accessoryView = GreenDottedView()
@@ -83,14 +83,14 @@ class LabelSearchablePickerViewController: BaseViewController {
                 cell.checked = dataSource.isSelectedItem(item) ?? false
             }
             cell.accessoryView?.disableThemeObserver = true
-            cell.accessoryView?.backgroundColor = NSColor.clearColor()
+            cell.accessoryView?.backgroundColor = NSColor.clear
             cell.needsLayout = true
             cell.layoutSubtreeIfNeeded()
         }
         
         searchablePickerController.disableButtonIfNoSelection = false
         searchablePickerController.onDoneButtonClick = { [weak searchablePickerController, weak self] in
-            guard let strongPickerController = searchablePickerController, strongSelf = self else { return }
+            guard let strongPickerController = searchablePickerController, let strongSelf = self else { return }
             strongSelf.doSaveWithCompletion({
                 if let popover = strongSelf.popover {
                     popover.close()
@@ -117,7 +117,7 @@ class LabelSearchablePickerViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LabelSearchablePickerViewController.issueSelectionChanged(_:)), name: kQContextIssueSelectionChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LabelSearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         super.viewDidLoad()
         Analytics.logContentViewWithName(NSStringFromClass(LabelSearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
         
@@ -125,36 +125,36 @@ class LabelSearchablePickerViewController: BaseViewController {
     }
     
     
-    private func doSaveWithCompletion(completion: dispatch_block_t?) {
+    fileprivate func doSaveWithCompletion(_ completion: (()->())?) {
         
-        guard let strongPickerController = searchablePickerController, dataSource = self.dataSource, selectionMap = dataSource.selectionMap else { return }
+        guard let strongPickerController = searchablePickerController, let dataSource = self.dataSource, let selectionMap = dataSource.selectionMap else { return }
         strongPickerController.loading = true
         
-        let operationQueue = NSOperationQueue()
+        let operationQueue = OperationQueue()
         operationQueue.name = "co.cashewapp.LabelSearchablePickerViewController.doSave"
         operationQueue.maxConcurrentOperationCount = 2
         
         for (issue, labelsSet) in selectionMap {
             var labelNames = [String]()
             for label in labelsSet {
-                guard let labelName = label.name, labelRepo = label.repository where !QLabelStore.isHiddenLabelName(labelName, accountId: labelRepo.account.identifier, repositoryId: labelRepo.identifier) else { continue }
+                guard let labelName = label.name, let labelRepo = label.repository , !QLabelStore.isHiddenLabelName(labelName, accountId: labelRepo.account.identifier, repositoryId: labelRepo.identifier) else { continue }
                 labelNames.append(labelName)
             }
             
-            operationQueue.addOperationWithBlock {
-                let semaphore = dispatch_semaphore_create(0)
+            operationQueue.addOperation {
+                let semaphore = DispatchSemaphore(value: 0)
                 let fullRepoName = issue.repository.fullName
                 let sinceDate = issue.updatedAt
-                let issueService = QIssuesService(forAccount: issue.account)
+                let issueService = QIssuesService(for: issue.account)
                 
-                Analytics.logCustomEventWithName("Changed Label", customAttributes: ["RepositoryName": fullRepoName])
-                issueService.saveLabels(labelNames, forRepository: issue.repository, issueNumber: issue.number, onCompletion: { [weak self] (issue, context, err) in
+                Analytics.logCustomEventWithName("Changed Label", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
+                issueService.saveLabels(labelNames, for: issue.repository, issueNumber: issue.number, onCompletion: { [weak self] (issue, context, err) in
                     if let issue = issue as? QIssue {
                         self?.searchablePickerController?.syncIssueEventsForIssue(issue, sinceDate: sinceDate)
-                        Analytics.logCustomEventWithName("Successful Changed Label", customAttributes: ["RepositoryName": fullRepoName])
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
-                            QIssueStore.saveIssue(issue)
-                        })
+                        Analytics.logCustomEventWithName("Successful Changed Label", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            QIssueStore.save(issue)
+                        }
                     } else {
                         let errorString: String
                         if let error = err {
@@ -162,11 +162,11 @@ class LabelSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        Analytics.logCustomEventWithName("Failed Changed Label", customAttributes: ["error": errorString, "RepositoryName": fullRepoName])
+                        Analytics.logCustomEventWithName("Failed Changed Label", customAttributes: ["error": errorString as AnyObject, "RepositoryName": fullRepoName as AnyObject])
                     }
-                    dispatch_semaphore_signal(semaphore)
+                    semaphore.signal()
                     })
-                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+                semaphore.wait(timeout: .distantFuture)
             }
         }
         

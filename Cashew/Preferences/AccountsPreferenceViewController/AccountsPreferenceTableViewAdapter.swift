@@ -10,11 +10,11 @@ import Cocoa
 
 class AccountsPreferenceTableViewAdapter: NSObject, BaseTableViewAdapter {
 
-    func height(item: AnyObject, index: Int) -> CGFloat {
+    func height(_ item: AnyObject, index: Int) -> CGFloat {
         return 30.0
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         guard let account = item as? QAccount else { return nil }
         
         let rowView: AccountPreferenceTableViewRow

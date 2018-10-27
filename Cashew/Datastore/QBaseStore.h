@@ -35,7 +35,7 @@ typedef void(^QBaseStoreCompletion)(id obj, NSError *err);
 + (void)doReadInTransaction:(void (^)(FMDatabase *db))block;
 + (void)dbDispatchAsync:(dispatch_block_t)block;
 + (void)addObserver:(id<QStoreObserver>)observer;
-+ (void)removeObserver:(id<QStoreObserver>)observer;
++ (void)remove:(id<QStoreObserver>)observer;
 + (NSArray<QStoreObserver> *)allObservers;
 //+ (void)reset;
 + (void)notifyInsertObserversForStore:(Class)store record:(id)record;

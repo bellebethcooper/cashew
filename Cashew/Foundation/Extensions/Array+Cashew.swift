@@ -10,7 +10,7 @@ import Foundation
 
 extension Array {
     
-    func insertionIndexOf(elem: Element, isOrderedBefore: (Element, Element) -> Bool) -> Int {
+    func insertionIndexOf(_ elem: Element, isOrderedBefore: (Element, Element) -> Bool) -> Int {
         var lo = 0
         var hi = self.count - 1
         while lo <= hi {
@@ -28,14 +28,14 @@ extension Array {
     
 }
 
-extension SequenceType {
+extension Sequence {
     
-    func uniqueMap<T>(@noescape transform: (Self.Generator.Element) throws -> T) rethrows -> [T] {
+    func uniqueMap<T>(_ transform: (Self.Iterator.Element) throws -> T) rethrows -> [T] {
         let orderedSet = NSMutableOrderedSet()
         forEach { (element) in
             do {
                 if let transformed = try transform(element) as? AnyObject {
-                    orderedSet.addObject(transformed)
+                    orderedSet.add(transformed)
                 }
             } catch {
                 //throw e

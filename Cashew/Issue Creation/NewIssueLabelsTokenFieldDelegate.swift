@@ -17,7 +17,7 @@ class NewIssueLabelsTokenFieldDelegate: NSObject {
     
     var recentResults = [QLabel]()
     
-    private func resetResults() {
+    fileprivate func resetResults() {
         recentResults.removeAll()
     }
 }
@@ -25,13 +25,13 @@ class NewIssueLabelsTokenFieldDelegate: NSObject {
 
 extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     
-    func tokenField(tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<Int>) -> [AnyObject]? {
+    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
         // print("completionsForSubstring = \(substring) selectedIndex = \(selectedIndex)")
-        let trimmedSubstring = substring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if let repo = self.repository where trimmedSubstring.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            let labels = QLabelStore.searchLabelsWithQuery("\(trimmedSubstring)*", forAccountId: repo.account.identifier, repositoryId: repo.identifier) as NSArray as! [QLabel]
+        let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        if let repo = self.repository , trimmedSubstring.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            let labels = QLabelStore.searchLabels(withQuery: "\(trimmedSubstring)*", forAccountId: repo.account.identifier, repositoryId: repo.identifier) as NSArray as! [QLabel]
             self.recentResults = labels
-            let labelStrings = self.recentResults.map({ (label) -> AnyObject in
+            let labelStrings = self.recentResults.map({ (label) -> Any in
                 return label.name!
             })
             print("result = \(labelStrings)")
@@ -41,13 +41,13 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
         }
     }
     
-    override func controlTextDidEndEditing(notification: NSNotification) {
+    override func controlTextDidEndEditing(_ notification: Notification) {
         if let tokenField = notification.object as? NSTokenField {
             var finalTokenList = [String]()
             
-            if let tokens = tokenField.objectValue as? [String], repo = self.repository {
+            if let tokens = tokenField.objectValue as? [String], let repo = self.repository {
                 tokens.forEach({ (token) in
-                    let labels = QLabelStore.searchLabelsWithQuery(token, forAccountId: repo.account.identifier, repositoryId: repo.identifier) as NSArray as! [QLabel]
+                    let labels = QLabelStore.searchLabels(withQuery: token, forAccountId: repo.account.identifier, repositoryId: repo.identifier) as NSArray as! [QLabel]
                     for label in labels {
                         if label.name == token {
                             finalTokenList.append(token)
@@ -61,12 +61,12 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
         }
     }
     
-    func tokenField(tokenField: NSTokenField, shouldAddObjects tokens: [AnyObject], atIndex index: Int) -> [AnyObject] {
+    func tokenField(_ tokenField: NSTokenField, shouldAdd tokens: [Any], at index: Int) -> [Any] {
         //print("tokens = \(tokens) index = \(index)")
         
         var uniqueTokens = Set<String>()
         for label in self.recentResults {
-            if let stringTokens = tokens as? [String], name = label.name where stringTokens.contains(name) {
+            if let stringTokens = tokens as? [String], let name = label.name , stringTokens.contains(name) {
                 
                 var countOfDups: Int = 0
                 if let existingTokens = tokenField.objectValue as? [String] {

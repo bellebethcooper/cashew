@@ -49,16 +49,16 @@ class BaseLabel: NSTextField {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    private func setup() {
+    fileprivate func setup() {
         cell = BaseLabelCell()
         wantsLayer = true
-        focusRingType = .None
-        bordered = false
-        selectable = false
-        bezeled = false
+        focusRingType = .none
+        isBordered = false
+        isSelectable = false
+        isBezeled = false
         //bezelStyle = .SquareBezel
         usesSingleLineMode = true
-        cell?.lineBreakMode = .ByTruncatingTail
+        cell?.lineBreakMode = .byTruncatingTail
         
         if disableThemeObserver {
             return;

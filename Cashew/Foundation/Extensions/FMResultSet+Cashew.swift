@@ -12,7 +12,7 @@ import FMDB
 
 extension FMResultSet {
     
-    func hasColumnNamed(named: String) -> Bool {
+    func hasColumnNamed(_ named: String) -> Bool {
         return columnNameToIndexMap[named] != nil
     }
 }

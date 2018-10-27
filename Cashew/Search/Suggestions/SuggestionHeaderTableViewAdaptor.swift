@@ -11,7 +11,7 @@ import Cocoa
 
 class SuggestionHeaderTableRowView: BaseTableRowView {
     
-    private var unselectedTitleColor: NSColor = NSColor.blackColor()
+    fileprivate var unselectedTitleColor: NSColor = NSColor.black
     
     override var titleLabelColor: NSColor {
         return unselectedTitleColor
@@ -26,20 +26,20 @@ class SuggestionHeaderTableRowView: BaseTableRowView {
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else{ return }
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             
-            accessoryView?.hidden = true
-            if selected {
+            accessoryView?.isHidden = true
+            if isSelected {
                 contentView.backgroundColor = BaseTableRowView.selectionColor
-                titleLabel.textColor = NSColor.whiteColor()
+                titleLabel.textColor = NSColor.white
             } else {
-                if NSUserDefaults.themeMode() == .Dark {
+                if UserDefaults.themeMode() == .dark {
                     backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
                 } else {
                     backgroundColor = CashewColor.backgroundColor()
@@ -57,14 +57,14 @@ class SuggestionHeaderTableRowView: BaseTableRowView {
 
 class SuggestionHeaderTableViewAdaptor: NSObject, BaseTableViewAdapter {
     
-    private static let foregroundColor: NSColor = NSColor(calibratedWhite: 130/255.0, alpha: 0.85)
-    private static let foregroundFont: NSFont = NSFont.systemFontOfSize(10, weight: NSFontWeightSemibold)
+    fileprivate static let foregroundColor: NSColor = NSColor(calibratedWhite: 130/255.0, alpha: 0.85)
+    fileprivate static let foregroundFont: NSFont = NSFont.systemFont(ofSize: 10, weight: .semibold)
     
-    func height(item: AnyObject, index: Int) -> CGFloat {
+    func height(_ item: AnyObject, index: Int) -> CGFloat {
         return 16
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         guard let value = item as? SearchSuggestionResultItemHeader else { return nil }
         
         let rowView: SuggestionHeaderTableRowView
@@ -75,7 +75,7 @@ class SuggestionHeaderTableViewAdaptor: NSObject, BaseTableViewAdapter {
             rowView.titleLabel.font = SuggestionHeaderTableViewAdaptor.foregroundFont
             rowView.subtitleLabel.stringValue = ""
             rowView.checked = false
-            rowView.separatorView.hidden = true
+            rowView.separatorView.isHidden = true
         }
         
         rowView.titleLabel.stringValue = value.title

@@ -16,7 +16,7 @@ class UserQuery: NSObject {
     var displayName: String
     var query: String
     var externalId: String?
-    var updatedAt: NSDate?
+    var updatedAt: Date?
     
     required init(identifier: NSNumber?, account: QAccount, displayName: String, query: String) {
         self.identifier = identifier
@@ -38,7 +38,7 @@ class UserQuery: NSObject {
         return account.identifier.hashValue ^ query.hashValue
     }
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? UserQuery else { return false }
         return object.identifier == self.identifier && object.query == self.query
     }

@@ -323,7 +323,7 @@
     return repos;
 }
 
-+ (void)deleteRepository:(QRepository *)repository;
++ (void)delete:(QRepository *)repository;
 {
     NSString *cacheKey = [SRRepositoryCache RepositoryCacheKeyForAccountId:repository.account.identifier repositoryId:repository.identifier];
     [[SRRepositoryCache sharedCache] removeObjectForKey:cacheKey];

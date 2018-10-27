@@ -39,23 +39,23 @@ import Cocoa
     }
     
     
-    private func setup() {
+    fileprivate func setup() {
         
         wantsLayer = true
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
-            if mode == .Dark {
-                self?.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if mode == .dark {
+                self?.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {
-                self?.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                self?.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             }
             
-            self?.layer?.backgroundColor = NSColor.clearColor().CGColor
+            self?.layer?.backgroundColor = NSColor.clear.cgColor
         }
     }
     
-    override class func isCompatibleWithOverlayScrollers() -> Bool {
-        return true
-    }
+//    override class func isCompatibleWithOverlayScrollers() -> Bool {
+//        return true
+//    }
  
 }

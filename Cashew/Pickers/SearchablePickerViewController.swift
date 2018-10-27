@@ -9,7 +9,7 @@
 import Cocoa
 
 class SearchableScrollView: BaseScrollView {
-    override class func isCompatibleWithResponsiveScrolling() -> Bool {
+    override class var isCompatibleWithResponsiveScrolling: Bool {
         return true
     }
 }
@@ -17,40 +17,42 @@ class SearchableScrollView: BaseScrollView {
 @objc(SRSearchablePickerViewController)
 class SearchablePickerViewController: BaseViewController {
     
-    private static let pickerSearchFieldHeight: CGFloat = 45.0
-    private static let pickerToolbarViewHeight: CGFloat = 24.0
-    private static let padding: CGFloat = 6.0
-    private static let leftSpacing: CGFloat = 8.0
-    private static let rightSpacing: CGFloat = 8.0
-    private static let footerHeight: CGFloat = 35.0
-    private static let doneButtonSize = CGSize(width: 80, height: 24)
-    private static let buttonHorizontalPadding: CGFloat = 6.0
-    private static let buttonVerticalPadding: CGFloat = 3.0
+    fileprivate static let pickerSearchFieldHeight: CGFloat = 45.0
+    fileprivate static let pickerToolbarViewHeight: CGFloat = 24.0
+    fileprivate static let padding: CGFloat = 6.0
+    fileprivate static let leftSpacing: CGFloat = 8.0
+    fileprivate static let rightSpacing: CGFloat = 8.0
+    fileprivate static let footerHeight: CGFloat = 35.0
+    fileprivate static let doneButtonSize = CGSize(width: 80, height: 24)
+    fileprivate static let buttonHorizontalPadding: CGFloat = 6.0
+    fileprivate static let buttonVerticalPadding: CGFloat = 3.0
     
     let repositoryPopupButton = RepositoriesMenuButton()
     let pickerSearchField: PickerSearchField
     // private let pickerToolbarView: PickerToolbarView
-    private let bottomDividerView = BaseSeparatorView()
-    private let topDividerView = BaseSeparatorView()
-    private let tableView = SearchablePickerTableView()
-    private let doneButton = BaseButton.greenButton()
-    private let cancelButton = BaseButton.whiteButton()
-    private let tableViewScrollView = SearchableScrollView()
-    private let selectionCountButton: BaseImageLabelButton
-    private let progressIndicator = NSProgressIndicator()
-    private(set) var dirtyFlag: Bool = false
+    fileprivate let bottomDividerView = BaseSeparatorView()
+    fileprivate let topDividerView = BaseSeparatorView()
+    fileprivate let tableView = SearchablePickerTableView()
+    fileprivate let doneButton = BaseButton.greenButton()
+    fileprivate let cancelButton = BaseButton.whiteButton()
+    fileprivate let tableViewScrollView = SearchableScrollView()
+    fileprivate let selectionCountButton: BaseImageLabelButton
+    fileprivate let progressIndicator = NSProgressIndicator()
+    fileprivate(set) var dirtyFlag: Bool = false
     
-    private let searchCoalescer = Coalescer(interval: 0.3, name: "co.cashewapp.Coalescer.accessQueue.SearchablePickerViewController.searchCoalescer")
+    fileprivate let searchCoalescer = Coalescer(interval: 0.3, name: "co.cashewapp.Coalescer.accessQueue.SearchablePickerViewController.searchCoalescer")
     
     var allowMultiSelection: Bool = true
     var disableButtonIfNoSelection = true
-    var onDoneButtonClick: dispatch_block_t? {
+    var onDoneButtonClick: (()->())? {
         didSet {
-            doneButton.onClick = onDoneButtonClick
+            if let onDoneButtonClick = onDoneButtonClick {
+                doneButton.onClick = onDoneButtonClick                
+            }
         }
     }
     
-    var onTappedItemBlock: ((cell: AnyObject, item: AnyObject) -> ())?
+    var onTappedItemBlock: ((_ cell: AnyObject, _ item: AnyObject) -> ())?
     
     var showNumberOfSelections: Bool = false {
         didSet {
@@ -61,24 +63,24 @@ class SearchablePickerViewController: BaseViewController {
     
     var loading: Bool = false {
         didSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
                 if strongSelf.loading {
-                    strongSelf.progressIndicator.hidden = false
+                    strongSelf.progressIndicator.isHidden = false
                     strongSelf.selectionCountButton.userInteractionEnabled = false
                     strongSelf.doneButton.enabled = false
                     strongSelf.cancelButton.enabled = false
                     strongSelf.pickerSearchField.userInteractionEnabled = false
-                    strongSelf.tableView.enabled = false
+                    strongSelf.tableView.isEnabled = false
                     strongSelf.progressIndicator .startAnimation(nil)
                 } else {
                     strongSelf.selectionCountButton.userInteractionEnabled = true
                     strongSelf.doneButton.enabled = true
                     strongSelf.cancelButton.enabled = true
                     strongSelf.pickerSearchField.userInteractionEnabled = true
-                    strongSelf.tableView.enabled = true
+                    strongSelf.tableView.isEnabled = true
                     strongSelf.progressIndicator .stopAnimation(nil)
-                    strongSelf.progressIndicator.hidden = true
+                    strongSelf.progressIndicator.isHidden = true
                 }
                 strongSelf.view.needsLayout = true
                 strongSelf.view.layoutSubtreeIfNeeded()
@@ -89,9 +91,9 @@ class SearchablePickerViewController: BaseViewController {
     func reloadData() {
         loading = true
         
-        let block: dispatch_block_t = { [weak self] in
+        let block: ()->() = { [weak self] in
             guard let strongSelf = self else { return }
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 strongSelf.tableView.reloadData()
                 strongSelf.updateDoneButtonState()
                 strongSelf.updateSelectionCountButton()
@@ -113,7 +115,7 @@ class SearchablePickerViewController: BaseViewController {
     }
     
     // private var selectedIndices = NSMutableIndexSet()
-    private var registeredAdapters = [String: SearchablePickerTableAdapter]()
+    fileprivate var registeredAdapters = [String: SearchablePickerTableAdapter]()
     
     let viewModel: SearchablePickerViewModel
     var dataSource: SearchablePickerDataSource
@@ -134,9 +136,9 @@ class SearchablePickerViewController: BaseViewController {
         
         pickerSearchField = PickerSearchField(viewModel: viewModel.pickerSearchFieldViewModel)
         
-        selectionCountButton = BaseImageLabelButton(viewModel: BaseImageLabelButtonViewModel(image: NSImage(named:"chevron-down")!.imageWithTintColor(BaseImageLabelButton.foregroundColor), label: "0 SELECTED", buttonType: .RightImage));
+        selectionCountButton = BaseImageLabelButton(viewModel: BaseImageLabelButtonViewModel(image: NSImage(named:NSImage.Name(rawValue: "chevron-down"))!.withTintColor(BaseImageLabelButton.foregroundColor), label: "0 SELECTED", buttonType: .rightImage));
         
-        super.init(nibName: nil, bundle: nil)!
+        super.init(nibName: nil, bundle: nil)
         view.addSubview(selectionCountButton)
         
         let recognizer = NSClickGestureRecognizer(target: self, action: #selector(SearchablePickerViewController.didClickSelectionCount))
@@ -147,7 +149,7 @@ class SearchablePickerViewController: BaseViewController {
     }
     
     @objc
-    private func didClickSelectionCount() {
+    fileprivate func didClickSelectionCount() {
         guard let event = NSApp.currentEvent else { return }
         let menu = SRMenu()
         
@@ -158,24 +160,24 @@ class SearchablePickerViewController: BaseViewController {
         menu.addItem(clearSelection)
         
         //[SRMenu popUpContextMenu:menu withEvent:[NSApp  currentEvent] forView:self.accountNamePopUpButton];
-        SRMenu.popUpContextMenu(menu, withEvent: event, forView: selectionCountButton)
+        SRMenu.popUpContextMenu(menu, with: event, for: selectionCountButton)
     }
     
     @objc
-    private func didClickShowSelected() {
-        dataSource.mode = .SelectedItems
-        dispatch_async(dispatch_get_main_queue()) {
+    fileprivate func didClickShowSelected() {
+        dataSource.mode = .selectedItems
+        DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
     @objc
-    private func didClickClearSelection() {
+    fileprivate func didClickClearSelection() {
         dataSource.clearSelection()
         showDefaults()
         dirtyFlag = true
         if dataSource.allowResetToOriginal {
-            cancelButton.hidden = false
+            cancelButton.isHidden = false
             view.needsLayout = true
             view.layoutSubtreeIfNeeded()
         }
@@ -193,7 +195,7 @@ class SearchablePickerViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        // NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchablePickerViewController.issueSelectionChanged(_:)), name: kQContextIssueSelectionChangeNotification, object: nil)
+        // NotificationCenter.default.addObserver(self, selector: #selector(SearchablePickerViewController.issueSelectionChanged(_:)), name: kQContextIssueSelectionChangeNotification, object: nil)
         super.viewDidLoad()
         
         if let view = self.view as? BaseView {
@@ -214,12 +216,12 @@ class SearchablePickerViewController: BaseViewController {
     override func viewDidLayout() {
         
         if showNumberOfSelections {
-            selectionCountButton.hidden = false
+            selectionCountButton.isHidden = false
             let suggestedSize = selectionCountButton.suggestedSize()
             selectionCountButton.frame = CGRectIntegralMake(x: view.bounds.width - suggestedSize.width, y: -1, width: suggestedSize.width, height: SearchablePickerViewController.pickerSearchFieldHeight)
             pickerSearchField.frame = CGRectIntegralMake(x: 0, y: 0, width: view.bounds.width - selectionCountButton.frame.width, height: SearchablePickerViewController.pickerSearchFieldHeight);
         } else {
-            selectionCountButton.hidden  = true
+            selectionCountButton.isHidden  = true
             pickerSearchField.frame = CGRectIntegralMake(x: 0, y: 0, width: view.bounds.width, height: SearchablePickerViewController.pickerSearchFieldHeight);
         }
         // topDividerView.frame = CGRectIntegralMake(x: 0, y: pickerSearchField.frame.maxY, width: view.bounds.width , height: 1)
@@ -238,7 +240,7 @@ class SearchablePickerViewController: BaseViewController {
         let cancelButtonHeight = SearchablePickerViewController.doneButtonSize.height
         cancelButton.frame = CGRectIntegralMake(x: cancelButtonLeft, y: doneButton.frame.minY , width: cancelButtonWidth, height: cancelButtonHeight)
         
-        if cancelButton.hidden {
+        if cancelButton.isHidden {
             let progressIndicatorTop = bottomDividerView.frame.maxY +  (SearchablePickerViewController.footerHeight / 2.0 - 20 / 2.0)
             progressIndicator.frame = CGRectIntegralMake(x: doneButton.frame.minX - SearchablePickerViewController.padding - 20, y: progressIndicatorTop, width: 20, height: 20)
         } else {
@@ -254,13 +256,13 @@ class SearchablePickerViewController: BaseViewController {
     
     // MARK: Setup
     
-    private func setupThemeObserver() {
+    fileprivate func setupThemeObserver() {
         
         if let view = self.view as? BaseView {
             view.disableThemeObserver = true
             view.shouldAllowVibrancy = false
             
-            if NSUserDefaults.themeMode() == .Dark {
+            if UserDefaults.themeMode() == .dark {
                 view.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 view.backgroundColor = CashewColor.backgroundColor()
@@ -275,11 +277,11 @@ class SearchablePickerViewController: BaseViewController {
         tableViewScrollView.disableThemeObserver = true
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
-            guard let strongSelf = self, view = strongSelf.view as? BaseView else {
+            guard let strongSelf = self, let view = strongSelf.view as? BaseView else {
                 return
             }
             
-            if mode == .Dark {
+            if mode == .dark {
                 view.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
                 //let appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
                 //strongSelf.progressIndicator.appearance = appearance
@@ -295,18 +297,18 @@ class SearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func updateRepositoryList() {
+    fileprivate func updateRepositoryList() {
         if dataSource.listOfRepositories.count > 1 {
             repositoryPopupButton.repositories = dataSource.listOfRepositories
-            repositoryPopupButton.hidden = false
+            repositoryPopupButton.isHidden = false
             repositoryPopupButton.sizeToFit()
             repositoryPopupButton.frame = CGRectIntegralMake(x: SearchablePickerViewController.padding, y: doneButton.frame.minY, width: min(repositoryPopupButton.frame.width, cancelButton.frame.minX - 12), height: doneButton.frame.height)
         } else {
-            repositoryPopupButton.hidden = true
+            repositoryPopupButton.isHidden = true
         }
     }
     
-    private func setupPickerSearchField() {
+    fileprivate func setupPickerSearchField() {
         guard pickerSearchField.superview == nil else { return }
         view.addSubview(pickerSearchField)
         
@@ -334,7 +336,7 @@ class SearchablePickerViewController: BaseViewController {
     }
     
     
-    private func setupDividerViews() {
+    fileprivate func setupDividerViews() {
         guard topDividerView.superview == nil && bottomDividerView.superview == nil else { return }
         
         [topDividerView, bottomDividerView].forEach { (dividerView) in
@@ -343,13 +345,13 @@ class SearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func setupProgressIndicator() {
-        progressIndicator.style = .SpinningStyle
+    fileprivate func setupProgressIndicator() {
+        progressIndicator.style = .spinning
         view.addSubview(progressIndicator)
-        progressIndicator.hidden = true
+        progressIndicator.isHidden = true
     }
     
-    private func setupDoneButton() {
+    fileprivate func setupDoneButton() {
         guard doneButton.superview == nil else { return }
         view.addSubview(doneButton)
         
@@ -360,10 +362,10 @@ class SearchablePickerViewController: BaseViewController {
         updateDoneButtonState()
     }
     
-    private func setupCancelButton() {
+    fileprivate func setupCancelButton() {
         guard cancelButton.superview == nil else { return }
         view.addSubview(cancelButton)
-        cancelButton.hidden = true
+        cancelButton.isHidden = true
         cancelButton.text = "Discard"
         cancelButton.onClick = { [weak self] in
             guard let strongSelf = self else { return }
@@ -371,39 +373,39 @@ class SearchablePickerViewController: BaseViewController {
         }
     }
     
-    func resetSelectionToOriginal(repository: QRepository?) {
-        dispatch_async(dispatch_get_main_queue()) {
+    func resetSelectionToOriginal(_ repository: QRepository?) {
+        DispatchQueue.main.async {
             
             let strongSelf = self
             let repo = repository ?? strongSelf.dataSource.repository
             
-            strongSelf.cancelButton.hidden = true
+            strongSelf.cancelButton.isHidden = true
             strongSelf.dirtyFlag = false
             strongSelf.dataSource.resetToOriginal()
             strongSelf.dataSource.repository = repo
-            strongSelf.dataSource.mode = .DefaultResults
+            strongSelf.dataSource.mode = .defaultResults
             strongSelf.reloadData()
             strongSelf.view.needsLayout = true
             strongSelf.view.layoutSubtreeIfNeeded()
-            strongSelf.tableView.scrollPoint(CGPoint.zero)
+            strongSelf.tableView.scroll(CGPoint.zero)
         }
     }
     
-    private func setupRepositoryPopupButton() {
+    fileprivate func setupRepositoryPopupButton() {
         guard repositoryPopupButton.superview == nil else { return }
         view.addSubview(repositoryPopupButton)
         
         repositoryPopupButton.onRepoChange = { [weak self] in
-            assert(NSThread.isMainThread())
-            guard let strongSelf = self, repo = strongSelf.repositoryPopupButton.currentRepository else { return }
+            assert(Thread.isMainThread)
+            guard let strongSelf = self, let repo = strongSelf.repositoryPopupButton.currentRepository else { return }
             strongSelf.dataSource.repository = repo
             strongSelf.showDefaults()
             
         }
     }
     
-    private func updateDoneButtonState() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+    fileprivate func updateDoneButtonState() {
+        DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else { return }
             
             if strongSelf.disableButtonIfNoSelection {
@@ -414,12 +416,12 @@ class SearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func showDefaults() {
-        dataSource.mode = .DefaultResults
+    fileprivate func showDefaults() {
+        dataSource.mode = .defaultResults
         searchCoalescer.executeBlock {  [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.dataSource.defaults {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                 strongSelf.tableView.reloadData()
                 //strongSelf.tableView.selectRowIndexes(strongSelf.dataSource.selectedIndexes, byExtendingSelection: false)
                 strongSelf.updateDoneButtonState()
@@ -428,7 +430,7 @@ class SearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func setupTableView() {
+    fileprivate func setupTableView() {
         guard tableViewScrollView.superview == nil else { return }
         view.addSubview(tableViewScrollView)
         tableViewScrollView.documentView = tableView
@@ -441,9 +443,9 @@ class SearchablePickerViewController: BaseViewController {
         // tableView.target = self
         tableView.onRowClick = { [weak self] (index) in
             guard let strongSelf = self else  { return }
-            if let cell = strongSelf.tableView.rowViewAtRow(index, makeIfNecessary: true) as? BaseTableRowView {
+            if let cell = strongSelf.tableView.rowView(atRow: index, makeIfNecessary: true) as? BaseTableRowView {
                 if strongSelf.dataSource.allowResetToOriginal {
-                    strongSelf.cancelButton.hidden = false
+                    strongSelf.cancelButton.isHidden = false
                     strongSelf.view.needsLayout = true
                     strongSelf.view.layoutSubtreeIfNeeded()
                 }
@@ -467,11 +469,11 @@ class SearchablePickerViewController: BaseViewController {
                 }
                 
                 if let onTappedItemBlock = strongSelf.onTappedItemBlock {
-                    onTappedItemBlock(cell: cell, item: strongSelf.dataSource.itemAtIndex(index))
+                    onTappedItemBlock(cell, strongSelf.dataSource.itemAtIndex(index))
                     
                     if strongSelf.allowMultiSelection == false {
                         for i in 0..<strongSelf.dataSource.numberOfRows {
-                            if let otherCell = strongSelf.tableView.rowViewAtRow(i, makeIfNecessary: false) as? BaseTableRowView {
+                            if let otherCell = strongSelf.tableView.rowView(atRow: i, makeIfNecessary: false) as? BaseTableRowView {
                                 otherCell.checked = (i == index) ? strongSelf.dataSource.isSelectedItem(strongSelf.dataSource.itemAtIndex(index)) : false
                             }
                         }
@@ -484,7 +486,7 @@ class SearchablePickerViewController: BaseViewController {
                 cell.needsLayout = true
                 cell.layoutSubtreeIfNeeded()
                 
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async(execute: {
                     strongSelf.updateSelectionCountButton()
                     strongSelf.updateDoneButtonState()
                 })
@@ -492,7 +494,7 @@ class SearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func updateSelectionCountButton() {
+    fileprivate func updateSelectionCountButton() {
         selectionCountButton.viewModel.label = ""
         /*
          let selectionCount = dataSource.selectionCount
@@ -506,16 +508,16 @@ class SearchablePickerViewController: BaseViewController {
     
     
     @objc
-    func registerAdapter(adapter: SearchablePickerTableAdapter, clazz: AnyClass) {
+    func registerAdapter(_ adapter: SearchablePickerTableAdapter, clazz: AnyClass) {
         registeredAdapters[NSStringFromClass(clazz)] = adapter
     }
     
-    func syncIssueEventsForIssue(issue: QIssue, sinceDate: NSDate) {
-        let service = QIssuesService(forAccount: issue.account)
-        service.fetchAllIssuesEventsForRepository(issue.repository, issueNumber: issue.number, pageNumber: 1, since: sinceDate) { (events, context, err) in
-            guard let events = events as? [QIssueEvent] where err == nil else { return }
+    func syncIssueEventsForIssue(_ issue: QIssue, sinceDate: Date) {
+        let service = QIssuesService(for: issue.account)
+        service.fetchAllIssuesEvents(for: issue.repository, issueNumber: issue.number, pageNumber: 1, since: sinceDate) { (events, context, err) in
+            guard let events = events as? [QIssueEvent] , err == nil else { return }
             events.forEach({ (event) in
-                QIssueEventStore.saveIssueEvent(event)
+                QIssueEventStore.save(event)
             })
         }
     }
@@ -525,35 +527,35 @@ class SearchablePickerViewController: BaseViewController {
 
 extension SearchablePickerViewController: NSTableViewDelegate {
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         return nil;
     }
     
-    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         if row > dataSource.numberOfRows - 1 {
             return nil
         }
         
         let item: NSObject = dataSource.itemAtIndex(row) as! NSObject
-        let reuseId = item.dynamicType.description()
+        let reuseId = type(of: item).description()
         guard let adapter = registeredAdapters[reuseId] else { return nil }
         
-        if let rowView = tableView.makeViewWithIdentifier(reuseId, owner: self) as? NSTableRowView {
+        if let rowView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: reuseId), owner: self) as? NSTableRowView {
             return adapter.adapt(rowView, item: item, index: row)
         } else {
             return adapter.adapt(nil, item: item, index: row)
         }
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         let item: NSObject = dataSource.itemAtIndex(row) as! NSObject
-        let reuseId = item.dynamicType.description()
+        let reuseId = type(of: item).description()
         guard let adapter = registeredAdapters[reuseId] else { return 0 }
         
         return adapter.height
     }
     
-    func tableView(tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: NSIndexSet) -> NSIndexSet {
+    func tableView(_ tableView: NSTableView, selectionIndexesForProposedSelection proposedSelectionIndexes: IndexSet) -> IndexSet {
         //dataSource.selectedIndices = selectedIndices.copy() as! NSIndexSet
         return dataSource.selectedIndexes
     }
@@ -562,7 +564,7 @@ extension SearchablePickerViewController: NSTableViewDelegate {
 
 extension SearchablePickerViewController: NSTableViewDataSource {
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return dataSource.numberOfRows
     }
 }
@@ -572,10 +574,10 @@ private class SearchablePickerTableView: BaseTableView {
     
     var onRowClick: ((Int) -> ())?
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         let globalLocation: NSPoint = theEvent.locationInWindow
-        let localLocation = self.convertPoint(globalLocation, fromView: nil)
-        let clickedRow = self.rowAtPoint(localLocation)
+        let localLocation = self.convert(globalLocation, from: nil)
+        let clickedRow = self.row(at: localLocation)
         
         if let onRowClick = onRowClick {
             if (clickedRow != -1) {
@@ -583,7 +585,7 @@ private class SearchablePickerTableView: BaseTableView {
             }
         }
         
-        super.mouseDown(theEvent)
+        super.mouseDown(with: theEvent)
     }
 }
 
@@ -603,14 +605,14 @@ class SearchablePickerViewModel: NSObject {
 @objc(SRSearchablePickerTableAdapter)
 protocol SearchablePickerTableAdapter: NSObjectProtocol {
     var height: CGFloat { get }
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView?
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView?
 }
 
 @objc(SRSearchablePickerDataSourceMode)
 enum SearchablePickerDataSourceMode: NSInteger {
-    case SelectedItems;
-    case SearchResults;
-    case DefaultResults;
+    case selectedItems;
+    case searchResults;
+    case defaultResults;
 }
 
 @objc(SRSearchablePickerDataSource)
@@ -618,18 +620,18 @@ protocol SearchablePickerDataSource: NSObjectProtocol {
     var sourceIssue: QIssue? { get set }
     var mode: SearchablePickerDataSourceMode { get set }
     var numberOfRows: Int { get }
-    var selectedIndexes: NSIndexSet { get }
+    var selectedIndexes: IndexSet { get }
     var selectionCount: Int { get }
     var repository: QRepository? { get set }
     var listOfRepositories: [QRepository] { get }
     var allowResetToOriginal: Bool { get }
     
-    func itemAtIndex(index: Int) -> AnyObject
-    func search(string: String, onCompletion: dispatch_block_t)
-    func defaults(onCompletion: dispatch_block_t)
-    func selectItem(item: AnyObject)
-    func unselectItem(item: AnyObject)
-    func isSelectedItem(item: AnyObject) -> Bool
+    func itemAtIndex(_ index: Int) -> AnyObject
+    func search(_ string: String, onCompletion: @escaping ()->())
+    func defaults(_ onCompletion: @escaping ()->())
+    func selectItem(_ item: AnyObject)
+    func unselectItem(_ item: AnyObject)
+    func isSelectedItem(_ item: AnyObject) -> Bool
     func clearSelection()
     func resetToOriginal()
     

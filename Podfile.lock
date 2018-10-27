@@ -12,13 +12,9 @@ PODS:
   - AFNetworking/Reachability (3.1.0)
   - AFNetworking/Security (3.1.0)
   - AFNetworking/Serialization (3.1.0)
-  - CocoaLumberjack/Core (2.3.0)
-  - CocoaLumberjack/Default (2.3.0):
-    - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.3.0):
+  - CocoaLumberjack/Default (3.4.2)
+  - CocoaLumberjack/Swift (3.4.2):
     - CocoaLumberjack/Default
-  - CocoaLumberjack/Swift (2.3.0):
-    - CocoaLumberjack/Extensions
   - Crashlytics (3.8.1):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.8)
@@ -41,9 +37,20 @@ DEPENDENCIES:
   - hoedown
   - iRate (~> 1.11)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - CocoaLumberjack
+    - Crashlytics
+    - Fabric
+    - FMDB
+    - FXKeychain
+    - hoedown
+    - iRate
+
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
+  CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
   Crashlytics: 4391d8df0b125345e9f209c5db6e7f40a6a8435d
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
@@ -51,6 +58,6 @@ SPEC CHECKSUMS:
   hoedown: c1327bbbc96d269595ed86bf97f1d09867ec7529
   iRate: 61e558919c4a7fde63b3c22ebbd6c114a1eee658
 
-PODFILE CHECKSUM: e2dca22c39f67a1a1eb60740fa90826ec6c708ed
+PODFILE CHECKSUM: a9d04a71f83328ea1a4b118f1c1e724eb167334e
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.5.3

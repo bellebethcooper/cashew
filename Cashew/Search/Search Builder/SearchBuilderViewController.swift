@@ -31,9 +31,9 @@ protocol SearchBuilderViewControllerDataSource: NSObjectProtocol {
     
     func resetCache()
     
-    func onSave(results: [SearchBuilderResult], searchName: String)
+    func onSave(_ results: [SearchBuilderResult], searchName: String)
     
-    func onSearch(results: [SearchBuilderResult])
+    func onSearch(_ results: [SearchBuilderResult])
 }
 
 @objc(SRSearchBuilderViewController)
@@ -80,7 +80,7 @@ class SearchBuilderViewController: NSViewController {
             if let view = self?.view as? BaseView {
                 view.shouldAllowVibrancy = false
                 
-                if mode == .Dark {
+                if mode == .dark {
                     view.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
                 } else {
                     view.backgroundColor = CashewColor.backgroundColor()
@@ -89,21 +89,21 @@ class SearchBuilderViewController: NSViewController {
         }
     }
     
-    private func setupButtons() {
+    fileprivate func setupButtons() {
         view.addSubview(saveButton)
         view.addSubview(searchButton)
         view.addSubview(cancelButton)
         
         [saveButton, searchButton, cancelButton].forEach { (btn) in
             btn.translatesAutoresizingMaskIntoConstraints = false
-            btn.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -10).active = true
-            btn.heightAnchor.constraintEqualToConstant(26).active = true
-            btn.widthAnchor.constraintEqualToConstant(100).active = true
+            btn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+            btn.heightAnchor.constraint(equalToConstant: 26).isActive = true
+            btn.widthAnchor.constraint(equalToConstant: 100).isActive = true
         }
         
-        searchButton.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -20).active = true
-        saveButton.rightAnchor.constraintEqualToAnchor(searchButton.leftAnchor, constant: -20).active = true
-        cancelButton.rightAnchor.constraintEqualToAnchor(saveButton.leftAnchor, constant: -10).active = true
+        searchButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        saveButton.rightAnchor.constraint(equalTo: searchButton.leftAnchor, constant: -20).isActive = true
+        cancelButton.rightAnchor.constraint(equalTo: saveButton.leftAnchor, constant: -10).isActive = true
         //cancelButton.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 20).active = true
         
         saveButton.text = "Save"
@@ -142,17 +142,17 @@ class SearchBuilderViewController: NSViewController {
     }
     
     
-    private func addCriteriaViewController() -> SearchBuilderCriteriaViewController? {
-        guard let controller = SearchBuilderCriteriaViewController(nibName: "SearchBuilderCriteriaViewController", bundle: nil) else { return nil }
+    fileprivate func addCriteriaViewController() -> SearchBuilderCriteriaViewController? {
+        let controller = SearchBuilderCriteriaViewController(nibName: NSNib.Name(rawValue: "SearchBuilderCriteriaViewController"), bundle: nil)
         
         
-        if let lastController = childViewControllers.first as? SearchBuilderCriteriaViewController where childViewControllers.count == 1 {
+        if let lastController = childViewControllers.first as? SearchBuilderCriteriaViewController , childViewControllers.count == 1 {
             lastController.removeButtonEnabled = true
         }
         
         addChildViewController(controller)
-        stackView.addView(controller.view, inGravity: .Bottom)
-        controller.view.heightAnchor.constraintEqualToConstant(35).active = true
+        stackView.addView(controller.view, in: .bottom)
+        controller.view.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         controller.clickedCreateNewFilter = { [weak self] in
             self?.addCriteriaViewController()
@@ -163,7 +163,7 @@ class SearchBuilderViewController: NSViewController {
         }
         
         if let docView = scrollView.documentView {
-            scrollView.contentView.scrollToPoint(NSMakePoint(0, -docView.frame.height))
+            scrollView.contentView.scroll(to: NSMakePoint(0, -docView.frame.height))
         }
  
         if let dataSource = dataSource {
@@ -173,14 +173,14 @@ class SearchBuilderViewController: NSViewController {
         return controller
     }
     
-    private func removeCriteriaViewController(controller: SearchBuilderCriteriaViewController) {
+    fileprivate func removeCriteriaViewController(_ controller: SearchBuilderCriteriaViewController) {
         
-        if let index = childViewControllers.indexOf(controller) {
-            removeChildViewControllerAtIndex(index)
+        if let index = childViewControllers.index(of: controller) {
+            removeChildViewController(at: index)
             controller.view.removeFromSuperview()
         }
         
-        if let lastController = childViewControllers.first as? SearchBuilderCriteriaViewController where childViewControllers.count == 1 {
+        if let lastController = childViewControllers.first as? SearchBuilderCriteriaViewController , childViewControllers.count == 1 {
             lastController.removeButtonEnabled = false
         }
     }
@@ -249,7 +249,7 @@ extension SearchBuilderViewController {
 
 extension SearchBuilderViewController: NSTextFieldDelegate {
     
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         
         if (searchNameTextField.stringValue as NSString).trimmedString().length == 0 {
             saveButton.enabled = false

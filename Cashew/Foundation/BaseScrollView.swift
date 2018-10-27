@@ -39,20 +39,20 @@ class BaseScrollView: NSScrollView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    override func scrollWheel(theEvent: NSEvent) {
+    override func scrollWheel(with theEvent: NSEvent) {
         if disableScrolling {
-            self.nextResponder?.scrollWheel(theEvent)
+            self.nextResponder?.scrollWheel(with: theEvent)
         } else {
-            super.scrollWheel(theEvent)
+            super.scrollWheel(with: theEvent)
         }
     }
     
-    override class func isCompatibleWithResponsiveScrolling() -> Bool {
+    override class var isCompatibleWithResponsiveScrolling: Bool {
         return true
     }
 
     
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
         self.canDrawConcurrently = true
         if disableThemeObserver {

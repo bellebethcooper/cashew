@@ -10,13 +10,13 @@ import Cocoa
 
 class GreenDottedView: BaseView {
 
-    private static let checkboxCircleSize = CGSize(width: 20, height: 20)
-    private static let dotCircleSize = CGSize(width: 5, height: 5)
-    private static let dotBgColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1)
-    private static let padding: CGFloat = 12
+    fileprivate static let checkboxCircleSize = CGSize(width: 20, height: 20)
+    fileprivate static let dotCircleSize = CGSize(width: 5, height: 5)
+    fileprivate static let dotBgColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1)
+    fileprivate static let padding: CGFloat = 12
     
-    private let smallDotView = BaseView()
-    private let circleView = BaseView()
+    fileprivate let smallDotView = BaseView()
+    fileprivate let circleView = BaseView()
     
     init() {
       
@@ -29,7 +29,7 @@ class GreenDottedView: BaseView {
         circleView.backgroundColor = GreenDottedView.dotBgColor
         circleView.cornerRadius = GreenDottedView.checkboxCircleSize.height / 2.0
         
-        smallDotView.backgroundColor = NSColor.whiteColor()
+        smallDotView.backgroundColor = NSColor.white
         smallDotView.cornerRadius = GreenDottedView.dotCircleSize.height / 2.0
         
         //        circleView.layer?.borderColor = NSColor.redColor().CGColor
@@ -46,7 +46,7 @@ class GreenDottedView: BaseView {
     
     var checked: Bool = false {
         didSet {
-            circleView.hidden = !checked
+            circleView.isHidden = !checked
         }
     }
     

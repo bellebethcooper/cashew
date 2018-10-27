@@ -10,13 +10,13 @@ import Cocoa
 
 class LabeledProgressIndicatorView: BaseView {
     
-    private static let progressIndicatorSize = NSSize(width: 14, height: 14)
-    private static let progressIndicatorLeftPadding: CGFloat = 10.0
-    private static let progressLabelLeftPadding: CGFloat = 5.0
+    fileprivate static let progressIndicatorSize = NSSize(width: 14, height: 14)
+    fileprivate static let progressIndicatorLeftPadding: CGFloat = 10.0
+    fileprivate static let progressLabelLeftPadding: CGFloat = 5.0
     
-    private let uploadStatusContainerView = BaseView()
-    private let progressLabel = BaseLabel()
-    private let progressIndicator = NSProgressIndicator()
+    fileprivate let uploadStatusContainerView = BaseView()
+    fileprivate let progressLabel = BaseLabel()
+    fileprivate let progressIndicator = NSProgressIndicator()
     
     convenience init() {
         self.init(frame: NSRect.zero)
@@ -44,7 +44,7 @@ class LabeledProgressIndicatorView: BaseView {
         }
     }
     
-    private func setupThemeObserver() {
+    fileprivate func setupThemeObserver() {
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else {
                 return
@@ -55,58 +55,58 @@ class LabeledProgressIndicatorView: BaseView {
                 return;
             }
             strongSelf.backgroundColor = CashewColor.backgroundColor()
-            if (.Dark == mode) {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if (.dark == mode) {
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
                 strongSelf.progressIndicator.appearance = appearance
             } else {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
                 strongSelf.progressIndicator.appearance = appearance
             }
         }
     }
     
-    private func setupStatusLabel() {
+    fileprivate func setupStatusLabel() {
         addSubview(uploadStatusContainerView)
         
-        uploadStatusContainerView.hidden = true
+        uploadStatusContainerView.isHidden = true
         uploadStatusContainerView.pinAnchorsToSuperview()
-        uploadStatusContainerView.backgroundColor =  NSColor.clearColor() //NSColor(calibratedWhite: 1, alpha: 0.95)
-        uploadStatusContainerView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        uploadStatusContainerView.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
+        uploadStatusContainerView.backgroundColor =  NSColor.clear //NSColor(calibratedWhite: 1, alpha: 0.95)
+        uploadStatusContainerView.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        uploadStatusContainerView.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .vertical)
         
         uploadStatusContainerView.addSubview(progressIndicator)
-        progressIndicator.style = .SpinningStyle
+        progressIndicator.style = .spinning
         progressIndicator.translatesAutoresizingMaskIntoConstraints = false
-        progressIndicator.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        progressIndicator.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        progressIndicator.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: LabeledProgressIndicatorView.progressIndicatorLeftPadding).active = true
-        progressIndicator.centerYAnchor.constraintEqualToAnchor(uploadStatusContainerView.centerYAnchor).active = true
-        progressIndicator.heightAnchor.constraintEqualToConstant(LabeledProgressIndicatorView.progressIndicatorSize.height).active = true
-        progressIndicator.widthAnchor.constraintEqualToConstant(LabeledProgressIndicatorView.progressIndicatorSize.width).active = true
+        progressIndicator.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        progressIndicator.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        progressIndicator.leftAnchor.constraint(equalTo: leftAnchor, constant: LabeledProgressIndicatorView.progressIndicatorLeftPadding).isActive = true
+        progressIndicator.centerYAnchor.constraint(equalTo: uploadStatusContainerView.centerYAnchor).isActive = true
+        progressIndicator.heightAnchor.constraint(equalToConstant: LabeledProgressIndicatorView.progressIndicatorSize.height).isActive = true
+        progressIndicator.widthAnchor.constraint(equalToConstant: LabeledProgressIndicatorView.progressIndicatorSize.width).isActive = true
         
         uploadStatusContainerView.addSubview(progressLabel)
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
-        progressLabel.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        progressLabel.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        progressLabel.centerYAnchor.constraintEqualToAnchor(uploadStatusContainerView.centerYAnchor).active = true
-        progressLabel.leftAnchor.constraintEqualToAnchor(progressIndicator.rightAnchor, constant: LabeledProgressIndicatorView.progressLabelLeftPadding).active = true
-        progressLabel.rightAnchor.constraintEqualToAnchor(uploadStatusContainerView.rightAnchor, constant: 12).active = true
-        progressLabel.textColor = NSColor.darkGrayColor()
-        progressLabel.font = NSFont.systemFontOfSize(12)
+        progressLabel.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        progressLabel.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        progressLabel.centerYAnchor.constraint(equalTo: uploadStatusContainerView.centerYAnchor).isActive = true
+        progressLabel.leftAnchor.constraint(equalTo: progressIndicator.rightAnchor, constant: LabeledProgressIndicatorView.progressLabelLeftPadding).isActive = true
+        progressLabel.rightAnchor.constraint(equalTo: uploadStatusContainerView.rightAnchor, constant: 12).isActive = true
+        progressLabel.textColor = NSColor.darkGray
+        progressLabel.font = NSFont.systemFont(ofSize: 12)
         progressLabel.stringValue = ""
     }
     
-    func showProgressWithString(text: String) {
+    func showProgressWithString(_ text: String) {
         self.progressLabel.stringValue = text
         invalidateIntrinsicContentSize()
         self.progressIndicator.startAnimation(nil)
-        self.uploadStatusContainerView.hidden = false
+        self.uploadStatusContainerView.isHidden = false
     }
     
     func hideProgress() {
         self.progressLabel.stringValue = ""
         invalidateIntrinsicContentSize()
         self.progressIndicator.stopAnimation(nil)
-        self.uploadStatusContainerView.hidden = true
+        self.uploadStatusContainerView.isHidden = true
     }
 }

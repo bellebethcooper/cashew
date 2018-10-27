@@ -34,98 +34,98 @@ class CashewColor: NSObject {
     }
 
     class func separatorColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.separatorColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.separatorColor()
         }
         fatalError()
     }
     
     class func currentLineBackgroundColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.currentLineBackgroundColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.currentLineBackgroundColor()
         }
         fatalError()
     }
     
     class func backgroundColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.backgroundColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.backgroundColor()
         }
         fatalError()
     }
     
     class func foregroundColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.foregroundColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.foregroundColor()
         }
         fatalError()
     }
     
     class func foregroundSecondaryColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.foregroundSecondaryColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.foregroundSecondaryColor()
         }
         fatalError()
     }
     
     class func yellowColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.yellowColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.yellowColor()
         }
         fatalError()
     }
     
     class func orangeColor() -> NSColor {
-        return ThemeColorConstant.orangeColor
+        return ThemeColorConstant.orangeColor!
     }
     
     class func redColor() -> NSColor {
-        return ThemeColorConstant.redColor
+        return ThemeColorConstant.redColor!
     }
     
     class func magentaColor() -> NSColor {
-        return ThemeColorConstant.magentaColor
+        return ThemeColorConstant.magentaColor!
     }
     
     class func violetColor() -> NSColor {
-        return ThemeColorConstant.violetColor
+        return ThemeColorConstant.violetColor!
     }
     
     class func blueColor() -> NSColor {
-        return ThemeColorConstant.blueColor
+        return ThemeColorConstant.blueColor!
     }
     
     class func cyanColor() -> NSColor {
-        return ThemeColorConstant.cyanColor
+        return ThemeColorConstant.cyanColor!
     }
     
     class func greenColor() -> NSColor {
-        return ThemeColorConstant.greenColor
+        return ThemeColorConstant.greenColor!
     }
     
     class func sidebarBackgroundColor() -> NSColor {
-        let mode = NSUserDefaults.themeMode()
-        if mode == .Light {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
             return LightModeColor.sharedInstance.sidebarBackgroundColor()
-        } else if mode == .Dark {
+        } else if mode == .dark {
             return DarkModeColor.sharedInstance.sidebarBackgroundColor()
         }
         fatalError()

@@ -10,7 +10,7 @@ import Cocoa
 
 @objc(SRSearchSuggestionResultType)
 enum SearchSuggestionResultType: Int {
-    case Repository, Owner, Label, Milestone, IssueState, Unspecified
+    case repository, owner, label, milestone, issueState, unspecified
 }
 
 @objc(SRSearchSuggestionResultItem)
@@ -51,149 +51,149 @@ class SearchSuggestionResultItemValue: NSObject, SearchSuggestionResultItem {
 }
 
 private enum SearchSuggestionType {
-    case All, Mentions, Assignee, Repository, Label, Author, Milestone
+    case all, mentions, assignee, repository, label, author, milestone
 }
 
 class SearchSuggestionDataSource: NSObject {
     
-    private static let maxPerSection: Int = 3
+    fileprivate static let maxPerSection: Int = 3
     
-    private let searchAccessQueue = dispatch_queue_create("com.simplerocket.searchSuggestionDataSource.searchAccessQueue", DISPATCH_QUEUE_SERIAL)
-    private var searchQuery = ""
-    private var results = [SearchSuggestionResultItem]()
-    private let operationQueue = NSOperationQueue()
+    fileprivate let searchAccessQueue = DispatchQueue(label: "com.simplerocket.searchSuggestionDataSource.searchAccessQueue", attributes: [])
+    fileprivate var searchQuery = ""
+    fileprivate var results = [SearchSuggestionResultItem]()
+    fileprivate let operationQueue = OperationQueue()
     // private let repositoryTrie = SRTrie()
     
     var resultCount: Int {
         return Int(results.count)
     }
     
-    func resultAtIndex(index: Int) -> SearchSuggestionResultItem {
+    func resultAtIndex(_ index: Int) -> SearchSuggestionResultItem {
         return results[index]
     }
     
-    func searchUsingQuery(queryText: String, onCompletion: dispatch_block_t) {
-        dispatch_sync(searchAccessQueue) {
+    func searchUsingQuery(_ queryText: String, onCompletion: @escaping ()->()) {
+        searchAccessQueue.sync {
             self.searchQuery = queryText
             self.operationQueue.cancelAllOperations()
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            let account = QContext.sharedContext().currentAccount
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            let account = QContext.shared().currentAccount
             var query = "\(queryText)*"
             self.operationQueue.maxConcurrentOperationCount = 4
             
             
             // no:label, no:milestone, no:assignee
             var unspecified = [String]()
-            if "no:assignee".hasPrefix(queryText.lowercaseString) {
+            if "no:assignee".hasPrefix(queryText.lowercased()) {
                 unspecified.append("assignee")
             }
             
-            if "no:milestone".hasPrefix(queryText.lowercaseString) {
+            if "no:milestone".hasPrefix(queryText.lowercased()) {
                 unspecified.append("milestone")
             }
             
-            if "no:label".hasPrefix(queryText.lowercaseString) {
+            if "no:label".hasPrefix(queryText.lowercased()) {
                 unspecified.append("label")
             }
             
             // issue state
             var issueStates = [String]()
-            if "open".hasPrefix(queryText.lowercaseString) || "is:open".hasPrefix(queryText.lowercaseString) {
+            if "open".hasPrefix(queryText.lowercased()) || "is:open".hasPrefix(queryText.lowercased()) {
                 issueStates.append("open")
             }
             
-            if "closed".hasPrefix(queryText.lowercaseString) || "is:closed".hasPrefix(queryText.lowercaseString) {
+            if "closed".hasPrefix(queryText.lowercased()) || "is:closed".hasPrefix(queryText.lowercased()) {
                 issueStates.append("closed")
             }
             
-            var suggestionType: SearchSuggestionType = .All
+            var suggestionType: SearchSuggestionType = .all
             
-            if queryText.lowercaseString.hasPrefix("milestone:") || queryText.lowercaseString.hasPrefix("-milestone:") {
-                suggestionType = .Milestone
-                query = (query as NSString).substringFromIndex(10)
+            if queryText.lowercased().hasPrefix("milestone:") || queryText.lowercased().hasPrefix("-milestone:") {
+                suggestionType = .milestone
+                query = (query as NSString).substring(from: 10)
                 
-            } else if queryText.lowercaseString.hasPrefix("assignee:") || queryText.lowercaseString.hasPrefix("-assignee:") || queryText.lowercaseString.hasPrefix("@") {
-                suggestionType = .Assignee
-                if queryText.lowercaseString.hasPrefix("@") {
-                    query = (query as NSString).substringFromIndex(1)
+            } else if queryText.lowercased().hasPrefix("assignee:") || queryText.lowercased().hasPrefix("-assignee:") || queryText.lowercased().hasPrefix("@") {
+                suggestionType = .assignee
+                if queryText.lowercased().hasPrefix("@") {
+                    query = (query as NSString).substring(from: 1)
                 } else {
-                    query = (query as NSString).substringFromIndex(9)
+                    query = (query as NSString).substring(from: 9)
                 }
                 
-            } else if queryText.lowercaseString.hasPrefix("repo:") || queryText.lowercaseString.hasPrefix("-repo:") {
-                suggestionType = .Repository
-                query = (query as NSString).substringFromIndex(5)
+            } else if queryText.lowercased().hasPrefix("repo:") || queryText.lowercased().hasPrefix("-repo:") {
+                suggestionType = .repository
+                query = (query as NSString).substring(from: 5)
                 
-            } else if queryText.lowercaseString.hasPrefix("label:") || queryText.lowercaseString.hasPrefix("-label:") {
-                suggestionType = .Label
-                query = (query as NSString).substringFromIndex(6)
+            } else if queryText.lowercased().hasPrefix("label:") || queryText.lowercased().hasPrefix("-label:") {
+                suggestionType = .label
+                query = (query as NSString).substring(from: 6)
                 
-            } else if queryText.lowercaseString.hasPrefix("author:") || queryText.lowercaseString.hasPrefix("-author:") {
-                suggestionType = .Author
-                query = (query as NSString).substringFromIndex(7)
+            } else if queryText.lowercased().hasPrefix("author:") || queryText.lowercased().hasPrefix("-author:") {
+                suggestionType = .author
+                query = (query as NSString).substring(from: 7)
                 
-            } else if queryText.lowercaseString.hasPrefix("mentions:") || queryText.lowercaseString.hasPrefix("-mentions:") {
-                suggestionType = .Mentions
-                query = (query as NSString).substringFromIndex(9)
+            } else if queryText.lowercased().hasPrefix("mentions:") || queryText.lowercased().hasPrefix("-mentions:") {
+                suggestionType = .mentions
+                query = (query as NSString).substring(from: 9)
             }
             
             // repository search
             var repositories = [String]()
-            if suggestionType == .All || suggestionType == .Repository {
-                self.operationQueue.addOperationWithBlock({
-                    let searchResults = QRepositoryStore.searchRepositoriesWithQuery(query, forAccountId: account.identifier)
-                    let repoStrings = self.uniqueStringsForElements(searchResults, stringExtractor: { (object) -> String? in
+            if suggestionType == .all || suggestionType == .repository {
+                self.operationQueue.addOperation({
+                    let searchResults = QRepositoryStore.searchRepositories(withQuery: query, forAccountId: account?.identifier)
+                    let repoStrings = self.uniqueStringsForElements(searchResults!, stringExtractor: { (object) -> String? in
                         guard let repository = object as? QRepository else { return nil }
                         return repository.fullName
                     })
-                    repositories.appendContentsOf(repoStrings)
+                    repositories.append(contentsOf: repoStrings)
                 })
             }
             
             // milestone search
             var milestones = [String]()
-            if suggestionType == .All || suggestionType == .Milestone {
-                self.operationQueue.addOperationWithBlock({
-                    let searchResults = QMilestoneStore.searchMilestoneWithQuery(query, forAccountId: account.identifier)
-                    let milestoneStrings = self.uniqueStringsForElements(searchResults, stringExtractor: { (object) -> String? in
+            if suggestionType == .all || suggestionType == .milestone {
+                self.operationQueue.addOperation({
+                    let searchResults = QMilestoneStore.searchMilestone(withQuery: query, forAccountId: account?.identifier)
+                    let milestoneStrings = self.uniqueStringsForElements(searchResults!, stringExtractor: { (object) -> String? in
                         guard let milestone = object as? QMilestone else { return nil }
                         return milestone.title
                     })
-                    milestones.appendContentsOf(milestoneStrings)
+                    milestones.append(contentsOf: milestones)
                 })
             }
             
             // owner search
             var owners = [String]()
-            if suggestionType == .All || suggestionType == .Assignee || suggestionType == .Author || suggestionType == .Mentions {
-                self.operationQueue.addOperationWithBlock({
-                    let searchResults = QOwnerStore.searchUserWithQuery(query, forAccountId: account.identifier)
-                    let ownerStrings = self.uniqueStringsForElements(searchResults, stringExtractor: { (object) -> String? in
+            if suggestionType == .all || suggestionType == .assignee || suggestionType == .author || suggestionType == .mentions {
+                self.operationQueue.addOperation({
+                    let searchResults = QOwnerStore.searchUser(withQuery: query, forAccountId: account?.identifier)
+                    let ownerStrings = self.uniqueStringsForElements(searchResults!, stringExtractor: { (object) -> String? in
                         guard let owner = object as? QOwner else { return nil }
                         return owner.login
                     })
-                    owners.appendContentsOf(ownerStrings)
+                    owners.append(contentsOf: ownerStrings)
                 })
             }
             
             // label search
             var labels = [String]()
-            if suggestionType == .All || suggestionType == .Label {
-                self.operationQueue.addOperationWithBlock({
-                    if let searchResults = QLabelStore.searchLabelsWithQuery(query, forAccountId: account.identifier) as NSArray as? [QLabel] {
+            if suggestionType == .all || suggestionType == .label {
+                self.operationQueue.addOperation({
+                    if let searchResults = QLabelStore.searchLabels(withQuery: query, forAccountId: account?.identifier) as NSArray as? [QLabel] {
                         let labelStrings = self.uniqueStringsForElements(searchResults, stringExtractor: { (object) -> String? in
                             guard let label = object as? QLabel else { return nil }
                             return label.name
                         })
-                        labels.appendContentsOf(labelStrings)
+                        labels.append(contentsOf: labels)
                     }
                 })
             }
             
             self.operationQueue.waitUntilAllOperationsAreFinished()
     
-            dispatch_sync(self.searchAccessQueue) {
+            self.searchAccessQueue.sync {
                 guard self.searchQuery == queryText else {
                     return
                 }
@@ -205,7 +205,7 @@ class SearchSuggestionDataSource: NSObject {
                     searchResults.append(BaseSpacerTableRowViewItem(spaceHeight: spaceHeight))
                     searchResults.append(SearchSuggestionResultItemHeader(title: "UNSPECIFIED"))
                     unspecified.forEach({ (title) in
-                        searchResults.append(SearchSuggestionResultItemValue(type: .Unspecified, title: title))
+                        searchResults.append(SearchSuggestionResultItemValue(type: .unspecified, title: title))
                     })
                 }
                 
@@ -213,7 +213,7 @@ class SearchSuggestionDataSource: NSObject {
                     searchResults.append(BaseSpacerTableRowViewItem(spaceHeight: spaceHeight))
                     searchResults.append(SearchSuggestionResultItemHeader(title: "ISSUE STATE"))
                     issueStates.forEach({ (title) in
-                        searchResults.append(SearchSuggestionResultItemValue(type: .IssueState, title: title))
+                        searchResults.append(SearchSuggestionResultItemValue(type: .issueState, title: title))
                     })
                 }
                 
@@ -221,7 +221,7 @@ class SearchSuggestionDataSource: NSObject {
                     searchResults.append(BaseSpacerTableRowViewItem(spaceHeight: spaceHeight))
                     searchResults.append(SearchSuggestionResultItemHeader(title: "REPOSITORY"))
                     repositories.forEach({ (title) in
-                        searchResults.append(SearchSuggestionResultItemValue(type: .Repository, title: title))
+                        searchResults.append(SearchSuggestionResultItemValue(type: .repository, title: title))
                     })
                 }
                 
@@ -229,7 +229,7 @@ class SearchSuggestionDataSource: NSObject {
                     searchResults.append(BaseSpacerTableRowViewItem(spaceHeight: spaceHeight))
                     searchResults.append(SearchSuggestionResultItemHeader(title: "MILESTONE"))
                     milestones.forEach({ (title) in
-                        searchResults.append(SearchSuggestionResultItemValue(type: .Milestone, title: title))
+                        searchResults.append(SearchSuggestionResultItemValue(type: .milestone, title: title))
                     })
                 }
                 
@@ -237,7 +237,7 @@ class SearchSuggestionDataSource: NSObject {
                     searchResults.append(BaseSpacerTableRowViewItem(spaceHeight: spaceHeight))
                     searchResults.append(SearchSuggestionResultItemHeader(title: "USER"))
                     owners.forEach({ (title) in
-                        searchResults.append(SearchSuggestionResultItemValue(type: .Owner, title: title))
+                        searchResults.append(SearchSuggestionResultItemValue(type: .owner, title: title))
                     })
                 }
                 
@@ -245,7 +245,7 @@ class SearchSuggestionDataSource: NSObject {
                     searchResults.append(BaseSpacerTableRowViewItem(spaceHeight: spaceHeight))
                     searchResults.append(SearchSuggestionResultItemHeader(title: "LABEL"))
                     labels.forEach({ (title) in
-                        searchResults.append(SearchSuggestionResultItemValue(type: .Label, title: title))
+                        searchResults.append(SearchSuggestionResultItemValue(type: .label, title: title))
                     })
                 }
                 
@@ -257,25 +257,25 @@ class SearchSuggestionDataSource: NSObject {
                 self.results = searchResults
             }
             
-            dispatch_async(dispatch_get_main_queue(), onCompletion)
+            DispatchQueue.main.async(execute: onCompletion)
         }
     }
     
     
-    private func uniqueStringsForElements(elements: [AnyObject], stringExtractor: ( (AnyObject) -> String?)) -> [String] {
+    fileprivate func uniqueStringsForElements(_ elements: [AnyObject], stringExtractor: ( (AnyObject) -> String?)) -> [String] {
         let orderedSet = NSMutableOrderedSet()
         for element in elements {
             guard orderedSet.count <= SearchSuggestionDataSource.maxPerSection else {
                 break
             }
             if let title = stringExtractor(element) {
-                orderedSet.addObject(title)
+                orderedSet.add(title)
             }
         }
         
         var strings = [String]()
         if let orderedStrings = orderedSet.array as? [String] {
-            strings.appendContentsOf(orderedStrings)
+            strings.append(contentsOf: orderedStrings)
         }
         return strings
     }

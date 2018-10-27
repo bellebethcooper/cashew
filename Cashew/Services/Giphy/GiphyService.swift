@@ -12,30 +12,30 @@ import AFNetworking
 class GiphyService: NSObject {
 
     
-    func search(query: String, onCompletion: QServiceOnCompletion) {
+    func search(_ query: String, onCompletion: @escaping QServiceOnCompletion) {
         
-        let sessionConfig = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        sessionConfig.requestCachePolicy = .ReloadIgnoringLocalCacheData
-        let manager = AFHTTPSessionManager(baseURL: NSURL(string: "http://api.giphy.com"), sessionConfiguration: sessionConfig)
+        let sessionConfig = URLSessionConfiguration.ephemeral
+        sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let manager = AFHTTPSessionManager(baseURL: URL(string: "http://api.giphy.com"), sessionConfiguration: sessionConfig)
         manager.responseSerializer = AFJSONResponseSerializer()
         
         let params = ["q": query, "api_key": "l46ClSDSscTCNPM7m"]
-        manager.GET("v1/gifs/search", parameters: params, progress: nil, success: { (task, obj) in
+        manager.get("v1/gifs/search", parameters: params, progress: nil, success: { (task, obj) in
             
-            if let obj = obj, data = obj["data"] as? [NSDictionary] {
+            if let obj = obj as? [String: Any], let data = obj["data"] as? [NSDictionary] {
                 
                 var giphys = [GiphyImage]()
                 data.forEach({ (gif) in
                     guard let images = gif["images"] as? NSDictionary else { return }
                     guard let original = images["original"] as? NSDictionary  else { return }
                     
-                    if let urlString = original["url"] as? String, url = NSURL(string: urlString), width = original["width"] as? String, height = original["height"] as? String, mp4URLString = original["mp4"] as? String, mp4URL = NSURL(string: mp4URLString) {
+                    if let urlString = original["url"] as? String, let url = NSURL(string: urlString), let width = original["width"] as? String, let height = original["height"] as? String, let mp4URLString = original["mp4"] as? String, let mp4URL = NSURL(string: mp4URLString) {
                         //DDLogDebug("Giphy URL -> \(url)")
                         if let caption = images["caption"] as? String {
-                            let giphy = GiphyImage(url:  url, mp4URL: mp4URL, width: CGFloat(Int(width)!), height: CGFloat(Int(height)!), caption: caption)
+                            let giphy = GiphyImage(url:  url as URL, mp4URL: mp4URL as URL, width: CGFloat(Int(width)!), height: CGFloat(Int(height)!), caption: caption)
                             giphys.append(giphy)
                         } else {
-                            let giphy = GiphyImage(url:  url, mp4URL: mp4URL, width: CGFloat(Int(width)!), height: CGFloat(Int(height)!), caption: nil)
+                            let giphy = GiphyImage(url:  url as URL, mp4URL: mp4URL as URL, width: CGFloat(Int(width)!), height: CGFloat(Int(height)!), caption: nil)
                             giphys.append(giphy)
                         }
                     }

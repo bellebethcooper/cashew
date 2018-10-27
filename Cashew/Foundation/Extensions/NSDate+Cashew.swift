@@ -9,27 +9,33 @@
 import Foundation
 
 extension NSDate {
+    @objc func isAfterDate(_ date: Date) -> Bool {
+        return self.compare(date) == .orderedDescending
+    }
+}
+
+extension Date {
     
     func isCurrentYear() -> Bool {
         
-        let dateComponents = NSCalendar.currentCalendar().components([.Year], fromDate: self)
-        let todayComponents = NSCalendar.currentCalendar().components([.Year], fromDate: NSDate())
+        let dateComponents = (Calendar.current as NSCalendar).components([.year], from: self)
+        let todayComponents = (Calendar.current as NSCalendar).components([.year], from: Date())
         return dateComponents.year == todayComponents.year
     }
     
-    func isAfterDate(date: NSDate) -> Bool {
-        return self.compare(date) == .OrderedDescending
+    func isAfterDate(_ date: Date) -> Bool {
+        return self.compare(date) == .orderedDescending
     }
     
     func isToday() -> Bool {
-        let cal = NSCalendar.currentCalendar()
-        var components = cal.components([.Era, .Year, .Month, .Day], fromDate:NSDate())
-        let today = cal.dateFromComponents(components)!
+        let cal = Calendar.current
+        var components = (cal as NSCalendar).components([.era, .year, .month, .day], from:Date())
+        let today = cal.date(from: components)!
         
-        components = cal.components([.Era, .Year, .Month, .Day], fromDate:self)
-        let otherDate = cal.dateFromComponents(components)!
+        components = (cal as NSCalendar).components([.era, .year, .month, .day], from:self)
+        let otherDate = cal.date(from: components)!
         
-        if(today.isEqualToDate(otherDate)) {
+        if(today == otherDate) {
             return true
         } else {
             return false

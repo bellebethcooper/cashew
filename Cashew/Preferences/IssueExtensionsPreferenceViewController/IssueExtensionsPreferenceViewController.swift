@@ -19,27 +19,27 @@ class IssueExtensionsPreferenceViewController: NSViewController {
     @IBOutlet weak var containerView: NSView!
     @IBOutlet weak var bottomBarContainerView: BaseView!
     
-    private var windowControllers =  Set<BaseModalWindowController>()
-    private let dataSource = IssueExtensionsDataSource()
-    private let extensionCloudKitService = ExtensionCloudKitService()
+    fileprivate var windowControllers =  Set<BaseModalWindowController>()
+    fileprivate let dataSource = IssueExtensionsDataSource()
+    fileprivate let extensionCloudKitService = ExtensionCloudKitService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.disableThemeObserver = true
-        tableView.backgroundColor = NSColor.whiteColor()
+        tableView.backgroundColor = NSColor.white
         
         clipView.disableThemeObserver = true
-        clipView.backgroundColor = NSColor.whiteColor()
+        clipView.backgroundColor = NSColor.white
         
         bottomBarContainerView.disableThemeObserver = true
-        bottomBarContainerView.backgroundColor = NSColor.whiteColor()
+        bottomBarContainerView.backgroundColor = NSColor.white
         
         //        bottomBarTopSeparatorView.disableThemeObserver = true
         //        bottomBarTopSeparatorView.backgroundColor = LightModeColor.sharedInstance.separatorColor()
         
-        removeAccountButton.enabled = false
+        removeAccountButton.isEnabled = false
         
-        //QAccountStore.addObserver(self)
+        //QAccountStore.add(self)
         //tableView.registerAdapter(AccountsPreferenceTableViewAdapter(), forClass: QAccount.self)
         
         tableView.action = #selector(IssueExtensionsPreferenceViewController.didSelectRow)
@@ -48,7 +48,7 @@ class IssueExtensionsPreferenceViewController: NSViewController {
         
         
         containerView.wantsLayer = true
-        containerView.layer?.borderColor = NSColor(calibratedWhite: 164/255.0, alpha: 1).CGColor
+        containerView.layer?.borderColor = NSColor(calibratedWhite: 164/255.0, alpha: 1).cgColor
         containerView.layer?.borderWidth = 1
         
         dataSource.reloadData() { [weak self] in
@@ -66,7 +66,7 @@ class IssueExtensionsPreferenceViewController: NSViewController {
             guard let strongSelf = self else { return }
             DispatchOnMainQueue({
                 strongSelf.tableView.beginUpdates()
-                strongSelf.tableView.removeRowsAtIndexes(NSIndexSet(index: index), withAnimation: .EffectNone)
+                strongSelf.tableView.removeRows(at: NSIndexSet(index: index) as IndexSet, withAnimation: [])
                 strongSelf.tableView.endUpdates()
             })
         }
@@ -75,7 +75,7 @@ class IssueExtensionsPreferenceViewController: NSViewController {
             guard let strongSelf = self else { return }
             DispatchOnMainQueue({
                 strongSelf.tableView.beginUpdates()
-                strongSelf.tableView.insertRowsAtIndexes(NSIndexSet(index: index), withAnimation: .EffectNone)
+                strongSelf.tableView.insertRows(at: NSIndexSet(index: index) as IndexSet, withAnimation: [])
                 strongSelf.tableView.endUpdates()
             })
         }
@@ -84,10 +84,10 @@ class IssueExtensionsPreferenceViewController: NSViewController {
             guard let strongSelf = self else { return }
             DispatchOnMainQueue({
                 let columnIndexSet = NSMutableIndexSet()
-                columnIndexSet.addIndex(0)
+                columnIndexSet.add(0)
 //                columnIndexSet.addIndex(1)
                 strongSelf.tableView.beginUpdates()
-                strongSelf.tableView.reloadDataForRowIndexes(NSIndexSet(index: index), columnIndexes: columnIndexSet) //RowsAtIndexes(NSIndexSet(index: index), withAnimation: .EffectNone)
+                strongSelf.tableView.reloadData(forRowIndexes: NSIndexSet(index: index) as IndexSet, columnIndexes: columnIndexSet as IndexSet) //RowsAtIndexes(NSIndexSet(index: index), withAnimation: .EffectNone)
                 strongSelf.tableView.endUpdates()
             })
         }
@@ -96,17 +96,17 @@ class IssueExtensionsPreferenceViewController: NSViewController {
     // MARK: Actions
     
     @objc
-    private func didSelectRow() {
+    fileprivate func didSelectRow() {
         let selectedRow = tableView.clickedRow
         if selectedRow >= 0 {
-            removeAccountButton.enabled = true
+            removeAccountButton.isEnabled = true
         } else {
-            removeAccountButton.enabled = false
+            removeAccountButton.isEnabled = false
         }
     }
     
     @objc
-    private func didDoubleClickRow() {
+    fileprivate func didDoubleClickRow() {
         let selectedRow = tableView.clickedRow
         let selectedColumn = tableView.clickedColumn
         
@@ -130,11 +130,11 @@ class IssueExtensionsPreferenceViewController: NSViewController {
         } */
     }
     
-    @IBAction func didClickAddButton(sender: AnyObject) {
+    @IBAction func didClickAddButton(_ sender: AnyObject) {
         openEditorWithCodeExtensionScript(nil)
     }
     
-    @IBAction func didClickRemoveButton(sender: AnyObject) {
+    @IBAction func didClickRemoveButton(_ sender: AnyObject) {
         let selectedRow = tableView.selectedRow
         guard selectedRow >= 0 else { return }
         
@@ -146,11 +146,11 @@ class IssueExtensionsPreferenceViewController: NSViewController {
         }
     }
     
-    private func openEditorWithCodeExtensionScript(codeExtension: SRExtension?) {
+    fileprivate func openEditorWithCodeExtensionScript(_ codeExtension: SRExtension?) {
         var existingWindowController: BaseModalWindowController?
         
         for controller in windowControllers {
-            if let viewController = controller.viewController as? IssueExtensionCodeEditorViewController where viewController.codeExtension == codeExtension {
+            if let viewController = controller.viewController as? IssueExtensionCodeEditorViewController , viewController.codeExtension == codeExtension {
                 existingWindowController = controller
                 break
             }
@@ -162,9 +162,9 @@ class IssueExtensionsPreferenceViewController: NSViewController {
         }
         
         
-        guard let viewController = IssueExtensionCodeEditorViewController(nibName: "IssueExtensionCodeEditorViewController", bundle: nil) else { return }
+        let viewController = IssueExtensionCodeEditorViewController(nibName: NSNib.Name(rawValue: "IssueExtensionCodeEditorViewController"), bundle: nil)
         //guard let  else { return }
-        let windowController = BaseModalWindowController(windowNibName: "BaseModalWindowController")
+        let windowController = BaseModalWindowController(windowNibName: NSNib.Name(rawValue: "BaseModalWindowController"))
         windowController.forceAlwaysDarkmode = true
         windowController.windowTitle = "Issue Extension Code Editor"
         windowController.viewController = viewController
@@ -194,23 +194,23 @@ class IssueExtensionsPreferenceViewController: NSViewController {
 
 extension IssueExtensionsPreferenceViewController: NSWindowDelegate {
     
-    func windowShouldClose(sender: AnyObject) -> Bool {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
         
         var aWindowController: BaseModalWindowController?
         for controller in windowControllers {
-            if let sender = sender as? NSWindow where controller.window == sender {
+            if let sender = sender as? NSWindow , controller.window == sender {
                 aWindowController = controller
                 break
             }
         }
         
-        guard let windowController = aWindowController, viewController = windowController.viewController as? IssueExtensionCodeEditorViewController else { return true }
+        guard let windowController = aWindowController, let viewController = windowController.viewController as? IssueExtensionCodeEditorViewController else { return true }
         
         var shouldClose = true
         if viewController.code != viewController.codeExtension?.sourceCode {
             
             shouldClose = false
-            if  NSUserDefaults.shouldShowIssueCloseWarning() {
+            if  UserDefaults.shouldShowIssueCloseWarning() {
                 NSAlert.showWarningMessage("Are you sure you want to close without saving?") {
                     shouldClose = true
                 }
@@ -222,10 +222,10 @@ extension IssueExtensionsPreferenceViewController: NSWindowDelegate {
         return shouldClose;
     }
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         var aWindowController: BaseModalWindowController?
         for controller in windowControllers {
-            if let sender = notification.object as? NSWindow where controller.window == sender {
+            if let sender = notification.object as? NSWindow , controller.window == sender {
                 aWindowController = controller
                 break
             }
@@ -241,7 +241,7 @@ extension IssueExtensionsPreferenceViewController: NSWindowDelegate {
 
 extension IssueExtensionsPreferenceViewController: NSTableViewDelegate {
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return dataSource.numberOfRows
     }
     
@@ -249,15 +249,15 @@ extension IssueExtensionsPreferenceViewController: NSTableViewDelegate {
 
 extension IssueExtensionsPreferenceViewController: NSTableViewDataSource {
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         
         guard let tableColumn = tableColumn else {
             return nil
         }
         
-        if tableColumn.identifier == "ScriptNameId" {
+        if tableColumn.identifier.rawValue == "ScriptNameId" {
             
-            if let view = tableView.makeViewWithIdentifier(tableColumn.identifier, owner: self) as? NSTableCellView, textField = view.textField {
+            if let view = tableView.makeView(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView, let textField = view.textField {
                 let codeExtension = self.dataSource.itemAtIndex(row)
                 textField.stringValue = codeExtension.name
                 return view

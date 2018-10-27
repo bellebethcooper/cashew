@@ -13,19 +13,19 @@ class MarkdownEditorTextView: BaseView {
     
     // private static let dragBorderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1)
     
-    private static let toolbarHeight: CGFloat = 26.0
-    private static let verticalSpacing: CGFloat = 8.0
+    fileprivate static let toolbarHeight: CGFloat = 26.0
+    fileprivate static let verticalSpacing: CGFloat = 8.0
     
-    private let internalTextView = InternalMarkdownEditorTextView()
-    private let internalTextViewScrollView = BaseScrollView()
-    private let toolbarView = MarkdownEditorToolbarView()
-    private var toolbarViewHeightConstraint: NSLayoutConstraint?
-    private var textViewConstraints = [NSLayoutConstraint]()
-    private var previewWebView: QIssueMarkdownWebView?
-    private var previewWebViewConstraints = [NSLayoutConstraint]()
+    fileprivate let internalTextView = InternalMarkdownEditorTextView()
+    fileprivate let internalTextViewScrollView = BaseScrollView()
+    fileprivate let toolbarView = MarkdownEditorToolbarView()
+    fileprivate var toolbarViewHeightConstraint: NSLayoutConstraint?
+    fileprivate var textViewConstraints = [NSLayoutConstraint]()
+    fileprivate var previewWebView: QIssueMarkdownWebView?
+    fileprivate var previewWebViewConstraints = [NSLayoutConstraint]()
     
-    private(set) var textSizePopover: NSPopover?
-    private(set) var giphyPopover: NSPopover?
+    fileprivate(set) var textSizePopover: NSPopover?
+    fileprivate(set) var giphyPopover: NSPopover?
     
     
     
@@ -40,7 +40,7 @@ class MarkdownEditorTextView: BaseView {
             return internalTextView.string
         }
         set {
-            internalTextView.string = newValue
+            internalTextView.string = newValue!
         }
     }
     
@@ -52,7 +52,7 @@ class MarkdownEditorTextView: BaseView {
     }
     
     var isShowingPreview: Bool {
-        return internalTextView.hidden
+        return internalTextView.isHidden
     }
     
     var isShowingPopover: Bool {
@@ -66,11 +66,11 @@ class MarkdownEditorTextView: BaseView {
     var activateTextViewConstraints: Bool = false {
         didSet {
             if activateTextViewConstraints {
-                NSLayoutConstraint.activateConstraints(textViewConstraints)
-                NSLayoutConstraint.activateConstraints(previewWebViewConstraints)
+                NSLayoutConstraint.activate(textViewConstraints)
+                NSLayoutConstraint.activate(previewWebViewConstraints)
             } else {
-                NSLayoutConstraint.deactivateConstraints(textViewConstraints)
-                NSLayoutConstraint.deactivateConstraints(previewWebViewConstraints)
+                NSLayoutConstraint.deactivate(textViewConstraints)
+                NSLayoutConstraint.deactivate(previewWebViewConstraints)
             }
         }
     }
@@ -84,11 +84,11 @@ class MarkdownEditorTextView: BaseView {
         }
     }
     
-    func isEqualToTextView(obj: NSObject) -> Bool {
+    func isEqualToTextView(_ obj: NSObject) -> Bool {
         return internalTextView == obj
     }
     
-    func setAsNextKeyViewForView(view: NSView) {
+    func setAsNextKeyViewForView(_ view: NSView) {
         view.nextKeyView = internalTextView
     }
     
@@ -110,25 +110,25 @@ class MarkdownEditorTextView: BaseView {
     }
     
     
-    var onEnterKeyPressed: dispatch_block_t? {
+    var onEnterKeyPressed: (()->())? {
         didSet {
             internalTextView.onEnterKeyPressed = onEnterKeyPressed
         }
     }
     
-    var onFileUploadChange: dispatch_block_t? {
+    var onFileUploadChange: (()->())? {
         didSet {
             internalTextView.onFileUploadChange = onFileUploadChange
         }
     }
     
-    var onDragEntered: dispatch_block_t? {
+    var onDragEntered: (()->())? {
         didSet {
             internalTextView.onDragEntered = onDragEntered
         }
     }
     
-    var onDragExited: dispatch_block_t? {
+    var onDragExited: (()->())? {
         didSet {
             internalTextView.onDragExited = onDragExited
         }
@@ -136,19 +136,19 @@ class MarkdownEditorTextView: BaseView {
     
     var editable: Bool {
         get {
-            return internalTextView.editable
+            return internalTextView.isEditable
         }
         set {
-            internalTextView.editable = newValue
+            internalTextView.isEditable = newValue
         }
     }
     
     var selectable: Bool {
         get {
-            return internalTextView.selectable
+            return internalTextView.isSelectable
         }
         set {
-            internalTextView.selectable = newValue
+            internalTextView.isSelectable = newValue
         }
     }
     
@@ -193,8 +193,8 @@ class MarkdownEditorTextView: BaseView {
             if forceLightModeForMarkdownPreview {
                 disableThemeObserver = true
                 internalTextViewScrollView.disableThemeObserver = true
-                internalTextViewScrollView.backgroundColor = NSColor.whiteColor()
-                backgroundColor = NSColor.whiteColor()
+                internalTextViewScrollView.backgroundColor = NSColor.white
+                backgroundColor = NSColor.white
             } else {
                 internalTextViewScrollView.disableThemeObserver = false
             }
@@ -217,11 +217,11 @@ class MarkdownEditorTextView: BaseView {
     var disableScrollViewBounce: Bool = false {
         didSet {
             if disableScrollViewBounce {
-                internalTextViewScrollView.verticalScrollElasticity = .None
-                internalTextViewScrollView.horizontalScrollElasticity = .None
+                internalTextViewScrollView.verticalScrollElasticity = .none
+                internalTextViewScrollView.horizontalScrollElasticity = .none
             } else {
-                internalTextViewScrollView.verticalScrollElasticity = .Automatic
-                internalTextViewScrollView.horizontalScrollElasticity = .Automatic
+                internalTextViewScrollView.verticalScrollElasticity = .automatic
+                internalTextViewScrollView.horizontalScrollElasticity = .automatic
             }
         }
     }
@@ -237,7 +237,7 @@ class MarkdownEditorTextView: BaseView {
         internalTextView.registerDragAndDrop()
     }
     
-    func uploadFilePaths(paths: [String]) {
+    func uploadFilePaths(_ paths: [String]) {
         internalTextView.uploadFilePaths(paths)
     }
     
@@ -254,25 +254,25 @@ class MarkdownEditorTextView: BaseView {
         turnPreviewModeOff()
     }
     
-    func calculatedSizeForWidth(containerWidth: CGFloat) -> NSSize {
+    func calculatedSizeForWidth(_ containerWidth: CGFloat) -> NSSize {
         let stringVal = (internalTextView.string ?? "RANDOM")
         let font = internalTextView.font!
         let textStorage = NSTextStorage(string: stringVal)
-        let textContainer = NSTextContainer(containerSize: CGSizeMake(containerWidth, CGFloat.max) )
+        let textContainer = NSTextContainer(containerSize: CGSize(width: containerWidth, height: CGFloat.greatestFiniteMagnitude) )
         let layoutManager = NSLayoutManager()
-        let attributes = [ NSFontAttributeName: font ] as [String : AnyObject]?
+        let attributes = [ NSAttributedStringKey.font.rawValue: font ]
         
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
-        textStorage.addAttributes(attributes!, range: NSMakeRange(0, (stringVal as NSString).length))
+//        textStorage.addAttributes(attributes, range: NSMakeRange(0, (stringVal as NSString).length))
         
-        layoutManager.glyphRangeForTextContainer(textContainer)
-        let size = layoutManager.usedRectForTextContainer(textContainer).size
+        layoutManager.glyphRange(for: textContainer)
+        let size = layoutManager.usedRect(for: textContainer).size
         
         return NSMakeSize(size.width,  size.height + ( collapseToolbar ? 0 : MarkdownEditorTextView.toolbarHeight) + MarkdownEditorTextView.verticalSpacing * 2)
     }
     
-    private func setup() {
+    fileprivate func setup() {
         disableThemeObserver = true;
         
         addSubview(internalTextViewScrollView)
@@ -282,25 +282,25 @@ class MarkdownEditorTextView: BaseView {
         toolbarView.translatesAutoresizingMaskIntoConstraints = false
         toolbarView.disableThemeObserver = true
         
-        textViewConstraints.append(toolbarView.topAnchor.constraintEqualToAnchor(topAnchor))
-        textViewConstraints.append(toolbarView.leftAnchor.constraintEqualToAnchor(leftAnchor))
-        textViewConstraints.append(toolbarView.rightAnchor.constraintEqualToAnchor(rightAnchor))
-        toolbarViewHeightConstraint = toolbarView.heightAnchor.constraintEqualToConstant(MarkdownEditorTextView.toolbarHeight)
+        textViewConstraints.append(toolbarView.topAnchor.constraint(equalTo: topAnchor))
+        textViewConstraints.append(toolbarView.leftAnchor.constraint(equalTo: leftAnchor))
+        textViewConstraints.append(toolbarView.rightAnchor.constraint(equalTo: rightAnchor))
+        toolbarViewHeightConstraint = toolbarView.heightAnchor.constraint(equalToConstant: MarkdownEditorTextView.toolbarHeight)
         textViewConstraints.append(toolbarViewHeightConstraint!)
         
         // text view
-        internalTextViewScrollView.borderType = .NoBorder
+        internalTextViewScrollView.borderType = .noBorder
         internalTextViewScrollView.translatesAutoresizingMaskIntoConstraints = false
-        textViewConstraints.append(internalTextViewScrollView.topAnchor.constraintEqualToAnchor(toolbarView.bottomAnchor, constant: MarkdownEditorTextView.verticalSpacing))
-        textViewConstraints.append(internalTextViewScrollView.leftAnchor.constraintEqualToAnchor(leftAnchor))
-        textViewConstraints.append(internalTextViewScrollView.rightAnchor.constraintEqualToAnchor(rightAnchor))
-        textViewConstraints.append(internalTextViewScrollView.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -MarkdownEditorTextView.verticalSpacing))
+        textViewConstraints.append(internalTextViewScrollView.topAnchor.constraint(equalTo: toolbarView.bottomAnchor, constant: MarkdownEditorTextView.verticalSpacing))
+        textViewConstraints.append(internalTextViewScrollView.leftAnchor.constraint(equalTo: leftAnchor))
+        textViewConstraints.append(internalTextViewScrollView.rightAnchor.constraint(equalTo: rightAnchor))
+        textViewConstraints.append(internalTextViewScrollView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MarkdownEditorTextView.verticalSpacing))
         
         internalTextView.minSize = NSMakeSize(0, 0)
-        internalTextView.maxSize = NSMakeSize(CGFloat.max, CGFloat.max)
-        internalTextView.verticallyResizable = true
-        internalTextView.horizontallyResizable = false
-        internalTextView.autoresizingMask = [.ViewWidthSizable , .ViewHeightSizable]
+        internalTextView.maxSize = NSMakeSize(CGFloat.greatestFiniteMagnitude, CGFloat.greatestFiniteMagnitude)
+        internalTextView.isVerticallyResizable = true
+        internalTextView.isHorizontallyResizable = false
+        internalTextView.autoresizingMask = [NSView.AutoresizingMask.width , NSView.AutoresizingMask.height]
         internalTextView.textContainer!.widthTracksTextView = true
         internalTextViewScrollView.documentView = internalTextView
         
@@ -385,68 +385,66 @@ class MarkdownEditorTextView: BaseView {
     }
     
     @objc
-    private func didClickLargeHeaderButton(sender: AnyObject) {
+    fileprivate func didClickLargeHeaderButton(_ sender: AnyObject) {
         prefixSelectedRangeWithString("# ")
         if let textSizePopover = textSizePopover {
             textSizePopover.close()
         }
     }
     
-    private func turnPreviewModeOff() {
+    fileprivate func turnPreviewModeOff() {
         if let previewWebView = previewWebView {
             toolbarView.enableAllButton()
             previewWebView.removeFromSuperview()
             self.previewWebView = nil
-            internalTextView.hidden = false
+            internalTextView.isHidden = false
             previewWebViewConstraints.removeAll()
             self.makeFirstResponder()
         }
     }
     
-    private func previewButtonClick() {
+    fileprivate func previewButtonClick() {
         if  previewWebView != nil {
             turnPreviewModeOff()
         } else {
-            internalTextView.hidden = true
+            internalTextView.isHidden = true
             toolbarView.disableAllButton()
-            let previewWebView = QIssueMarkdownWebView(HTMLString: MarkdownParser().parse(internalTextView.string, forRepository: nil), onFrameLoadCompletion: { (rect) in
+            let previewWebView = QIssueMarkdownWebView(htmlString: MarkdownParser().parse(internalTextView.string, for: nil), onFrameLoadCompletion: { (rect) in
                 //rect
                 }, scrollingEnabled: true, forceLightMode: forceLightModeForMarkdownPreview)
             
+            addSubview(previewWebView!)
+            previewWebView!.translatesAutoresizingMaskIntoConstraints = false
             
-            addSubview(previewWebView)
-            previewWebView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let rightConstraint = previewWebView.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -5)
-            let leftConstraint = previewWebView.leftAnchor.constraintEqualToAnchor(leftAnchor, constant:  5)
-            let topConstraint = previewWebView.topAnchor.constraintEqualToAnchor(toolbarView.bottomAnchor, constant: MarkdownEditorTextView.verticalSpacing)
-            let bottomConstraint = previewWebView.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -MarkdownEditorTextView.verticalSpacing)
+            let rightConstraint = previewWebView!.rightAnchor.constraint(equalTo: rightAnchor, constant: -5)
+            let leftConstraint = previewWebView!.leftAnchor.constraint(equalTo: leftAnchor, constant:  5)
+            let topConstraint = previewWebView!.topAnchor.constraint(equalTo: toolbarView.bottomAnchor, constant: MarkdownEditorTextView.verticalSpacing)
+            let bottomConstraint = previewWebView!.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -MarkdownEditorTextView.verticalSpacing)
             
             
-            topConstraint.active = true
-            bottomConstraint.active = true
-            rightConstraint.active = true
-            leftConstraint.active = true
+            topConstraint.isActive = true
+            bottomConstraint.isActive = true
+            rightConstraint.isActive = true
+            leftConstraint.isActive = true
             
             previewWebViewConstraints.append(bottomConstraint)
             previewWebViewConstraints.append(leftConstraint)
             previewWebViewConstraints.append(rightConstraint)
             previewWebViewConstraints.append(topConstraint)
-            
 
             self.previewWebView = previewWebView
             
         }
     }
     
-    private func helpButtonClick() {
-        if let url = NSURL(string: "https://guides.github.com/features/mastering-markdown/") {
-            NSWorkspace.sharedWorkspace().openURL(url)
+    fileprivate func helpButtonClick() {
+        if let url = URL(string: "https://guides.github.com/features/mastering-markdown/") {
+            NSWorkspace.shared.open(url)
         }
     }
     
     @objc
-    private func didClickSmallHeaderButton(sender: AnyObject) {
+    fileprivate func didClickSmallHeaderButton(_ sender: AnyObject) {
         prefixSelectedRangeWithString("### ")
         if let textSizePopover = textSizePopover {
             textSizePopover.close()
@@ -454,49 +452,49 @@ class MarkdownEditorTextView: BaseView {
     }
     
     @objc
-    private func didClickMediumHeaderButton(sender: AnyObject) {
+    fileprivate func didClickMediumHeaderButton(_ sender: AnyObject) {
         prefixSelectedRangeWithString("## ")
         if let textSizePopover = textSizePopover {
             textSizePopover.close()
         }
     }
     
-    private func textSizeButtonClick() {
+    fileprivate func textSizeButtonClick() {
         let viewController = BaseViewController()
         let stackView = NSStackView()
         
         viewController.view.addSubview(stackView)
         stackView.pinAnchorsToSuperview()
-        stackView.orientation = .Vertical
+        stackView.orientation = .vertical
         stackView.spacing = 0;
-        stackView.distribution = .FillEqually
+        stackView.distribution = .fillEqually
         
         let largeHeaderButton = NSButton()
-        largeHeaderButton.font = NSFont.boldSystemFontOfSize(18)
+        largeHeaderButton.font = NSFont.boldSystemFont(ofSize: 18)
         largeHeaderButton.title = "Header"
         largeHeaderButton.action = #selector(MarkdownEditorTextView.didClickLargeHeaderButton(_:))
         
         let mediumButton = NSButton()
-        mediumButton.font = NSFont.boldSystemFontOfSize(16)
+        mediumButton.font = NSFont.boldSystemFont(ofSize: 16)
         mediumButton.title = "Header"
         mediumButton.action = #selector(MarkdownEditorTextView.didClickMediumHeaderButton(_:))
         
         let smallButton = NSButton()
-        smallButton.font = NSFont.boldSystemFontOfSize(14)
+        smallButton.font = NSFont.boldSystemFont(ofSize: 14)
         smallButton.title = "Header"
         smallButton.action = #selector(MarkdownEditorTextView.didClickSmallHeaderButton(_:))
         
         [largeHeaderButton, smallButton, mediumButton].forEach { (btn) in
             btn.wantsLayer = true
-            btn.bordered = false
+            btn.isBordered = false
             btn.target = self
             //            btn.layer?.borderColor = NSColor.redColor().CGColor
             //            btn.layer?.borderWidth = 1
         }
         
-        stackView.addView(largeHeaderButton, inGravity: .Center)
-        stackView.addView(mediumButton, inGravity: .Center)
-        stackView.addView(smallButton, inGravity: .Center)
+        stackView.addView(largeHeaderButton, in: .center)
+        stackView.addView(mediumButton, in: .center)
+        stackView.addView(smallButton, in: .center)
         
         let size = NSMakeSize(100, 100)
         let popover = NSPopover()
@@ -505,35 +503,35 @@ class MarkdownEditorTextView: BaseView {
         viewController.view.frame = NSMakeRect(0, 0, size.width, size.height);
         
         let foregroundColor: NSColor
-        if .Dark == NSUserDefaults.themeMode() {
-            let appearance = NSAppearance(named: NSAppearanceNameAqua)
+        if .dark == UserDefaults.themeMode() {
+            let appearance = NSAppearance(named: NSAppearance.Name.aqua)
             popover.appearance = appearance;
-            foregroundColor = NSColor.whiteColor()
+            foregroundColor = NSColor.white
         } else {
-            let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+            let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             popover.appearance = appearance;
-            foregroundColor = NSColor.blackColor()
+            foregroundColor = NSColor.black
         }
         
         smallButton.appearance = popover.appearance;
         mediumButton.appearance = popover.appearance;
         largeHeaderButton.appearance = popover.appearance;
         
-        smallButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSFontAttributeName: NSFont.boldSystemFontOfSize(16), NSForegroundColorAttributeName: foregroundColor])
-        mediumButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSFontAttributeName: NSFont.boldSystemFontOfSize(18), NSForegroundColorAttributeName: foregroundColor])
-        largeHeaderButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSFontAttributeName: NSFont.boldSystemFontOfSize(20), NSForegroundColorAttributeName: foregroundColor])
+        smallButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSAttributedStringKey.font: NSFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: foregroundColor])
+        mediumButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSAttributedStringKey.font: NSFont.boldSystemFont(ofSize: 18), NSAttributedStringKey.foregroundColor: foregroundColor])
+        largeHeaderButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSAttributedStringKey.font: NSFont.boldSystemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: foregroundColor])
         
         popover.delegate = self
         popover.contentSize = size
         popover.contentViewController = viewController
         popover.animates = true
-        popover.behavior = .Transient
-        popover.showRelativeToRect(toolbarView.textSizeButton.bounds, ofView:toolbarView.textSizeButton, preferredEdge:.MinY);
+        popover.behavior = .transient
+        popover.show(relativeTo: toolbarView.textSizeButton.bounds, of:toolbarView.textSizeButton, preferredEdge:.minY);
         
     }
     
-    private func gifButtonClick() {
-        guard let viewController = GiphyViewController(nibName: "GiphyViewController", bundle: nil) else { return }
+    fileprivate func gifButtonClick() {
+        let viewController = GiphyViewController(nibName: NSNib.Name(rawValue: "GiphyViewController"), bundle: nil)
         let size = NSMakeSize(320, 480)
         let popover = NSPopover()
         
@@ -546,23 +544,23 @@ class MarkdownEditorTextView: BaseView {
         giphyPopover = popover
         viewController.view.frame = NSMakeRect(0, 0, size.width, size.height);
 
-        let appearance = NSAppearance(named: NSAppearanceNameAqua)
+        let appearance = NSAppearance(named: NSAppearance.Name.aqua)
         popover.appearance = appearance;
 
         popover.delegate = self
         popover.contentSize = size
         popover.contentViewController = viewController
         popover.animates = true
-        popover.behavior = .Transient
-        popover.showRelativeToRect(toolbarView.gifButton.bounds, ofView:toolbarView.gifButton, preferredEdge:.MinY);
+        popover.behavior = .transient
+        popover.show(relativeTo: toolbarView.gifButton.bounds, of:toolbarView.gifButton, preferredEdge:.minY);
     }
     
-    private func unorderedListButtonClick() {
+    fileprivate func unorderedListButtonClick() {
         prefixSelectedRangeWithString("- ")
     }
     
 
-    private func taskListButtonClick() {
+    fileprivate func taskListButtonClick() {
         prefixSelectedRangeWithString("- [ ] ")
     }
     
@@ -574,29 +572,29 @@ class MarkdownEditorTextView: BaseView {
         surroundSelectedRangeWithString("*")
     }
     
-    private func codeSelectedText() {
+    fileprivate func codeSelectedText() {
         let selectedRange = internalTextView.selectedRange()
         let text = ((internalTextView.string ?? "") as NSString)
-        let currentSelectedText = text.substringWithRange(selectedRange)
-        if currentSelectedText.containsString("\n") {
+        let currentSelectedText = text.substring(with: selectedRange)
+        if currentSelectedText.contains("\n") {
             surroundSelectedRangeWithString("\n```\n")
         } else {
             surroundSelectedRangeWithString("`")
         }
     }
     
-    private func quoteSelectedText() {
+    fileprivate func quoteSelectedText() {
         prefixSelectedRangeWithString("> ")
     }
     
-    private func replaceRange(selectedRange: NSRange, withString str: String) {
+    fileprivate func replaceRange(_ selectedRange: NSRange, withString str: String) {
         let text = (internalTextView.string ?? "") as NSString
         
         if text.length == 0 {
             internalTextView.insertText(str, replacementRange: internalTextView.selectedRange())
-        } else if let textStorage = internalTextView.textStorage where internalTextView.shouldChangeTextInRange(selectedRange, replacementString: str) {
+        } else if let textStorage = internalTextView.textStorage , internalTextView.shouldChangeText(in: selectedRange, replacementString: str) {
             textStorage.beginEditing()
-            textStorage.replaceCharactersInRange(selectedRange, withString: str)
+            textStorage.replaceCharacters(in: selectedRange, with: str)
             textStorage.endEditing()
             internalTextView.didChangeText()
         }
@@ -604,7 +602,7 @@ class MarkdownEditorTextView: BaseView {
     
     func linkSelectedText() {
         let selectedRange = internalTextView.selectedRange()
-        let currentText = ( (internalTextView.string ?? "") as NSString).substringWithRange(selectedRange)
+        let currentText = ( (internalTextView.string ?? "") as NSString).substring(with: selectedRange)
         let isURL = currentText.isURL()
         let titleString = "title"
         let urlString = "url"
@@ -619,35 +617,35 @@ class MarkdownEditorTextView: BaseView {
         }
     }
     
-    private func emojiButtonClick() {
+    fileprivate func emojiButtonClick() {
         makeFirstResponder()
         NSApp.orderFrontCharacterPalette(toolbarView.emojiButton)
     }
     
-    private func showFilePicker() {
+    fileprivate func showFilePicker() {
         let picker = NSOpenPanel()
         picker.canChooseFiles = true
         picker.canChooseDirectories = false
         picker.allowsMultipleSelection = true
-        if picker.runModal() == NSFileHandlingPanelOKButton {
-            let paths: [String] = picker.URLs.flatMap({ $0.path })
+        if picker.runModal().rawValue == NSFileHandlingPanelOKButton {
+            let paths: [String] = picker.urls.flatMap({ $0.path })
             uploadFilePaths(paths)
         }
     }
     
-    private func surroundSelectedRangeWithString(wrapper: String) {
+    fileprivate func surroundSelectedRangeWithString(_ wrapper: String) {
         let selectedRange = internalTextView.selectedRange()
         let text = ((internalTextView.string ?? "") as NSString)
-        let currentSelectedText = text.substringWithRange(selectedRange)
+        let currentSelectedText = text.substring(with: selectedRange)
         
-        let escapedWrapper = wrapper.characters.map({ "\\\($0)" }).joinWithSeparator("")
+        let escapedWrapper = wrapper.characters.map({ "\\\($0)" }).joined(separator: "")
         let pattern = "^\(escapedWrapper){1}(.*)\(escapedWrapper){1}$"
         var matchedContent: String?
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [.CaseInsensitive, .DotMatchesLineSeparators])
-            let matches = regex.matchesInString(currentSelectedText, options: .ReportCompletion, range: NSMakeRange(0, currentSelectedText.characters.count))
+            let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive, .dotMatchesLineSeparators])
+            let matches = regex.matches(in: currentSelectedText, options: .reportCompletion, range: NSMakeRange(0, currentSelectedText.characters.count))
             for result in matches {
-                matchedContent = (currentSelectedText as NSString).substringWithRange(result.rangeAtIndex(1))
+                matchedContent = (currentSelectedText as NSString).substring(with: result.range(at: 1))
                 break;
             }
         } catch {
@@ -666,7 +664,7 @@ class MarkdownEditorTextView: BaseView {
         
         if (selectedRange.location - wrapperTextCount) >= 0 && (selectedRange.location + selectedRange.length + wrapperTextCount) <= text.length {
             let potentialWrapperRange = NSMakeRange(selectedRange.location - wrapperTextCount, selectedRange.length + wrapperTextCount * 2)
-            let currentSelectedWrapperText = text.substringWithRange(potentialWrapperRange)
+            let currentSelectedWrapperText = text.substring(with: potentialWrapperRange)
             if currentSelectedWrapperText == adjustedText {
                 
                 replaceRange(potentialWrapperRange, withString: currentSelectedText)
@@ -681,7 +679,7 @@ class MarkdownEditorTextView: BaseView {
         internalTextView.setSelectedRange(caretRange)
     }
     
-    private func orderedListButtonClick() {
+    fileprivate func orderedListButtonClick() {
         let selectedRange = internalTextView.selectedRange()
         let text = ((internalTextView.string ?? "") as NSString)
         
@@ -704,20 +702,20 @@ class MarkdownEditorTextView: BaseView {
         
         selectedRange = NSMakeRange(location, selectedRange.length + (selectedRange.location - location))
  */
-        let currentSelectedText = text.substringWithRange(selectedRange)
+        let currentSelectedText = text.substring(with: selectedRange)
         
-        let originalLines = currentSelectedText.componentsSeparatedByString("\n")
+        let originalLines = currentSelectedText.components(separatedBy: "\n")
         //let lines = originalLines.map({ ($0 as NSString).trimmedString() })
-        let shouldRemovePrefix = originalLines.reduce(0, combine: { $0 + (($1 as String).hasPrefixMatchingRegex("^\\d*?\\.\\s{1}") ? 1 : 0) }) == originalLines.count
+        let shouldRemovePrefix = originalLines.reduce(0, { $0 + (($1 as String).hasPrefixMatchingRegex("^\\d*?\\.\\s{1}") ? 1 : 0) }) == originalLines.count
         
         let updatedText: String
         var addLineBreakOnFirstLine = false
         if shouldRemovePrefix {
-            updatedText = originalLines.flatMap({ ($0 as String).stringByReplaceOccurrencesOfRegex("^\\d*?\\.\\s{1}(.*)", withTemplate: "$1") }).joinWithSeparator("\n")
+            updatedText = originalLines.flatMap({ ($0 as String).stringByReplaceOccurrencesOfRegex("^\\d*?\\.\\s{1}(.*)", withTemplate: "$1") }).joined(separator: "\n")
             replaceRange(selectedRange, withString: updatedText)
         } else {
-            addLineBreakOnFirstLine = selectedRange.location != 0 && text.substringWithRange(NSMakeRange(selectedRange.location - 1, 1)) != "\n"
-            updatedText = originalLines.enumerate().map({ (index, str) in "\(index == 0 && addLineBreakOnFirstLine ? "\n" : "")\(index+1). \(str)" }).joinWithSeparator("\n")
+            addLineBreakOnFirstLine = selectedRange.location != 0 && text.substring(with: NSMakeRange(selectedRange.location - 1, 1)) != "\n"
+            updatedText = originalLines.enumerated().map({ (index, str) in "\(index == 0 && addLineBreakOnFirstLine ? "\n" : "")\(index+1). \(str)" }).joined(separator: "\n")
             replaceRange(selectedRange, withString: updatedText)
         }
         
@@ -725,19 +723,19 @@ class MarkdownEditorTextView: BaseView {
     }
     
     
-    private func prefixSelectedRangeWithString(prefix: String) {
+    fileprivate func prefixSelectedRangeWithString(_ prefix: String) {
         let selectedRange = internalTextView.selectedRange()
         let text = ((internalTextView.string ?? "") as NSString)
-        var currentSelectedText = text.substringWithRange(selectedRange)
+        var currentSelectedText = text.substring(with: selectedRange)
         
-        let escapedPrefix = prefix.characters.map({ "\\\($0)" }).joinWithSeparator("")
+        let escapedPrefix = prefix.characters.map({ "\\\($0)" }).joined(separator: "")
         let pattern = "^\(escapedPrefix){1}(.*)$"
         var matchedContent: String?
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
-            let matches = regex.matchesInString(currentSelectedText, options: .ReportCompletion, range: NSMakeRange(0, currentSelectedText.characters.count))
+            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let matches = regex.matches(in: currentSelectedText, options: .reportCompletion, range: NSMakeRange(0, currentSelectedText.characters.count))
             for result in matches {
-                matchedContent = (currentSelectedText as NSString).substringWithRange(result.rangeAtIndex(1))
+                matchedContent = (currentSelectedText as NSString).substring(with: result.range(at: 1))
                 break;
             }
         } catch {
@@ -753,16 +751,16 @@ class MarkdownEditorTextView: BaseView {
         
         let prefixTextCount = prefix.characters.count
         
-        let originalLines = currentSelectedText.componentsSeparatedByString("\n")
+        let originalLines = currentSelectedText.components(separatedBy: "\n")
         let lines = originalLines.map({ ($0 as NSString).trimmedString() })
-        let shouldRemovePrefix = lines.reduce(0, combine: { $0 + ($1.hasPrefix(prefix) ? 1 : 0) }) == lines.count
+        let shouldRemovePrefix = lines.reduce(0, { $0 + ($1.hasPrefix(prefix) ? 1 : 0) }) == lines.count
         
         // just to make sure it's not a one liner
         var oneLineRemovePrefix = false
         var oneLineRange = selectedRange
         if !shouldRemovePrefix && lines.count == 1 && (selectedRange.location - prefixTextCount) >= 0 {
             oneLineRange = NSMakeRange(selectedRange.location - prefixTextCount, selectedRange.length + prefixTextCount)
-            let oneLineString = text.substringWithRange(oneLineRange)
+            let oneLineString = text.substring(with: oneLineRange)
             if oneLineString == "\(prefix)\(currentSelectedText)" {
                 oneLineRemovePrefix = true
                 //selectedRange = oneLineRange
@@ -773,7 +771,7 @@ class MarkdownEditorTextView: BaseView {
         var adjustedText = ""
         if oneLineRemovePrefix {
             let index = prefixTextCount as Int
-            adjustedText = (currentSelectedText as NSString).substringFromIndex(index)
+            adjustedText = (currentSelectedText as NSString).substring(from: index)
             
             replaceRange(oneLineRange, withString: adjustedText)
             let caretRange = NSMakeRange(oneLineRange.location, adjustedText.characters.count)
@@ -782,11 +780,11 @@ class MarkdownEditorTextView: BaseView {
         } else if shouldRemovePrefix {
             
             adjustedText = originalLines.map({ (line) -> String in
-                if let range = line.rangeOfString(prefix) {
-                    return line.stringByReplacingCharactersInRange(range, withString: "")
+                if let range = line.range(of: prefix) {
+                    return line.replacingCharacters(in: range, with: "")
                 }
                 return line
-            }).joinWithSeparator("\n") //.reduce("", combine: { "\($0)\n\($1)"})
+            }).joined(separator: "\n") //.reduce("", combine: { "\($0)\n\($1)"})
             
             replaceRange(selectedRange, withString: adjustedText)
             let caretRange = originalLines.count <= 1 ? NSMakeRange(selectedRange.location + prefixTextCount, currentSelectedText.characters.count) : NSMakeRange(selectedRange.location, adjustedText.characters.count)
@@ -796,12 +794,12 @@ class MarkdownEditorTextView: BaseView {
             
             adjustedText = originalLines.map({ (line) -> String in
                 return "\(prefix)\(line)"
-            }).joinWithSeparator("\n")  //.reduce("", combine: { "\($0)\n\($1)"})
+            }).joined(separator: "\n")  //.reduce("", combine: { "\($0)\n\($1)"})
             
             var didAddLineBreak = false
-            for index in selectedRange.location.stride(through: 0, by: -1) where index > 0 && index+1 <= text.length {
+            for index in stride(from: selectedRange.location, through: 0, by: -1) where index > 0 && index+1 <= text.length {
                 //                guard selectedRange.location == index else { continue }
-                let character = text.substringWithRange(NSMakeRange(index, 1))
+                let character = text.substring(with: NSMakeRange(index, 1))
                 //DDLogDebug("character = \(character)")
                 if "\n" == character {
                     break
@@ -823,7 +821,7 @@ class MarkdownEditorTextView: BaseView {
 
 extension MarkdownEditorTextView: NSPopoverDelegate {
     
-    func popoverDidClose(notification: NSNotification) {
+    func popoverDidClose(_ notification: Notification) {
         self.window?.makeFirstResponder(internalTextView)
         self.textSizePopover?.contentViewController = nil
         self.textSizePopover = nil
@@ -837,11 +835,11 @@ extension MarkdownEditorTextView: NSPopoverDelegate {
 @objc(SRInternalMarkdownEditorTextView)
 class InternalMarkdownEditorTextView: NSTextView {
     
-    var onEnterKeyPressed: dispatch_block_t?
-    var onFileUploadChange: dispatch_block_t?
-    var onDragEntered: dispatch_block_t?
-    var onDragExited: dispatch_block_t?
-    var onBoldKeyboardShortcut: dispatch_block_t?
+    var onEnterKeyPressed: (()->())?
+    var onFileUploadChange: (()->())?
+    var onDragEntered: (()->())?
+    var onDragExited: (()->())?
+    var onBoldKeyboardShortcut: (()->())?
     
     deinit {
         onFileUploadChange = nil
@@ -849,52 +847,52 @@ class InternalMarkdownEditorTextView: NSTextView {
         onDragEntered = nil
     }
     
-    override var string: String? {
+    override var string: String {
         didSet {
-            setNeedsDisplayInRect(bounds)
+            setNeedsDisplay(bounds)
         }
     }
     
     
     
-    override var opaque: Bool {
+    override var isOpaque: Bool {
         return false
     }
     
     var hidePlaceholder = false {
         didSet {
-            setNeedsDisplayInRect(bounds)
+            setNeedsDisplay(bounds)
         }
     }
     
     var currentUploadCount: Int {
         var total: Int = 0
-        dispatch_sync(self.fileUploadSetAccessQueue, {
+        self.fileUploadSetAccessQueue.sync(execute: {
             total = self.fileUploadsSet.count
         })
         return total
     }
     
     // private let customUndoManager = NSUndoManager()
-    private var dragDropRange: NSRange?
-    private var fileUploadsSet = NSMutableSet()
-    private let fileUploadSetAccessQueue = dispatch_queue_create("co.cashewapp.markdownUpload", DISPATCH_QUEUE_SERIAL)
+    fileprivate var dragDropRange: NSRange?
+    fileprivate var fileUploadsSet = NSMutableSet()
+    fileprivate let fileUploadSetAccessQueue = DispatchQueue(label: "co.cashewapp.markdownUpload", attributes: [])
     
     
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
         let txtColor = NSColor(calibratedWhite: 174/255.0, alpha: 1)
-        let txtDict = [NSForegroundColorAttributeName: txtColor, NSFontAttributeName: NSFont.systemFontOfSize(14)]
+        let txtDict = [NSAttributedStringKey.foregroundColor: txtColor, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 14)]
         let placeholderString = NSAttributedString(string: "Leave a comment", attributes: txtDict)
         
         let isEmptyField = (string == nil || string == "")
         if !hidePlaceholder && (isEmptyField || (isEmptyField && self != window?.firstResponder && self.selectedRange().length == 0 )) {
-            placeholderString.drawAtPoint(CGPoint(x: 5, y: -3))
+            placeholderString.draw(at: CGPoint(x: 5, y: -3))
         }
     }
     
     internal override func becomeFirstResponder() -> Bool {
-        setNeedsDisplayInRect(bounds)
+        setNeedsDisplay(bounds)
         let firstResponder = super.becomeFirstResponder()
         return firstResponder
     }
@@ -909,12 +907,16 @@ class InternalMarkdownEditorTextView: NSTextView {
     }
     
     func registerDragAndDrop() {
-        registerForDraggedTypes([NSFilenamesPboardType])
+        if #available(OSX 10.13, *) {
+            registerForDraggedTypes([.fileURL])
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     let fileUploaderService = FileUploaderService()
     
-    override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         self.window?.makeFirstResponder(self)
         superview?.invalidateIntrinsicContentSize()
         updateDragDropRange(sender)
@@ -924,95 +926,99 @@ class InternalMarkdownEditorTextView: NSTextView {
         return super.draggingEntered(sender)
     }
     
-    override func draggingUpdated(sender: NSDraggingInfo) -> NSDragOperation {
+    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
         updateDragDropRange(sender)
         return super.draggingEntered(sender)
     }
     
-    override func draggingExited(sender: NSDraggingInfo?) {
+    override func draggingExited(_ sender: NSDraggingInfo?) {
         updateDragDropRange(sender)
         if let onDragExited = onDragExited {
             onDragExited()
         }
     }
     
-    override func draggingEnded(sender: NSDraggingInfo?) {
+    override func draggingEnded(_ sender: NSDraggingInfo) {
         updateDragDropRange(sender)
         if let onDragExited = onDragExited {
             onDragExited()
         }
     }
     
-    private func updateDragDropRange(sender: NSDraggingInfo?) {
+    fileprivate func updateDragDropRange(_ sender: NSDraggingInfo?) {
         guard let sender = sender else  { return }
         let mouseLocation = sender.draggingLocation()
-        let dropLocation = characterIndexForInsertionAtPoint(convertPoint(mouseLocation, fromView: nil))  //[self characterIndexForInsertionAtPoint:[self convertPoint:mouseLocation fromView:nil]];
+        let dropLocation = characterIndexForInsertion(at: convert(mouseLocation, from: nil))  //[self characterIndexForInsertionAtPoint:[self convertPoint:mouseLocation fromView:nil]];
         dragDropRange = NSMakeRange(dropLocation, 0)
     }
     
-    override func performDragOperation(sender: NSDraggingInfo) -> Bool {
-        guard editable else { return false }
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        guard isEditable else { return false }
         
         let pasteboard = sender.draggingPasteboard()
         
-        if let types = pasteboard.types where types.contains(NSFilenamesPboardType) {
-            if let paths = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? [String] {
-                self.uploadFilePaths(paths)
-            }
-        } else if let types = pasteboard.types where types.contains(NSStringPboardType) {
-            if let types = pasteboard.types where types.contains(NSStringPboardType) {
-                if let text = sender.draggingPasteboard().stringForType(NSStringPboardType) as? AnyObject as? String {
-                    self.insertText(text, replacementRange: self.selectedRange())
+        if #available(OSX 10.13, *) {
+            if let types = pasteboard.types , types.contains(.fileURL) {
+                if let paths = sender.draggingPasteboard().propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? [String] {
+                    self.uploadFilePaths(paths)
+                }
+            } else if let types = pasteboard.types , types.contains(.string) {
+                if let types = pasteboard.types , types.contains(.string) {
+                    if let text = sender.draggingPasteboard().string(forType: .string) as? AnyObject as? String {
+                        self.insertText(text, replacementRange: self.selectedRange())
+                    }
                 }
             }
+        } else {
+            // Fallback on earlier versions
         }
         
         
         return true
     }
     
-    override func keyDown(event: NSEvent) {
+    override func keyDown(with event: NSEvent) {
         //DDLogDebug("key code => \()")
         
-        if let onBoldKeyboardShortcut = onBoldKeyboardShortcut where event.keyCode == 11 && event.modifierFlags.contains(NSEventModifierFlags.Command) { // intercept command+b
+        if let onBoldKeyboardShortcut = onBoldKeyboardShortcut , event.keyCode == 11 && event.modifierFlags.contains(NSEvent.ModifierFlags.command) { // intercept command+b
             onBoldKeyboardShortcut()
             return;
         }
         
-        if let onEnterKeyPressed = onEnterKeyPressed where (event.keyCode == 36 || event.keyCode == 76) && event.modifierFlags.contains(NSEventModifierFlags.Command) {
+        if let onEnterKeyPressed = onEnterKeyPressed , (event.keyCode == 36 || event.keyCode == 76) && event.modifierFlags.contains(NSEvent.ModifierFlags.command) {
             onEnterKeyPressed()
         }
         
-        super.keyDown(event)
+        super.keyDown(with: event)
     }
     
-    override func validateUserInterfaceItem(anItem: NSValidatedUserInterfaceItem) -> Bool {
+    override func validateUserInterfaceItem(_ anItem: NSValidatedUserInterfaceItem) -> Bool {
         let action = anItem.action
         DDLogDebug("NSTextView.action => \(action)")
         return true
     }
     
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
-        self.richText = true // needed for pasting images
+        self.isRichText = true // needed for pasting images
         self.allowsUndo = true
         self.usesFontPanel = false
         self.usesFindBar = false
         self.usesInspectorBar = false
         self.usesRuler = false
         self.importsGraphics = true
-        font = NSFont.systemFontOfSize(14)
-        self.typingAttributes = [NSFontNameAttribute: font!]
+        font = NSFont.systemFont(ofSize: 14)
+//        self.typingAttributes = [NSFontDescriptor.AttributeName.name: font!]
         //        self.layer?.borderColor = NSColor.orangeColor().CGColor
         //        self.layer?.borderWidth = 1
     }
     
-    override func paste(sender: AnyObject?) {
-        let pasteboard = NSPasteboard.generalPasteboard()
-        let ok = pasteboard.canReadObjectForClasses([NSImage.self], options: nil)
+    override func paste(_ sender: Any?) {
+        let pasteboard = NSPasteboard.general
+        let ok = pasteboard.canReadObject(forClasses: [NSImage.self], options: nil)
         if (ok) {
             self.dragDropRange = NSMakeRange(selectedRange().location, 0)
-            if let objectsToPaste = NSPasteboard.generalPasteboard().readObjectsForClasses([NSImage.self], options: nil) as? [MarkdownTextViewUploadable] {
+            if let objectsToPaste = NSPasteboard.general.readObjects(forClasses: [NSImage.self], options: nil) as? [MarkdownTextViewUploadable] {
                 uploadFiles(objectsToPaste)
             }
         } else {
@@ -1020,7 +1026,7 @@ class InternalMarkdownEditorTextView: NSTextView {
         }
     }
     
-    func uploadFilePaths(paths: [String]) {
+    func uploadFilePaths(_ paths: [String]) {
         let imagePaths = paths.filter { $0.isImage() || $0.isPDF() || $0.isZIP() || $0.isGZIP() || $0.isText() || $0.isOfficeDocument() }
         
         if let imagePaths = imagePaths as [AnyObject] as? [MarkdownTextViewUploadable] {
@@ -1028,24 +1034,25 @@ class InternalMarkdownEditorTextView: NSTextView {
         }
     }
     
-    private func uploadFiles(paths: [MarkdownTextViewUploadable]) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
-            let group = dispatch_group_create()
+    fileprivate func uploadFiles(_ paths: [MarkdownTextViewUploadable]) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
+            let group = DispatchGroup()
             var images = [String]()
             for path in paths {
                 
                 if let filePath = path as? String {
-                    self.addObjectToSet(filePath)
-                    dispatch_group_enter(group);
+                    self.addObjectToSet(filePath as AnyObject)
+                    group.enter();
                     self.fileUploaderService.uploadFile(filePath, onCompletion: { (json, context, err) in
-                        guard let url = json?["content_url"] as? String else {
-                            self.removeObjectFromSet(filePath)
-                            Analytics.logCustomEventWithName("failed to upload file", customAttributes: ["uploadType":"drag_n_drop"])
-                            dispatch_group_leave(group);
+                        guard let json = json as? [String: Any],
+                            let url = json["content_url"] as? String else {
+                            self.removeObjectFromSet(filePath as AnyObject)
+                                Analytics.logCustomEventWithName("failed to upload file", customAttributes: ["uploadType":"drag_n_drop" as AnyObject])
+                            group.leave()
                             return
                         }
                         
-                        if let str = path as? String where str.isImage() {
+                        if let str = path as? String , str.isImage() {
                             let img = "![\((str as NSString).lastPathComponent)](\(url))"
                             images.append(img)
                         } else if let path = path as? NSString {
@@ -1057,47 +1064,45 @@ class InternalMarkdownEditorTextView: NSTextView {
                         }
                         
                         
-                        self.removeObjectFromSet(filePath)
-                        Analytics.logCustomEventWithName("Successfully uploaded file", customAttributes: ["uploadType":"drag_n_drop"])
-                        dispatch_group_leave(group);
+                        self.removeObjectFromSet(filePath as AnyObject)
+                        Analytics.logCustomEventWithName("Successfully uploaded file", customAttributes: ["uploadType":"drag_n_drop" as AnyObject])
+                        group.leave()
                     })
                 } else if let image = path as? NSImage {
                     self.addObjectToSet(image)
-                    dispatch_group_enter(group);
+                    group.enter();
                     self.fileUploaderService.uploadImage(image, onCompletion: { (json, context, err) in
-                        guard let url = json?["content_url"] as? String else {
+                        guard let json = json as? [String: Any],
+                            let url = json["content_url"] as? String else {
                             self.removeObjectFromSet(image)
-                            Analytics.logCustomEventWithName("failed to upload file", customAttributes: ["uploadType":"image"])
-                            dispatch_group_leave(group);
+                                Analytics.logCustomEventWithName("failed to upload file", customAttributes: ["uploadType":"image" as AnyObject])
+                            group.leave()
                             return
                         }
                         
                         let img = "![image](\(url))"
                         images.append(img)
                         self.removeObjectFromSet(image)
-                        Analytics.logCustomEventWithName("Successfully uploaded file", customAttributes: ["uploadType":"image"])
-                        dispatch_group_leave(group);
+                        Analytics.logCustomEventWithName("Successfully uploaded file", customAttributes: ["uploadType":"image" as AnyObject])
+                        group.leave()
                     })
                 }
             }
             
-            dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
+            group.wait(timeout: DispatchTime.distantFuture)
             
             DispatchOnMainQueue {
                 if images.count > 0 {
                     
-                    let text = "\n\((images as NSArray).componentsJoinedByString("\n\n  "))\n"
+                    let text = "\n\((images as NSArray).componentsJoined(by: "\n\n  "))\n"
                     
                     let replacementRange: NSRange
                     let textLength: Int
                     
-                    if let string = self.string {
-                        textLength = (string as NSString).length
-                    } else {
-                        textLength = 0
-                    }
                     
-                    if let dragDropRange = self.dragDropRange where (dragDropRange.location) <= textLength {
+                    textLength = (self.string as NSString).length
+                    
+                    if let dragDropRange = self.dragDropRange , (dragDropRange.location) <= textLength {
                         replacementRange = dragDropRange
                     } else {
                         replacementRange = NSMakeRange(textLength, 0)
@@ -1110,10 +1115,10 @@ class InternalMarkdownEditorTextView: NSTextView {
         })
     }
     
-    private func addObjectToSet(obj: AnyObject) {
-        dispatch_sync(self.fileUploadSetAccessQueue, {
-            self.fileUploadsSet.addObject(obj)
-            dispatch_async(dispatch_get_main_queue(), {
+    fileprivate func addObjectToSet(_ obj: AnyObject) {
+        self.fileUploadSetAccessQueue.sync(execute: {
+            self.fileUploadsSet.add(obj)
+            DispatchQueue.main.async(execute: {
                 if let onFileUploadChange = self.onFileUploadChange {
                     onFileUploadChange()
                 }
@@ -1121,10 +1126,10 @@ class InternalMarkdownEditorTextView: NSTextView {
         })
     }
     
-    private func removeObjectFromSet(obj: AnyObject) {
-        dispatch_sync(self.fileUploadSetAccessQueue, {
-            self.fileUploadsSet.removeObject(obj)
-            dispatch_async(dispatch_get_main_queue(), {
+    fileprivate func removeObjectFromSet(_ obj: AnyObject) {
+        self.fileUploadSetAccessQueue.sync(execute: {
+            self.fileUploadsSet.remove(obj)
+            DispatchQueue.main.async(execute: {
                 if let onFileUploadChange = self.onFileUploadChange {
                     onFileUploadChange()
                 }

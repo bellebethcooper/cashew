@@ -19,19 +19,19 @@ class SuggestionValueTableRowView: BaseTableRowView {
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else{ return }
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            accessoryView?.hidden = true
-            if selected {
+            accessoryView?.isHidden = true
+            if isSelected {
                 contentView.backgroundColor = BaseTableRowView.selectionColor
-                titleLabel.textColor = NSColor.whiteColor()
+                titleLabel.textColor = NSColor.white
             } else {
-                if NSUserDefaults.themeMode() == .Dark {
+                if UserDefaults.themeMode() == .dark {
                     backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
                 } else {
                     backgroundColor = CashewColor.backgroundColor()
@@ -49,13 +49,13 @@ class SuggestionValueTableRowView: BaseTableRowView {
 
 class SuggestionValueTableViewAdaptor: NSObject, BaseTableViewAdapter {
     
-    private static let foregroundFont: NSFont = NSFont.systemFontOfSize(13, weight: NSFontWeightRegular)
+    fileprivate static let foregroundFont: NSFont = NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.regular)
     
-    func height(item: AnyObject, index: Int) -> CGFloat {
+    func height(_ item: AnyObject, index: Int) -> CGFloat {
         return 22
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         
         guard let value = item as? SearchSuggestionResultItemValue else { return nil }
         
@@ -65,9 +65,9 @@ class SuggestionValueTableViewAdaptor: NSObject, BaseTableViewAdapter {
         } else {
             rowView = SuggestionValueTableRowView()
             rowView.subtitleLabel.stringValue = ""
-            rowView.selectionType = .Highlight
+            rowView.selectionType = .highlight
             rowView.checked = false
-            rowView.separatorView.hidden = true
+            rowView.separatorView.isHidden = true
             rowView.titleLabel.font = SuggestionValueTableViewAdaptor.foregroundFont
         }
         

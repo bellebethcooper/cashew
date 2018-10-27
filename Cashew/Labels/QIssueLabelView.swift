@@ -9,9 +9,9 @@
 import Cocoa
 
 enum QIssueLabelViewMode {
-    case ColoredForeground
-    case ColoredBackground
-    case Gray
+    case coloredForeground
+    case coloredBackground
+    case gray
 }
 
 class QIssueLabelViewModel: NSObject {
@@ -39,11 +39,11 @@ class QIssueLabelView: BaseView {
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     @IBOutlet weak var rightConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelTextField: QIssueLabelViewTextView!
+    @IBOutlet fileprivate weak var labelTextField: QIssueLabelViewTextView!
     
-    private static let labelHeight: CGFloat = 15.0
+    fileprivate static let labelHeight: CGFloat = 15.0
     
-    var mode: QIssueLabelViewMode = QIssueLabelViewMode.ColoredForeground {
+    var mode: QIssueLabelViewMode = QIssueLabelViewMode.coloredForeground {
         didSet {
             updateLabelColors()
         }
@@ -67,9 +67,9 @@ class QIssueLabelView: BaseView {
     }
     
     
-    private func updateLabelColors() {
-        guard let viewModel = viewModel, layer = layer else {
-            backgroundColor = NSColor.clearColor()
+    fileprivate func updateLabelColors() {
+        guard let viewModel = viewModel, let layer = layer else {
+            backgroundColor = NSColor.clear
             labelTextField.backgroundColor = self.backgroundColor
             return
         }
@@ -77,18 +77,18 @@ class QIssueLabelView: BaseView {
         
         let otherColor: NSColor
         
-        if let viewModelColor = viewModel.color.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+        if let viewModelColor = viewModel.color.usingColorSpaceName(NSColorSpaceName.calibratedRGB) {
             let red = viewModelColor.redComponent * 255
             let green = viewModelColor.greenComponent * 255
             let blue = viewModelColor.blueComponent * 255
             
             if (red * 0.299 + green * 0.587 + blue * 0.114) > 186 {
-                otherColor = NSColor.blackColor().colorWithAlphaComponent(0.9)
+                otherColor = NSColor.black.withAlphaComponent(0.9)
             } else {
-                otherColor = NSColor.whiteColor()
+                otherColor = NSColor.white
             }
         } else {
-            otherColor = NSColor.whiteColor()
+            otherColor = NSColor.white
         }
         
         
@@ -96,21 +96,21 @@ class QIssueLabelView: BaseView {
         
         
         switch mode {
-        case .ColoredBackground:
+        case .coloredBackground:
             backgroundColor = viewModel.color//NSColor(fromHexadecimalValue: label.color)
             labelTextField.textColor = otherColor // NSColor.whiteColor()
             layer.borderWidth = 0
         //    layer.borderColor = NSColor(calibratedWhite: 0.90, alpha: 1).CGColor
-        case .ColoredForeground:
-            backgroundColor = otherColor // NSColor.clearColor()
+        case .coloredForeground:
+            backgroundColor = otherColor // NSColor.clear()
             labelTextField.textColor = viewModel.color //NSColor(fromHexadecimalValue: label.color)
             layer.borderWidth = 1
-            layer.borderColor = NSColor(calibratedWhite: 0, alpha: 0.1).CGColor //QIssueLabelView.labelFontColor.CGColor
-        case .Gray:
-            backgroundColor = NSColor.clearColor()
+            layer.borderColor = NSColor(calibratedWhite: 0, alpha: 0.1).cgColor //QIssueLabelView.labelFontColor.CGColor
+        case .gray:
+            backgroundColor = NSColor.clear
             labelTextField.textColor = NSColor(calibratedWhite: 1, alpha: 0.6) //QIssueLabelView.labelFontColor
             layer.borderWidth = 1
-            layer.borderColor = NSColor(calibratedWhite: 1, alpha: 0.1).CGColor //QIssueLabelView.labelFontColor.CGColor
+            layer.borderColor = NSColor(calibratedWhite: 1, alpha: 0.1).cgColor //QIssueLabelView.labelFontColor.CGColor
         }
         
         
@@ -125,17 +125,17 @@ class QIssueLabelView: BaseView {
         
         let font = self.labelTextField.font!
         let textStorage = NSTextStorage(string: labelTextField.stringValue)
-        let textContainer = NSTextContainer(containerSize: CGSizeMake(CGFloat.max, QIssueLabelView.labelHeight))
+        let textContainer = NSTextContainer(containerSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: QIssueLabelView.labelHeight))
         let layoutManager = NSLayoutManager()
-        let attributes = [ NSFontAttributeName: font ] as [String : AnyObject]?
+        let attributes = [ NSAttributedStringKey.font.rawValue: font ]
         
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
-        textStorage.addAttributes(attributes!, range: NSMakeRange(0, (labelTextField.stringValue as NSString).length))
+//        textStorage.addAttributes(attributes, range: NSMakeRange(0, (labelTextField.stringValue as NSString).length))
         
-        layoutManager.glyphRangeForTextContainer(textContainer)
-        let size = layoutManager.usedRectForTextContainer(textContainer).size
-        return CGSizeMake(size.width  + self.leftConstraint.constant + self.rightConstraint.constant, QIssueLabelView.labelHeight)
+        layoutManager.glyphRange(for: textContainer)
+        let size = layoutManager.usedRect(for: textContainer).size
+        return CGSize(width: size.width  + self.leftConstraint.constant + self.rightConstraint.constant, height: QIssueLabelView.labelHeight)
     }
     
     
@@ -146,7 +146,7 @@ class QIssueLabelView: BaseView {
     }
     
     deinit {
-        QLabelStore.removeObserver(self)
+        QLabelStore.remove(self)
     }
     
     override func awakeFromNib() {
@@ -154,7 +154,7 @@ class QIssueLabelView: BaseView {
         if let layer = self.layer {
             layer.masksToBounds = true
         }
-        QLabelStore.addObserver(self)
+        QLabelStore.add(self)
         //        if let labelTextFieldLayer = labelTextField.layer {
         //            labelTextFieldLayer.borderColor = NSColor.redColor().CGColor
         //            labelTextFieldLayer.borderWidth = 1
@@ -165,23 +165,23 @@ class QIssueLabelView: BaseView {
 
 
 extension QIssueLabelView: QStoreObserver {
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
 
     }
     
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
-        guard let labelRecord = record as? QLabel, currentLabel = objectValue as? QLabel else {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
+        guard let labelRecord = record as? QLabel, let currentLabel = objectValue as? QLabel else {
             return
         }
         
-        if let labelName = labelRecord.name, labelColor = labelRecord.color where labelRecord.repository == currentLabel.repository && labelRecord.color != currentLabel.color && labelRecord.name == currentLabel.name {
-            dispatch_async(dispatch_get_main_queue(), { 
+        if let labelName = labelRecord.name, let labelColor = labelRecord.color , labelRecord.repository == currentLabel.repository && labelRecord.color != currentLabel.color && labelRecord.name == currentLabel.name {
+            DispatchQueue.main.async(execute: { 
               self.viewModel = QIssueLabelViewModel(title: labelName, color: NSColor(fromHexadecimalValue: labelColor))
             })
         }
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
 
     }
 }

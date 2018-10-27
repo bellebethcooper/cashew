@@ -10,68 +10,68 @@ import Cocoa
 
 class RepositoryMilestoneSyncOperation: RepositoryBaseSyncOperation {
     
-    private let repositoriesService: QRepositoriesService
-    private var milestonesSet = Set<QMilestone>()
+    fileprivate let repositoriesService: QRepositoriesService
+    fileprivate var milestonesSet = Set<QMilestone>()
     
     let repository: QRepository
     
     required init(repository: QRepository) {
         self.repository = repository
-        self.repositoriesService = QRepositoriesService(forAccount: repository.account)
+        self.repositoriesService = QRepositoriesService(for: repository.account)
         super.init()
     }
     
     override func main() {
         
         // fetch local milestones
-        let milestones = QMilestoneStore.milestonesForAccountId(repository.account.identifier, repositoryId: repository.identifier, includeHidden: true)
-        milestones.forEach({ milestonesSet.insert($0) })
+        let milestones = QMilestoneStore.milestones(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: true)
+        milestones?.forEach({ milestonesSet.insert($0) })
         
         // fetch remote milestones
-        let semaphore = dispatch_semaphore_create(0)
+        let semaphore = DispatchSemaphore(value: 0)
         var successful = true
         fetchMilestones { [weak self] (err) in
-            dispatch_semaphore_signal(semaphore)
+            semaphore.signal()
             guard let strongSelf = self else { return }
-            successful = (err == nil && !strongSelf.cancelled)
+            successful = (err == nil && !strongSelf.isCancelled)
         }
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        semaphore.wait(timeout: DispatchTime.distantFuture)
         
         if successful {
             // hide milestones that don't exist on server
             milestonesSet.forEach { (milestone) in
                 //QLabelStore.hideLabel(label)
-                QMilestoneStore.hideMilestone(milestone)
+                QMilestoneStore.hide(milestone)
             }
             
             // make sure all milestones not in set are not hidden
-            QMilestoneStore.unhideMilestonesNotInMilestoneSet(milestonesSet, forAccountId: repository.account.identifier, repositoryId: repository.identifier)
+            QMilestoneStore.unhideMilestonesNot(inMilestoneSet: milestonesSet, forAccountId: repository.account.identifier, repositoryId: repository.identifier)
         }
     }
     
     // MARK: Service calls
     
-    private func fetchMilestones(pageNumber pageNumber: Int = 1, onCompletion: ( (NSError?) -> Void ) ) {
+    fileprivate func fetchMilestones(pageNumber: Int = 1, onCompletion: @escaping ( (NSError?) -> Void ) ) {
         
-        if cancelled {
+        if isCancelled {
             onCompletion( NSError(domain: "co.cashewapp.RepositoryMilestonesSyncError", code: 0, userInfo: nil) )
             return;
         }
         
-        repositoriesService.milestonesForRepository(repository, pageNumber: pageNumber, pageSize: RepositoryMilestoneSyncOperation.pageSize) { [weak self] (milestones, context, err) in
-            guard let milestones = milestones as? [QMilestone], strongSelf = self where err == nil else {
-                onCompletion(err)
+        repositoriesService.milestones(for: repository, pageNumber: pageNumber, pageSize: RepositoryMilestoneSyncOperation.pageSize) { [weak self] (milestones, context, err) in
+            guard let milestones = milestones as? [QMilestone], let strongSelf = self , err == nil else {
+                onCompletion(err as! NSError)
                 return
             }
             
             // save new milestones
             for milestone in milestones {
-                guard !strongSelf.cancelled else { return }
-                QMilestoneStore.saveMilestone(milestone)
+                guard !strongSelf.isCancelled else { return }
+                QMilestoneStore.save(milestone)
                 strongSelf.milestonesSet.remove(milestone)
             }
             
-            if strongSelf.cancelled {
+            if strongSelf.isCancelled {
                 onCompletion( NSError(domain: "co.cashewapp.RepositoryMilestonesSyncError", code: 0, userInfo: nil) )
                 return;
             }
@@ -80,10 +80,10 @@ class RepositoryMilestoneSyncOperation: RepositoryBaseSyncOperation {
             strongSelf.sleepIfNeededWithContext(context)
             
             // next page or complete operation
-            if let nextPageNumber = context.nextPageNumber as? Int where !strongSelf.cancelled {
+            if let nextPageNumber = context.nextPageNumber as? Int , !strongSelf.isCancelled {
                 strongSelf.fetchMilestones(pageNumber: nextPageNumber, onCompletion: onCompletion)
                 
-            } else if strongSelf.cancelled {
+            } else if strongSelf.isCancelled {
                 onCompletion( NSError(domain: "co.cashewapp.RepositoryMilestonesSyncError", code: 0, userInfo: nil) )
                 
             } else {

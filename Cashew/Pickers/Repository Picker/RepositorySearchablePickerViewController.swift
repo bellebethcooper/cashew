@@ -11,24 +11,24 @@ import Cocoa
 @objc(SRRepositorySearchablePickerViewController)
 class RepositorySearchablePickerViewController: BaseViewController {
     
-    private var dataSource: RepositorySearchablePickerDataSource? = RepositorySearchablePickerDataSource()
-    private var searchablePickerController: SearchablePickerViewController?
+    fileprivate var dataSource: RepositorySearchablePickerDataSource? = RepositorySearchablePickerDataSource()
+    fileprivate var searchablePickerController: SearchablePickerViewController?
     
     weak var popover: NSPopover?
     
     @objc
-    private func issueSelectionChanged(notification: NSNotification) {
+    fileprivate func issueSelectionChanged(_ notification: Notification) {
         reloadPicker()
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
     var popoverBackgroundColorFixEnabed = true
     
-    private func reloadPicker() {
+    fileprivate func reloadPicker() {
         if let searchablePickerController = self.searchablePickerController {
             searchablePickerController.removeFromParentViewController()
             searchablePickerController.view.removeFromSuperview()
@@ -51,15 +51,15 @@ class RepositorySearchablePickerViewController: BaseViewController {
         searchablePickerController.registerAdapter(adapter, clazz: QRepository.self)
         searchablePickerController.showNumberOfSelections = true
         searchablePickerController.onDoneButtonClick = { [weak searchablePickerController, weak self] in
-            guard let strongPickerController = searchablePickerController, strongSelf = self, dataSource = strongSelf.dataSource else { return }
+            guard let strongPickerController = searchablePickerController, let strongSelf = self, let dataSource = strongSelf.dataSource else { return }
             
             strongPickerController.loading = true
             let repositories = dataSource.selectedRepositories
             
             for repository in repositories {
                 guard let repo = repository as? QRepository else { continue }
-                Analytics.logCustomEventWithName("Added Repository", customAttributes: ["RepositoryName": repo.fullName])
-                QRepositoryStore.saveRepository(repo)
+                Analytics.logCustomEventWithName("Added Repository", customAttributes: ["RepositoryName": repo.fullName as AnyObject])
+                QRepositoryStore.save(repo)
             }
             
             if let popover = self?.popover {
@@ -77,13 +77,13 @@ class RepositorySearchablePickerViewController: BaseViewController {
         searchablePickerController.view.pinAnchorsToSuperview()
     }
     
-    private func setupThemeObserver() {
+    fileprivate func setupThemeObserver() {
         
         if let view = self.view as? BaseView {
             view.disableThemeObserver = true
             view.shouldAllowVibrancy = false
             
-            if NSUserDefaults.themeMode() == .Dark {
+            if UserDefaults.themeMode() == .dark {
                 view.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 view.backgroundColor = CashewColor.backgroundColor()
@@ -91,11 +91,11 @@ class RepositorySearchablePickerViewController: BaseViewController {
         }
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
-            guard let strongSelf = self, view = strongSelf.view as? BaseView else {
+            guard let strongSelf = self, let view = strongSelf.view as? BaseView else {
                 return
             }
             
-            if mode == .Dark {
+            if mode == .dark {
                 view.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 view.backgroundColor = CashewColor.backgroundColor()
@@ -104,7 +104,7 @@ class RepositorySearchablePickerViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RepositorySearchablePickerViewController.issueSelectionChanged(_:)), name: kQContextIssueSelectionChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(RepositorySearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         
         super.viewDidLoad()
         Analytics.logContentViewWithName(NSStringFromClass(RepositorySearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)        

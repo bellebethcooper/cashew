@@ -15,37 +15,37 @@ class IssueExtensionCodeEditorDebugBarView: NSView {
     var onMouseUp: ( (NSPoint) -> Void )?
     var onMouseDown: ( (NSPoint) -> Void )?
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         if let onMouseUp = onMouseUp {
             onMouseUp(theEvent.locationInWindow)
         }
-        super.mouseUp(theEvent)
+        super.mouseUp(with: theEvent)
     }
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         if let onMouseDown = onMouseDown {
             onMouseDown(theEvent.locationInWindow)
         }
-        super.mouseDown(theEvent)
+        super.mouseDown(with: theEvent)
     }
     
-    override func mouseDragged(theEvent: NSEvent) {
+    override func mouseDragged(with theEvent: NSEvent) {
         if let onDrag = onDrag {
             onDrag(theEvent.locationInWindow)
         }
-        super.mouseDragged(theEvent)
+        super.mouseDragged(with: theEvent)
     }
 }
 
 @objc(SRIssueExtensionCodeEditorViewController)
 class IssueExtensionCodeEditorViewController: NSViewController {
     
-    private static let buttonSize = CGSize(width: 92, height: 30)
-    private static let buttonsBottomPadding: CGFloat = 12
-    private static let buttonsSpacing: CGFloat = 8
-    private static let saveButtonRightPadding: CGFloat = 12
-    private static let consoleCollapsedHeight: CGFloat = 30
-    private static let consoleExpandedMinHeight: CGFloat = 120
+    fileprivate static let buttonSize = CGSize(width: 92, height: 30)
+    fileprivate static let buttonsBottomPadding: CGFloat = 12
+    fileprivate static let buttonsSpacing: CGFloat = 8
+    fileprivate static let saveButtonRightPadding: CGFloat = 12
+    fileprivate static let consoleCollapsedHeight: CGFloat = 30
+    fileprivate static let consoleExpandedMinHeight: CGFloat = 120
     
     
     @IBOutlet weak var trashButton: NSButton!
@@ -60,17 +60,17 @@ class IssueExtensionCodeEditorViewController: NSViewController {
     @IBOutlet weak var debugBarContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var consoleSeparatorView: BaseSeparatorView!
     
-    private let cancelButton = BaseButton.whiteButton()
-    private let saveButton = BaseButton.greenButton()
-    private let extensionCloudKitService = ExtensionCloudKitService()
+    fileprivate let cancelButton = BaseButton.whiteButton()
+    fileprivate let saveButton = BaseButton.greenButton()
+    fileprivate let extensionCloudKitService = ExtensionCloudKitService()
     
-    private var expandConsoleImage = NSImage(named: "expand_console")?.imageWithTintColor(DarkModeColor.sharedInstance.foregroundColor())
-    private var collapseConsoleImage = NSImage(named: "collapse_console")?.imageWithTintColor(DarkModeColor.sharedInstance.foregroundColor())
-    private var trashImage = NSImage(named: "trash")?.imageWithTintColor(DarkModeColor.sharedInstance.foregroundColor())
+    fileprivate var expandConsoleImage = NSImage(named: NSImage.Name(rawValue: "expand_console"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
+    fileprivate var collapseConsoleImage = NSImage(named: NSImage.Name(rawValue: "collapse_console"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
+    fileprivate var trashImage = NSImage(named: NSImage.Name(rawValue: "trash"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
     
-    private var toggleButtonRecentHeight: CGFloat = IssueExtensionCodeEditorViewController.consoleExpandedMinHeight
-    private var consoleLogDateFormatter: NSDateFormatter = {
-        let consoleLogDateFormatter = NSDateFormatter()
+    fileprivate var toggleButtonRecentHeight: CGFloat = IssueExtensionCodeEditorViewController.consoleExpandedMinHeight
+    fileprivate var consoleLogDateFormatter: DateFormatter = {
+        let consoleLogDateFormatter = DateFormatter()
         consoleLogDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return consoleLogDateFormatter
     }()
@@ -88,8 +88,8 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         cancelButton.disableThemeObserver = true
         saveButton.disableThemeObserver = true
         consoleSeparatorView.backgroundColor = DarkModeColor.sharedInstance.separatorColor()
-        scriptNameContainerView.borderColor = NSColor.darkGrayColor()
-        scriptNameContainerView.backgroundColor = NSColor.blackColor()
+        scriptNameContainerView.borderColor = NSColor.darkGray
+        scriptNameContainerView.backgroundColor = NSColor.black
         cancelButton.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
         saveButton.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
         //codeEditorView.layer?.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor().CGColor
@@ -104,14 +104,14 @@ class IssueExtensionCodeEditorViewController: NSViewController {
                     scriptNameTextView.stringValue = codeExtension.name
                 }
             } else {
-                guard let defaultIssueExtension = NSBundle.mainBundle().pathForResource("default_issue_extension", ofType: "js") else {
+                guard let defaultIssueExtension = Bundle.main.path(forResource: "default_issue_extension", ofType: "js") else {
                     codeEditorView.code = ""
                     scriptNameTextView.stringValue = ""
                     return;
                 }
                 
                 do {
-                    let defaultCode = try NSString(contentsOfFile: defaultIssueExtension, encoding: NSUTF8StringEncoding)
+                    let defaultCode = try NSString(contentsOfFile: defaultIssueExtension, encoding: String.Encoding.utf8.rawValue)
                     codeEditorView.code = defaultCode as String
                     scriptNameTextView.stringValue = ""
                 } catch {
@@ -126,14 +126,14 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         return codeEditorView.code ?? ""
     }
     
-    private func setupConsoleTextView() {
-        consoleTextView.selectable = true
-        consoleTextView.editable = false
+    fileprivate func setupConsoleTextView() {
+        consoleTextView.isSelectable = true
+        consoleTextView.isEditable = false
         consoleTextView.drawsBackground = true
-        consoleTextView.backgroundColor = NSColor.blackColor()
-        consoleTextView.textColor = NSColor.whiteColor()
+        consoleTextView.backgroundColor = NSColor.black
+        consoleTextView.textColor = NSColor.white
         consoleTextView.wantsLayer = true
-        consoleTextView.richText = true
+        consoleTextView.isRichText = true
         consoleTextView.allowsUndo = false
         consoleTextView.usesFontPanel = false
         consoleTextView.usesFindBar = false
@@ -141,10 +141,10 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         consoleTextView.usesRuler = false
         consoleTextView.importsGraphics = false
         consoleTextView.font = NSFont(name: "Menlo", size: 12)
-        consoleTextView.typingAttributes = [NSFontNameAttribute: consoleTextView.font!]
+        consoleTextView.typingAttributes = [NSAttributedStringKey.font: consoleTextView.font!]
     }
     
-    private func setupDebugBar() {
+    fileprivate func setupDebugBar() {
         // var startPoint: NSPoint?
         
         debugBarView.onDrag = { [weak self] (point) in
@@ -169,7 +169,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         
     }
     
-    private func updateToggleButtonState() {
+    fileprivate func updateToggleButtonState() {
         if IssueExtensionCodeEditorViewController.consoleCollapsedHeight == debugBarContainerHeightConstraint.constant {
             if toggleButton.image != expandConsoleImage {
                 toggleButton.image = expandConsoleImage
@@ -183,7 +183,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         }
     }
     
-    private func setupButtons() {
+    fileprivate func setupButtons() {
         guard saveButton.superview == nil && cancelButton.superview == nil else { return }
         saveButton.text = "Save"
         cancelButton.text = "Discard"
@@ -199,15 +199,15 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         [saveButton, cancelButton].forEach { (bttn) in
             view.addSubview(bttn)
             bttn.translatesAutoresizingMaskIntoConstraints = false
-            bttn.heightAnchor.constraintEqualToConstant(IssueExtensionCodeEditorViewController.buttonSize.height).active = true
-            bttn.widthAnchor.constraintEqualToConstant(IssueExtensionCodeEditorViewController.buttonSize.width).active = true
-            bttn.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -IssueExtensionCodeEditorViewController.buttonsBottomPadding).active = true
+            bttn.heightAnchor.constraint(equalToConstant: IssueExtensionCodeEditorViewController.buttonSize.height).isActive = true
+            bttn.widthAnchor.constraint(equalToConstant: IssueExtensionCodeEditorViewController.buttonSize.width).isActive = true
+            bttn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -IssueExtensionCodeEditorViewController.buttonsBottomPadding).isActive = true
         }
         
-        saveButton.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -IssueExtensionCodeEditorViewController.saveButtonRightPadding).active = true
-        cancelButton.rightAnchor.constraintEqualToAnchor(saveButton.leftAnchor, constant: -IssueExtensionCodeEditorViewController.buttonsSpacing).active = true
+        saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -IssueExtensionCodeEditorViewController.saveButtonRightPadding).isActive = true
+        cancelButton.rightAnchor.constraint(equalTo: saveButton.leftAnchor, constant: -IssueExtensionCodeEditorViewController.buttonsSpacing).isActive = true
         
-        debugButton.image = NSImage(named: "play")?.imageWithTintColor(DarkModeColor.sharedInstance.foregroundColor())
+        debugButton.image = NSImage(named: NSImage.Name(rawValue: "play"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
         debugButton.toolTip = "Run code in development mode"
         toggleButton.image = expandConsoleImage
         toggleButton.toolTip = "Expand debug console"
@@ -216,7 +216,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
     }
     
     
-    private func didClickSaveButton() {
+    fileprivate func didClickSaveButton() {
         DispatchOnMainQueue {
             
             if self.formValidation() == false {
@@ -227,7 +227,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
             let keyboardShortcut = self.codeExtension?.keyboardShortcut
             DispatchOnMainQueue {
                 self.extensionCloudKitService.saveCodeExtension(self.codeEditorView.code, name: (self.scriptNameTextView.stringValue as NSString).trimmedString() as String, recordNameId: externalId, keyboardShortcut: keyboardShortcut, extensionType: SRExtensionTypeIssue) {[weak self] (record, err) in
-                    if let record = record as? SRExtension where err == nil {
+                    if let record = record as? SRExtension , err == nil {
                         DispatchOnMainQueue {
                             self?.codeExtension = record
                             self?.view.window?.close()
@@ -238,7 +238,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         }
     }
     
-    private func formValidation() -> Bool {
+    fileprivate func formValidation() -> Bool {
         let isScriptNameMissing = (self.scriptNameTextView.stringValue as NSString).trimmedString().length == 0
         let isSourceCodeMissing = (self.codeEditorView.code as NSString).trimmedString().length == 0
         if isScriptNameMissing || isSourceCodeMissing {
@@ -247,7 +247,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         }
         
         let scriptName = (self.scriptNameTextView.stringValue as NSString).trimmedString()
-        if SRExtensionStore.extensionForName(scriptName as String, extensionType: SRExtensionTypeIssue) != codeExtension {
+        if SRExtensionStore.extension(forName: scriptName as String, extensionType: SRExtensionTypeIssue) != codeExtension {
             flashErrorFor(true, isSourceCodeMissing: false)
             return false
         }
@@ -255,21 +255,21 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         return true
     }
     
-    private func flashErrorFor(isScriptNameMissing: Bool, isSourceCodeMissing: Bool) {
+    fileprivate func flashErrorFor(_ isScriptNameMissing: Bool, isSourceCodeMissing: Bool) {
         DispatchOnMainQueue {
             let currentScriptNameBorderColor = self.scriptNameContainerView.layer?.borderColor
             
             if isScriptNameMissing {
-                self.scriptNameContainerView.layer?.borderColor = NSColor.redColor().CGColor
+                self.scriptNameContainerView.layer?.borderColor = NSColor.red.cgColor
             }
             
             if isSourceCodeMissing {
-                self.codeEditorView.layer?.borderColor = NSColor.redColor().CGColor
+                self.codeEditorView.layer?.borderColor = NSColor.red.cgColor
                 self.codeEditorView.layer?.borderWidth = 1
             }
             
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), {
+            let delayTime = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
                 if isScriptNameMissing {
                     self.scriptNameContainerView.layer?.borderColor = currentScriptNameBorderColor
                 }
@@ -282,11 +282,11 @@ class IssueExtensionCodeEditorViewController: NSViewController {
     }
     
     
-    @IBAction func didClickTrashButton(sender: AnyObject) {
+    @IBAction func didClickTrashButton(_ sender: AnyObject) {
         self.consoleTextView.string = ""
     }
     
-    private func didClickDiscardButton() {
+    fileprivate func didClickDiscardButton() {
         NSAlert.showWarningMessage("Are you sure you want to discard your changes?", onConfirmation: { [weak self] in
             DispatchOnMainQueue {
                 self?.view.window?.close()
@@ -294,7 +294,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
             })
     }
     
-    @IBAction func didClickToggleButton(sender: AnyObject) {
+    @IBAction func didClickToggleButton(_ sender: AnyObject) {
         if IssueExtensionCodeEditorViewController.consoleCollapsedHeight == debugBarContainerHeightConstraint.constant {
             expandDebugConsole()
             
@@ -310,7 +310,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         updateToggleButtonState()
     }
     
-    private func expandDebugConsole() {
+    fileprivate func expandDebugConsole() {
         if toggleButtonRecentHeight < IssueExtensionCodeEditorViewController.consoleExpandedMinHeight {
             toggleButtonRecentHeight = IssueExtensionCodeEditorViewController.consoleExpandedMinHeight
         }
@@ -319,11 +319,11 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         updateToggleButtonState()
     }
     
-    @IBAction func didClickDebugButton(sender: AnyObject) {
-        let currentAccount = QContext.sharedContext().currentAccount
-        let repositories = QRepositoryStore.repositoriesForAccountId(currentAccount.identifier)
+    @IBAction func didClickDebugButton(_ sender: AnyObject) {
+        let currentAccount = QContext.shared().currentAccount
+        let repositories = QRepositoryStore.repositories(forAccountId: currentAccount?.identifier)
         let filter = QIssueFilter()
-        guard let firstRepository = repositories.first else { return }
+        guard let firstRepository = repositories?.first else { return }
         
         filter.repositories = NSOrderedSet(object: firstRepository.fullName);
         filter.filterType = SRFilterType_Search
@@ -335,20 +335,20 @@ class IssueExtensionCodeEditorViewController: NSViewController {
             expandDebugConsole()
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            let issues = QIssueStore.issuesWithFilter(filter, pagination: pagination).map({ $0.toExtensionModel() })
-            IssueExtensionsJSContextRunner(environment: self).runWithIssues(issues, sourceCode: self.codeEditorView.code)
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+            let issues = QIssueStore.issues(with: filter, pagination: pagination).map({ $0.toExtensionModel() })
+            IssueExtensionsJSContextRunner(environment: self).runWithIssues(issues as [NSDictionary], sourceCode: self.codeEditorView.code)
         }
     }
     
-    override func keyDown(theEvent: NSEvent) {
-        super.keyDown(theEvent)
-        if theEvent.modifierFlags.contains(NSEventModifierFlags.Command) && theEvent.keyCode == 1 && formValidation() {
+    override func keyDown(with theEvent: NSEvent) {
+        super.keyDown(with: theEvent)
+        if theEvent.modifierFlags.contains(NSEvent.ModifierFlags.command) && theEvent.keyCode == 1 && formValidation() {
             let externalId = self.codeExtension?.externalId
             let keyboardShortcut = self.codeExtension?.keyboardShortcut
             
             self.extensionCloudKitService.saveCodeExtension(self.codeEditorView.code, name: self.scriptNameTextView.stringValue, recordNameId: externalId, keyboardShortcut: keyboardShortcut, extensionType: SRExtensionTypeIssue) {[weak self] (record, err) in
-                if let record = record as? SRExtension where err == nil {
+                if let record = record as? SRExtension , err == nil {
                     self?.codeExtension = record
                 }
             }
@@ -360,186 +360,186 @@ class IssueExtensionCodeEditorViewController: NSViewController {
 
 extension IssueExtensionCodeEditorViewController: CodeExtensionEnvironmentProtocol {
     
-    func consoleLog(arguments: [AnyObject], logLevel: LogLevel) {
-        let str = arguments.map({"\($0)"}).joinWithSeparator(" ")
-        let date = consoleLogDateFormatter.stringFromDate(NSDate())
+    func consoleLog(_ arguments: [AnyObject], logLevel: LogLevel) {
+        let str = arguments.map({"\($0)"}).joined(separator: " ")
+        let date = consoleLogDateFormatter.string(from: Date())
         DispatchOnMainQueue {
-            self.consoleTextView.appendString("\(date) [LOG] \(str)\n", attributes: [NSFontAttributeName: NSFont(name: "Menlo", size: 12)!, NSForegroundColorAttributeName: NSColor.whiteColor()])
+            self.consoleTextView.appendString("\(date) [LOG] \(str)\n", attributes: [NSAttributedStringKey.font: NSFont(name: "Menlo", size: 12)!, NSAttributedStringKey.foregroundColor: NSColor.white])
         }
     }
     
-    func exceptionLog(line: String, column: String, stacktrace: String, exception: String) {
+    func exceptionLog(_ line: String, column: String, stacktrace: String, exception: String) {
         let str = "Line: \(line) Column: \(column) Method: \(stacktrace) - \(exception)"
         DispatchOnMainQueue {
-            self.consoleTextView.appendString("\(NSDate()) [EXCEPTION] \(str)\n", attributes: [NSFontAttributeName: NSFont(name: "Menlo", size: 12)!, NSForegroundColorAttributeName: NSColor.redColor()])
+            self.consoleTextView.appendString("\(Date()) [EXCEPTION] \(str)\n", attributes: [NSAttributedStringKey.font: NSFont(name: "Menlo", size: 12)!, NSAttributedStringKey.foregroundColor: NSColor.red])
         }
     }
     
     
-    func writeToPasteboard(str: String) {
-        NSPasteboard.generalPasteboard().declareTypes([NSStringPboardType], owner: nil)
-        NSPasteboard.generalPasteboard().setString(str, forType: NSStringPboardType)
+    func writeToPasteboard(_ str: String) {
+        NSPasteboard.general.declareTypes([.string], owner: nil)
+        NSPasteboard.general.setString(str, forType: .string)
     }
     
 }
 
 extension IssueExtensionCodeEditorViewController: MilestoneServiceExtensionEnvironmentProtocol {
     
-    func milestonesForRepository(repository: NSDictionary, onCompletion: JSValue) {
+    func milestonesForRepository(_ repository: NSDictionary, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateRepository(repository) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Repository specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Repository specified" ])
             return;
         }
         
-        let account = QContext.sharedContext().currentAccount
+        let account = QContext.shared().currentAccount
         guard let repositoryId = repository["identifier"] as? NSNumber else {
-            onCompletion.callWithArguments([ NSNull(), "Missing repository parameter" ])
+            onCompletion.call(withArguments: [ NSNull(), "Missing repository parameter" ])
             return
         }
-        let milestones = QMilestoneStore.milestonesForAccountId(account.identifier, repositoryId: repositoryId, includeHidden: false)
-        onCompletion.callWithArguments([ milestones.flatMap({ $0.toExtensionModel() }), NSNull() ])
+        let milestones = QMilestoneStore.milestones(forAccountId: account?.identifier, repositoryId: repositoryId, includeHidden: false)
+        onCompletion.call(withArguments: milestones?.flatMap({ $0.toExtensionModel() }))
     }
     
 }
 
 extension IssueExtensionCodeEditorViewController: OwnerServiceExtensionEnvironmentProtocol {
     
-    func usersForRepository(repository: NSDictionary, onCompletion: JSValue) {
+    func usersForRepository(_ repository: NSDictionary, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateRepository(repository) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Repository specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Repository specified" ])
             return;
         }
         
-        let account = QContext.sharedContext().currentAccount
+        let account = QContext.shared().currentAccount
         guard let repositoryId = repository["identifier"] as? NSNumber else {
-            onCompletion.callWithArguments([ NSNull(), "Missing repository parameter" ])
+            onCompletion.call(withArguments: [ NSNull(), "Missing repository parameter" ])
             return
         }
-        let owners = QOwnerStore.ownersForAccountId(account.identifier, repositoryId: repositoryId)
-        onCompletion.callWithArguments([ owners.flatMap({ $0.toExtensionModel() }), NSNull() ])
+        let owners = QOwnerStore.owners(forAccountId: account?.identifier, repositoryId: repositoryId)
+        onCompletion.call(withArguments: owners?.flatMap({ $0.toExtensionModel() }))
     }
     
 }
 
 extension IssueExtensionCodeEditorViewController: LabelServiceExtensionEnvironmentProtocol {
     
-    func labelsForRepository(repository: NSDictionary, onCompletion: JSValue) {
+    func labelsForRepository(_ repository: NSDictionary, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateRepository(repository) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Repository specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Repository specified" ])
             return;
         }
         
-        let account = QContext.sharedContext().currentAccount
+        let account = QContext.shared().currentAccount
         guard let repositoryId = repository["identifier"] as? NSNumber else {
-            onCompletion.callWithArguments([ NSNull(), "Missing repository parameter" ])
+            onCompletion.call(withArguments: [ NSNull(), "Missing repository parameter" ])
             return
         }
-        let labels = QLabelStore.labelsForAccountId(account.identifier, repositoryId: repositoryId, includeHidden: false)
-        onCompletion.callWithArguments([ labels.flatMap({ $0.toExtensionModel() }), NSNull() ])
+        let labels = QLabelStore.labels(forAccountId: account?.identifier, repositoryId: repositoryId, includeHidden: false)
+        onCompletion.call(withArguments: labels?.flatMap({ $0.toExtensionModel() }))
     }
     
 }
 
 extension IssueExtensionCodeEditorViewController: IssueServiceExtensionEnvironmentProtocol {
     
-    func closeIssue(issue: NSDictionary, onCompletion: JSValue) {
+    func closeIssue(_ issue: NSDictionary, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Issue Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Issue Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["isOpen"] = false
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
-    func openIssue(issue: NSDictionary, onCompletion: JSValue) {
+    func openIssue(_ issue: NSDictionary, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Issue Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Issue Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["isOpen"] = true
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
-    func assignMilestoneToIssue(issue: NSDictionary, milestone: NSDictionary?, onCompletion: JSValue) {
+    func assignMilestoneToIssue(_ issue: NSDictionary, milestone: NSDictionary?, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) && ( milestone == nil || CodeExtensionModelValidators.validateMilestone(milestone)) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Parameters Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Parameters Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["milestone"] = milestone
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
-    func assignUserToIssue(issue: NSDictionary, user: NSDictionary?, onCompletion: JSValue) {
+    func assignUserToIssue(_ issue: NSDictionary, user: NSDictionary?, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) && ( user == nil || CodeExtensionModelValidators.validateOwner(user))  else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Parameters Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Parameters Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["assignee"] = user
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
-    func assignLabelsToIssue(issue: NSDictionary, labels: NSArray?, onCompletion: JSValue) {
+    func assignLabelsToIssue(_ issue: NSDictionary, labels: NSArray?, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) && ( labels == nil || CodeExtensionModelValidators.validateLabels(labels))  else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Parameters Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Parameters Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["labels"] = labels
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
-    func createIssueComment(issue: NSDictionary, comment: String, onCompletion: JSValue) {
+    func createIssueComment(_ issue: NSDictionary, comment: String, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Issue Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Issue Specified" ])
             return
         }
         
-        onCompletion.callWithArguments([ issue, NSNull() ])
+        onCompletion.call(withArguments: [ issue, NSNull() ])
     }
     
-    func saveIssueTitle(issue: NSDictionary, title: String, onCompletion: JSValue) {
+    func saveIssueTitle(_ issue: NSDictionary, title: String, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Issue Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Issue Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["title"] = title
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
-    func saveIssueBody(issue: NSDictionary, body: String?, onCompletion: JSValue) {
+    func saveIssueBody(_ issue: NSDictionary, body: String?, onCompletion: JSValue) {
         guard CodeExtensionModelValidators.validateIssue(issue) else {
-            onCompletion.callWithArguments([ NSNull(), "Invalid Issue Specified" ])
+            onCompletion.call(withArguments: [ NSNull(), "Invalid Issue Specified" ])
             return
         }
         
         let updateIssue = issue.mutableCopy() as! NSMutableDictionary
         updateIssue["body"] = body
         
-        onCompletion.callWithArguments([ updateIssue, NSNull() ])
+        onCompletion.call(withArguments: [ updateIssue, NSNull() ])
     }
     
 }
 
 private extension NSTextView {
-    func appendString(string: String, attributes: [String: AnyObject]) {
-        self.textStorage?.appendAttributedString(NSAttributedString(string: string, attributes: attributes))
+    func appendString(_ string: String, attributes: [NSAttributedStringKey: Any]) {
+        self.textStorage?.append(NSAttributedString(string: string, attributes: attributes))
         self.scrollToEndOfDocument(nil)
     }
 }

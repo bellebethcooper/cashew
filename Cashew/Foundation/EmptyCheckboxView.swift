@@ -9,10 +9,10 @@
 
 class EmptyCheckboxView: BaseView {
 
-    private static let checkboxCircleSize = CGSize(width: 20, height: 20)
-    private static let checkboxBgColor = NSColor(calibratedRed: 33/255.0, green: 201/255.0, blue: 115/255.0, alpha: 1.0)
+    fileprivate static let checkboxCircleSize = CGSize(width: 20, height: 20)
+    fileprivate static let checkboxBgColor = NSColor(calibratedRed: 33/255.0, green: 201/255.0, blue: 115/255.0, alpha: 1.0)
     
-    private let circleView = BaseView()
+    fileprivate let circleView = BaseView()
     
     init() {
         super.init(frame: CGRect.zero)
@@ -21,9 +21,9 @@ class EmptyCheckboxView: BaseView {
 
         circleView.layer?.cornerRadius = EmptyCheckboxView.checkboxCircleSize.height / 2.0
         circleView.layer?.masksToBounds = true
-        circleView.layer?.borderColor = NSColor(calibratedWhite: 0.75, alpha: 1).CGColor
+        circleView.layer?.borderColor = NSColor(calibratedWhite: 0.75, alpha: 1).cgColor
         circleView.layer?.borderWidth = 1
-        circleView.backgroundColor = NSColor.clearColor()
+        circleView.backgroundColor = NSColor.clear
         
     }
 

@@ -158,7 +158,7 @@
         //        maskLayer.frame = bounds
         //        maskLayer.fillColor = NSColor.whiteColor().CGColor
         //        maskLayer.path = bezierPath.toCGPath()
-        //        maskLayer.backgroundColor = NSColor.clearColor().CGColor
+        //        maskLayer.backgroundColor = NSColor.clear().CGColor
         //        roundedCornerMask = maskLayer
         //        self.layer?.mask = maskLayer //addSublayer(maskLayer)
         //        CATransaction.commit()

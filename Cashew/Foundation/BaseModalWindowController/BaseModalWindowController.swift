@@ -14,14 +14,14 @@ class BaseModalWindowView: BaseView {
 }
 
 @objc protocol BaseModalWindowControllerDelegate: class {
-    func willCloseBaseModalWindowController(baseModalWindowController: BaseModalWindowController);
+    func willCloseBaseModalWindowController(_ baseModalWindowController: BaseModalWindowController);
 }
 
 @IBDesignable class BaseModalWindowController: NSWindowController {
     
     @IBOutlet weak var windowContentView: BaseModalWindowView!
     @IBInspectable var transparentTitleBar: Bool = false
-    @IBOutlet weak private var titleLabel: NSTextField!
+    @IBOutlet weak fileprivate var titleLabel: NSTextField!
     
     var forceAlwaysDarkmode = false
     
@@ -29,31 +29,31 @@ class BaseModalWindowView: BaseView {
     
     var viewController: NSViewController?
     var windowTitle: String?
-    var modalSession: NSModalSession?
+    var modalSession: NSApplication.ModalSession?
     weak var baseModalWindowControllerDelegate: BaseModalWindowControllerDelegate?
     
     var showZoomButton: Bool = false {
         didSet {
-            let zoomButton = self.window?.standardWindowButton(.ZoomButton)
-            zoomButton?.hidden = !showZoomButton
+            let zoomButton = self.window?.standardWindowButton(.zoomButton)
+            zoomButton?.isHidden = !showZoomButton
             if let window = window {
                 if showZoomButton {
-                    window.styleMask =  NSWindowStyleMask(rawValue: window.styleMask.rawValue | NSWindowStyleMask.Resizable.rawValue)
+                    window.styleMask =  NSWindow.StyleMask(rawValue: window.styleMask.rawValue | NSWindow.StyleMask.resizable.rawValue)
                 } else {
-                    window.styleMask =  NSWindowStyleMask(rawValue: window.styleMask.rawValue ^ NSWindowStyleMask.Resizable.rawValue)
+                    window.styleMask =  NSWindow.StyleMask(rawValue: window.styleMask.rawValue ^ NSWindow.StyleMask.resizable.rawValue)
                 }
             }
         }
     }
     var showMiniaturizeButton = false {
         didSet {
-            let miniaturizeButton = self.window?.standardWindowButton(.MiniaturizeButton)
-            miniaturizeButton?.hidden = !showMiniaturizeButton
+            let miniaturizeButton = self.window?.standardWindowButton(.miniaturizeButton)
+            miniaturizeButton?.isHidden = !showMiniaturizeButton
             if let window = window {
                 if showMiniaturizeButton {
-                    window.styleMask = NSWindowStyleMask(rawValue: window.styleMask.rawValue | NSWindowStyleMask.Miniaturizable.rawValue)
+                    window.styleMask = NSWindow.StyleMask(rawValue: window.styleMask.rawValue | NSWindow.StyleMask.miniaturizable.rawValue)
                 } else {
-                    window.styleMask = NSWindowStyleMask(rawValue: window.styleMask.rawValue ^ NSWindowStyleMask.Miniaturizable.rawValue)
+                    window.styleMask = NSWindow.StyleMask(rawValue: window.styleMask.rawValue ^ NSWindow.StyleMask.miniaturizable.rawValue)
                 }
             }
         }
@@ -74,16 +74,16 @@ class BaseModalWindowView: BaseView {
             self.windowContentView.addSubview(aViewController.view)
             aViewController.view.translatesAutoresizingMaskIntoConstraints = false
             
-            aViewController.view.leftAnchor.constraintEqualToAnchor(windowContentView.leftAnchor).active = true
-            aViewController.view.rightAnchor.constraintEqualToAnchor(windowContentView.rightAnchor).active = true
-            aViewController.view.topAnchor.constraintEqualToAnchor(windowContentView.topAnchor, constant: 25).active = true
-            aViewController.view.bottomAnchor.constraintEqualToAnchor(windowContentView.bottomAnchor).active = true
+            aViewController.view.leftAnchor.constraint(equalTo: windowContentView.leftAnchor).isActive = true
+            aViewController.view.rightAnchor.constraint(equalTo: windowContentView.rightAnchor).isActive = true
+            aViewController.view.topAnchor.constraint(equalTo: windowContentView.topAnchor, constant: 25).isActive = true
+            aViewController.view.bottomAnchor.constraint(equalTo: windowContentView.bottomAnchor).isActive = true
             
-            let zoomButton = self.window?.standardWindowButton(.ZoomButton)
-            let miniaturizeButton = self.window?.standardWindowButton(.MiniaturizeButton)
+            let zoomButton = self.window?.standardWindowButton(.zoomButton)
+            let miniaturizeButton = self.window?.standardWindowButton(.miniaturizeButton)
             
-            zoomButton?.hidden = false
-            miniaturizeButton?.hidden = false
+            zoomButton?.isHidden = false
+            miniaturizeButton?.isHidden = false
         }
         
         self.titleLabel.stringValue = windowTitle!
@@ -94,20 +94,20 @@ class BaseModalWindowView: BaseView {
         }
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
-            guard let strongSelf = self, strongWindow = strongSelf.window, strongContentView = strongWindow.contentView as? BaseView else {
+            guard let strongSelf = self, let strongWindow = strongSelf.window, let strongContentView = strongWindow.contentView as? BaseView else {
                 return
             }
             
             strongSelf.titleLabel.textColor = CashewColor.foregroundSecondaryColor()
 
             
-            if (.Dark == mode || strongSelf.forceAlwaysDarkmode) {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if (.dark == mode || strongSelf.forceAlwaysDarkmode) {
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
                 strongWindow.appearance = appearance
                 strongContentView.appearance = appearance
                 strongContentView.backgroundColor = strongSelf.darkModeOverrideBackgroundColor
             } else {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
                 strongWindow.appearance = appearance
                 strongContentView.appearance = appearance
                 strongContentView.backgroundColor = CashewColor.backgroundColor()
@@ -121,14 +121,14 @@ class BaseModalWindowView: BaseView {
             let mainAppWindow = NSApp.windows[0]
             let windowLeft: CGFloat  = mainAppWindow.frame.origin.x + mainAppWindow.frame.size.width/2.0 - window.frame.size.width/2.0
             let windowTop: CGFloat  = mainAppWindow.frame.origin.y + mainAppWindow.frame.size.height/2.0 - window.frame.size.height/2.0
-            self.modalSession = NSApplication.sharedApplication().beginModalSessionForWindow(window) //runModalForWindow(self.window!)
+            self.modalSession = NSApplication.shared.beginModalSession(for: window) //runModalForWindow(self.window!)
             window.setFrameOrigin(NSPoint(x: windowLeft, y: windowTop))
         }
     }
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         self.baseModalWindowControllerDelegate?.willCloseBaseModalWindowController(self)
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             if let modalSession = self.modalSession {
                 NSApp.endModalSession(modalSession)
             }

@@ -12,12 +12,12 @@ import Cocoa
 class GiphyImage: NSObject {
     
     let caption: String?
-    let url: NSURL
-    let mp4URL: NSURL
+    let url: URL
+    let mp4URL: URL
     let width: CGFloat
     let height: CGFloat
     
-    init(url: NSURL,  mp4URL: NSURL, width: CGFloat, height: CGFloat, caption: String?) {
+    init(url: URL,  mp4URL: URL, width: CGFloat, height: CGFloat, caption: String?) {
         self.url = url
         self.width = width
         self.height = height

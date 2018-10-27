@@ -13,7 +13,7 @@ import AVFoundation
 @objc(SRGiphyPlayerView)
 class GiphyPlayerView: AVPlayerView {
     
-    override func hitTest(aPoint: NSPoint) -> NSView? {
+    override func hitTest(_ aPoint: NSPoint) -> NSView? {
         return nil
     }
     
@@ -24,11 +24,11 @@ class GiphyPlayerView: AVPlayerView {
     deinit {
         isPlaying = false
         self.player?.pause()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         //DDLogDebug("deallocing giphy player \(self)")
     }
     
-    private var isPlaying = false
+    fileprivate var isPlaying = false
     
     override var player: AVPlayer? {
         didSet {
@@ -55,15 +55,15 @@ class GiphyPlayerView: AVPlayerView {
     }
     
     override func awakeFromNib() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GiphyPlayerView.playerDidReachEnd(_:)), name:AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GiphyPlayerView.playerDidReachEnd(_:)), name:NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     @objc
-    private func playerDidReachEnd(notification: NSNotification) {
+    fileprivate func playerDidReachEnd(_ notification: Notification) {
         DispatchOnMainQueue {
 
-            if let item = notification.object as? AVPlayerItem where self.player?.currentItem == item && self.isPlaying {
-                self.player?.seekToTime(kCMTimeZero)
+            if let item = notification.object as? AVPlayerItem , self.player?.currentItem == item && self.isPlaying {
+                self.player?.seek(to: kCMTimeZero)
                 if self.isMouseOver() {
                     self.player?.play()
                 }
@@ -79,7 +79,7 @@ class GiphyImageTableRowView: NSTableRowView {
     
     @IBOutlet weak var viewPlayer: GiphyPlayerView!
     
-    private var currentTrackingArea: NSTrackingArea?
+    fileprivate var currentTrackingArea: NSTrackingArea?
     
     var model: GiphyImage? {
         didSet {
@@ -95,7 +95,7 @@ class GiphyImageTableRowView: NSTableRowView {
             return
         }
         
-        viewPlayer.player = AVPlayer(URL: model.mp4URL) //[AVPlayer playerWithURL:model.mp4URL];
+        viewPlayer.player = AVPlayer(url: model.mp4URL as URL) //[AVPlayer playerWithURL:model.mp4URL];
         viewPlayer.pause()
     }
     
@@ -103,17 +103,17 @@ class GiphyImageTableRowView: NSTableRowView {
         if let currentTrackingArea = currentTrackingArea {
             self.removeTrackingArea(currentTrackingArea)
         }
-        let trackingArea = NSTrackingArea(rect: bounds, options: [.MouseEnteredAndExited, .ActiveAlways] , owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: bounds, options: [.mouseEnteredAndExited, .activeAlways] , owner: self, userInfo: nil)
         self.currentTrackingArea = trackingArea
         self.addTrackingArea(trackingArea);
     }
     
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         viewPlayer.play()
     }
     
-    override func mouseExited(theEvent: NSEvent) {
+    override func mouseExited(with theEvent: NSEvent) {
         viewPlayer.pause()
     }
     
@@ -126,8 +126,8 @@ class GiphyImageTableRowView: NSTableRowView {
         var viewArray: NSArray?
         let className = "GiphyImageTableRowView"
         
-        assert(NSThread.isMainThread())
-        NSBundle.mainBundle().loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
+        assert(Thread.isMainThread)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == GiphyImageTableRowView.self {

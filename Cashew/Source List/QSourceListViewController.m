@@ -123,8 +123,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [QIssueCommentDraftStore removeObserver:self];
-    [QIssueNotificationStore removeObserver:self];
+    [QIssueCommentDraftStore remove:self];
+    [QIssueNotificationStore remove:self];
 }
 
 
@@ -658,7 +658,7 @@
     if (node.nodeType == QSourceListNodeType_Repository) {
         QRepository *repo = (QRepository *)node.representedObject;
         NSParameterAssert(repo);
-        [QRepositoryStore deleteRepository:repo];
+        [QRepositoryStore delete:repo];
     }
     
     else if (node.nodeType == QSourceListNodeType_CustomFilter) {

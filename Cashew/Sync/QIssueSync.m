@@ -50,8 +50,8 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
 
 //- (void)dealloc
 //{
-//    [QAccountStore removeObserver:self];
-//    [QRepositoryStore removeObserver:self];
+//    [QAccountStore remove:self];
+//    [QRepositoryStore remove:self];
 //}
 
 + (instancetype)sharedIssueSync;
@@ -219,7 +219,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 });
                 
                 if (deletedRepository) {
-                    [QRepositoryStore deleteRepository:repository];
+                    [QRepositoryStore delete:repository];
                 }
                 
             }];
@@ -343,7 +343,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
             deletedRepository = ![self.repositorySet containsObject:repository];
         });
         if (deletedRepository) {
-            [QRepositoryStore deleteRepository:repository];
+            [QRepositoryStore delete:repository];
         } else {
             
             // make sure the delta sync date is set

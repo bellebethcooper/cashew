@@ -22,7 +22,7 @@ class RepositorySearchablePickerTableViewAdapter: NSObject, SearchablePickerTabl
         self.dataSource = dataSource
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         if let repo = item as? QRepository {
             if let view = view as? RepositorySearchResultTableRowView {
                 view.repository = repo

@@ -11,8 +11,8 @@ import Cocoa
 class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     
     var sourceIssue: QIssue?
-    private var results = [QOwner]()
-    private var selectedAssignee: QOwner? {
+    fileprivate var results = [QOwner]()
+    fileprivate var selectedAssignee: QOwner? {
         guard let selectionMap = selectionMap else {
             return nil
         }
@@ -20,18 +20,18 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         return assignees.first?.first
     }
     
-    private(set) var selectionMap: [QIssue: Set<QOwner>]?
-    private(set) var userToRepositoryMap: [QOwner: Set<QRepository>]?
+    fileprivate(set) var selectionMap: [QIssue: Set<QOwner>]?
+    fileprivate(set) var userToRepositoryMap: [QOwner: Set<QRepository>]?
     
     var repository: QRepository?
     var numberOfRows: Int {
         return results.count
     }
     
-    var mode: SearchablePickerDataSourceMode  = .SearchResults {
+    var mode: SearchablePickerDataSourceMode  = .searchResults {
         didSet {
             switch mode {
-            case .SelectedItems:
+            case .selectedItems:
                 if let selectedassignee = selectedAssignee {
                     results = [selectedassignee]
                 }
@@ -42,13 +42,13 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         }
     }
     
-    var selectedIndexes: NSIndexSet {
-        if let selectedassignee = selectedAssignee, index = results.indexOf(selectedassignee) {
+    var selectedIndexes: IndexSet {
+        if let selectedassignee = selectedAssignee, let index = results.index(of: selectedassignee) {
             let indexSet = NSMutableIndexSet()
-            indexSet.addIndex(index)
-            return indexSet
+            indexSet.add(index)
+            return indexSet as IndexSet
         }
-        return NSIndexSet()
+        return IndexSet()
     }
     var selectionCount: Int {
         if let _ = selectedAssignee {
@@ -62,7 +62,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return [QRepository]()
         }
         let issues = Array(selectionMap.keys)
-        let repos = Array(Set(issues.flatMap { $0.repository })).sort({ $0.fullName.compare($1.fullName) == .OrderedAscending })
+        let repos = Array(Set(issues.flatMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
         return repos
     }
     
@@ -76,37 +76,37 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         resetToOriginal()
     }
     
-    func itemAtIndex(index: Int) -> AnyObject {
+    func itemAtIndex(_ index: Int) -> AnyObject {
         return results[index]
     }
     
-    func search(string: String, onCompletion: dispatch_block_t) {
-        mode = .SearchResults
+    func search(_ string: String, onCompletion: @escaping ()->()) {
+        mode = .searchResults
         guard let repository = self.repository else {
             self.results = []
             onCompletion()
             return
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            if let results = QOwnerStore.searchUserWithQuery(String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QOwner] {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            if let results = QOwnerStore.searchUser(withQuery: String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QOwner] {
                 self.results = results
             }
             onCompletion()
         }
     }
     
-    func defaults(onCompletion: dispatch_block_t) {
-        mode = .DefaultResults
+    func defaults(_ onCompletion: @escaping ()->()) {
+        mode = .defaultResults
         guard let repository = self.repository else {
             self.results = []
             onCompletion()
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            if let results = QOwnerStore.ownersForAccountId(repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QOwner] {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            if let results = QOwnerStore.owners(forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QOwner] {
                 
-                self.results = results.sort({ (owner1, owner2) -> Bool in
+                self.results = results.sorted(by: { (owner1, owner2) -> Bool in
                     if self.isSelectedItem(owner1) && self.isSelectedItem(owner2) {
                         return owner1.login < owner2.login
                     } else  if self.isSelectedItem(owner1) {
@@ -124,21 +124,21 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     }
     
     
-    func selectItem(item: AnyObject) {
+    func selectItem(_ item: AnyObject) {
         guard let assignee = item as? QOwner else {
             return
         }
         tappedAssignee(assignee)
     }
     
-    func unselectItem(item: AnyObject) {
+    func unselectItem(_ item: AnyObject) {
         guard let assignee = item as? QOwner else {
             return
         }
         tappedAssignee(assignee)
     }
     
-    private func tappedAssignee(assignee: QOwner) {
+    fileprivate func tappedAssignee(_ assignee: QOwner) {
         guard var selectionMap = selectionMap, let repository = repository else { return }
         
         if isFullSelection(assignee) {
@@ -159,7 +159,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         self.selectionMap = selectionMap
     }
     
-    func isSelectedItem(item: AnyObject) -> Bool {
+    func isSelectedItem(_ item: AnyObject) -> Bool {
         if let assignee = item as? QOwner {
             return isFullSelection(assignee) || isPartialSelection(assignee)
         }
@@ -190,7 +190,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         if let sourceIssue = sourceIssue {
             issues = [sourceIssue]
         } else {
-            issues = QContext.sharedContext().currentIssues
+            issues = QContext.shared().currentIssues
         }
         
         var repos = Set<QRepository>()
@@ -210,7 +210,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         
         var mapping = [QOwner: Set<QRepository>]()
         repos.forEach { (repository) in
-            QOwnerStore.ownersForAccountId(repository.account.identifier, repositoryId: repository.identifier).forEach({ (owner) in
+            QOwnerStore.owners(forAccountId: repository.account.identifier, repositoryId: repository.identifier).forEach({ (owner) in
                 if var ownerRepositories = mapping[owner] {
                     ownerRepositories.insert(repository)
                     mapping[owner] = ownerRepositories
@@ -222,8 +222,8 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         userToRepositoryMap = mapping
     }
     
-    func isPartialSelection(assignee: QOwner) -> Bool {
-        guard let selectionMap = selectionMap, userToRepositoryMap = userToRepositoryMap, ownerRepositories = userToRepositoryMap[assignee], repository = repository else { return false }
+    func isPartialSelection(_ assignee: QOwner) -> Bool {
+        guard let selectionMap = selectionMap, let userToRepositoryMap = userToRepositoryMap, let ownerRepositories = userToRepositoryMap[assignee], let repository = repository else { return false }
         
         // DDLogDebug("\n----\n assignee=\(assignee)")
         // DDLogDebug("selectionMap=\(selectionMap)")
@@ -236,8 +236,8 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
         return total > 0 && total != repoTotal
     }
     
-    func isFullSelection(assignee: QOwner) -> Bool {
-        guard let selectionMap = selectionMap, userToRepositoryMap = userToRepositoryMap, ownerRepositories = userToRepositoryMap[assignee], repository = repository else { return false }
+    func isFullSelection(_ assignee: QOwner) -> Bool {
+        guard let selectionMap = selectionMap, let userToRepositoryMap = userToRepositoryMap, let ownerRepositories = userToRepositoryMap[assignee], let repository = repository else { return false }
         
         //   DDLogDebug("\n----\n assignee=\(assignee)")
         // DDLogDebug("selectionMap=\(selectionMap)")

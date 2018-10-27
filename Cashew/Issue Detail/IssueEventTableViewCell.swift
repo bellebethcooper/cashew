@@ -10,15 +10,15 @@ import Cocoa
 
 class IssueEventTableViewCell: BaseView {
     
-    private static let verticalPadding: CGFloat = 10.0
-    private static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 37.0
-    private static let eventNameBoldedAttribute: [String : AnyObject] = [NSFontAttributeName: NSFont.systemFontOfSize(12, weight: NSFontWeightSemibold)]
+    fileprivate static let verticalPadding: CGFloat = 10.0
+    fileprivate static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 37.0
+    fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 12, weight: NSFont.Weight.semibold)]
     
     @IBOutlet weak var eventDetailsLabel: NSTextField!
     @IBOutlet weak var eventImageView: NSImageView!
     @IBOutlet weak var eventImageContainerView: BaseView!
     
-    var onHeightChanged: dispatch_block_t?
+    var onHeightChanged: (()->())?
     
     var issueEvent: IssueEventInfo? {
         didSet {
@@ -26,8 +26,8 @@ class IssueEventTableViewCell: BaseView {
         }
     }
     
-    private func didSetIssueEvent() {
-        assert(NSThread.isMainThread(), "not on main thread");
+    fileprivate func didSetIssueEvent() {
+        assert(Thread.isMainThread, "not on main thread");
         if let issueEvent = issueEvent {
             eventDetailsLabel.attributedStringValue = IssueEventTableViewCell.detailsForIssueEvent(issueEvent)
         } else {
@@ -53,10 +53,10 @@ class IssueEventTableViewCell: BaseView {
                 return;
             }
             
-            if mode == .Light {
+            if mode == .light {
                 strongSelf.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
                 strongSelf.eventDetailsLabel.textColor = LightModeColor.sharedInstance.foregroundTertiaryColor()
-            } else if mode == .Dark {
+            } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
                 strongSelf.eventDetailsLabel.textColor = DarkModeColor.sharedInstance.foregroundTertiaryColor()
             }
@@ -65,19 +65,19 @@ class IssueEventTableViewCell: BaseView {
         }
     }
     
-    private class func boldedAttribute() -> [String : AnyObject]  {
+    fileprivate class func boldedAttribute() -> [NSAttributedStringKey : NSObject]  {
         
-        let themeMode = NSUserDefaults.themeMode()
+        let themeMode = UserDefaults.themeMode()
         
         var color = NSColor(calibratedWhite: 67/255.0, alpha: 0.85)
-        if (themeMode == .Light) {
+        if (themeMode == .light) {
             color = LightModeColor.sharedInstance.foregroundSecondaryColor()
-        } else if (themeMode == .Dark) {
+        } else if (themeMode == .dark) {
             color = DarkModeColor.sharedInstance.foregroundSecondaryColor()
         }
         
-        let attr = [NSFontAttributeName: NSFont.systemFontOfSize(12, weight: NSFontWeightSemibold), NSForegroundColorAttributeName: color]
-        return attr
+        let attr = [NSAttributedStringKey.font.rawValue: NSFont.systemFont(ofSize: 12, weight: NSFont.Weight.semibold), NSAttributedStringKey.foregroundColor: color] as [AnyHashable : NSObject]
+        return attr as! [NSAttributedStringKey : NSObject]
     }
     
     deinit {
@@ -85,30 +85,30 @@ class IssueEventTableViewCell: BaseView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    private func setupImageForCurrentIssueEvent() {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    fileprivate func setupImageForCurrentIssueEvent() {
+        DispatchQueue.main.async { () -> Void in
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            if let event = self.issueEvent, eventImageView = self.eventImageView {
+            if let event = self.issueEvent, let eventImageView = self.eventImageView {
                 let color = NSColor.init(calibratedRed: 148/255.0, green: 148/255.0, blue: 148/255.0, alpha: 1)
                 
-                eventImageView.layer?.backgroundColor = NSColor.clearColor().CGColor
+                eventImageView.layer?.backgroundColor = NSColor.clear.cgColor
                 
                 switch(event.event!) {
                 case "labeled", "unlabeled":
-                    eventImageView.image = NSImage(named: "tag")!.imageWithTintColor(color)
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "tag"))!.withTintColor(color)
                 case "milestoned", "demilestoned":
-                    eventImageView.image = NSImage(named: "milestone")!.imageWithTintColor(color)
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "milestone"))!.withTintColor(color)
                 case "renamed":
-                    eventImageView.image = NSImage(named: "pencil")!.imageWithTintColor(color)
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "pencil"))!.withTintColor(color)
                 case "assigned", "unassigned":
-                    eventImageView.image = NSImage(named: "person")!.imageWithTintColor(color)
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "person"))!.withTintColor(color)
                 case "closed":
-                    eventImageView.image = NSImage(named: "issue-closed")!.imageWithTintColor(NSColor.whiteColor())
-                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).CGColor
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))!.withTintColor(NSColor.white)
+                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
                 case "reopened":
-                    eventImageView.image = NSImage(named: "issue-reopened")!.imageWithTintColor(NSColor.whiteColor())
-                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).CGColor
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-reopened"))!.withTintColor(NSColor.white)
+                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
                 default:
                     eventImageView.image = nil
                 }
@@ -120,54 +120,55 @@ class IssueEventTableViewCell: BaseView {
         }
     }
     
-    class func heightForIssueEvent(event: IssueEventInfo, width: CGFloat) -> CGFloat {
+    class func heightForIssueEvent(_ event: IssueEventInfo, width: CGFloat) -> CGFloat {
         let attrString = IssueEventTableViewCell.detailsForIssueEvent(event)
-        let containerSize = CGSizeMake(width - IssueEventTableViewCell.spacingOccupiedByHorizontalPaddingAndImageView, CGFloat.max)
-        let attrStringSize = attrString.boundingRectWithSize(containerSize, options: [.UsesFontLeading, .UsesLineFragmentOrigin])
+        let containerSize = CGSize(width: width - IssueEventTableViewCell.spacingOccupiedByHorizontalPaddingAndImageView, height: CGFloat.greatestFiniteMagnitude)
+        let attrStringSize = attrString.boundingRect(with: containerSize, options: [NSString.DrawingOptions.usesFontLeading, NSString.DrawingOptions.usesLineFragmentOrigin])
         return attrStringSize.height + IssueEventTableViewCell.verticalPadding * 2
     }
     
-    private class func detailsForIssueEvent(event: IssueEventInfo) -> NSAttributedString {
+    fileprivate class func detailsForIssueEvent(_ event: IssueEventInfo) -> NSAttributedString {
             var didUseFullDate = ObjCBool(false)
-            let dateString = event.createdAt.timeAgoForWeekOrLessAndDidUseFullDate(&didUseFullDate);
+        let created = event.createdAt as NSDate
+        guard let dateString = created.timeAgo(forWeekOrLessAndDidUseFullDate: &didUseFullDate) else { return NSAttributedString() }
             let onDateString = String(format: "%@", didUseFullDate.boolValue ? " on " : " ")
             switch(event.event!) {
                 
-            case IssueEventTypeInfo.GroupedLabel.rawValue, "labeled", "unlabeled":
+            case IssueEventTypeInfo.GroupedLabel.rawValue as String, "labeled", "unlabeled":
                 return IssueEventTableViewCell.formatPossibleGroupedEvent(event, singularPrefix: "label", pluralPrefix: "labels", onDateString: onDateString, dateString: dateString)
                 
-            case IssueEventTypeInfo.GroupedMilestone.rawValue, "milestoned", "demilestoned":
+            case IssueEventTypeInfo.GroupedMilestone.rawValue as String, "milestoned", "demilestoned":
                 return IssueEventTableViewCell.formatPossibleGroupedEvent(event, singularPrefix: "milestone", pluralPrefix: "milestones", onDateString: onDateString, dateString: dateString)
                 
             case "renamed":
                 if let event = event as? QIssueEvent {
                     let attrString = NSMutableAttributedString(string: event.actor.login, attributes: boldedAttribute())
-                    attrString.appendAttributedString(NSAttributedString(string:" changed title from "))
+                    attrString.append(NSAttributedString(string:" changed title from "))
                     let fromName = (event.renameFrom)! as String
                     let toName = (event.renameTo)! as String
-                    attrString.appendAttributedString(NSAttributedString(string: fromName, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
-                    attrString.appendAttributedString(NSAttributedString(string: " to "))
-                    attrString.appendAttributedString(NSAttributedString(string: toName, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
-                    attrString.appendAttributedString(NSAttributedString(string: onDateString))
-                    attrString.appendAttributedString(NSAttributedString(string: dateString))
+                    attrString.append(NSAttributedString(string: fromName, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
+                    attrString.append(NSAttributedString(string: " to "))
+                    attrString.append(NSAttributedString(string: toName, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
+                    attrString.append(NSAttributedString(string: onDateString))
+                    attrString.append(NSAttributedString(string: dateString))
                     return attrString
                 }
                 
             case "assigned":
                 let attrString = NSMutableAttributedString(string: event.actor.login, attributes: IssueEventTableViewCell.boldedAttribute())
-                attrString.appendAttributedString(NSAttributedString(string: String(format: " was assigned this issue%@%@", onDateString, dateString)))
+                attrString.append(NSAttributedString(string: String(format: " was assigned this issue%@%@", onDateString, dateString)))
                 return attrString
             case "unassigned":
                 let attrString = NSMutableAttributedString(string: event.actor.login, attributes: IssueEventTableViewCell.boldedAttribute())
-                attrString.appendAttributedString(NSAttributedString(string: String(format: " was unassigned from this issue%@%@", onDateString, dateString)))
+                attrString.append(NSAttributedString(string: String(format: " was unassigned from this issue%@%@", onDateString, dateString)))
                 return attrString
             case "reopened":
                 let attrString = NSMutableAttributedString(string: event.actor.login, attributes: IssueEventTableViewCell.boldedAttribute())
-                attrString.appendAttributedString(NSAttributedString(string: String(format: " reopened %@%@", onDateString, dateString)))
+                attrString.append(NSAttributedString(string: String(format: " reopened %@%@", onDateString, dateString)))
                 return attrString
             default:
                 let attrString = NSMutableAttributedString(string: event.actor.login, attributes: IssueEventTableViewCell.boldedAttribute())
-                attrString.appendAttributedString(NSAttributedString(string: String(format: " %@%@%@", event.event!, onDateString, dateString)))
+                attrString.append(NSAttributedString(string: String(format: " %@%@%@", event.event!, onDateString, dateString)))
                 return attrString
             }
         
@@ -176,74 +177,74 @@ class IssueEventTableViewCell: BaseView {
         return NSAttributedString(string: "")
     }
     
-    private class func formatPossibleGroupedEvent(event: IssueEventInfo, singularPrefix: String, pluralPrefix: String, onDateString: String, dateString: String) -> NSAttributedString {
+    fileprivate class func formatPossibleGroupedEvent(_ event: IssueEventInfo, singularPrefix: String, pluralPrefix: String, onDateString: String, dateString: String) -> NSAttributedString {
         let hasBothAddtionsAndRemovals = event.removals.count > 0 && event.additions.count > 0
         let hasMultipleEntries = (event.removals.count + event.additions.count) > 1
         let attrString = NSMutableAttributedString(string: event.actor.login, attributes: IssueEventTableViewCell.boldedAttribute())
-        attrString.appendAttributedString(NSAttributedString(string: " "))
+        attrString.append(NSAttributedString(string: " "))
         
         // additions
         if event.additions.count > 1 || hasBothAddtionsAndRemovals {
-            attrString.appendAttributedString(NSAttributedString(string:"added "))
+            attrString.append(NSAttributedString(string:"added "))
             
-            for (i, name) in event.additions.enumerate() {
-                attrString.appendAttributedString(NSAttributedString(string: name as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
+            for (i, name) in event.additions.enumerated() {
+                attrString.append(NSAttributedString(string: name as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
                 if event.additions.count != 1 && i < event.additions.count - 2 {
-                    attrString.appendAttributedString(NSAttributedString(string: ", "))
+                    attrString.append(NSAttributedString(string: ", "))
                 } else if event.additions.count != 1 && i == event.additions.count - 2 {
-                    attrString.appendAttributedString(NSAttributedString(string: ", and "))
+                    attrString.append(NSAttributedString(string: ", and "))
                 }
             }
             
         } else if event.additions.count == 1 && !hasBothAddtionsAndRemovals {
-            attrString.appendAttributedString(NSAttributedString(string: "added the "))
-            attrString.appendAttributedString(NSAttributedString(string: event.additions[0] as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
-            attrString.appendAttributedString(NSAttributedString(string: " "))
-            attrString.appendAttributedString(NSAttributedString(string: singularPrefix))
+            attrString.append(NSAttributedString(string: "added the "))
+            attrString.append(NSAttributedString(string: event.additions[0] as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
+            attrString.append(NSAttributedString(string: " "))
+            attrString.append(NSAttributedString(string: singularPrefix))
         }
         
         // connect sentence
         if hasBothAddtionsAndRemovals {
-            attrString.appendAttributedString(NSAttributedString(string: " and "))
+            attrString.append(NSAttributedString(string: " and "))
         }
         
         // removals
         if event.removals.count > 1 || hasBothAddtionsAndRemovals {
 
-            attrString.appendAttributedString(NSAttributedString(string:"removed "))
+            attrString.append(NSAttributedString(string:"removed "))
             
-            for (i, name) in event.removals.enumerate() {
-                attrString.appendAttributedString(NSAttributedString(string: name as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
+            for (i, name) in event.removals.enumerated() {
+                attrString.append(NSAttributedString(string: name as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
                 if event.removals.count != 1 && i < event.removals.count - 2 {
-                    attrString.appendAttributedString(NSAttributedString(string: ", "))
+                    attrString.append(NSAttributedString(string: ", "))
                 } else if event.removals.count != 1 && i == event.removals.count - 2 {
-                    attrString.appendAttributedString(NSAttributedString(string: ", and "))
+                    attrString.append(NSAttributedString(string: ", and "))
                 }
             }
             
         } else if event.removals.count == 1 && !hasBothAddtionsAndRemovals {
-            attrString.appendAttributedString(NSAttributedString(string: "removed the "))
-            attrString.appendAttributedString(NSAttributedString(string: event.removals[0] as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
-            attrString.appendAttributedString(NSAttributedString(string: " "))
-            attrString.appendAttributedString(NSAttributedString(string: singularPrefix))
+            attrString.append(NSAttributedString(string: "removed the "))
+            attrString.append(NSAttributedString(string: event.removals[0] as! String, attributes: IssueEventTableViewCell.eventNameBoldedAttribute))
+            attrString.append(NSAttributedString(string: " "))
+            attrString.append(NSAttributedString(string: singularPrefix))
         }
         
         if hasMultipleEntries {
-            attrString.appendAttributedString(NSAttributedString(string: " "))
+            attrString.append(NSAttributedString(string: " "))
             
             if event.removals.count == 1 {
-                attrString.appendAttributedString(NSAttributedString(string: singularPrefix))
+                attrString.append(NSAttributedString(string: singularPrefix))
             } else if event.removals.count > 1 {
-                attrString.appendAttributedString(NSAttributedString(string: pluralPrefix))
+                attrString.append(NSAttributedString(string: pluralPrefix))
             } else if event.additions.count == 1 {
-                attrString.appendAttributedString(NSAttributedString(string: singularPrefix))
+                attrString.append(NSAttributedString(string: singularPrefix))
             } else if event.additions.count > 1 {
-                attrString.appendAttributedString(NSAttributedString(string: pluralPrefix))
+                attrString.append(NSAttributedString(string: pluralPrefix))
             }
         }
         
-        attrString.appendAttributedString(NSAttributedString(string: onDateString))
-        attrString.appendAttributedString(NSAttributedString(string: dateString))
+        attrString.append(NSAttributedString(string: onDateString))
+        attrString.append(NSAttributedString(string: dateString))
         
         return attrString
     }

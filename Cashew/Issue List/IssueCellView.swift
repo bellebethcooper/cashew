@@ -22,7 +22,7 @@ class IssueCellView: NSTableCellView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    fileprivate func setup() {
         addSubview(label)
         wantsLayer = true;
         label.wantsLayer = true;
@@ -42,14 +42,14 @@ class IssueCellView: NSTableCellView {
 class DotIssueCellView: IssueCellView {
     
     deinit {
-        QIssueNotificationStore.removeObserver(self)
-        QIssueStore.removeObserver(self)
+        QIssueNotificationStore.remove(self)
+        QIssueStore.remove(self)
     }
     
     var issue: QIssue? {
         didSet {
             SyncDispatchOnMainQueue {                
-                if let issue = self.issue, notification = issue.notification where notification.read == false {
+                if let issue = self.issue, let notification = issue.notification , notification.read == false {
                     self.label.stringValue = "•"
                 } else {
                     self.label.stringValue = ""
@@ -63,12 +63,12 @@ class DotIssueCellView: IssueCellView {
         setup()
     }
     
-    private override func setup() {
+    fileprivate override func setup() {
         super.setup()
-        label.textColor = NSColor.redColor()
-        label.alignment = .Center
-        QIssueNotificationStore.addObserver(self)
-        QIssueStore.addObserver(self)
+        label.textColor = NSColor.red
+        label.alignment = .center
+        QIssueNotificationStore.add(self)
+        QIssueStore.add(self)
     }
     
     required init?(coder: NSCoder) {
@@ -79,16 +79,16 @@ class DotIssueCellView: IssueCellView {
 
 extension DotIssueCellView: QStoreObserver {
     
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
         
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
         
     }
     
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
-        if let issue = issue, record = record as? QIssue where record == issue {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
+        if let issue = issue, let record = record as? QIssue , record == issue {
             self.issue = record
         }
     }

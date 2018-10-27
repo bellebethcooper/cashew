@@ -11,16 +11,16 @@ import Foundation
 extension NSImage {
     
     var imagePNGRepresentation: NSData? {
-        guard let cgRef = CGImageForProposedRect(nil, context: nil, hints: nil) else {
+        guard let cgRef = cgImage(forProposedRect: nil, context: nil, hints: nil) else {
             return nil
         }
         
-        let newRepo = NSBitmapImageRep(CGImage: cgRef)
+        let newRepo = NSBitmapImageRep(cgImage: cgRef)
         newRepo.size = size
-        guard let data = newRepo.representationUsingType(.PNG, properties:[String: AnyObject]()) else {
+        guard let data = newRepo.representation(using: .png, properties:[NSBitmapImageRep.PropertyKey: AnyObject]()) else {
             return nil
         }
-        return data
+        return data as NSData
     }
     
     func circularImage() -> NSImage {
@@ -35,16 +35,16 @@ extension NSImage {
         let composedImage = NSImage(size: newSize)
         
         composedImage.lockFocus()
-        let ctx = NSGraphicsContext.currentContext()
-        ctx?.imageInterpolation = NSImageInterpolation.High
+        let ctx = NSGraphicsContext.current
+        ctx?.imageInterpolation = NSImageInterpolation.high
         
         let imageFrame = NSRect(x: 0, y: 0, width: width, height: height)
         let clipPath = NSBezierPath(roundedRect: imageFrame, xRadius: xRad, yRadius: yRad)
-        clipPath.windingRule = NSWindingRule.EvenOddWindingRule
+        clipPath.windingRule = NSBezierPath.WindingRule.evenOddWindingRule
         clipPath.addClip()
         
         let rect = NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        image.drawAtPoint(NSZeroPoint, fromRect: rect, operation: .SourceOver, fraction: 1)
+        image.draw(at: NSZeroPoint, from: rect, operation: .sourceOver, fraction: 1)
         composedImage.unlockFocus()
         
         return composedImage

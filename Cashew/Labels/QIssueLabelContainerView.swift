@@ -10,7 +10,7 @@ import Cocoa
 
 class QIssueLabelContainerView: BaseView {
     
-    private static let labelSpacing: CGFloat = 4.0
+    fileprivate static let labelSpacing: CGFloat = 4.0
     
     let labelViewPool: ObjectPool = ObjectPool<QIssueLabelView>() {
         let labelView = QIssueLabelView.instantiateFromNib()
@@ -26,14 +26,14 @@ class QIssueLabelContainerView: BaseView {
         }
     }
     
-    private let moreLabel: QIssueLabelView = {
+    fileprivate let moreLabel: QIssueLabelView = {
         let label = QIssueLabelView.instantiateFromNib()
-        label.mode = .ColoredBackground
-        label.hidden = true
+        label.mode = .coloredBackground
+        label.isHidden = true
         return label
     }()
     
-    private var labelViews = [QIssueLabelView]()
+    fileprivate var labelViews = [QIssueLabelView]()
     
     var labels: [QLabel]? {
         didSet {
@@ -41,7 +41,7 @@ class QIssueLabelContainerView: BaseView {
         }
     }
     
-    var mode: QIssueLabelViewMode = QIssueLabelViewMode.ColoredBackground {
+    var mode: QIssueLabelViewMode = QIssueLabelViewMode.coloredBackground {
         didSet {
             updateLabelColors()
         }
@@ -65,32 +65,32 @@ class QIssueLabelContainerView: BaseView {
     // MARK: layout
     
 
-    private func setup() {
+    fileprivate func setup() {
         disableThemeObserver = true
-        backgroundColor = NSColor.clearColor()
+        backgroundColor = NSColor.clear
         setupManageButton()
         addSubview(moreLabel)
         
         labelViewPool.willBorrowObject = { [weak self] (label) in
             guard let strongSelf  = self else { return }
-            label.hidden = false
+            label.isHidden = false
             label.shouldAllowVibrancy = strongSelf.shouldAllowVibrancy
         }
         labelViewPool.willReturnObject = { [weak self] (label) in
             guard let strongSelf  = self else { return }
-            label.hidden = true
+            label.isHidden = true
             label.shouldAllowVibrancy = strongSelf.shouldAllowVibrancy
         }
     }
     
-    private func setupLabels() {
-        assert(NSThread.isMainThread())
+    fileprivate func setupLabels() {
+        assert(Thread.isMainThread)
         removeLabelViews()
         
         guard var labels = labels else { return }
-        labels.sortInPlace({
-            guard let name1 = $0.name, name2 = $1.name else { return false }
-            return name1.compare(name2) == .OrderedAscending
+        labels.sort(by: {
+            guard let name1 = $0.name, let name2 = $1.name else { return false }
+            return name1.compare(name2) == .orderedAscending
         })
         labels.forEach({ (label: QLabel) -> () in
             let labelView = labelViewPool.borrowObject() //QIssueLabelView.instantiateFromNib()
@@ -127,15 +127,15 @@ class QIssueLabelContainerView: BaseView {
             let rect = CGRectIntegralMake(x: xOffset, y: labelTop, width: labelSize.width, height: labelSize.height)
             
             if rect.maxX > width || counter != 0 {
-                labelView.hidden = true
+                labelView.isHidden = true
                 counter += 1
                 if let title = labelView.viewModel?.title {
-                    mutableString.addObject(title)
+                    mutableString.add(title)
                 }
                 continue
             }
             
-            labelView.hidden = false
+            labelView.isHidden = false
             labelView.frame = rect
             labelView.mode = mode
             xOffset += labelSize.width + QIssueLabelContainerView.labelSpacing
@@ -154,12 +154,12 @@ class QIssueLabelContainerView: BaseView {
                 let previousLabelRect = previousLabel.frame
                 rect = CGRectIntegralMake(x: previousLabelRect.minX, y: labelTop, width: labelSize.width, height: labelSize.height)
                 positionIndex -= 1
-                previousLabel.hidden = true
+                previousLabel.isHidden = true
                 
                 counter += 1
                 moreLabel.viewModel = QIssueLabelViewModel(title: "+\(counter)", color: NSColor(calibratedWhite: 0, alpha: 0.20))
                 if let title = previousLabel.viewModel?.title {
-                    mutableString.addObject(title)
+                    mutableString.add(title)
                 }
                 
                 labelSize = moreLabel.labelSize()
@@ -167,19 +167,19 @@ class QIssueLabelContainerView: BaseView {
             }
             
             moreLabel.frame = rect
-            moreLabel.hidden = false
+            moreLabel.isHidden = false
             if let tooltipLabels = mutableString.array as? [NSString] {
-                moreLabel.toolTip = (tooltipLabels as NSArray).componentsJoinedByString("\n")
+                moreLabel.toolTip = (tooltipLabels as NSArray).componentsJoined(by: "\n")
             }
         } else {
-            moreLabel.hidden = true
+            moreLabel.isHidden = true
         }
         
         super.layout()
     }
     
-    private func removeLabelViews() {
-        assert(NSThread.isMainThread())
+    fileprivate func removeLabelViews() {
+        assert(Thread.isMainThread)
         labelViews.forEach({ (labelView) in
             //guard let labelView = view as? QIssueLabelView where labelView != moreLabel else { return }
             //labelView.removeFromSuperview()
@@ -188,7 +188,7 @@ class QIssueLabelContainerView: BaseView {
         labelViews.removeAll()
     }
     
-    private func updateLabelColors() {
+    fileprivate func updateLabelColors() {
         labelViews.forEach({ (labelView) in
             //guard let labelView = view as? QIssueLabelView where labelView != moreLabel else { return }
             labelView.mode = mode
@@ -197,7 +197,7 @@ class QIssueLabelContainerView: BaseView {
     
     
     // MARK: UI Setup
-    private func setupManageButton() {
+    fileprivate func setupManageButton() {
         
     }
 }

@@ -10,10 +10,10 @@ import Cocoa
 
 class AccountPreferenceTableViewRow: BaseTableRowView {
     
-    private static let imageSize = CGSizeMake(20, 20)
-    private static let padding: CGFloat = 6.0
+    fileprivate static let imageSize = CGSize(width: 20, height: 20)
+    fileprivate static let padding: CGFloat = 6.0
     
-    private let imageView = BaseView()
+    fileprivate let imageView = BaseView()
     
     var account: QAccount {
         didSet {
@@ -25,27 +25,27 @@ class AccountPreferenceTableViewRow: BaseTableRowView {
         self.account = account
         super.init()
         disableThemeObserver = true
-        selectionType = .Highlight
+        selectionType = .highlight
         
         contentView.addSubview(imageView)
         imageView.backgroundColor = NSColor(calibratedWhite: 0.90, alpha: 1)
         imageView.cornerRadius = AccountPreferenceTableViewRow.imageSize.height / 2.0
-        backgroundColor = NSColor.whiteColor()
-        contentView.backgroundColor = NSColor.whiteColor()
+        backgroundColor = NSColor.white
+        contentView.backgroundColor = NSColor.white
         titleLabel.textColor = LightModeColor.sharedInstance.foregroundColor()
         
         didSetAccount()
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            if selected {
+            if isSelected {
                 backgroundColor = BaseTableRowView.selectionColor
                 contentView.backgroundColor = BaseTableRowView.selectionColor
-                titleLabel.textColor = NSColor.whiteColor()
+                titleLabel.textColor = NSColor.white
             } else {
-                backgroundColor = NSColor.whiteColor()
-                contentView.backgroundColor = NSColor.whiteColor()
+                backgroundColor = NSColor.white
+                contentView.backgroundColor = NSColor.white
                 titleLabel.textColor = LightModeColor.sharedInstance.foregroundColor()
             }
             
@@ -73,11 +73,11 @@ class AccountPreferenceTableViewRow: BaseTableRowView {
     
     
     // MARK: Setup
-    private func didSetAccount() {
-        let owner = QOwnerStore.ownerForAccountId(account.identifier, identifier: account.userId)
+    fileprivate func didSetAccount() {
+        let owner = QOwnerStore.owner(forAccountId: account.identifier, identifier: account.userId)
         titleLabel.stringValue = account.username
         subtitleLabel.stringValue = ""
-        imageView.setImageURL(owner.avatarURL)
+        imageView.setImageURL(owner?.avatarURL)
     }
     
 }

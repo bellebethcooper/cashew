@@ -10,8 +10,8 @@ import Cocoa
 
 @objc(SRThemeMode)
 enum ThemeMode: NSInteger {
-    case Light
-    case Dark
+    case light
+    case dark
 }
 
 typealias ThemeBlock = (( ThemeMode) -> () )
@@ -20,7 +20,7 @@ private class ThemeObserver: NSObject {
     weak var observer: NSObject?
     let block: ThemeBlock
     
-    required init(observer: NSObject, block: ThemeBlock) {
+    required init(observer: NSObject, block: @escaping ThemeBlock) {
         self.observer = observer
         self.block = block
         super.init()
@@ -32,69 +32,69 @@ class ThemeObserverController: NSObject {
     
     static let sharedInstance = ThemeObserverController()
     
-    private let observers = NSMapTable.weakToStrongObjectsMapTable() // [NSObject: ThemeBlock]()
+    fileprivate let observers = NSMapTable<AnyObject, AnyObject>.weakToStrongObjects() // [NSObject: ThemeBlock]()
     //private let accessQueue = dispatch_queue_create("co.cashewapp.ThemeObserverController.accessQueue", DISPATCH_QUEUE_SERIAL)
     deinit {
-        NSUserDefaults.removeThemeObserver(self)
+        UserDefaults.removeThemeObserver(self)
     }
     
-    private override init() {
+    fileprivate override init() {
         super.init()
-        NSUserDefaults.addThemeObserver(self)
+        UserDefaults.addThemeObserver(self)
     }
     
-    func addThemeObserver(observer: NSObject, block: ThemeBlock) {
+    func addThemeObserver(_ observer: NSObject, block: @escaping ThemeBlock) {
 
         let block = {
             let themeObserver = ThemeObserver(observer: observer, block: block)
             self.observers.setObject(themeObserver, forKey: observer)
-            block(NSUserDefaults.themeMode())
+            block(UserDefaults.themeMode())
         }
         
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             block();
         } else {
-            dispatch_sync(dispatch_get_main_queue(), block);
+            DispatchQueue.main.sync(execute: block);
         }
         
     }
     
-    func removeThemeObserver(observer: NSObject) {
+    func removeThemeObserver(_ observer: NSObject) {
 
         let block = {
-            self.observers.removeObjectForKey(observer)
+            self.observers.removeObject(forKey: observer)
         }
         
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             block();
         } else {
-            dispatch_sync(dispatch_get_main_queue(), block);
+            DispatchQueue.main.sync(execute: block);
         }
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if keyPath == NSUserDefaults.ThemeConstant.themeMode {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == UserDefaults.ThemeConstant.themeMode {
             var objs = [ThemeObserver]()
-            let block: dispatch_block_t = {
+            let block: ()->() = {
                 self.observers.objectEnumerator()?.forEach({ (value) in
                     
-                    guard let observer = value as? ThemeObserver where observer.observer != nil else {
+                    guard let observer = value as? ThemeObserver , observer.observer != nil else {
                         return
                     }
                     objs.append(observer)
                 })
             }
             
-            if NSThread.isMainThread() {
+            if Thread.isMainThread {
                 block();
             } else {
-                dispatch_sync(dispatch_get_main_queue(), block);
+                DispatchQueue.main.sync(execute: block);
             }
             
             
-            let mode = NSUserDefaults.themeMode()
+            let mode = UserDefaults.themeMode()
             
-            if (NSUserDefaults.themeMode() == .Dark) {
+            if (UserDefaults.themeMode() == .dark) {
                 Analytics.logCustomEventWithName("Switching to Dark Mode", customAttributes: nil)
             } else {
                 Analytics.logCustomEventWithName("Switching to Light Mode", customAttributes: nil)
@@ -104,7 +104,7 @@ class ThemeObserverController: NSObject {
             objs.forEach ({ (observerContainer) in
                 
                 if let _ = observerContainer.observer {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         observerContainer.block(mode)
                     }
 //                    if let view = observer as? NSView, window = view.window {
@@ -136,27 +136,27 @@ class ThemeObserverController: NSObject {
 }
 
 
-extension NSUserDefaults {
+extension UserDefaults {
     
     struct ThemeConstant {
         static let themeMode = "cashewThemeMode"
     }
     
-    class func addThemeObserver(observer: NSObject) {
-        NSUserDefaults.standardUserDefaults().addObserver(observer, forKeyPath: NSUserDefaults.ThemeConstant.themeMode, options: .New, context: nil)
+    class func addThemeObserver(_ observer: NSObject) {
+        UserDefaults.standard.addObserver(observer, forKeyPath: UserDefaults.ThemeConstant.themeMode, options: .new, context: nil)
     }
     
-    class func removeThemeObserver(observer: NSObject) {
-        NSUserDefaults.standardUserDefaults().removeObserver(observer, forKeyPath: NSUserDefaults.ThemeConstant.themeMode)
+    class func removeThemeObserver(_ observer: NSObject) {
+        UserDefaults.standard.removeObserver(observer, forKeyPath: UserDefaults.ThemeConstant.themeMode)
     }
     
     class func themeMode() -> ThemeMode {
-        let value = NSUserDefaults.standardUserDefaults().integerForKey(NSUserDefaults.ThemeConstant.themeMode)
-        return ThemeMode(rawValue: value) ?? ThemeMode.Light
+        let value = UserDefaults.standard.integer(forKey: UserDefaults.ThemeConstant.themeMode)
+        return ThemeMode(rawValue: value) ?? ThemeMode.light
     }
     
-    class func setThemeMode(mode: ThemeMode) {
-        NSUserDefaults.standardUserDefaults().setInteger(mode.rawValue, forKey: NSUserDefaults.ThemeConstant.themeMode)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    class func setThemeMode(_ mode: ThemeMode) {
+        UserDefaults.standard.set(mode.rawValue, forKey: UserDefaults.ThemeConstant.themeMode)
+        UserDefaults.standard.synchronize()
     }
 }

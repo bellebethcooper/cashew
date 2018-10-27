@@ -8,16 +8,16 @@
 
 import Cocoa
 
-class RepositoryBaseSyncOperation: NSOperation {
+class RepositoryBaseSyncOperation: Operation {
 
     static let pageSize = 100
     static let maxRateLimit = 3000
     
     
-    func sleepIfNeededWithContext(context: QServiceResponseContext) {
-        if let sleepSeconds = context.nextRateLimitResetDate?.timeIntervalSinceNow, rateLimitRemaining = context.rateLimitRemaining?.integerValue where rateLimitRemaining < RepositoryBaseSyncOperation.maxRateLimit && sleepSeconds > 0 {
+    func sleepIfNeededWithContext(_ context: QServiceResponseContext) {
+        if let sleepSeconds = context.nextRateLimitResetDate?.timeIntervalSinceNow, let rateLimitRemaining = context.rateLimitRemaining?.intValue , rateLimitRemaining < RepositoryBaseSyncOperation.maxRateLimit && sleepSeconds > 0 {
             DDLogDebug("Sleeping for \(sleepSeconds) due to rate limit")
-            NSThread.sleepForTimeInterval(sleepSeconds)
+            Thread.sleep(forTimeInterval: sleepSeconds)
         }
     }
 

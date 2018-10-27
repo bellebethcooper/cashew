@@ -11,11 +11,11 @@ import Cocoa
 @objc(SREventMonitor)
 class EventMonitor: NSObject {
     
-    private var monitor: AnyObject?
-    private let mask: NSEventMask
-    private let handler: NSEvent? -> ()
+    fileprivate var monitor: AnyObject?
+    fileprivate let mask: NSEvent.EventTypeMask
+    fileprivate let handler: (NSEvent?) -> ()
     
-    init(mask: NSEventMask, handler: NSEvent? -> ()) {
+    init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent?) -> ()) {
         self.mask = mask
         self.handler = handler
     }
@@ -25,7 +25,7 @@ class EventMonitor: NSObject {
     }
     
     func start() {
-        monitor = NSEvent.addGlobalMonitorForEventsMatchingMask(mask, handler: handler)
+        monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject?
     }
     
     func stop() {

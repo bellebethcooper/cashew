@@ -10,9 +10,9 @@ import Cocoa
 
 class BaseButton: BaseView {
     
-    private let textLabel = BaseLabel()
-    private let button = BaseView()
-    private var cursorTrackingArea: NSTrackingArea?
+    fileprivate let textLabel = BaseLabel()
+    fileprivate let button = BaseView()
+    fileprivate var cursorTrackingArea: NSTrackingArea?
     
     var enabledBackgroundColor = NSColor(calibratedRed: 33/255.0, green: 201/255.0, blue: 115/255.0, alpha: 1.0) {
         didSet {
@@ -22,15 +22,15 @@ class BaseButton: BaseView {
     
     var pressedStateColor: NSColor?
     
-    var disabledFontColor = NSColor.whiteColor()
+    var disabledFontColor = NSColor.white
     
-    var textColor: NSColor  = NSColor.whiteColor() {
+    var textColor: NSColor  = NSColor.white {
         didSet {
             textLabel.textColor = textColor
         }
     }
     
-    var onClick: dispatch_block_t?
+    var onClick: (()->())?
     
     var enabled: Bool = true {
         didSet {
@@ -38,7 +38,7 @@ class BaseButton: BaseView {
                 button.backgroundColor = enabledBackgroundColor
                 textLabel.textColor = textColor
             } else {
-                button.backgroundColor = NSColor.grayColor()
+                button.backgroundColor = NSColor.gray
                 textLabel.textColor = disabledFontColor
             }
         }
@@ -55,8 +55,8 @@ class BaseButton: BaseView {
         
         button.enabledBackgroundColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1) //NSColor(calibratedRed: 33/255.0, green: 201/255.0, blue: 115/255.0, alpha: 1.0)
         button.pressedStateColor = NSColor(calibratedRed: 64/255.0, green: 129/255.0, blue: 43/255.0, alpha: 1.0)
-        button.textColor = NSColor.whiteColor()
-        button.button.borderColor = NSColor.clearColor()
+        button.textColor = NSColor.white
+        button.button.borderColor = NSColor.clear
         
         return button
     }
@@ -64,7 +64,7 @@ class BaseButton: BaseView {
     class func whiteButton() -> BaseButton {
         let button = BaseButton()
         
-        button.enabledBackgroundColor = NSColor.whiteColor()
+        button.enabledBackgroundColor = NSColor.white
         button.pressedStateColor = NSColor(calibratedWhite: 211/255.0, alpha: 1.0)
         button.textColor = NSColor(white: 0.6, alpha: 1)
         button.button.borderColor = NSColor(white: 0.9, alpha: 1)
@@ -93,10 +93,10 @@ class BaseButton: BaseView {
         button.layer?.cornerRadius = 3.0
         button.layer?.masksToBounds = true
         
-        textLabel.font = NSFont.systemFontOfSize(14)
-        textLabel.backgroundColor  = NSColor.clearColor()
-        textLabel.textColor = NSColor.whiteColor()
-        textLabel.alignment = .Center
+        textLabel.font = NSFont.systemFont(ofSize: 14)
+        textLabel.backgroundColor  = NSColor.clear
+        textLabel.textColor = NSColor.white
+        textLabel.alignment = .center
         
         self.canDrawConcurrently = true;
         
@@ -117,13 +117,13 @@ class BaseButton: BaseView {
                 return;
             }
             
-            if mode == .Dark {
-                strongSelf.appearance = NSAppearance(named:NSAppearanceNameVibrantDark);
-                strongSelf.textLabel.appearance = NSAppearance(named:NSAppearanceNameVibrantDark);
+            if mode == .dark {
+                strongSelf.appearance = NSAppearance(named:NSAppearance.Name.vibrantDark);
+                strongSelf.textLabel.appearance = NSAppearance(named:NSAppearance.Name.vibrantDark);
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
-                strongSelf.appearance = NSAppearance(named:NSAppearanceNameVibrantLight);
-                strongSelf.textLabel.appearance = NSAppearance(named:NSAppearanceNameVibrantLight);
+                strongSelf.appearance = NSAppearance(named:NSAppearance.Name.vibrantLight);
+                strongSelf.textLabel.appearance = NSAppearance(named:NSAppearance.Name.vibrantLight);
                 strongSelf.backgroundColor = CashewColor.backgroundColor()
             }
             
@@ -137,26 +137,26 @@ class BaseButton: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func mouseUp(theEvent: NSEvent) {
+    override func mouseUp(with theEvent: NSEvent) {
         guard enabled else { return }
         
-        if let onClick = onClick where isMouseOver() {
+        if let onClick = onClick , isMouseOver() {
             onClick()
         }
         if enabled {
             button.backgroundColor = enabledBackgroundColor
         } else {
-            button.backgroundColor = NSColor.grayColor()
+            button.backgroundColor = NSColor.gray
         }
     }
     
-    override func mouseDown(theEvent: NSEvent) {
-        guard let pressedStateColor = pressedStateColor where enabled else { return }
+    override func mouseDown(with theEvent: NSEvent) {
+        guard let pressedStateColor = pressedStateColor , enabled else { return }
         button.backgroundColor = pressedStateColor
     }
     
     override func layout() {
-        let textLabelSize = (text as NSString).textSizeForWithAttributes([NSFontAttributeName: textLabel.font!])
+        let textLabelSize = (text as NSString).textSizeForWithAttributes([kCTFontAttributeName as NSAttributedStringKey: textLabel.font!])
         let textLabelLeft = bounds.width / 2.0 - textLabelSize.width / 2.0
         let textLabeltop = bounds.height / 2.0 - textLabelSize.height / 2.0
         
@@ -170,14 +170,14 @@ class BaseButton: BaseView {
             removeTrackingArea(cursorTrackingArea)
         }
         
-        let trackingArea = NSTrackingArea(rect: bounds, options: [.CursorUpdate, .ActiveAlways] , owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: bounds, options: [.cursorUpdate, .activeAlways] , owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea);
         self.cursorTrackingArea = trackingArea
     }
     
-    override func cursorUpdate(event: NSEvent) {
+    override func cursorUpdate(with event: NSEvent) {
         guard enabled else { return }
-        NSCursor.pointingHandCursor().set()
+        NSCursor.pointingHand.set()
     }
     
 }

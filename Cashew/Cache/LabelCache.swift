@@ -11,15 +11,17 @@ import Foundation
 @objc(SRLabelCache)
 class LabelCache: NSObject {
     
-    private static var token: dispatch_once_t = 0
-    private static var _sharedCache: LabelCache?
+    private static var __once: () = {
+            _sharedCache = LabelCache()
+        }()
     
-    private let cache = BaseCache<QLabel>(countLimit: 1000)
+    fileprivate static var token: Int = 0
+    fileprivate static var _sharedCache: LabelCache?
+    
+    fileprivate let cache = BaseCache<QLabel>(countLimit: 1000)
     
     class func sharedCache() -> LabelCache {
-        dispatch_once(&token) {
-            _sharedCache = LabelCache()
-        }
+        _ = LabelCache.__once
         return _sharedCache!
     }
     
@@ -27,16 +29,16 @@ class LabelCache: NSObject {
         cache.removeAll()
     }
     
-    func fetch(key: String, fetcher: ( () -> QLabel? )) -> QLabel? {
+    func fetch(_ key: String, fetcher: ( () -> QLabel? )) -> QLabel? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
-    func set(value: QLabel, forKey key: String) {
+    func set(_ value: QLabel, forKey key: String) {
         cache.set(value, forKey: key)
     }
     
-    class func LabelCacheKeyForAccountId(accountId: NSNumber, repositoryId: NSNumber, name: NSString) -> NSString {
-        return "label_\(accountId)_\(repositoryId)_\(name)"
+    class func LabelCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber, name: NSString) -> NSString {
+        return "label_\(accountId)_\(repositoryId)_\(name)" as NSString
     }
     
 }

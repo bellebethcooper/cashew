@@ -11,12 +11,12 @@ import Cocoa
 @objc(SRBaseWindow)
 class BaseWindow: NSWindow {
 
-    override func makeFirstResponder(aResponder: NSResponder?) -> Bool {
+    override func makeFirstResponder(_ aResponder: NSResponder?) -> Bool {
         //DDLogDebug("current first responder -> \(aResponder)")
         let didBecomeFirstResponder = super.makeFirstResponder(aResponder)
         
-        dispatch_async(dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(kDidBecomeFirstResponderNotification, object: aResponder)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name.didBecomeFirstResponder, object: aResponder)
         }
         
         return didBecomeFirstResponder

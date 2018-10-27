@@ -13,19 +13,19 @@ class ConcurrencyUtilities: NSObject {
 }
 
 
-func DispatchOnMainQueue(block: dispatch_block_t) {
+func DispatchOnMainQueue(_ block: @escaping ()->()) {
 //    if NSThread.isMainThread() {
 //        block()
 //    } else {
 //        
 //    }
-    dispatch_async(dispatch_get_main_queue(), block)
+    DispatchQueue.main.async(execute: block)
 }
 
-func SyncDispatchOnMainQueue(block: dispatch_block_t) {
-        if NSThread.isMainThread() {
+func SyncDispatchOnMainQueue(_ block: ()->()) {
+        if Thread.isMainThread {
             block()
         } else {
-            dispatch_sync(dispatch_get_main_queue(), block)
+            DispatchQueue.main.sync(execute: block)
         }
 }

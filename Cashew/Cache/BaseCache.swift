@@ -10,9 +10,9 @@ import Foundation
 
 private class BaseCacheEntry<T>: NSObject {
     let cacheObject: T
-    let expiresOn: NSDate?
+    let expiresOn: Date?
     
-    required init(cacheObject: T, expiresOn: NSDate?) {
+    required init(cacheObject: T, expiresOn: Date?) {
         self.cacheObject = cacheObject
         self.expiresOn = expiresOn
         super.init()
@@ -21,20 +21,20 @@ private class BaseCacheEntry<T>: NSObject {
 
 class BaseCache<T>: NSObject {
     
-    private let cache = NSCache()
-    private let accessQueue = dispatch_queue_create("co.cashewapp.BaseCache.accessQueue", DISPATCH_QUEUE_CONCURRENT)
+    fileprivate let cache = NSCache<AnyObject, AnyObject>()
+    fileprivate let accessQueue = DispatchQueue(label: "co.cashewapp.BaseCache.accessQueue", attributes: DispatchQueue.Attributes.concurrent)
     
     required init(countLimit: Int) {
         super.init()
         cache.countLimit = countLimit
     }
     
-    func fetch(key: String, expiresOn: NSDate?, fetcher: ( () -> T? )) -> T? {
+    func fetch(_ key: String, expiresOn: Date?, fetcher: ( () -> T? )) -> T? {
         
         var existingEntry: BaseCacheEntry<T>?
         
-        dispatch_sync(accessQueue) {
-            if let entry = self.cache.objectForKey(key) as? BaseCacheEntry<T> {
+        accessQueue.sync {
+            if let entry = self.cache.object(forKey: key as AnyObject) as? BaseCacheEntry<T> {
                 existingEntry = entry
             } else {
                 existingEntry = nil
@@ -42,13 +42,13 @@ class BaseCache<T>: NSObject {
         }
         
         if let entry = existingEntry {
-            if let expiresOn = entry.expiresOn where expiresOn.compare(NSDate()) == .OrderedDescending {
+            if let expiresOn = entry.expiresOn , expiresOn.compare(Date()) == .orderedDescending {
                 let val = fetcher()
                 if let val = val {
                     let entry = BaseCacheEntry<T>(cacheObject: val, expiresOn: expiresOn)
-                    dispatch_barrier_sync(accessQueue) {
-                        self.cache.setObject(entry, forKey: key)
-                    }
+                    accessQueue.sync(flags: .barrier, execute: {
+                        self.cache.setObject(entry, forKey: key as AnyObject)
+                    }) 
                 }
                 return val
             } else {
@@ -58,42 +58,42 @@ class BaseCache<T>: NSObject {
             let val = fetcher()
             if let val = val {
                 let entry = BaseCacheEntry<T>(cacheObject: val, expiresOn: expiresOn)
-                dispatch_barrier_sync(accessQueue) {
-                    self.cache.setObject(entry, forKey: key)
-                }
+                accessQueue.sync(flags: .barrier, execute: {
+                    self.cache.setObject(entry, forKey: key as AnyObject)
+                }) 
             }
             return val
         }
     }
     
-    func fetch(key: String, fetcher: ( () -> T? )) -> T? {
+    func fetch(_ key: String, fetcher: ( () -> T? )) -> T? {
         return fetch(key, expiresOn: nil, fetcher: fetcher)
     }
     
     
-    func set(value: T?, forKey key: String) {
+    func set(_ value: T?, forKey key: String) {
         set(value, expiresOn: nil, forKey: key)
     }
     
-    func set(value: T?, expiresOn: NSDate?, forKey key: String) {
+    func set(_ value: T?, expiresOn: Date?, forKey key: String) {
         guard let val = value else { return }
         let entry = BaseCacheEntry<T>(cacheObject: val, expiresOn: expiresOn)
-        dispatch_barrier_sync(accessQueue) {
-            self.cache.setObject(entry, forKey: key)
-        }
+        accessQueue.sync(flags: .barrier, execute: {
+            self.cache.setObject(entry, forKey: key as AnyObject)
+        }) 
     }
     
     
-    func removeObjectForKey(key: String) {
-        dispatch_barrier_sync(accessQueue) {
-            self.cache.removeObjectForKey(key)
-        }
+    func removeObjectForKey(_ key: String) {
+        accessQueue.sync(flags: .barrier, execute: {
+            self.cache.removeObject(forKey: key as AnyObject)
+        }) 
     }
     
     func removeAll() {
-        dispatch_barrier_sync(accessQueue) {
+        accessQueue.sync(flags: .barrier, execute: {
             self.cache.removeAllObjects()
-        }
+        }) 
         
     }
     
@@ -102,15 +102,15 @@ class BaseCache<T>: NSObject {
 
 extension Int {
     
-    var minutes: NSDate {
+    var minutes: Date {
         get {
-            return NSDate().dateByAddingTimeInterval(NSTimeInterval(self) * NSTimeInterval(60))
+            return Date().addingTimeInterval(TimeInterval(self) * TimeInterval(60))
         }
     }
     
-    var hours: NSDate {
+    var hours: Date {
         get {
-            return NSDate().dateByAddingTimeInterval(NSTimeInterval(self) * NSTimeInterval(60 * 60))
+            return Date().addingTimeInterval(TimeInterval(self) * TimeInterval(60 * 60))
         }
     }
     

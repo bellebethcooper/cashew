@@ -10,10 +10,10 @@ import Cocoa
 
 class LabelSearchResultTableRowView: BaseTableRowView {
     
-    private static let circleSize = CGSizeMake(20, 20)
-    private static let padding: CGFloat = 6.0
+    fileprivate static let circleSize = CGSize(width: 20, height: 20)
+    fileprivate static let padding: CGFloat = 6.0
     
-    private let colorCircleView = BaseView()
+    fileprivate let colorCircleView = BaseView()
     var label: QLabel {
         didSet {
             didSetLabel()
@@ -27,14 +27,14 @@ class LabelSearchResultTableRowView: BaseTableRowView {
         contentView.addSubview(colorCircleView)
         colorCircleView.cornerRadius = LabelSearchResultTableRowView.circleSize.height / 2.0
         
-        selectionType = .None
+        selectionType = .none
         
         didSetLabel()
     
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else{ return }
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
@@ -43,11 +43,11 @@ class LabelSearchResultTableRowView: BaseTableRowView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             needsLayout = true
             layoutSubtreeIfNeeded()
-            if NSUserDefaults.themeMode() == .Dark {
+            if UserDefaults.themeMode() == .dark {
                 backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 backgroundColor = CashewColor.backgroundColor()
@@ -79,9 +79,9 @@ class LabelSearchResultTableRowView: BaseTableRowView {
     }
     
     // MARK: Setup
-    private func didSetLabel() {
+    fileprivate func didSetLabel() {
         titleLabel.stringValue = label.name ?? ""
-        subtitleLabel.stringValue = "\(label.repository!.name) • #\(label.color!.uppercaseString)"
+        subtitleLabel.stringValue = "\(label.repository!.name) • #\(label.color!.uppercased())"
         colorCircleView.backgroundColor = NSColor(fromHexadecimalValue: label.color)
     }
 }

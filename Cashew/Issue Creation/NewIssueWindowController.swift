@@ -11,7 +11,7 @@ import Cocoa
 class NewIssueWindowController: NSWindowController {
     
     @objc
-    private(set) lazy var newIssueViewController: NewIssueViewController = {
+    fileprivate(set) lazy var newIssueViewController: NewIssueViewController = {
         return NewIssueViewController()
     }()
     
@@ -27,17 +27,17 @@ class NewIssueWindowController: NSWindowController {
         super.windowDidLoad()
         
         // setup new issue view controller
-        if let window = self.window, windowContentView = window.contentView {
+        if let window = self.window, let windowContentView = window.contentView {
             window.titlebarAppearsTransparent = true
             windowContentView.addSubview(newIssueViewController.view);
             newIssueViewController.view.translatesAutoresizingMaskIntoConstraints = false
             
-            newIssueViewController.view.leftAnchor.constraintEqualToAnchor(windowContentView.leftAnchor).active = true
-            newIssueViewController.view.rightAnchor.constraintEqualToAnchor(windowContentView.rightAnchor).active = true
-            newIssueViewController.view.topAnchor.constraintEqualToAnchor(windowContentView.topAnchor, constant: 30).active = true
-            newIssueViewController.view.bottomAnchor.constraintEqualToAnchor(windowContentView.bottomAnchor).active = true
+            newIssueViewController.view.leftAnchor.constraint(equalTo: windowContentView.leftAnchor).isActive = true
+            newIssueViewController.view.rightAnchor.constraint(equalTo: windowContentView.rightAnchor).isActive = true
+            newIssueViewController.view.topAnchor.constraint(equalTo: windowContentView.topAnchor, constant: 30).isActive = true
+            newIssueViewController.view.bottomAnchor.constraint(equalTo: windowContentView.bottomAnchor).isActive = true
             newIssueViewController.onCancelClicked = { [weak self] in
-                if let strongSelf = self, currentWindow = strongSelf.window {
+                if let strongSelf = self, let currentWindow = strongSelf.window {
                     currentWindow.close()
                 }
             }
@@ -52,18 +52,18 @@ class NewIssueWindowController: NSWindowController {
     }
     
     
-    private func setupThemeObserver() {
+    fileprivate func setupThemeObserver() {
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
-            guard let strongSelf = self, strongWindow = strongSelf.window, strongContentView = strongWindow.contentView else {
+            guard let strongSelf = self, let strongWindow = strongSelf.window, let strongContentView = strongWindow.contentView else {
                 return
             }
             
-            if (.Dark == mode) {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if (.dark == mode) {
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
                 strongWindow.appearance = appearance
                 strongContentView.appearance = appearance
             } else {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
                 strongWindow.appearance = appearance
                 strongContentView.appearance = appearance
             }
@@ -71,7 +71,7 @@ class NewIssueWindowController: NSWindowController {
     }
     
     
-    func windowWillClose(notification: NSNotification) {
+    func windowWillClose(_ notification: Notification) {
         if let onWillCloseWindow = self.onWillCloseWindow {
             onWillCloseWindow()
         }

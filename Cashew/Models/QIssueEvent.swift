@@ -13,7 +13,7 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
     var identifier: NSNumber!
     var actor: QOwner!
     var issueNumber: NSNumber!
-    var createdAt: NSDate!
+    var createdAt: Date!
     var event: NSString?
     var commitId: NSString?
     var label: QLabel?
@@ -52,7 +52,7 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         }
     }
     
-    func sortDate() -> NSDate! {
+    func sortDate() -> Date! {
         return self.createdAt
     }
     
@@ -60,9 +60,9 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         get {
             guard let event = event else { return NSMutableOrderedSet() }
             
-            if let labelName = label?.name where event == "labeled" {
+            if let labelName = label?.name , event == "labeled" {
                 return [labelName]
-            } else if let milestoneName = milestone?.title where event == "milestoned" {
+            } else if let milestoneName = milestone?.title , event == "milestoned" {
                 return NSMutableOrderedSet(array: [milestoneName])
             }
             return NSMutableOrderedSet()
@@ -73,9 +73,9 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         get {
             guard let event = event else { return NSMutableOrderedSet() }
             
-            if let labelName = label?.name where event == "unlabeled" {
+            if let labelName = label?.name , event == "unlabeled" {
                 return [labelName]
-            } else if let milestoneName = milestone?.title where event == "demilestoned" {
+            } else if let milestoneName = milestone?.title , event == "demilestoned" {
                 return NSMutableOrderedSet(array: [milestoneName])
             }
             return NSMutableOrderedSet()
@@ -86,35 +86,35 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         return "IssueEvent: actor=\(actor.login) createdAt=\(createdAt) event=\(event) label=\(label) milestone=\(milestone?.title) renameFrom=\(renameFrom) renameTo=\(renameTo)"
     }
     
-    static func fromJSON(json: NSDictionary) -> QIssueEvent {
+    static func fromJSON(_ json: NSDictionary) -> QIssueEvent {
         let event = QIssueEvent()
         
         event.identifier = json["id"] as! NSNumber
-        event.actor = QOwner.fromJSON(json["actor"] as? [NSObject : AnyObject])
+        event.actor = QOwner.fromJSON(json["actor"] as? [AnyHashable: Any])
         
         let createdAt = json["created_at"] as! String
-        event.createdAt = NSDate.githubDateFormatter().dateFromString(createdAt)
+        event.createdAt = Date.githubDateFormatter.date(from: createdAt)
         
         event.event = json["event"] as? NSString
         
         if let theCommitId = json["commit_id"] as? String {
-            event.commitId = theCommitId
+            event.commitId = theCommitId as NSString?
         }
         
-        if let anAssignee = json["assignee"] as? [NSObject : AnyObject] {
+        if let anAssignee = json["assignee"] as? [AnyHashable: Any] {
             event.assignee = QOwner.fromJSON(anAssignee)
         }
         
-        if let aMilestone = json["milestone"] as? [NSObject : AnyObject] {
+        if let aMilestone = json["milestone"] as? [AnyHashable: Any] {
             event.milestone = QMilestone.fromJSON(aMilestone)
         }
         
-        if let rename = json["rename"] {
+        if let rename = json["rename"] as? [String: Any] {
             event.renameFrom = rename["from"] as? NSString
             event.renameTo = rename["to"] as? NSString
         }
         
-        if let aLabel = json["label"] as? [NSObject : AnyObject] {
+        if let aLabel = json["label"] as? [AnyHashable: Any] {
             event.label = QLabel.fromJSON(aLabel)
         }
         

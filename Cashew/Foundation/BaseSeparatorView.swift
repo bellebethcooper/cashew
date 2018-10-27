@@ -39,7 +39,7 @@ class BaseSeparatorView: BaseView {
         }
     }
     
-    private func setupSeparator() {
+    fileprivate func setupSeparator() {
         self.wantsLayer = true
         self.selected = false
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in

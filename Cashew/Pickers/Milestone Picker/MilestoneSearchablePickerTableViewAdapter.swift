@@ -20,7 +20,7 @@ class MilestoneSearchablePickerTableViewAdapter: NSObject, SearchablePickerTable
         self.dataSource = dataSource
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         guard let milestone = item as? QMilestone else { return nil }
         
         let handler = { [weak self] (rowView: MilestoneSearchResultTableRowView) in
@@ -33,7 +33,7 @@ class MilestoneSearchablePickerTableViewAdapter: NSObject, SearchablePickerTable
                 rowView.checked = strongSelf.dataSource.isSelectedItem(milestone)
             }
             rowView.accessoryView?.disableThemeObserver = true
-            rowView.accessoryView?.backgroundColor = NSColor.clearColor()
+            rowView.accessoryView?.backgroundColor = NSColor.clear
         }
         
         if let view = view as? MilestoneSearchResultTableRowView {

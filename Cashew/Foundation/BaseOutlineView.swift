@@ -32,7 +32,7 @@ class BaseOutlineView: NSOutlineView {
     }
     
 
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
         setupThemeObserver()
     }
@@ -58,9 +58,9 @@ class BaseOutlineView: NSOutlineView {
                 return;
             }
             
-            if mode == .Light {
+            if mode == .light {
                 self?.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
-            } else if mode == .Dark {
+            } else if mode == .dark {
                 self?.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
             }
         }

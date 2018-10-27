@@ -9,7 +9,7 @@
 import Cocoa
 
 class IssueDetailsToolbarButton: BaseView {
-    private var cursorTrackingArea: NSTrackingArea?
+    fileprivate var cursorTrackingArea: NSTrackingArea?
     
     var enabled = true
     
@@ -20,21 +20,21 @@ class IssueDetailsToolbarButton: BaseView {
         
         guard enabled  else { return }
         
-        let trackingArea = NSTrackingArea(rect: bounds, options: [.CursorUpdate, .ActiveAlways] , owner: self, userInfo: nil)
+        let trackingArea = NSTrackingArea(rect: bounds, options: [NSTrackingArea.Options.cursorUpdate, NSTrackingArea.Options.activeAlways] , owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea);
         self.cursorTrackingArea = trackingArea
     }
     
-    override func cursorUpdate(event: NSEvent) {
+    override func cursorUpdate(with event: NSEvent) {
         guard enabled else { return }
-        NSCursor.pointingHandCursor().set()
+        NSCursor.pointingHand.set()
     }
     
     override func awakeFromNib() {
         setup()
     }
     
-    private func setup() {
+    fileprivate func setup() {
 //        borderColor = NSColor(calibratedWhite: 103/255.0, alpha: 1)
 //        cornerRadius = 3
     }

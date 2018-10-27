@@ -10,9 +10,9 @@ import Cocoa
 
 @objc(SRPreferencesTab)
 enum PreferencesTab: UInt {
-    case General = 1
-    case Accounts = 2
-    case IssueExtensions = 3
+    case general = 1
+    case accounts = 2
+    case issueExtensions = 3
 }
 
 @objc(SRPreferencesWindowController)
@@ -23,22 +23,22 @@ class PreferencesWindowController: NSWindowController {
     @IBOutlet weak var generalToolbarItem: NSToolbarItem!
     @IBOutlet weak var issueExtensionToolbarItem: NSToolbarItem!
     
-    var onWindowLoadPreferenceTab: PreferencesTab = .General
+    var onWindowLoadPreferenceTab: PreferencesTab = .general
     
-    private(set) var selectedTab: PreferencesTab = .Accounts {
+    fileprivate(set) var selectedTab: PreferencesTab = .accounts {
         didSet {
             DispatchOnMainQueue {
                 switch self.selectedTab {
-                case .General:
-                    self.toolbar.selectedItemIdentifier = "GeneralToolbarItem"
+                case .general:
+                    self.toolbar.selectedItemIdentifier = NSToolbarItem.Identifier(rawValue: "GeneralToolbarItem")
                     self.showGeneralTab()
                     break
-                case .Accounts:
-                    self.toolbar.selectedItemIdentifier = "AccountsToolbarItem"
+                case .accounts:
+                    self.toolbar.selectedItemIdentifier = NSToolbarItem.Identifier(rawValue: "AccountsToolbarItem")
                     self.showAccountsTab()
                     break
-                case .IssueExtensions:
-                    self.toolbar.selectedItemIdentifier = "IssueExtensionsToolbarItem"
+                case .issueExtensions:
+                    self.toolbar.selectedItemIdentifier = NSToolbarItem.Identifier(rawValue: "IssueExtensionsToolbarItem")
                     self.showIssueExtensionsTab()
                     break
                 }
@@ -48,9 +48,9 @@ class PreferencesWindowController: NSWindowController {
         }
     }
     
-    private var accountsViewController: AccountsPreferenceViewController?
-    private var generalViewController: GeneralPreferenceViewController?
-    private var issueExtensionsViewController: IssueExtensionsPreferenceViewController?
+    fileprivate var accountsViewController: AccountsPreferenceViewController?
+    fileprivate var generalViewController: GeneralPreferenceViewController?
+    fileprivate var issueExtensionsViewController: IssueExtensionsPreferenceViewController?
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -58,82 +58,79 @@ class PreferencesWindowController: NSWindowController {
         selectedTab = onWindowLoadPreferenceTab
     }
     
-    @IBAction func didClickIssueExtensionToolbarItem(sender: AnyObject) {
-        selectedTab = .IssueExtensions
+    @IBAction func didClickIssueExtensionToolbarItem(_ sender: AnyObject) {
+        selectedTab = .issueExtensions
     }
-    @IBAction func didClickGeneralToolbarItem(sender: AnyObject) {
-        selectedTab = .General
+    @IBAction func didClickGeneralToolbarItem(_ sender: AnyObject) {
+        selectedTab = .general
     }
     
-    @IBAction func didClickAccountsToolbarItem(sender: AnyObject) {
-        selectedTab = .Accounts
+    @IBAction func didClickAccountsToolbarItem(_ sender: AnyObject) {
+        selectedTab = .accounts
     }
     
     // MARK: Tabs
     
-    private func removeGeneralViewController() {
+    fileprivate func removeGeneralViewController() {
         self.generalViewController?.view.removeFromSuperview()
         self.generalViewController = nil;
     }
     
-    private func removeIssueExtensionViewController() {
+    fileprivate func removeIssueExtensionViewController() {
         self.issueExtensionsViewController?.view.removeFromSuperview()
         self.issueExtensionsViewController = nil;
     }
     
-    private func removeAccountsViewController() {
+    fileprivate func removeAccountsViewController() {
         self.accountsViewController?.view.removeFromSuperview()
         self.accountsViewController = nil;
     }
     
-    private func showIssueExtensionsTab() {
+    fileprivate func showIssueExtensionsTab() {
         guard let contentView = window?.contentView else { return }
         
-        if let issueExtensionsViewController = IssueExtensionsPreferenceViewController(nibName: "IssueExtensionsPreferenceViewController", bundle: nil) {
-            self.issueExtensionsViewController = issueExtensionsViewController
-            
-            contentView.addSubview(issueExtensionsViewController.view)
-            issueExtensionsViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            issueExtensionsViewController.view.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant:  10).active = true
-            issueExtensionsViewController.view.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant:  -10).active = true
-            issueExtensionsViewController.view.topAnchor.constraintEqualToAnchor(contentView.topAnchor, constant:  10).active = true
-            issueExtensionsViewController.view.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor, constant:  -10).active = true
-        }
+        let issueExtensionsViewController = IssueExtensionsPreferenceViewController(nibName: NSNib.Name(rawValue: "IssueExtensionsPreferenceViewController"), bundle: nil)
+        self.issueExtensionsViewController = issueExtensionsViewController
+        
+        contentView.addSubview(issueExtensionsViewController.view)
+        issueExtensionsViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        issueExtensionsViewController.view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant:  10).isActive = true
+        issueExtensionsViewController.view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant:  -10).isActive = true
+        issueExtensionsViewController.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant:  10).isActive = true
+        issueExtensionsViewController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  -10).isActive = true
         
         removeGeneralViewController()
         removeAccountsViewController()
     }
     
-    private func showGeneralTab() {
+    fileprivate func showGeneralTab() {
         guard let contentView = window?.contentView else { return }
         
-        if let generalViewController = GeneralPreferenceViewController(nibName: "GeneralPreferenceViewController", bundle: nil) {
-            self.generalViewController = generalViewController
-            
-            contentView.addSubview(generalViewController.view)
-            generalViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            generalViewController.view.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant:  10).active = true
-            generalViewController.view.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant:  -10).active = true
-            generalViewController.view.topAnchor.constraintEqualToAnchor(contentView.topAnchor, constant:  10).active = true
-            generalViewController.view.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor, constant:  -10).active = true
-        }
+        let generalViewController = GeneralPreferenceViewController(nibName: NSNib.Name(rawValue: "GeneralPreferenceViewController"), bundle: nil)
+        self.generalViewController = generalViewController
+        
+        contentView.addSubview(generalViewController.view)
+        generalViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        generalViewController.view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant:  10).isActive = true
+        generalViewController.view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant:  -10).isActive = true
+        generalViewController.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant:  10).isActive = true
+        generalViewController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  -10).isActive = true
         removeIssueExtensionViewController()
         removeAccountsViewController()
     }
     
-    private func showAccountsTab() {
+    fileprivate func showAccountsTab() {
         guard let contentView = window?.contentView else { return }
         
-        if let accountsViewController = AccountsPreferenceViewController(nibName: "AccountsPreferenceViewController", bundle: nil) {
-            self.accountsViewController = accountsViewController
-            
-            contentView.addSubview(accountsViewController.view)
-            accountsViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            accountsViewController.view.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor, constant:  10).active = true
-            accountsViewController.view.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant:  -10).active = true
-            accountsViewController.view.topAnchor.constraintEqualToAnchor(contentView.topAnchor, constant:  10).active = true
-            accountsViewController.view.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor, constant:  -10).active = true
-        }
+        let accountsViewController = AccountsPreferenceViewController(nibName: NSNib.Name(rawValue: "AccountsPreferenceViewController"), bundle: nil)
+        self.accountsViewController = accountsViewController
+        
+        contentView.addSubview(accountsViewController.view)
+        accountsViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        accountsViewController.view.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant:  10).isActive = true
+        accountsViewController.view.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant:  -10).isActive = true
+        accountsViewController.view.topAnchor.constraint(equalTo: contentView.topAnchor, constant:  10).isActive = true
+        accountsViewController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant:  -10).isActive = true
         removeGeneralViewController()
         removeIssueExtensionViewController()
     }

@@ -11,8 +11,8 @@ import Cocoa
 @objc(SRMilestoneSearchablePickerViewController)
 class MilestoneSearchablePickerViewController: BaseViewController {
     
-    private var dataSource: MilestoneSearchablePickerDataSource?
-    private var searchablePickerController: SearchablePickerViewController?
+    fileprivate var dataSource: MilestoneSearchablePickerDataSource?
+    fileprivate var searchablePickerController: SearchablePickerViewController?
     
     weak var popover: NSPopover?
     var sourceIssue: QIssue? {
@@ -24,8 +24,8 @@ class MilestoneSearchablePickerViewController: BaseViewController {
     }
     
     @objc
-    private func issueSelectionChanged(notification: NSNotification) {
-        guard let searchablePickerController = searchablePickerController where searchablePickerController.dirtyFlag else {
+    fileprivate func issueSelectionChanged(_ notification: Notification) {
+        guard let searchablePickerController = searchablePickerController , searchablePickerController.dirtyFlag else {
             reloadPicker()
             return
         }
@@ -36,7 +36,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     var popoverBackgroundColorFixEnabed = true {
@@ -45,8 +45,8 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         }
     }
     
-    private func reloadPicker() {
-        guard let issue =  sourceIssue ?? QContext.sharedContext().currentIssues.first else {
+    fileprivate func reloadPicker() {
+        guard let issue =  sourceIssue ?? QContext.shared().currentIssues.first else {
             return
         }
         
@@ -76,7 +76,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         searchablePickerController.repositoryPopupButton.currentRepository = dataSource.repository
         
         searchablePickerController.onTappedItemBlock = { [weak self] (cell, item) in
-            guard let cell = cell as? MilestoneSearchResultTableRowView, item = item as? QMilestone, dataSource = self?.dataSource else { return }
+            guard let cell = cell as? MilestoneSearchResultTableRowView, let item = item as? QMilestone, let dataSource = self?.dataSource else { return }
             
             if dataSource.isPartialSelection(item) {
                 cell.accessoryView = GreenDottedView()
@@ -87,13 +87,13 @@ class MilestoneSearchablePickerViewController: BaseViewController {
             }
             
             cell.accessoryView?.disableThemeObserver = true
-            cell.accessoryView?.backgroundColor = NSColor.clearColor()
+            cell.accessoryView?.backgroundColor = NSColor.clear
             cell.needsLayout = true
             cell.layoutSubtreeIfNeeded()
         }
         
         searchablePickerController.onDoneButtonClick = { [weak searchablePickerController, weak self] in
-            guard let strongPickerController = searchablePickerController, strongSelf = self else { return }
+            guard let strongPickerController = searchablePickerController, let strongSelf = self else { return }
             strongSelf.doSaveWithCompletion({
                 if let popover = strongSelf.popover {
                     popover.close()
@@ -112,7 +112,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MilestoneSearchablePickerViewController.issueSelectionChanged(_:)), name: kQContextIssueSelectionChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MilestoneSearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         
         super.viewDidLoad()
         Analytics.logContentViewWithName(NSStringFromClass(MilestoneSearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
@@ -120,13 +120,13 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         reloadPicker()
     }
     
-    private func doSaveWithCompletion(completion: dispatch_block_t?) {
+    fileprivate func doSaveWithCompletion(_ completion: (() -> ())?) {
         
-        guard let strongPickerController = searchablePickerController, dataSource = self.dataSource, selectionMap = dataSource.selectionMap else { return }
+        guard let strongPickerController = searchablePickerController, let dataSource = self.dataSource, let selectionMap = dataSource.selectionMap else { return }
         
         strongPickerController.loading = true
         
-        let operationQueue = NSOperationQueue()
+        let operationQueue = OperationQueue()
         operationQueue.name = "co.cashewapp.MilestoneSearchablePickerViewController.doSave"
         operationQueue.maxConcurrentOperationCount = 2
         
@@ -137,20 +137,20 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                 continue
             }
             
-            operationQueue.addOperationWithBlock {
-                let semaphore = dispatch_semaphore_create(0)
+            operationQueue.addOperation {
+                let semaphore = DispatchSemaphore(value: 0)
                 let fullRepoName = issue.repository.fullName
                 let sinceDate = issue.updatedAt
-                let issueService = QIssuesService(forAccount: issue.account)
+                let issueService = QIssuesService(for: issue.account)
                 
-                Analytics.logCustomEventWithName("Changed Milestone", customAttributes: ["RepositoryName": fullRepoName])
-                issueService.saveMilestoneNumber(milestone?.number, forRepository: issue.repository, number: issue.number, onCompletion: { [weak self] (issue, context, error) in
+                Analytics.logCustomEventWithName("Changed Milestone", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
+                issueService.saveMilestoneNumber(milestone?.number, for: issue.repository, number: issue.number, onCompletion: { [weak self] (issue, context, error) in
                     if let issue = issue as? QIssue {
                         self?.searchablePickerController?.syncIssueEventsForIssue(issue, sinceDate: sinceDate)
-                        Analytics.logCustomEventWithName("Successful Changed Milestone", customAttributes: ["RepositoryName": fullRepoName])
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
-                            QIssueStore.saveIssue(issue)
-                        })
+                        Analytics.logCustomEventWithName("Successful Changed Milestone", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
+                        DispatchQueue.global().async {
+                            QIssueStore.save(issue)
+                        }
                     } else {
                         let errorString: String
                         if let error = error {
@@ -159,12 +159,11 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                             errorString = ""
                         }
                         DDLogDebug("Error updating milestone for \(issue) because \(error?.localizedDescription) error \(error)")
-                        Analytics.logCustomEventWithName("Failed Changed Milestone", customAttributes: ["error": errorString, "RepositoryName": fullRepoName])
+                        Analytics.logCustomEventWithName("Failed Changed Milestone", customAttributes: ["error": errorString as AnyObject, "RepositoryName": fullRepoName as AnyObject])
                     }
-                    dispatch_semaphore_signal(semaphore)
+                    semaphore.signal()
                     })
-                
-                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+                semaphore.wait(timeout: .distantFuture)
             }
         }
         

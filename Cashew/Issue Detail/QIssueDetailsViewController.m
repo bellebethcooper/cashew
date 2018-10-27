@@ -68,8 +68,8 @@
     self.dataSource = nil;
     [[SRThemeObserverController sharedInstance] removeThemeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [QIssueStore removeObserver:self];
-    [QIssueFavoriteStore removeObserver:self];
+    [QIssueStore remove:self];
+    [QIssueFavoriteStore remove:self];
 }
 
 - (void)viewDidLoad {

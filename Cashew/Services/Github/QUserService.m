@@ -152,7 +152,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
               onCompletion(nil, context, error);
           } else {
               for (NSDictionary *json in responseObject) {
-                  SROrganization *org = [SROrganization fromJSON:json account: self.account];
+                  Organization *org = [Organization fromJSON:json account: self.account];
                   [orgs addObject:org];
               }
               

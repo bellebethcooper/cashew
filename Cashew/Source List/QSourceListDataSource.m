@@ -55,9 +55,9 @@
 
 - (void)dealloc
 {
-    [QRepositoryStore removeObserver:self];
-    [QUserQueryStore removeObserver:self];
-    [QMilestoneStore removeObserver:self];
+    [QRepositoryStore remove:self];
+    [QUserQueryStore remove:self];
+    [QMilestoneStore remove:self];
 }
 
 - (BOOL)_isShowingFilteredSections

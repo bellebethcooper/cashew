@@ -13,26 +13,26 @@ extension NSString {
     
     
     @objc
-    public func textSizeForWithAttributes(attrs: [String : AnyObject], containerSize: CGSize = CGSizeMake(CGFloat.max, CGFloat.max)) -> NSSize {
+    public func textSizeForWithAttributes(_ attrs: [NSAttributedStringKey : Any], containerSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) -> NSSize {
         let attributedStr = NSMutableAttributedString(string: String(self), attributes: attrs)
         return attributedStr.textSize(containerSize: containerSize)
     }
     
     @objc
     public func trimmedString() -> NSString {
-        return (self as NSString).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return (self as NSString).trimmingCharacters(in: CharacterSet.whitespaces) as NSString
     }
     
     
     @objc
     public func isURL() -> Bool {
-        let detector = try! NSDataDetector(types: NSTextCheckingType.Link.rawValue)
-        let matches = detector.matchesInString(self as String, options: [], range: NSRange(location: 0, length: (self as String).utf16.count))
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: self as String, options: [], range: NSRange(location: 0, length: (self as String).utf16.count))
         
         var matched = false
         for match in matches {
-            let url = (self as NSString).substringWithRange(match.range)
-            if url == self {
+            let url = (self as NSString).substring(with: match.range)
+            if url == self as String {
                 matched = true
             }
             break

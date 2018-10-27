@@ -25,15 +25,15 @@ class IssueCreationTokenField: NSTokenField {
 class NewIssueViewController: NSViewController {
     
     @IBOutlet weak var milestoneAssigneeLabelContainerViewHeightConstraint: NSLayoutConstraint!
-    private static let buttonSize = CGSize(width: 92, height: 30)
-    private static let buttonsSpacing: CGFloat = 8
-    private static let milestoneAssigneeLabelContainerViewHeight: CGFloat = 123
-    private static let submitButtonRightPadding: CGFloat = 12
-    private static let buttonsBottomPadding: CGFloat = 13
-    private static let progressIndicatorRightPadding: CGFloat = 6.0
-    private static let progressIndicatorSize = CGSizeMake(17, 17)
-    private static let labelColor = NSColor(calibratedWhite: 111/255.0, alpha: 0.85)
-    private static let errorColor = NSColor(calibratedRed: 230/255.0, green: 86/255.0, blue: 13/255.0, alpha: 1)
+    fileprivate static let buttonSize = CGSize(width: 92, height: 30)
+    fileprivate static let buttonsSpacing: CGFloat = 8
+    fileprivate static let milestoneAssigneeLabelContainerViewHeight: CGFloat = 123
+    fileprivate static let submitButtonRightPadding: CGFloat = 12
+    fileprivate static let buttonsBottomPadding: CGFloat = 13
+    fileprivate static let progressIndicatorRightPadding: CGFloat = 6.0
+    fileprivate static let progressIndicatorSize = CGSize(width: 17, height: 17)
+    fileprivate static let labelColor = NSColor(calibratedWhite: 111/255.0, alpha: 0.85)
+    fileprivate static let errorColor = NSColor(calibratedRed: 230/255.0, green: 86/255.0, blue: 13/255.0, alpha: 1)
     
     @IBOutlet weak var errorMessage: NSTextField!
     @IBOutlet var descriptionTextView: MarkdownEditorTextView!
@@ -50,18 +50,18 @@ class NewIssueViewController: NSViewController {
     @IBOutlet weak var repositoryPopupButton: NSPopUpButton!
     @IBOutlet weak var milestonePopupButton: NSPopUpButton!
     
-    private let cancelButton = BaseButton.whiteButton()
-    private let submitNewIssueButton = BaseButton.greenButton()
-    private let progressIndicator = NSProgressIndicator()
-    private let uploadFileProgressIndicator = LabeledProgressIndicatorView()
+    fileprivate let cancelButton = BaseButton.whiteButton()
+    fileprivate let submitNewIssueButton = BaseButton.greenButton()
+    fileprivate let progressIndicator = NSProgressIndicator()
+    fileprivate let uploadFileProgressIndicator = LabeledProgressIndicatorView()
     
-    private var recentlySelectedRepository: QRepository?
+    fileprivate var recentlySelectedRepository: QRepository?
     
-    private lazy var assigneeTokenFieldDelegate = {
+    fileprivate lazy var assigneeTokenFieldDelegate = {
         return NewIssueAssigneeTokenFieldDelegate()
     }()
     
-    private lazy var labelsTokenFieldDelegate = {
+    fileprivate lazy var labelsTokenFieldDelegate = {
         return NewIssueLabelsTokenFieldDelegate()
     }()
     
@@ -93,11 +93,11 @@ class NewIssueViewController: NSViewController {
             }
             
             strongSelf.descriptionTextView.textColor = CashewColor.foregroundColor()
-            if (.Dark == mode) {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+            if (.dark == mode) {
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
                 strongSelf.progressIndicator.appearance = appearance
             } else {
-                let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
                 strongSelf.progressIndicator.appearance = appearance
             }
         }
@@ -118,74 +118,74 @@ class NewIssueViewController: NSViewController {
     
     // MARK: Data Loaders
     
-    private func loadRepositories() {
+    fileprivate func loadRepositories() {
         repositoryPopupButton.removeAllItems()
-        let repositories = QRepositoryStore.repositoriesForAccountId(QContext.sharedContext().currentFilter.account.identifier)
-        repositoryPopupButton.addItemWithTitle("")
-        repositories.forEach { (repo) in
-            repositoryPopupButton.addItemWithTitle(repo.fullName)
+        let repositories = QRepositoryStore.repositories(forAccountId: QContext.shared().currentFilter.account.identifier)
+        repositoryPopupButton.addItem(withTitle: "")
+        repositories?.forEach { (repo) in
+            repositoryPopupButton.addItem(withTitle: repo.fullName)
         }
     }
     
-    private func reloadMilestones() {
+    fileprivate func reloadMilestones() {
         self.milestonePopupButton.removeAllItems()
         if let repo = self.recentlySelectedRepository {
             
             let milestones: [QMilestone]
             
-            if NSUserDefaults.shouldShowOnlyOpenMilestonesInIssueCreation() {
-                milestones = QMilestoneStore.openMilestonesForAccountId(repo.account.identifier, repositoryId: repo.identifier)
+            if UserDefaults.shouldShowOnlyOpenMilestonesInIssueCreation() {
+                milestones = QMilestoneStore.openMilestones(forAccountId: repo.account.identifier, repositoryId: repo.identifier)
             } else {
-                milestones = QMilestoneStore.milestonesForAccountId(repo.account.identifier, repositoryId: repo.identifier, includeHidden: false)
+                milestones = QMilestoneStore.milestones(forAccountId: repo.account.identifier, repositoryId: repo.identifier, includeHidden: false)
             }
             
-            self.milestonePopupButton.enabled = true
+            self.milestonePopupButton.isEnabled = true
             
-            self.milestonePopupButton.addItemWithTitle("")
+            self.milestonePopupButton.addItem(withTitle: "")
             milestones.forEach { (milestone) in
-                self.milestonePopupButton.addItemWithTitle(milestone.title)
+                self.milestonePopupButton.addItem(withTitle: milestone.title)
             }
         } else {
-            self.milestonePopupButton.enabled = false
+            self.milestonePopupButton.isEnabled = false
         }
     }
     
-    private func reloadTokenFields() {
+    fileprivate func reloadTokenFields() {
         self.labelsTokenField.stringValue = ""
         self.assigneeTokenField.stringValue = ""
         self.labelsTokenFieldDelegate.repository = self.recentlySelectedRepository
         self.assigneeTokenFieldDelegate.repository = self.recentlySelectedRepository
         
-        self.labelsTokenField.enabled = (self.labelsTokenFieldDelegate.repository != nil)
-        self.assigneeTokenField.enabled = (self.assigneeTokenFieldDelegate.repository != nil)
+        self.labelsTokenField.isEnabled = (self.labelsTokenFieldDelegate.repository != nil)
+        self.assigneeTokenField.isEnabled = (self.assigneeTokenFieldDelegate.repository != nil)
     }
     
-    private func reloadDataForCurrentRepository() {
+    fileprivate func reloadDataForCurrentRepository() {
         reloadMilestones()
         reloadTokenFields()
     }
     
-    private func updateUIWithRequest() {
+    fileprivate func updateUIWithRequest() {
         if let request = self.request, let repoFullName = request.repositoryFullName {
             self.recentlySelectedRepository = nil
-            self.repositoryPopupButton.selectItemWithTitle(repoFullName);
+            self.repositoryPopupButton.selectItem(withTitle: repoFullName);
             self.repositoryValueDidChange(self.repositoryPopupButton)
             
             // set milestone if exists
-            if let milestoneNumber = request.milestoneNumber, repo = self.recentlySelectedRepository {
-                let milestones = QMilestoneStore.milestonesForAccountId(repo.account.identifier, repositoryId: repo.identifier, includeHidden: false)
-                for milestone in milestones {
+            if let milestoneNumber = request.milestoneNumber, let repo = self.recentlySelectedRepository {
+                let milestones = QMilestoneStore.milestones(forAccountId: repo.account.identifier, repositoryId: repo.identifier, includeHidden: false)
+                for milestone in milestones! {
                     if milestoneNumber == milestone.number {
-                        self.milestonePopupButton.selectItemWithTitle(milestone.title)
+                        self.milestonePopupButton.selectItem(withTitle: milestone.title)
                     }
                 }
             }
             
             // set assignee if exists
-            if let assigneeLogin = request.assigneeLogin, repo = self.recentlySelectedRepository {
-                let owners = QOwnerStore.searchUserWithQuery(assigneeLogin, forAccountId: repo.account.identifier, repositoryId:  repo.identifier)
-                if owners.count > 0 {
-                    self.assigneeTokenField.objectValue = [owners.first!.login]
+            if let assigneeLogin = request.assigneeLogin, let repo = self.recentlySelectedRepository {
+                let owners = QOwnerStore.searchUser(withQuery: assigneeLogin, forAccountId: repo.account.identifier, repositoryId:  repo.identifier)
+                if (owners?.count)! > 0 {
+                    self.assigneeTokenField.objectValue = [owners?.first!.login]
                 }
             }
             
@@ -196,21 +196,21 @@ class NewIssueViewController: NSViewController {
             
         } else {
             self.recentlySelectedRepository = nil
-            self.repositoryPopupButton.selectItemWithTitle("");
+            self.repositoryPopupButton.selectItem(withTitle: "");
             repositoryValueDidChange(self.repositoryPopupButton)
         }
         
     }
     
     // MARK: Actions
-    @IBAction func repositoryValueDidChange(sender: AnyObject) {
+    @IBAction func repositoryValueDidChange(_ sender: AnyObject) {
         
         if let newRepoFullName = self.repositoryPopupButton.selectedItem?.title {
             if self.recentlySelectedRepository?.fullName != newRepoFullName {
-                if newRepoFullName.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-                    let repo = QRepositoryStore.repositoryForAccountId(QContext.sharedContext().currentFilter.account.identifier, fullName: newRepoFullName)
+                if newRepoFullName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).lengthOfBytes(using: String.Encoding.utf8) > 0 {
+                    let repo = QRepositoryStore.repository(forAccountId: QContext.shared().currentFilter.account.identifier, fullName: newRepoFullName)
                     self.recentlySelectedRepository = repo
-                    self.milestoneAssigneeLabelContainerViewHeightConstraint.constant = QAccount.isCurrentUserCollaboratorOfRepository(repo) ? NewIssueViewController.milestoneAssigneeLabelContainerViewHeight : 0
+                    self.milestoneAssigneeLabelContainerViewHeightConstraint.constant = QAccount.isCurrentUserCollaboratorOfRepository(repo!) ? NewIssueViewController.milestoneAssigneeLabelContainerViewHeight : 0
                 } else {
                     self.recentlySelectedRepository = nil
                     self.milestoneAssigneeLabelContainerViewHeightConstraint.constant = NewIssueViewController.milestoneAssigneeLabelContainerViewHeight
@@ -229,25 +229,25 @@ class NewIssueViewController: NSViewController {
     }
     
     
-    @IBAction func milestoneValueDidChange(sender: AnyObject) {
+    @IBAction func milestoneValueDidChange(_ sender: AnyObject) {
         //print("milestone = \(milestonePopupButton.selectedItem)")
     }
     
-    private func didClickSubmitNewIssueButton() {
+    fileprivate func didClickSubmitNewIssueButton() {
         let hasTitle = (self.titleTextField.stringValue as NSString).trimmedString().length > 0
-        if let repo = self.recentlySelectedRepository where hasTitle {
+        if let repo = self.recentlySelectedRepository , hasTitle {
             self.titleLabel.textColor = NewIssueViewController.labelColor
             self.repositoryLabel.textColor = NewIssueViewController.labelColor
             
             transitionToInProgressState()
             
-            let service = QIssuesService(forAccount: repo.account)
+            let service = QIssuesService(for: repo.account)
             var milestoneNumber: NSNumber?
             let hideExtras: Bool = self.milestoneAssigneeLabelContainerViewHeightConstraint.constant == 0
             
             if !hideExtras {
-                let milestones = QMilestoneStore.milestonesForAccountId(repo.account.identifier, repositoryId: repo.identifier, includeHidden: false)
-                for milestone in milestones {
+                let milestones = QMilestoneStore.milestones(forAccountId: repo.account.identifier, repositoryId: repo.identifier, includeHidden: false)
+                for milestone in milestones! {
                     if self.milestonePopupButton.selectedItem?.title == milestone.title {
                         milestoneNumber = milestone.number
                         break
@@ -258,10 +258,10 @@ class NewIssueViewController: NSViewController {
             let labels: [String]? = hideExtras ? nil : self.labelsTokenField.objectValue as? [String]
             let assignee: String? = hideExtras ? nil : self.assigneeTokenField.stringValue
             let body: String? = self.descriptionTextView.string
-            service.createIssueForRepository(repo, title: self.titleTextField.stringValue, body: body, assignee: assignee, milestone: milestoneNumber, labels: labels, onCompletion: { (anIssue, context, err) -> Void in
+            service.createIssue(for: repo, title: self.titleTextField.stringValue, body: body, assignee: assignee, milestone: milestoneNumber, labels: labels, onCompletion: { (anIssue, context, err) -> Void in
                 
-                guard let issue = anIssue as? QIssue where err == nil else {
-                    dispatch_async(dispatch_get_main_queue())  {
+                guard let issue = anIssue as? QIssue , err == nil else {
+                    DispatchQueue.main.async {
                         self.transitionToActiveState()
                         let presentedErrorString: String
                         let errorString: String
@@ -274,36 +274,36 @@ class NewIssueViewController: NSViewController {
                         }
                         
                         self.errorMessage.stringValue = presentedErrorString;
-                        self.errorMessage.hidden = false
+                        self.errorMessage.isHidden = false
                         
-                        
-                        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(10 * Double(NSEC_PER_SEC)))
-                        dispatch_after(delayTime, dispatch_get_main_queue(), {
+                        let delay = 10 * NSEC_PER_SEC
+                        let deadline = DispatchTime.now() + Double(delay)
+                        DispatchQueue.main.asyncAfter(deadline: deadline, execute: {
                             NSAnimationContext.runAnimationGroup({ (context) in
                                 context.duration = 0.3
-                                self.errorMessage.hidden = true
+                                self.errorMessage.isHidden = true
                                 }, completionHandler: nil)
                         })
                         
-                        Analytics.logCustomEventWithName("Failed Save New Issue", customAttributes: ["error": errorString])
+                        Analytics.logCustomEventWithName("Failed Save New Issue", customAttributes: ["error": errorString as AnyObject])
                     }
                     return
                 }
                 
-                service.issuesEventsForRepository(repo, issueNumber: issue.number, pageNumber: 1, pageSize: 100, since: nil, onCompletion: { (issueEvents, context, err) in
+                service.issuesEvents(for: repo, issueNumber: issue.number, pageNumber: 1, pageSize: 100, since: nil, onCompletion: { (issueEvents, context, err) in
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+                    DispatchQueue.global().async {
                         if let issueEvents = issueEvents as? [QIssueEvent] {
                             issueEvents.forEach({ (issueEvent) in
-                                QIssueEventStore.saveIssueEvent(issueEvent)
+                                QIssueEventStore.save(issueEvent)
                             })
                         }
                         
-                        QIssueStore.saveIssue(issue)
+                        QIssueStore.save(issue)
                         Analytics.logCustomEventWithName("Successful Save New Issue", customAttributes: nil)
-                    })
+                    }
                     
-                    dispatch_async(dispatch_get_main_queue())  {
+                    DispatchQueue.main.async  {
                         if let onCancelClicked = self.onCancelClicked  {
                             onCancelClicked()
                         }
@@ -313,7 +313,7 @@ class NewIssueViewController: NSViewController {
             })
         } else {
             self.errorMessage.stringValue = "Missing required field. Try again."
-            self.errorMessage.hidden = false
+            self.errorMessage.isHidden = false
             if !hasTitle {
                 self.titleLabel.textColor = NewIssueViewController.errorColor
             }
@@ -321,50 +321,50 @@ class NewIssueViewController: NSViewController {
                 self.repositoryLabel.textColor = NewIssueViewController.errorColor
             }
             
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), {
+            let delayTime = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
                 NSAnimationContext.runAnimationGroup({ (context) in
                     context.duration = 0.3
                     self.titleLabel.textColor = NewIssueViewController.labelColor
                     self.repositoryLabel.textColor = NewIssueViewController.labelColor
-                    self.errorMessage.hidden = true
+                    self.errorMessage.isHidden = true
                     }, completionHandler: nil)
             })
         }
     }
     
-    private func transitionToInProgressState() {
-        progressIndicator.hidden = false
+    fileprivate func transitionToInProgressState() {
+        progressIndicator.isHidden = false
         progressIndicator.startAnimation(nil)
         self.cancelButton.enabled = false
         self.submitNewIssueButton.enabled = false
         
         descriptionTextView.editable = false
         descriptionTextView.selectable = false
-        titleTextField.enabled = false
-        labelsTokenField.enabled = false
-        assigneeTokenField.enabled = false
-        repositoryPopupButton.enabled = false
-        milestonePopupButton.enabled = false
+        titleTextField.isEnabled = false
+        labelsTokenField.isEnabled = false
+        assigneeTokenField.isEnabled = false
+        repositoryPopupButton.isEnabled = false
+        milestonePopupButton.isEnabled = false
     }
     
-    private func transitionToActiveState() {
-        self.progressIndicator.hidden = true
+    fileprivate func transitionToActiveState() {
+        self.progressIndicator.isHidden = true
         self.progressIndicator.stopAnimation(nil)
         self.cancelButton.enabled = true
         self.submitNewIssueButton.enabled = true
         
         descriptionTextView.editable = true
         descriptionTextView.selectable = true
-        titleTextField.enabled = true
-        labelsTokenField.enabled = true
-        assigneeTokenField.enabled = true
-        repositoryPopupButton.enabled = true
-        milestonePopupButton.enabled = true
+        titleTextField.isEnabled = true
+        labelsTokenField.isEnabled = true
+        assigneeTokenField.isEnabled = true
+        repositoryPopupButton.isEnabled = true
+        milestonePopupButton.isEnabled = true
     }
     
     func didClickCancelButton() {
-        dispatch_async(dispatch_get_main_queue())  {
+        DispatchQueue.main.async  {
             NSAlert.showWarningMessage("Are you sure you want to discard issue?", onConfirmation: {
                 if let onCancelClicked = self.onCancelClicked  {
                     onCancelClicked()
@@ -375,22 +375,22 @@ class NewIssueViewController: NSViewController {
     
     // MARK: General Setup
     
-    private func setupFileUploadProgressIndicator() {
+    fileprivate func setupFileUploadProgressIndicator() {
         guard uploadFileProgressIndicator.superview == nil else { return }
         
         view.addSubview(uploadFileProgressIndicator)
-        uploadFileProgressIndicator.hidden = true
+        uploadFileProgressIndicator.isHidden = true
         uploadFileProgressIndicator.translatesAutoresizingMaskIntoConstraints = false
-        uploadFileProgressIndicator.leftAnchor.constraintEqualToAnchor(descriptionTextView.leftAnchor).active = true
+        uploadFileProgressIndicator.leftAnchor.constraint(equalTo: descriptionTextView.leftAnchor).isActive = true
         
-        uploadFileProgressIndicator.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        uploadFileProgressIndicator.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        uploadFileProgressIndicator.heightAnchor.constraintEqualToConstant(NewIssueViewController.buttonSize.height).active = true
-        uploadFileProgressIndicator.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -NewIssueViewController.buttonsBottomPadding).active = true
+        uploadFileProgressIndicator.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        uploadFileProgressIndicator.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        uploadFileProgressIndicator.heightAnchor.constraint(equalToConstant: NewIssueViewController.buttonSize.height).isActive = true
+        uploadFileProgressIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -NewIssueViewController.buttonsBottomPadding).isActive = true
     }
     
-    private func setupDescriptionTextView() {
-        descriptionTextView.font = NSFont.systemFontOfSize(14)
+    fileprivate func setupDescriptionTextView() {
+        descriptionTextView.font = NSFont.systemFont(ofSize: 14)
         descriptionTextView.collapseToolbar = false
         descriptionTextView.onEnterKeyPressed = { [weak self] in
             self?.didClickSubmitNewIssueButton()
@@ -404,7 +404,7 @@ class NewIssueViewController: NSViewController {
         descriptionTextView.onDragEntered = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.descriptionTextView.layer?.borderWidth = 2
-            strongSelf.descriptionTextView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).CGColor
+            strongSelf.descriptionTextView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
         }
         
         descriptionTextView.onFileUploadChange = { [weak self] in
@@ -412,19 +412,19 @@ class NewIssueViewController: NSViewController {
             let fileUploadCount = strongSelf.descriptionTextView.currentUploadCount
             if fileUploadCount == 0 {
                 strongSelf.uploadFileProgressIndicator.hideProgress()
-                strongSelf.uploadFileProgressIndicator.hidden = true
+                strongSelf.uploadFileProgressIndicator.isHidden = true
                 strongSelf.submitNewIssueButton.enabled = true
                 strongSelf.cancelButton.enabled = true
             } else {
                 strongSelf.uploadFileProgressIndicator.showProgressWithString("Uploading \(fileUploadCount) file\(fileUploadCount == 1 ? "" : "s")")
-                strongSelf.uploadFileProgressIndicator.hidden = false
+                strongSelf.uploadFileProgressIndicator.isHidden = false
                 strongSelf.submitNewIssueButton.enabled = false
                 strongSelf.cancelButton.enabled = false
             }
         }
     }
     
-    private func setupButtons() {
+    fileprivate func setupButtons() {
         guard submitNewIssueButton.superview == nil && cancelButton.superview == nil else { return }
         submitNewIssueButton.text = "Create"
         cancelButton.text = "Discard"
@@ -440,13 +440,13 @@ class NewIssueViewController: NSViewController {
         [submitNewIssueButton, cancelButton].forEach { (bttn) in
             view.addSubview(bttn)
             bttn.translatesAutoresizingMaskIntoConstraints = false
-            bttn.heightAnchor.constraintEqualToConstant(NewIssueViewController.buttonSize.height).active = true
-            bttn.widthAnchor.constraintEqualToConstant(NewIssueViewController.buttonSize.width).active = true
-            bttn.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -NewIssueViewController.buttonsBottomPadding).active = true
+            bttn.heightAnchor.constraint(equalToConstant: NewIssueViewController.buttonSize.height).isActive = true
+            bttn.widthAnchor.constraint(equalToConstant: NewIssueViewController.buttonSize.width).isActive = true
+            bttn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -NewIssueViewController.buttonsBottomPadding).isActive = true
         }
         
-        submitNewIssueButton.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -NewIssueViewController.submitButtonRightPadding).active = true
-        cancelButton.rightAnchor.constraintEqualToAnchor(submitNewIssueButton.leftAnchor, constant: -NewIssueViewController.buttonsSpacing).active = true
+        submitNewIssueButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -NewIssueViewController.submitButtonRightPadding).isActive = true
+        cancelButton.rightAnchor.constraint(equalTo: submitNewIssueButton.leftAnchor, constant: -NewIssueViewController.buttonsSpacing).isActive = true
         
         titleLabel.addGestureRecognizer(NSClickGestureRecognizer(target: self, action: #selector(NewIssueViewController.didClickTitleLabel)))
         descriptionLabel.addGestureRecognizer(NSClickGestureRecognizer(target: self, action: #selector(NewIssueViewController.didClickDescriptionLabel)))
@@ -455,35 +455,35 @@ class NewIssueViewController: NSViewController {
     }
     
     @objc
-    private func didClickDescriptionLabel() {
+    fileprivate func didClickDescriptionLabel() {
         self.view.window?.makeFirstResponder(descriptionTextView)
     }
     
     @objc
-    private func didClickLabelsLabel() {
+    fileprivate func didClickLabelsLabel() {
         self.view.window?.makeFirstResponder(labelsTokenField)
     }
     
     @objc
-    private func didClickAssigneeLabel() {
+    fileprivate func didClickAssigneeLabel() {
         self.view.window?.makeFirstResponder(assigneeTokenField)
     }
     
     @objc
-    private func didClickTitleLabel() {
+    fileprivate func didClickTitleLabel() {
         self.view.window?.makeFirstResponder(titleTextField)
     }
     
-    private func setupProgressIndicator() {
+    fileprivate func setupProgressIndicator() {
         guard progressIndicator.superview == nil else { return }
         view.addSubview(progressIndicator)
-        progressIndicator.style = .SpinningStyle
-        progressIndicator.hidden = true
+        progressIndicator.style = .spinning
+        progressIndicator.isHidden = true
         progressIndicator.translatesAutoresizingMaskIntoConstraints = false
-        progressIndicator.heightAnchor.constraintEqualToConstant(NewIssueViewController.progressIndicatorSize.height).active = true
-        progressIndicator.widthAnchor.constraintEqualToConstant(NewIssueViewController.progressIndicatorSize.width).active = true
-        progressIndicator.rightAnchor.constraintEqualToAnchor(cancelButton.leftAnchor, constant: -NewIssueViewController.progressIndicatorRightPadding).active = true
-        progressIndicator.centerYAnchor.constraintEqualToAnchor(cancelButton.centerYAnchor).active = true
+        progressIndicator.heightAnchor.constraint(equalToConstant: NewIssueViewController.progressIndicatorSize.height).isActive = true
+        progressIndicator.widthAnchor.constraint(equalToConstant: NewIssueViewController.progressIndicatorSize.width).isActive = true
+        progressIndicator.rightAnchor.constraint(equalTo: cancelButton.leftAnchor, constant: -NewIssueViewController.progressIndicatorRightPadding).isActive = true
+        progressIndicator.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
     }
 }
 

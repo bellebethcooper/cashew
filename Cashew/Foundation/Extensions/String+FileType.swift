@@ -13,7 +13,7 @@ extension String {
     
     func isImage() -> Bool {
         let fileExtension = (self as NSString).pathExtension
-        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, nil) {
+        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil) {
             return UTTypeConformsTo(fileUTI.takeRetainedValue(), kUTTypeImage)
         }
         return false
@@ -21,7 +21,7 @@ extension String {
     
     func isPDF() -> Bool {
         let fileExtension = (self as NSString).pathExtension
-        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, nil) {
+        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil) {
             return UTTypeConformsTo(fileUTI.takeRetainedValue(), kUTTypePDF)
         }
         return false
@@ -29,7 +29,7 @@ extension String {
     
     func isZIP() -> Bool {
         let fileExtension = (self as NSString).pathExtension
-        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, nil) {
+        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil) {
             return UTTypeConformsTo(fileUTI.takeRetainedValue(), kUTTypeZipArchive)
         }
         return false
@@ -37,7 +37,7 @@ extension String {
     
     func isGZIP() -> Bool {
         let fileExtension = (self as NSString).pathExtension
-        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, nil) {
+        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil) {
             return UTTypeConformsTo(fileUTI.takeRetainedValue(), kUTTypeGNUZipArchive)
         }
         return false
@@ -45,7 +45,7 @@ extension String {
     
     func isText() -> Bool {
         let fileExtension = (self as NSString).pathExtension
-        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension, nil) {
+        if let fileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, fileExtension as CFString, nil) {
             return UTTypeConformsTo(fileUTI.takeRetainedValue(), kUTTypeText)
         }
         return false
@@ -53,7 +53,7 @@ extension String {
     
     func isOfficeDocument() -> Bool {
         let fileExtension = (self as NSString).pathExtension
-        return fileExtension.lowercaseString == "docx" || fileExtension.lowercaseString == "doc" || fileExtension.lowercaseString == "xlsx" || fileExtension.lowercaseString == "xls" || fileExtension.lowercaseString == "pptx" || fileExtension.lowercaseString == "ppt"
+        return fileExtension.lowercased() == "docx" || fileExtension.lowercased() == "doc" || fileExtension.lowercased() == "xlsx" || fileExtension.lowercased() == "xls" || fileExtension.lowercased() == "pptx" || fileExtension.lowercased() == "ppt"
     }
 
 }

@@ -11,8 +11,8 @@ import Cocoa
 @objc(SRMarkdownEditorToolbarView)
 class MarkdownEditorToolbarView: BaseView {
     
-    private static let iconEdge: CGFloat = 16
-    private static let horizontalPadding: CGFloat = 4
+    fileprivate static let iconEdge: CGFloat = 16
+    fileprivate static let horizontalPadding: CGFloat = 4
     
     let tasklistButton = NSButton()
     let orderedListButton = NSButton()
@@ -30,22 +30,22 @@ class MarkdownEditorToolbarView: BaseView {
     let helpButton = NSButton()
     let separatorView = BaseSeparatorView()
     
-    var onTasklistButtonClick: dispatch_block_t?
-    var onOrderedListButtonClick: dispatch_block_t?
-    var onUnorderedListButtonClick: dispatch_block_t?
-    var onLinkButtonClick: dispatch_block_t?
-    var onCodeButtonClick: dispatch_block_t?
-    var onQuoteButtonClick: dispatch_block_t?
-    var onItalicButtonClick: dispatch_block_t?
-    var onBoldButtonClick: dispatch_block_t?
-    var onTextSizeButtonClick: dispatch_block_t?
-    var onFilePickerButtonClick: dispatch_block_t?
-    var onGifButtonClick: dispatch_block_t?
-    var onEmojiButtonClick: dispatch_block_t?
-    var onPreviewButtonClick: dispatch_block_t?
-    var onHelpButtonClick: dispatch_block_t?
+    var onTasklistButtonClick: (()->())?
+    var onOrderedListButtonClick: (()->())?
+    var onUnorderedListButtonClick: (()->())?
+    var onLinkButtonClick: (()->())?
+    var onCodeButtonClick: (()->())?
+    var onQuoteButtonClick: (()->())?
+    var onItalicButtonClick: (()->())?
+    var onBoldButtonClick: (()->())?
+    var onTextSizeButtonClick: (()->())?
+    var onFilePickerButtonClick: (()->())?
+    var onGifButtonClick: (()->())?
+    var onEmojiButtonClick: (()->())?
+    var onPreviewButtonClick: (()->())?
+    var onHelpButtonClick: (()->())?
     
-    private var buttonsConstraints = [NSLayoutConstraint]()
+    fileprivate var buttonsConstraints = [NSLayoutConstraint]()
     
     required init() {
         super.init(frame: NSRect.zero)
@@ -56,14 +56,14 @@ class MarkdownEditorToolbarView: BaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func allButtons() -> [NSButton] {
+    fileprivate func allButtons() -> [NSButton] {
         return [ textSizeButton, boldButton, italicButton, quoteButton, codeButton, linkButton, unorderedListButton, orderedListButton, tasklistButton, filePickerButton, gifButton, emojiButton, helpButton, previewButton ]
     }
     
     func disableAllButton() {
         allButtons().forEach { (btn) in
             if btn != previewButton {
-                btn.enabled = false
+                btn.isEnabled = false
             }
         }
     }
@@ -71,14 +71,14 @@ class MarkdownEditorToolbarView: BaseView {
     func enableAllButton() {
         allButtons().forEach { (btn) in
             if btn != previewButton {
-                btn.enabled = true
+                btn.isEnabled = true
             }
         }
     }
     
     
     @objc
-    private func didClickToolbarButton(sender: NSButton) {
+    fileprivate func didClickToolbarButton(_ sender: NSButton) {
         
         switch sender {
         case tasklistButton:
@@ -146,27 +146,27 @@ class MarkdownEditorToolbarView: BaseView {
         
     }
     
-    private func setup() {
+    fileprivate func setup() {
         var previousView: NSView = self
-        for (i, button) in allButtons().enumerate() {
+        for (i, button) in allButtons().enumerated() {
             addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
-            buttonsConstraints.append(button.heightAnchor.constraintEqualToConstant(MarkdownEditorToolbarView.iconEdge))
+            buttonsConstraints.append(button.heightAnchor.constraint(equalToConstant: MarkdownEditorToolbarView.iconEdge))
             
-            buttonsConstraints.append(button.widthAnchor.constraintEqualToConstant(MarkdownEditorToolbarView.iconEdge))
-            buttonsConstraints.append(button.centerYAnchor.constraintEqualToAnchor(centerYAnchor))
+            buttonsConstraints.append(button.widthAnchor.constraint(equalToConstant: MarkdownEditorToolbarView.iconEdge))
+            buttonsConstraints.append(button.centerYAnchor.constraint(equalTo: centerYAnchor))
             
             let anchor = previousView == self ? leftAnchor : previousView.rightAnchor
-            buttonsConstraints.append(button.leftAnchor.constraintEqualToAnchor(anchor, constant: i != 0 && i % 3 == 0 ? 16 : MarkdownEditorToolbarView.horizontalPadding))
+            buttonsConstraints.append(button.leftAnchor.constraint(equalTo: anchor, constant: i != 0 && i % 3 == 0 ? 16 : MarkdownEditorToolbarView.horizontalPadding))
             button.action = #selector(MarkdownEditorToolbarView.didClickToolbarButton(_:))
             button.target = self
             
             
             previousView = button
-            button.bordered = false;
+            button.isBordered = false;
             button.wantsLayer = true
             if let buttonCell = button.cell as? NSButtonCell {
-                buttonCell.imageScaling = .ScaleProportionallyDown;
+                buttonCell.imageScaling = .scaleProportionallyDown;
             }
         }
         
@@ -188,33 +188,33 @@ class MarkdownEditorToolbarView: BaseView {
 //        buttonsConstraints.append(previewButton.leftAnchor.constraintGreaterThanOrEqualToAnchor(previousView.rightAnchor, constant: 16))
         
         let color = LightModeColor.sharedInstance.foregroundSecondaryColor()
-        tasklistButton.image = NSImage(named: "tasklist")?.imageWithTintColor(color)
+        tasklistButton.image = NSImage(named: NSImage.Name(rawValue: "tasklist"))?.withTintColor(color)
         tasklistButton.toolTip = "Add task list"
-        orderedListButton.image = NSImage(named: "list-ordered")?.imageWithTintColor(color)
+        orderedListButton.image = NSImage(named: NSImage.Name(rawValue: "list-ordered"))?.withTintColor(color)
         orderedListButton.toolTip = "Add a numbered list"
-        unorderedListButton.image = NSImage(named: "list-unordered")?.imageWithTintColor(color)
+        unorderedListButton.image = NSImage(named: NSImage.Name(rawValue: "list-unordered"))?.withTintColor(color)
         unorderedListButton.toolTip = "Add a bulleted list"
-        linkButton.image = NSImage(named: "link")?.imageWithTintColor(color)
+        linkButton.image = NSImage(named: NSImage.Name(rawValue: "link"))?.withTintColor(color)
         linkButton.toolTip = "Add a link <cmd+k>"
-        codeButton.image = NSImage(named: "code")?.imageWithTintColor(color)
+        codeButton.image = NSImage(named: NSImage.Name(rawValue: "code"))?.withTintColor(color)
         codeButton.toolTip = "Insert code"
-        quoteButton.image = NSImage(named: "quote")?.imageWithTintColor(color)
+        quoteButton.image = NSImage(named: NSImage.Name(rawValue: "quote"))?.withTintColor(color)
         quoteButton.toolTip = "Insert a quote"
-        italicButton.image = NSImage(named: "italic")?.imageWithTintColor(color)
+        italicButton.image = NSImage(named: NSImage.Name(rawValue: "italic"))?.withTintColor(color)
         italicButton.toolTip = "Add italic text <cmd+i>"
-        boldButton.image = NSImage(named: "bold")?.imageWithTintColor(color)
+        boldButton.image = NSImage(named: NSImage.Name(rawValue: "bold"))?.withTintColor(color)
         boldButton.toolTip = "Add bold text <cmd+b>"
-        textSizeButton.image = NSImage(named: "text-size")!.imageWithTintColor(color)
+        textSizeButton.image = NSImage(named: NSImage.Name(rawValue: "text-size"))!.withTintColor(color)
         textSizeButton.toolTip = "Add header text"
-        filePickerButton.image = NSImage(named: "add-file")!.imageWithTintColor(color)
+        filePickerButton.image = NSImage(named: NSImage.Name(rawValue: "add-file"))!.withTintColor(color)
         filePickerButton.toolTip = "Select file to upload"
-        gifButton.image = NSImage(named: "giphy")! //.imageWithTintColor(color)
+        gifButton.image = NSImage(named: NSImage.Name(rawValue: "giphy"))! //.imageWithTintColor(color)
         gifButton.toolTip = "Insert GIF"
-        emojiButton.image = NSImage(named: "emoji")!.imageWithTintColor(color) //.imageWithTintColor(color)
+        emojiButton.image = NSImage(named: NSImage.Name(rawValue: "emoji"))!.withTintColor(color) //.imageWithTintColor(color)
         emojiButton.toolTip = "Insert emoji"
-        previewButton.image = NSImage(named: "preview")?.imageWithTintColor(color)
+        previewButton.image = NSImage(named: NSImage.Name(rawValue: "preview"))?.withTintColor(color)
         previewButton.toolTip = "Preview"
-        helpButton.image = NSImage(named: "help")?.imageWithTintColor(color)
+        helpButton.image = NSImage(named: NSImage.Name(rawValue: "help"))?.withTintColor(color)
         helpButton.toolTip = "Markdown tutorial"
         
         
@@ -231,9 +231,9 @@ class MarkdownEditorToolbarView: BaseView {
     var collapse: Bool = false {
         didSet {
             if collapse {
-                NSLayoutConstraint.deactivateConstraints(buttonsConstraints)
+                NSLayoutConstraint.deactivate(buttonsConstraints)
             } else {
-                NSLayoutConstraint.activateConstraints(buttonsConstraints)
+                NSLayoutConstraint.activate(buttonsConstraints)
             }
         }
     }

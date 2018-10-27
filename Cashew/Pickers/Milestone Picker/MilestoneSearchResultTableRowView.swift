@@ -20,14 +20,14 @@ class MilestoneSearchResultTableRowView: BaseTableRowView {
         self.milestone = milestone
         super.init()
         
-        selectionType = .Checkbox
+        selectionType = .checkbox
         
         didSetMilestone()
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else{ return }
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
@@ -36,11 +36,11 @@ class MilestoneSearchResultTableRowView: BaseTableRowView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             needsLayout = true
             layoutSubtreeIfNeeded()
-            if NSUserDefaults.themeMode() == .Dark {
+            if UserDefaults.themeMode() == .dark {
                 backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 backgroundColor = CashewColor.backgroundColor()
@@ -61,27 +61,27 @@ class MilestoneSearchResultTableRowView: BaseTableRowView {
     }
     
     // MARK: Setup
-    private func didSetMilestone() {
+    fileprivate func didSetMilestone() {
         titleLabel.stringValue = milestone.title
         
         var subtitle = [String]()
         if milestone.dueOn != nil {
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = .LongStyle
-            formatter.timeStyle = .NoStyle
-            let dateString = formatter.stringFromDate(milestone.dueOn)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .none
+            let dateString = formatter.string(from: milestone.dueOn)
             subtitle.append("Due by \(dateString)")
         }
         
         if milestone.desc != nil {
-            let desc = (milestone.desc.stringByReplacingOccurrencesOfString("\n", withString: " ").stringByReplacingOccurrencesOfString("\r", withString: " ") as NSString).trimmedString()
+            let desc = (milestone.desc.replacingOccurrences(of: "\n", with: " ").replacingOccurrences(of: "\r", with: " ") as NSString).trimmedString()
             if desc.length > 0 {
                 subtitle.append(desc as String)
             }
         }
         
         if subtitle.count > 0 {
-            subtitleLabel.stringValue = subtitle.joinWithSeparator(" • ")
+            subtitleLabel.stringValue = subtitle.joined(separator: " • ")
         } else {
             subtitleLabel.stringValue = ""
         }

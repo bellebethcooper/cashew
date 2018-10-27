@@ -11,8 +11,8 @@ import Cocoa
 class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     
     var sourceIssue: QIssue?
-    private var results = [QMilestone]()
-    private var selectedMilestone: QMilestone? {
+    fileprivate var results = [QMilestone]()
+    fileprivate var selectedMilestone: QMilestone? {
         guard let selectionMap = selectionMap else {
             return nil
         }
@@ -24,17 +24,17 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         //        return nil
     }
     
-    private(set) var selectionMap: [QIssue: Set<QMilestone>]?
+    fileprivate(set) var selectionMap: [QIssue: Set<QMilestone>]?
     
     var repository: QRepository?
     var numberOfRows: Int {
         return results.count
     }
     
-    var mode: SearchablePickerDataSourceMode  = .SearchResults {
+    var mode: SearchablePickerDataSourceMode  = .searchResults {
         didSet {
             switch mode {
-            case .SelectedItems:
+            case .selectedItems:
                 if let selectedMilestone = selectedMilestone {
                     results = [selectedMilestone]
                 }
@@ -45,13 +45,13 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         }
     }
     
-    var selectedIndexes: NSIndexSet {
-        if let selectedMilestone = selectedMilestone, index = results.indexOf(selectedMilestone) {
+    var selectedIndexes: IndexSet {
+        if let selectedMilestone = selectedMilestone, let index = results.index(of: selectedMilestone) {
             let indexSet = NSMutableIndexSet()
-            indexSet.addIndex(index)
-            return indexSet
+            indexSet.add(index)
+            return indexSet as IndexSet
         }
-        return NSIndexSet()
+        return IndexSet()
     }
     var selectionCount: Int {
         if let _ = selectedMilestone {
@@ -65,9 +65,9 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
             return [QRepository]()
         }
         let issues = Array(selectionMap.keys)
-        let repos = Array(Set(issues.flatMap { $0.repository })).sort({ $0.fullName.compare($1.fullName) == .OrderedAscending })
+        let repos = Array(Set(issues.flatMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
         return repos
-//        guard let currentIssues = self.sourceIssue != nil ? [self.sourceIssue!] : QContext.sharedContext().currentIssues else  {
+//        guard let currentIssues = self.sourceIssue != nil ? [self.sourceIssue!] : QContext.shared().currentIssues else  {
 //            return [QRepository]()
 //        }
 //        return currentIssues.flatMap { $0.repository }
@@ -83,37 +83,37 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         resetToOriginal()
     }
     
-    func itemAtIndex(index: Int) -> AnyObject {
+    func itemAtIndex(_ index: Int) -> AnyObject {
         return results[index]
     }
     
-    func search(string: String, onCompletion: dispatch_block_t) {
-        mode = .SearchResults
+    func search(_ string: String, onCompletion: @escaping ()->()) {
+        mode = .searchResults
         guard let repository = self.repository else {
             self.results = []
             onCompletion()
             return
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            if let results = QMilestoneStore.searchMilestoneWithQuery(String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QMilestone] {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            if let results = QMilestoneStore.searchMilestone(withQuery: String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QMilestone] {
                 self.results = results
             }
             onCompletion()
         }
     }
     
-    func defaults(onCompletion: dispatch_block_t) {
-        mode = .DefaultResults
+    func defaults(_ onCompletion: @escaping ()->()) {
+        mode = .defaultResults
         guard let repository = self.repository else {
             self.results = []
             onCompletion()
             return
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            if let results = QMilestoneStore.milestonesForAccountId(repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as AnyObject as? [QMilestone] {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+            if let results = QMilestoneStore.milestones(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as AnyObject as? [QMilestone] {
                 
-                self.results = results.sort({ (repo1, repo2) -> Bool in
+                self.results = results.sorted(by: { (repo1, repo2) -> Bool in
                     if self.isSelectedItem(repo1) && self.isSelectedItem(repo2) {
                         return repo1.title < repo2.title
                     } else  if self.isSelectedItem(repo1) {
@@ -131,21 +131,21 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
     }
     
     
-    func selectItem(item: AnyObject) {
+    func selectItem(_ item: AnyObject) {
         guard let milestone = item as? QMilestone else {
             return
         }
         tappedMilestone(milestone)
     }
     
-    func unselectItem(item: AnyObject) {
+    func unselectItem(_ item: AnyObject) {
         guard let milestone = item as? QMilestone else {
             return
         }
         tappedMilestone(milestone)
     }
     
-    private func tappedMilestone(milestone: QMilestone) {
+    fileprivate func tappedMilestone(_ milestone: QMilestone) {
         guard var selectionMap = selectionMap else { return }
         
         if isFullSelection(milestone) {
@@ -167,7 +167,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         self.selectionMap = selectionMap
     }
     
-    func isSelectedItem(item: AnyObject) -> Bool {
+    func isSelectedItem(_ item: AnyObject) -> Bool {
         if let milestone = item as? QMilestone {
             return isFullSelection(milestone) || isPartialSelection(milestone)
         }
@@ -198,7 +198,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         if let sourceIssue = sourceIssue {
             issues = [sourceIssue]
         } else {
-            issues = QContext.sharedContext().currentIssues
+            issues = QContext.shared().currentIssues
         }
         
         issues.forEach { (issue) in
@@ -214,7 +214,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         self.selectionMap = multiSelectionMap
     }
     
-    func isPartialSelection(milestone: QMilestone) -> Bool {
+    func isPartialSelection(_ milestone: QMilestone) -> Bool {
         guard let selectionMap = selectionMap else { return false }
         
         //DDLogDebug("label=\(label) filter -> \(selectionMap.filter({ $1.contains(label) }))")
@@ -223,10 +223,10 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
         return total > 0 && total != repoTotal
     }
     
-    func isFullSelection(milestone: QMilestone) -> Bool {
-        if let issues = selectionMap?.keys where issues.count > 0 {
+    func isFullSelection(_ milestone: QMilestone) -> Bool {
+        if let issues = selectionMap?.keys , issues.count > 0 {
             for issue in issues {
-                if let labels = selectionMap?[issue] where !labels.contains(milestone) && issue.repository == milestone.repository {
+                if let labels = selectionMap?[issue] , !labels.contains(milestone) && issue.repository == milestone.repository {
                     return false
                 }
             }

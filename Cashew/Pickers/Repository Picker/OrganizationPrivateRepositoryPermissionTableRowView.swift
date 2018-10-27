@@ -13,14 +13,14 @@ class OrganizationPrivateRepositoryPermissionViewModel: NSObject { }
 
 class OrganizationPrivateRepositoryPermissionTableRowView: NSTableRowView {
 
-    private static let padding: CGFloat = 6.0
-    private static let orgIcon: NSImage = {
-       return NSImage(named:"organization")!.imageWithTintColor(NSColor(calibratedWhite: 111/255.0, alpha: 1))
+    fileprivate static let padding: CGFloat = 6.0
+    fileprivate static let orgIcon: NSImage = {
+        return NSImage(named:NSImage.Name(rawValue: "organization"))!.withTintColor(NSColor(calibratedWhite: 111/255.0, alpha: 1))
     }()
     
-    private let label = BaseLabel()
-    private let separatorView = BaseSeparatorView()
-    private let imageView = NSImageView()
+    fileprivate let label = BaseLabel()
+    fileprivate let separatorView = BaseSeparatorView()
+    fileprivate let imageView = NSImageView()
     // private var cursorTrackingArea: NSTrackingArea?
     
     required init?(coder: NSCoder) {
@@ -33,40 +33,40 @@ class OrganizationPrivateRepositoryPermissionTableRowView: NSTableRowView {
     }
     
     
-    private func setup() {
+    fileprivate func setup() {
         //separatorView.backgroundColor = NSColor(calibratedWhite: 0.90, alpha: 1)
         addSubview(separatorView)
         
         addSubview(imageView)
         imageView.image = OrganizationPrivateRepositoryPermissionTableRowView.orgIcon
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraintEqualToConstant(14).active = true
-        imageView.widthAnchor.constraintEqualToConstant(16).active = true
-        imageView.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: OrganizationPrivateRepositoryPermissionTableRowView.padding).active = true
-        imageView.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
+        imageView.heightAnchor.constraint(equalToConstant: 14).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        imageView.leftAnchor.constraint(equalTo: leftAnchor, constant: OrganizationPrivateRepositoryPermissionTableRowView.padding).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
         addSubview(label)
         label.stringValue = "Cannot find your organization private repositories? Click here for more details."
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        label.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        label.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        label.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        label.leftAnchor.constraintEqualToAnchor(imageView.rightAnchor, constant: OrganizationPrivateRepositoryPermissionTableRowView.padding).active = true
-        label.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -OrganizationPrivateRepositoryPermissionTableRowView.padding).active = true
-        label.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-        label.font = NSFont.boldSystemFontOfSize(12)
+        label.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        label.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        label.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        label.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: OrganizationPrivateRepositoryPermissionTableRowView.padding).isActive = true
+        label.rightAnchor.constraint(equalTo: rightAnchor, constant: -OrganizationPrivateRepositoryPermissionTableRowView.padding).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        label.font = NSFont.boldSystemFont(ofSize: 12)
         
         label.usesSingleLineMode = false
-        label.cell?.lineBreakMode = .ByWordWrapping
+        label.cell?.lineBreakMode = .byWordWrapping
         
         addGestureRecognizer(NSClickGestureRecognizer(target: self, action: #selector(OrganizationPrivateRepositoryPermissionTableRowView.didClickRow)))
     }
     
     @objc
-    private func didClickRow() {
-        if let url = NSURL(string: "http://www.cashewapp.co/help/private_organization_repositories") {
-            NSWorkspace.sharedWorkspace().openURL(url)
+    fileprivate func didClickRow() {
+        if let url = URL(string: "http://www.cashewapp.co/help/private_organization_repositories") {
+            NSWorkspace.shared.open(url)
         }
     }
     

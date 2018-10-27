@@ -10,30 +10,30 @@ import Cocoa
 
 class ObjectPool<T>: NSObject {
     
-    private let accessQueue = dispatch_queue_create("com.simplerocket.Issues.ObjectPool", DISPATCH_QUEUE_SERIAL)
-    private var data = NSMutableOrderedSet()
-    private let createObject: (() -> T)
+    fileprivate let accessQueue = DispatchQueue(label: "com.simplerocket.Issues.ObjectPool", attributes: [])
+    fileprivate var data = NSMutableOrderedSet()
+    fileprivate let createObject: (() -> T)
     
     var willReturnObject: ((T) -> ())?
     var willBorrowObject: ((T) -> ())?
     
-    required init(createObject aBlock: (() -> T)) {
+    required init(createObject aBlock: @escaping (() -> T)) {
         createObject = aBlock
     }
     
     func borrowObject() -> T {
         var object: T?
-        dispatch_sync(accessQueue) {
+        accessQueue.sync {
             let lastObject = self.data.lastObject as? T
             if let lastObject = lastObject as? AnyObject {
-                self.data.removeObject(lastObject)
+                self.data.remove(lastObject)
                 object = lastObject as? T
             } else {
                 object = self.createObject()
             }
         }
         
-        if let preBorrow = willBorrowObject, object = object {
+        if let preBorrow = willBorrowObject, let object = object {
             preBorrow(object)
             return object
         }
@@ -41,13 +41,13 @@ class ObjectPool<T>: NSObject {
         fatalError()
     }
     
-    func returnObject(object: T) {
-        dispatch_sync(accessQueue) {
+    func returnObject(_ object: T) {
+        accessQueue.sync {
             if let preReturn = self.willReturnObject {
                 preReturn(object)
             }
             if let object = object as? AnyObject {
-                self.data.addObject(object)
+                self.data.add(object)
             }
         }
     }

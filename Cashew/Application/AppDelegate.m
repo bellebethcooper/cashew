@@ -133,8 +133,8 @@
 
 - (void)dealloc
 {
-    [QAccountStore removeObserver:self];
-    [QIssueNotificationStore removeObserver:self];
+    [QAccountStore remove:self];
+    [QIssueNotificationStore remove:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[SRThemeObserverController sharedInstance] removeThemeObserver:self];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:[NSUserDefaults layoutModeKeyPath]];

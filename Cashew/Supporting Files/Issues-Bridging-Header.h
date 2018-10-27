@@ -59,7 +59,6 @@
 #import "SRExtension.h"
 #import "SRExtensionStore.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
-#import <CocoaLumberJack/DDContextFilterLogFormatter.h>
 #import "SRIssueReaction.h"
 #import "SRIssueCommentReaction.h"
 #import "SRIssueReactionStore.h"

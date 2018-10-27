@@ -19,7 +19,7 @@
 + (QRepository *)repositoryForAccountId:(NSNumber *)accountId ownerLogin:(NSString *)ownerLogin repositoryName:(NSString *)repositoryName;
 + (NSArray<QRepository *> *)searchRepositoriesWithQuery:(NSString *)query forAccountId:(NSNumber *)accountId;
 + (NSArray<QRepository *> *)repositoriesWithTitle:(NSArray<NSString *> *)titles forAccountId:(NSNumber *)accountId;
-+ (void)deleteRepository:(QRepository *)repository;
++ (void)delete:(QRepository *)repository;
 + (void)markAsCompletedSyncForRepository:(QRepository *)repo;
 + (void)deleteAssignee:(QOwner *)assignee forRepository:(QRepository *)repo;
 + (void)saveDeltaSyncDate:(NSDate *)date forRepository:(QRepository *)repo;

@@ -10,28 +10,28 @@ import Cocoa
 
 class IssueExtensionsDataSource: NSObject {
     
-    private var extensions = [SRExtension]()
-    private var accessQueue = dispatch_queue_create("co.cashewapp.ISsueExtensionsDataSource.accessQueue", DISPATCH_QUEUE_CONCURRENT)
+    fileprivate var extensions = [SRExtension]()
+    fileprivate var accessQueue = DispatchQueue(label: "co.cashewapp.ISsueExtensionsDataSource.accessQueue", attributes: DispatchQueue.Attributes.concurrent)
     
     
-    var onRecordUpdate: ( (codeExtension: SRExtension, index: Int) -> Void )?
-    var onRecordDeletion: ( (codeExtension: SRExtension, index: Int) -> Void )?
-    var onRecordInsertion: ( (codeExtension: SRExtension, index: Int) -> Void )?
+    var onRecordUpdate: ( (_ codeExtension: SRExtension, _ index: Int) -> Void )?
+    var onRecordDeletion: ( (_ codeExtension: SRExtension, _ index: Int) -> Void )?
+    var onRecordInsertion: ( (_ codeExtension: SRExtension, _ index: Int) -> Void )?
     
     deinit {
-        SRExtensionStore.removeObserver(self)
+        SRExtensionStore.remove(self)
     }
     
     override init() {
         super.init()
-        SRExtensionStore.addObserver(self)
+        SRExtensionStore.add(self)
     }
     
-    func reloadData(onCompletion: dispatch_block_t) {
+    func reloadData(_ onCompletion: ()->()) {
         //service.syncCodeExtensions { [weak self] (extensions, err) in
         //guard let strongSelf = self else { return }
-        dispatch_barrier_sync(self.accessQueue, {
-            self.extensions = SRExtensionStore.extensionsForType(SRExtensionTypeIssue)
+        (self.accessQueue).sync(flags: .barrier, execute: {
+            self.extensions = SRExtensionStore.extensions(for: SRExtensionTypeIssue)
         })
         onCompletion()
         //}
@@ -40,16 +40,16 @@ class IssueExtensionsDataSource: NSObject {
     var numberOfRows: Int {
         get {
             var count: Int = 0
-            dispatch_sync(accessQueue) {
+            (accessQueue).sync {
                 count = self.extensions.count
             }
             return count
         }
     }
     
-    func itemAtIndex(index: Int) -> SRExtension {
+    func itemAtIndex(_ index: Int) -> SRExtension {
         var item: SRExtension?
-        dispatch_sync(accessQueue) {
+        (accessQueue).sync {
             item = self.extensions[index]
         }
         return item!
@@ -59,39 +59,39 @@ class IssueExtensionsDataSource: NSObject {
 
 extension IssueExtensionsDataSource: QStoreObserver {
     
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
-        guard let record = record as? SRExtension where store == SRExtensionStore.self else { return }
-        dispatch_barrier_sync(self.accessQueue, {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
+        guard let record = record as? SRExtension , store == SRExtensionStore.self else { return }
+        self.accessQueue.sync(flags: .barrier, execute: {
             let index = self.extensions.insertionIndexOf(record, isOrderedBefore: { (record1, record2) -> Bool in
-                return record1.name.lowercaseString < record2.name.lowercaseString
+                return record1.name.lowercased() < record2.name.lowercased()
             })
-            self.extensions.insert(record, atIndex: index)
+            self.extensions.insert(record, at: index)
             if let onRecordInsertion = self.onRecordInsertion {
-                onRecordInsertion(codeExtension: record, index: index)
+                onRecordInsertion(record, index)
             }
         })
         
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
-        guard let record = record as? SRExtension where store == SRExtensionStore.self else { return }
-        dispatch_barrier_sync(self.accessQueue, {
-            if let index = self.extensions.indexOf(record) {
-                self.extensions.removeAtIndex(index)
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
+        guard let record = record as? SRExtension , store == SRExtensionStore.self else { return }
+        self.accessQueue.sync(flags: .barrier, execute: {
+            if let index = self.extensions.index(of: record) {
+                self.extensions.remove(at: index)
                 if let onRecordDeletion = self.onRecordDeletion {
-                    onRecordDeletion(codeExtension: record, index: index)
+                    onRecordDeletion(record, index)
                 }
             }
         })
     }
     
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
-        guard let record = record as? SRExtension where store == SRExtensionStore.self else { return }
-        dispatch_barrier_sync(self.accessQueue, {
-            if let index = self.extensions.indexOf(record) {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
+        guard let record = record as? SRExtension , store == SRExtensionStore.self else { return }
+        self.accessQueue.sync(flags: .barrier, execute: {
+            if let index = self.extensions.index(of: record) {
                 self.extensions[index] = record
                 if let onRecordUpdate = self.onRecordUpdate {
-                    onRecordUpdate(codeExtension: record, index: index)
+                    onRecordUpdate(record, index)
                 }
             }
         })

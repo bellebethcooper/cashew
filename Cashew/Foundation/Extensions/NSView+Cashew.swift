@@ -14,10 +14,10 @@ extension NSView {
     public func pinAnchorsToSuperview() {
         guard let superview = superview else { return }
         translatesAutoresizingMaskIntoConstraints = false
-        leftAnchor.constraintEqualToAnchor(superview.leftAnchor).active = true
-        rightAnchor.constraintEqualToAnchor(superview.rightAnchor).active = true
-        bottomAnchor.constraintEqualToAnchor(superview.bottomAnchor).active = true
-        topAnchor.constraintEqualToAnchor(superview.topAnchor).active = true
+        leftAnchor.constraint(equalTo: superview.leftAnchor).isActive = true
+        rightAnchor.constraint(equalTo: superview.rightAnchor).isActive = true
+        bottomAnchor.constraint(equalTo: superview.bottomAnchor).isActive = true
+        topAnchor.constraint(equalTo: superview.topAnchor).isActive = true
     }
     
     
@@ -25,8 +25,8 @@ extension NSView {
         guard let window = window else { return false }
         
         let mouseLocationInWindow = window.mouseLocationOutsideOfEventStream
-        let mouseLocationInView = convertPoint(mouseLocationInWindow, fromView: nil)
-        let isMouseOverCurrentView = mouse(mouseLocationInView, inRect: bounds)
+        let mouseLocationInView = convert(mouseLocationInWindow, from: nil)
+        let isMouseOverCurrentView = mouse(mouseLocationInView, in: bounds)
         
         return isMouseOverCurrentView;
     }

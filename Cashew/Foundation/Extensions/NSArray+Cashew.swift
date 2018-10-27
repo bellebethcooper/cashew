@@ -11,9 +11,9 @@ import Foundation
 
 extension NSArray {
     
-    func insertionIndexOf(obj: NSObject, comparator: NSComparator) -> Int {
+    func insertionIndexOf(_ obj: NSObject, comparator: Comparator) -> Int {
         
-        let newIndex: Int = indexOfObject(obj, inSortedRange: NSMakeRange(0, self.count), options: .InsertionIndex, usingComparator: comparator)
+        let newIndex: Int = index(of: obj, inSortedRange: NSMakeRange(0, self.count), options: .insertionIndex, usingComparator: comparator)
         return newIndex
     }
     

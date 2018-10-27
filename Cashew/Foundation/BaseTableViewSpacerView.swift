@@ -26,12 +26,12 @@ class BaseSpacerTableRowView: NSTableRowView {
 @objc(SRBaseTableViewSpacerView)
 class BaseSpacerTableViewAdapter: NSObject, BaseTableViewAdapter {
 
-    func height(item: AnyObject, index: Int) -> CGFloat {
+    func height(_ item: AnyObject, index: Int) -> CGFloat {
         guard let item = item as? BaseSpacerTableRowViewItem else { return 0 }
         return item.spaceHeight
     }
     
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView? {
         guard let _ = item as? BaseSpacerTableRowViewItem else { return nil }
         
         let rowView: BaseSpacerTableRowView

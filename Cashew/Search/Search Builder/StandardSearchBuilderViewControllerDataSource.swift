@@ -18,16 +18,16 @@ class StandardSearchBuilderViewControllerDataSource: NSObject, SearchBuilderView
     }
     
     
-    func onSearch(results: [SearchBuilderResult]) {
-        QContext.sharedContext().currentFilter = filterFromResults(results)
+    func onSearch(_ results: [SearchBuilderResult]) {
+        QContext.shared().currentFilter = filterFromResults(results)
     }
     
-    func onSave(results: [SearchBuilderResult], searchName: String) {
+    func onSave(_ results: [SearchBuilderResult], searchName: String) {
         let filter = filterFromResults(results)
-        QUserQueryStore.saveUserQueryWithQuery(filter.searchTokens(), account: filter.account, name: searchName, externalId: nil, updatedAt: nil)
+        QUserQueryStore.saveUserQuery(withQuery: filter.searchTokens(), account: filter.account, name: searchName, externalId: nil, updatedAt: nil)
     }
     
-    private func filterFromResults(results: [SearchBuilderResult]) -> QIssueFilter {
+    fileprivate func filterFromResults(_ results: [SearchBuilderResult]) -> QIssueFilter {
         let filter = QIssueFilter()
         var text: String = ""
         
@@ -55,65 +55,65 @@ class StandardSearchBuilderViewControllerDataSource: NSObject, SearchBuilderView
             case .IssueState:
                 if let val = result.criteriaValue {
                     if val == "open" {
-                        issueStates.addObject(NSNumber(integer: IssueStoreIssueState_Open))
+                        issueStates.add(NSNumber(value: IssueStoreIssueState_Open))
                     } else if val == "closed" {
-                        issueStates.addObject(NSNumber(integer: IssueStoreIssueState_Closed))
+                        issueStates.add(NSNumber(value: IssueStoreIssueState_Closed))
                     }
                 }
             case .IssueNumber:
-                if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                    issueNumbers.addObject(val)
+                if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                    issueNumbers.add(val)
                 }
             case .Text:
-                if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
+                if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
                     text = "\(text) \(val)"
                 }
             case .Assignee:
-                guard let partOfSpeech = result.partOfSpeech, pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
+                guard let partOfSpeech = result.partOfSpeech, let pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
                 if pos == .Unspecified {
-                    assignees.addObject(NSNull())
+                    assignees.add(NSNull())
                 } else {
                     let set = pos == .Equals ? assignees : assigneeExcludes
-                    if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                        set.addObject(val)
+                    if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                        set.add(val)
                     }
                 }
             case .Author:
-                guard let partOfSpeech = result.partOfSpeech, pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
+                guard let partOfSpeech = result.partOfSpeech, let pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
                 let set = pos == .Equals ? authors : authorExcludes
-                if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                    set.addObject(val)
+                if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                    set.add(val)
                 }
             case .Mentions:
-                guard let partOfSpeech = result.partOfSpeech, pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
+                guard let partOfSpeech = result.partOfSpeech, let pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
                 let set = pos == .Equals ? mentions : mentionExcludes
-                if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                    set.addObject(val)
+                if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                    set.add(val)
                 }
             case .Repository:
-                guard let partOfSpeech = result.partOfSpeech, pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
+                guard let partOfSpeech = result.partOfSpeech, let pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
                 let set = pos == .Equals ? repos : repoExcludes
-                if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                    set.addObject(val)
+                if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                    set.add(val)
                 }
             case .Milestone:
-                guard let partOfSpeech = result.partOfSpeech, pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
+                guard let partOfSpeech = result.partOfSpeech, let pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
                 if pos == .Unspecified {
-                    milestones.addObject(NSNull())
+                    milestones.add(NSNull())
                 } else {
                     let set = pos == .Equals ? milestones : milestoneExcludes
-                    if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                        set.addObject(val)
+                    if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                        set.add(val)
                     }
                 }
             case .Label:
-                guard let partOfSpeech = result.partOfSpeech, pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
+                guard let partOfSpeech = result.partOfSpeech, let pos = StandardSearchBuilderPartOfSpeech(rawValue: partOfSpeech) else { return }
                 if pos == .Unspecified {
-                    labels.addObject(NSNull())
+                    labels.add(NSNull())
                 } else {
                     let set = pos == .Equals ? labels : labelExcludes
-                    if let val = result.criteriaValue where (val as NSString).trimmedString().length > 0 {
-                        set.addObject(val)
+                    if let val = result.criteriaValue , (val as NSString).trimmedString().length > 0 {
+                        set.add(val)
                     }
                 }
             }
@@ -135,7 +135,7 @@ class StandardSearchBuilderViewControllerDataSource: NSObject, SearchBuilderView
         filter.labels = labels
         filter.labelExcludes = labelExcludes
         
-        filter.account = QContext.sharedContext().currentAccount
+        filter.account = QContext.shared().currentAccount
         
         return filter
     }

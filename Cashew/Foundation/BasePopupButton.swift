@@ -11,8 +11,8 @@ import Cocoa
 @objc(SRBasePopupButton)
 class BasePopupButton: BaseView {
     
-    private static let chevronAndLabelPadding: CGFloat = 5.0
-    private static let chevronImageSize = NSMakeSize(8, 5)
+    fileprivate static let chevronAndLabelPadding: CGFloat = 5.0
+    fileprivate static let chevronImageSize = NSMakeSize(8, 5)
     
     let label = BaseLabel()
     let chevronImageView = NSImageView()
@@ -67,35 +67,35 @@ class BasePopupButton: BaseView {
         get {
             let height = max(label.intrinsicContentSize.height, BasePopupButton.chevronImageSize.height)
             let width = label.intrinsicContentSize.width + BasePopupButton.chevronAndLabelPadding + BasePopupButton.chevronImageSize.width
-            return CGSizeMake(width, height)
+            return CGSize(width: width, height: height)
         }
     }
     
-    private func setup() {
+    fileprivate func setup() {
         wantsLayer = true
         
         addSubview(label)
 //        label.layer?.borderWidth = 1
 //        label.layer?.borderColor = NSColor.redColor().CGColor
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
-        label.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
-        label.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        label.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
-        label.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        label.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
+        label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        label.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        label.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .vertical)
+        label.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .vertical)
         
         addSubview(chevronImageView)
         chevronImageView.wantsLayer = true
 //        chevronImageView.layer?.borderWidth = 1
 //        chevronImageView.layer?.borderColor = NSColor.redColor().CGColor
-        chevronImageView.imageScaling = .ScaleProportionallyUpOrDown
+        chevronImageView.imageScaling = .scaleProportionallyUpOrDown
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
-        chevronImageView.leftAnchor.constraintEqualToAnchor(label.rightAnchor, constant: BasePopupButton.chevronAndLabelPadding).active = true
-        chevronImageView.centerYAnchor.constraintEqualToAnchor(label.centerYAnchor, constant:  0).active = true
-        chevronImageView.rightAnchor.constraintEqualToAnchor(rightAnchor).active = true
-        chevronImageView.widthAnchor.constraintEqualToConstant(BasePopupButton.chevronImageSize.width).active = true
-        chevronImageView.heightAnchor.constraintEqualToConstant(BasePopupButton.chevronImageSize.height).active = true
+        chevronImageView.leftAnchor.constraint(equalTo: label.rightAnchor, constant: BasePopupButton.chevronAndLabelPadding).isActive = true
+        chevronImageView.centerYAnchor.constraint(equalTo: label.centerYAnchor, constant:  0).isActive = true
+        chevronImageView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        chevronImageView.widthAnchor.constraint(equalToConstant: BasePopupButton.chevronImageSize.width).isActive = true
+        chevronImageView.heightAnchor.constraint(equalToConstant: BasePopupButton.chevronImageSize.height).isActive = true
 //        chevronImageView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
 //        chevronImageView.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Vertical)
 //        chevronImageView.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
@@ -116,7 +116,7 @@ class BasePopupButton: BaseView {
                 return;
             }
             
-            if mode == .Dark {
+            if mode == .dark {
                // strongSelf.appearance = NSAppearance(named:NSAppearanceNameVibrantDark)
             } else {
                // strongSelf.appearance = NSAppearance(named:NSAppearanceNameVibrantLight)
@@ -127,13 +127,13 @@ class BasePopupButton: BaseView {
         }
     }
     
-    func chevronImage(color: NSColor = CashewColor.foregroundColor()) -> NSImage {
-        let image = NSImage(named: "chevron-down")!.imageWithTintColor(color)
-        image.size = BasePopupButton.chevronImageSize
-        return image
+    func chevronImage(_ color: NSColor = CashewColor.foregroundColor()) -> NSImage {
+        let image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))!.withTintColor(color)
+        image?.size = BasePopupButton.chevronImageSize
+        return image!
     }
     
-    override func mouseDown(theEvent: NSEvent) {
+    override func mouseDown(with theEvent: NSEvent) {
         didClickMenuButton()
     }
     
@@ -145,14 +145,14 @@ class BasePopupButton: BaseView {
             menu.addItem(item)
         }
         
-        let pointInWindow = convertPoint(CGPoint.zero, toView: nil)
+        let pointInWindow = convert(CGPoint.zero, to: nil)
         let point = NSPoint(x: pointInWindow.x + frame.width - menu.size.width, y: pointInWindow.y - frame.height * 1.5)
-        if let windowNumber = window?.windowNumber, popupEvent = NSEvent.mouseEventWithType(.LeftMouseUp, location: point, modifierFlags: event.modifierFlags, timestamp: 0, windowNumber: windowNumber, context: nil, eventNumber: 0, clickCount: 0, pressure: 0) {
-            SRMenu.popUpContextMenu(menu, withEvent: popupEvent, forView: self)
+        if let windowNumber = window?.windowNumber, let popupEvent = NSEvent.mouseEvent(with: .leftMouseUp, location: point, modifierFlags: event.modifierFlags, timestamp: 0, windowNumber: windowNumber, context: nil, eventNumber: 0, clickCount: 0, pressure: 0) {
+            SRMenu.popUpContextMenu(menu, with: popupEvent, for: self)
         }
     }
     
-    override var flipped: Bool {
+    override var isFlipped: Bool {
         get {
             return true
         }

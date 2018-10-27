@@ -9,23 +9,23 @@
 import Cocoa
 
 enum BaseTableRowViewSelectionType {
-    case Checkbox;
-    case Highlight;
-    case None;
+    case checkbox;
+    case highlight;
+    case none;
 }
 
 class BaseTableRowView: NSTableRowView {
     
-    private static let titleTextColor = NSColor(calibratedWhite: 0, alpha: 0.80)
-    private static let titleTextSelectedColor = NSColor(calibratedWhite: 1, alpha: 1)
-    private static let subtitleTextColor = NSColor(calibratedWhite: 0, alpha: 0.60)
-    private static let subtitleTextSelectedColor = NSColor(calibratedWhite: 1, alpha: 0.80)
-    private static let titleTextFont = NSFont.systemFontOfSize(14, weight: NSFontWeightSemibold)
-    private static let subtitleTextFont = NSFont.systemFontOfSize(13)
-    private static let padding: CGFloat = 6.0
+    fileprivate static let titleTextColor = NSColor(calibratedWhite: 0, alpha: 0.80)
+    fileprivate static let titleTextSelectedColor = NSColor(calibratedWhite: 1, alpha: 1)
+    fileprivate static let subtitleTextColor = NSColor(calibratedWhite: 0, alpha: 0.60)
+    fileprivate static let subtitleTextSelectedColor = NSColor(calibratedWhite: 1, alpha: 0.80)
+    fileprivate static let titleTextFont = NSFont.systemFont(ofSize: 14, weight: NSFont.Weight.semibold)
+    fileprivate static let subtitleTextFont = NSFont.systemFont(ofSize: 13)
+    fileprivate static let padding: CGFloat = 6.0
     static let selectionColor = NSColor(calibratedRed: 62/255.0, green: 96/255.0, blue: 218/255.0, alpha: 1)
-    private static let checkboxPadding: CGFloat = 6
-    private static let checkboxWidth: CGFloat = 30.0
+    fileprivate static let checkboxPadding: CGFloat = 6
+    fileprivate static let checkboxWidth: CGFloat = 30.0
     
     let titleLabel = BaseLabel()
     let subtitleLabel = BaseLabel()
@@ -51,10 +51,10 @@ class BaseTableRowView: NSTableRowView {
         }
     }
     
-    private(set) var contentView = BaseView()
-    var selectionType: BaseTableRowViewSelectionType = .Highlight {
+    fileprivate(set) var contentView = BaseView()
+    var selectionType: BaseTableRowViewSelectionType = .highlight {
         didSet {
-            if selectionType == .None {
+            if selectionType == .none {
                 checked = false
             }
             needsDisplay = true
@@ -82,7 +82,7 @@ class BaseTableRowView: NSTableRowView {
             let accessoryView = GreenCheckboxView()
             accessoryView.checked = true
             accessoryView.disableThemeObserver = true
-            accessoryView.backgroundColor = NSColor.clearColor()
+            accessoryView.backgroundColor = NSColor.clear
             self.accessoryView = accessoryView
         }
         
@@ -100,8 +100,8 @@ class BaseTableRowView: NSTableRowView {
                 return;
             }
             
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
         
     }
@@ -110,21 +110,21 @@ class BaseTableRowView: NSTableRowView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             switch selectionType {
-            case .Highlight:
-                accessoryView?.hidden = true
-                if selected {
+            case .highlight:
+                accessoryView?.isHidden = true
+                if isSelected {
                     contentView.backgroundColor = BaseTableRowView.selectionColor
                 } else {
                     backgroundColor = CashewColor.backgroundColor()
                     contentView.backgroundColor = CashewColor.backgroundColor()
 
                 }
-            case .Checkbox:
+            case .checkbox:
                 fallthrough
-            case .None:
+            case .none:
                 needsLayout = true
                 layoutSubtreeIfNeeded()
                 backgroundColor = CashewColor.backgroundColor()
@@ -139,7 +139,7 @@ class BaseTableRowView: NSTableRowView {
     
     var checked: Bool = false {
         didSet {
-            accessoryView?.hidden = !checked
+            accessoryView?.isHidden = !checked
             needsLayout = true
             layoutSubtreeIfNeeded()
             
@@ -152,14 +152,14 @@ class BaseTableRowView: NSTableRowView {
     }
 
     
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else { return }
             
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
@@ -168,7 +168,7 @@ class BaseTableRowView: NSTableRowView {
         
         if let accessoryView = accessoryView {
             accessoryView.frame = CGRectIntegralMake(x: bounds.width - BaseTableRowView.checkboxWidth - BaseTableRowView.checkboxPadding, y: 0, width: BaseTableRowView.checkboxWidth, height: bounds.height - 1)
-            contentView.frame = CGRectIntegralMake(x: 0, y: 0, width: bounds.width - (!accessoryView.hidden ? BaseTableRowView.checkboxWidth + BaseTableRowView.checkboxPadding : 0.0), height: bounds.height - 1)
+            contentView.frame = CGRectIntegralMake(x: 0, y: 0, width: bounds.width - (!accessoryView.isHidden ? BaseTableRowView.checkboxWidth + BaseTableRowView.checkboxPadding : 0.0), height: bounds.height - 1)
         } else {
             contentView.frame = CGRectIntegralMake(x: 0, y: 0, width: bounds.width, height: bounds.height - 1)
         }
@@ -194,10 +194,10 @@ class BaseTableRowView: NSTableRowView {
         super.layout()
     }
     
-    override func drawSelectionInRect(dirtyRect: NSRect) {
-        guard selectionType == .Highlight else { return }
+    override func drawSelection(in dirtyRect: NSRect) {
+        guard selectionType == .highlight else { return }
         
-        if self.selectionHighlightStyle != .None {
+        if self.selectionHighlightStyle != .none {
             let rect = NSInsetRect(self.bounds, 0, 0)
             BaseTableRowView.selectionColor.setFill()
             let selectionPath = NSBezierPath(roundedRect: rect, xRadius: 0, yRadius: 0)
@@ -208,7 +208,7 @@ class BaseTableRowView: NSTableRowView {
     
     // MARK: Setup
     
-    private func setupSubtitleLabel() {
+    fileprivate func setupSubtitleLabel() {
         guard subtitleLabel.superview == nil else { return }
         contentView.addSubview(subtitleLabel)
         subtitleLabel.font = RepositorySearchResultTableRowView.subtitleTextFont
@@ -216,7 +216,7 @@ class BaseTableRowView: NSTableRowView {
         subtitleLabel.textColor = CashewColor.foregroundSecondaryColor()
     }
     
-    private func setupTitleLabel() {
+    fileprivate func setupTitleLabel() {
         guard titleLabel.superview == nil else { return }
         contentView.addSubview(titleLabel)
         titleLabel.font = RepositorySearchResultTableRowView.titleTextFont

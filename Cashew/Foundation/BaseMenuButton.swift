@@ -34,7 +34,7 @@ class RepositoriesMenuButton: BaseMenuButton {
             }
         }
     }
-    var onRepoChange: dispatch_block_t?
+    var onRepoChange: (()->())?
     
     var repositories = [QRepository]() {
         didSet {
@@ -44,16 +44,16 @@ class RepositoriesMenuButton: BaseMenuButton {
         }
     }
     
-    private func setupCurrentRepoSelection() {
+    fileprivate func setupCurrentRepoSelection() {
         let menu = SRMenu()
         
-        repositories.sortInPlace({ (repo1, repo2) -> Bool in
+        repositories.sort(by: { (repo1, repo2) -> Bool in
             if repo1 == currentRepository {
                 return true
             } else if repo2 == currentRepository {
                 return false
             }
-            return repo1.name.compare(repo2.name) == .OrderedAscending
+            return repo1.name.compare(repo2.name) == .orderedAscending
         })
         
         repositories.forEach { (repo) in
@@ -67,7 +67,7 @@ class RepositoriesMenuButton: BaseMenuButton {
     }
     
     @objc
-    private func didSelectMenuButton(sender: NSMenuItem) {
+    fileprivate func didSelectMenuButton(_ sender: NSMenuItem) {
         //DDLogDebug("didSelect menu item = \(sender)")
         if let repo = sender.representedObject as? QRepository {
             currentRepository = repo
@@ -89,10 +89,10 @@ class RepositoriesMenuButton: BaseMenuButton {
 //            selectItem(sender)
             
 //
-            let index = repositories.indexOf(repo)
+            let index = repositories.index(of: repo)
             
             if let index = index {
-                selectItemAtIndex(index)
+                selectItem(at: index)
                // indexOfSelectedItem = index
 //                [menu bind:@"selectedIndex" toObject:self withKeyPath:@"indexOfSelectedItem" options:nil];
 

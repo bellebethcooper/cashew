@@ -13,14 +13,14 @@ extension NSViewController {
     
     
     @objc
-    public func presentViewControllerInWindowControllerModallyWithTitle(title: String) {
+    public func presentViewControllerInWindowControllerModallyWithTitle(_ title: String) {
         self.presentViewControllerInWindowControllerModallyWithTitle(title, onCompletion: nil)
     }
     
     @objc
-    public func presentViewControllerInWindowControllerModallyWithTitle(title: String, onCompletion: dispatch_block_t? = nil) {
+    public func presentViewControllerInWindowControllerModallyWithTitle(_ title: String, onCompletion: (() -> ())? = nil) {
         let appDelegate = AppDelegate.sharedCashewAppDelegate();
-        appDelegate.presentWindowWithViewController(self, title: title, onCompletion: onCompletion)
+        appDelegate.presentWindow(with: self, title: title, onCompletion: onCompletion)
     }
     
     

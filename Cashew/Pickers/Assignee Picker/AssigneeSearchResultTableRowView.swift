@@ -10,10 +10,10 @@ import Cocoa
 
 class AssigneeSearchResultTableRowView: BaseTableRowView {
     
-    private static let imageSize = CGSizeMake(20, 20)
-    private static let padding: CGFloat = 6.0
+    fileprivate static let imageSize = CGSize(width: 20, height: 20)
+    fileprivate static let padding: CGFloat = 6.0
     
-    private let imageView = BaseView()
+    fileprivate let imageView = BaseView()
     
     var owner: QOwner {
         didSet {
@@ -25,7 +25,7 @@ class AssigneeSearchResultTableRowView: BaseTableRowView {
         self.owner = owner
         super.init()
         
-        selectionType = .Checkbox
+        selectionType = .checkbox
         
         contentView.addSubview(imageView)
         imageView.backgroundColor = NSColor(calibratedWhite: 0.90, alpha: 1)
@@ -36,8 +36,8 @@ class AssigneeSearchResultTableRowView: BaseTableRowView {
     
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else{ return }
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
@@ -46,11 +46,11 @@ class AssigneeSearchResultTableRowView: BaseTableRowView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             needsLayout = true
             layoutSubtreeIfNeeded()
-            if NSUserDefaults.themeMode() == .Dark {
+            if UserDefaults.themeMode() == .dark {
                 backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 backgroundColor = CashewColor.backgroundColor()
@@ -82,7 +82,7 @@ class AssigneeSearchResultTableRowView: BaseTableRowView {
     
     
     // MARK: Setup
-    private func didSetOwner() {
+    fileprivate func didSetOwner() {
         titleLabel.stringValue = owner.login
         subtitleLabel.stringValue = ""
         imageView.setImageURL(owner.avatarURL)

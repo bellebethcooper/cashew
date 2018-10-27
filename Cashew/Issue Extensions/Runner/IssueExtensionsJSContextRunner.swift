@@ -14,39 +14,39 @@ class IssueExtensionsJSContextRunner: NSObject {
     
    // static let sharedInstance = IssueExtensionsJSContextRunner()
     
-    private let context = JSContext(virtualMachine: JSVirtualMachine())
+    fileprivate let context = JSContext(virtualMachine: JSVirtualMachine())
     
     required init(environment: CodeExtensionEnvironmentProtocol) {
         super.init()
         
-        context.exceptionHandler = { (context, exception) in
+        context?.exceptionHandler = { (context, exception) in
             // type of String
-            let stacktrace = exception.objectForKeyedSubscript("stack").toString()
+            let stacktrace = exception?.objectForKeyedSubscript("stack").toString()
             // type of Number
-            let lineNumber = exception.objectForKeyedSubscript("line")
+            let lineNumber = exception?.objectForKeyedSubscript("line")
             // type of Number
-            let column = exception.objectForKeyedSubscript("column")
+            let column = exception?.objectForKeyedSubscript("column")
             
             environment.exceptionLog("\(lineNumber)", column: "\(column)", stacktrace: "\(stacktrace)", exception: "\(exception)")
         }
         
         do {
-            if let foundation = NSBundle.mainBundle().pathForResource("issue_extension_context", ofType: "js") {
-                let foundationCode = try NSString(contentsOfFile: foundation, encoding: NSUTF8StringEncoding)
-                context.evaluateScript(foundationCode as String)
+            if let foundation = Bundle.main.path(forResource: "issue_extension_context", ofType: "js") {
+                let foundationCode = try NSString(contentsOfFile: foundation, encoding: String.Encoding.utf8.rawValue)
+                context?.evaluateScript(foundationCode as String)
             }
         } catch {
         
         }
 
-        let consoleLog: @convention(block) [AnyObject] -> Void = { (objects) in
+        let consoleLog: @convention(block) ([AnyObject]) -> Void = { (objects) in
             //DDLogDebug("[LOG] \(message)")
             //guard let strongContext = context else { return }
             // JSContext.currentArguments()
-            environment.consoleLog(objects, logLevel: .Log)
+            environment.consoleLog(objects, logLevel: .log)
         }
         
-        let writeToPasteboard: @convention(block) String -> Void = { (str) in
+        let writeToPasteboard: @convention(block) (String) -> Void = { (str) in
             environment.writeToPasteboard(str)
         }
         
@@ -94,31 +94,31 @@ class IssueExtensionsJSContextRunner: NSObject {
             environment.labelsForRepository(repository, onCompletion: completion)
         }
         
-        context.setObject(unsafeBitCast(consoleLog, AnyObject.self), forKeyedSubscript: "_consoleLog")
-        context.setObject(unsafeBitCast(writeToPasteboard, AnyObject.self), forKeyedSubscript: "_writeToPasteboard")
+        context?.setObject(unsafeBitCast(consoleLog, to: AnyObject.self), forKeyedSubscript: "_consoleLog" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(writeToPasteboard, to: AnyObject.self), forKeyedSubscript: "_writeToPasteboard" as (NSCopying & NSObjectProtocol)!)
         
-        context.setObject(unsafeBitCast(closeIssue, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCloseIssue")
-        context.setObject(unsafeBitCast(openIssue, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceOpenIssue")
-        context.setObject(unsafeBitCast(assignMilestoneToIssue, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignMilestoneToIssue")
-        context.setObject(unsafeBitCast(assignUserToIssue, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignUserToIssue")
-        context.setObject(unsafeBitCast(assignLabelsToIssue, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignLabelsToIssue")
-        context.setObject(unsafeBitCast(createIssueComment, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCreateIssueComment")
-        context.setObject(unsafeBitCast(saveIssueTitle, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueTitle")
-        context.setObject(unsafeBitCast(saveIssueBody, AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueBody")
+        context?.setObject(unsafeBitCast(closeIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCloseIssue" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(openIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceOpenIssue" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(assignMilestoneToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignMilestoneToIssue" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(assignUserToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignUserToIssue" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(assignLabelsToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignLabelsToIssue" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(createIssueComment, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCreateIssueComment" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(saveIssueTitle, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueTitle" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(saveIssueBody, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueBody" as (NSCopying & NSObjectProtocol)!)
         
-        context.setObject(unsafeBitCast(milestonesForRepository, AnyObject.self), forKeyedSubscript: "_Cashew_JSMilestoneServiceMilestonesForRepository")
+        context?.setObject(unsafeBitCast(milestonesForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSMilestoneServiceMilestonesForRepository" as (NSCopying & NSObjectProtocol)!)
         
-        context.setObject(unsafeBitCast(usersForRepository, AnyObject.self), forKeyedSubscript: "_Cashew_JSOwnerServiceUsersForRepository");
+        context?.setObject(unsafeBitCast(usersForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSOwnerServiceUsersForRepository" as (NSCopying & NSObjectProtocol)!);
         
-        context.setObject(unsafeBitCast(labelsForRepository, AnyObject.self), forKeyedSubscript: "_Cashew_JSLabelServiceLabelsForRepository");
+        context?.setObject(unsafeBitCast(labelsForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSLabelServiceLabelsForRepository" as (NSCopying & NSObjectProtocol)!);
         
     }
     
-    func runWithIssues(issues: [NSDictionary], sourceCode: String) {
-        context.evaluateScript(sourceCode)
-        let execute = context.objectForKeyedSubscript("_Cashew_execute")
+    func runWithIssues(_ issues: [NSDictionary], sourceCode: String) {
+        context?.evaluateScript(sourceCode)
+        let execute = context?.objectForKeyedSubscript("_Cashew_execute")
         //let execute = context.objectForKeyedSubscript("execute")
-        execute.callWithArguments([issues])
+        execute?.call(withArguments: [issues])
         //        let executeFunction = context.objectForKeyedSubscript("execute")
         //        let result = executeFunction.callWithArguments([ ["title": "Hicham is testing javascript"] ])
         //        print("Execute method: \(result.toString)")
@@ -139,7 +139,7 @@ class IssueExtensionsJSContextRunner: NSObject {
 //class JSIssueService: NSObject { //, JSIssueServiceExport {
 //    
 //    func closeIssue(issue: NSDictionary, onCompletion: JSValue) {
-//        let currentAccount = QContext.sharedContext().currentAccount
+//        let currentAccount = QContext.shared().currentAccount
 //        guard let repositoryHash = issue["repository"] as? [NSObject: AnyObject], repositoryId = repositoryHash["identifier"] as? NSNumber,
 //            repository = QRepositoryStore.repositoryForAccountId(currentAccount.identifier, identifier: repositoryId),
 //            issueNumber = issue["number"] as? NSNumber else {
@@ -162,7 +162,7 @@ class IssueExtensionsJSContextRunner: NSObject {
 //    }
 //    
 //    func openIssue(issue: NSDictionary, onCompletion: JSValue) {
-//        let currentAccount = QContext.sharedContext().currentAccount
+//        let currentAccount = QContext.shared().currentAccount
 //        guard let repositoryHash = issue["repository"] as? [NSObject: AnyObject], repositoryId = repositoryHash["identifier"] as? NSNumber,
 //            repository = QRepositoryStore.repositoryForAccountId(currentAccount.identifier, identifier: repositoryId),
 //            issueNumber = issue["number"] as? NSNumber else {

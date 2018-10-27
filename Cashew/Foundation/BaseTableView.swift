@@ -9,8 +9,8 @@
 import Cocoa
 
 protocol BaseTableViewAdapter: NSObjectProtocol {
-    func height(item: AnyObject, index: Int) -> CGFloat
-    func adapt(view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView?
+    func height(_ item: AnyObject, index: Int) -> CGFloat
+    func adapt(_ view: NSTableRowView?, item: AnyObject, index: Int) -> NSTableRowView?
 }
 
 @objc(SRBaseTableView)
@@ -22,7 +22,7 @@ class BaseTableView: NSTableView {
         return shouldAllowVibrancy
     }
     
-    private var adapters = [String: BaseTableViewAdapter]()
+    fileprivate var adapters = [String: BaseTableViewAdapter]()
     var disableThemeObserver = false {
         didSet {
             if disableThemeObserver {
@@ -31,23 +31,23 @@ class BaseTableView: NSTableView {
         }
     }
     
-    func registerAdapter(adapter: BaseTableViewAdapter, forClass clazz: AnyClass) {
+    func registerAdapter(_ adapter: BaseTableViewAdapter, forClass clazz: AnyClass) {
         adapters[NSStringFromClass(clazz)] = adapter
     }
     
-    func adaptForItem(item: AnyObject, row: Int, owner: AnyObject?) -> NSTableRowView? {
-        let reuseId = item.dynamicType.description()
+    func adaptForItem(_ item: AnyObject, row: Int, owner: AnyObject?) -> NSTableRowView? {
+        let reuseId = type(of: item).description()
         guard let adapter = adapters[reuseId] else { return nil }
         
-        if let rowView = makeViewWithIdentifier(reuseId, owner: owner) as? NSTableRowView {
+        if let rowView = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: reuseId), owner: owner) as? NSTableRowView {
             return adapter.adapt(rowView, item: item, index: row)
         } else {
             return adapter.adapt(nil, item: item, index: row)
         }
     }
     
-    func heightForItem(item: AnyObject, row: Int) -> CGFloat {
-        let reuseId = item.dynamicType.description()
+    func heightForItem(_ item: AnyObject, row: Int) -> CGFloat {
+        let reuseId = type(of: item).description()
         guard let adapter = adapters[reuseId] else { return 0 }
         
         return adapter.height(item, index: row)
@@ -68,7 +68,7 @@ class BaseTableView: NSTableView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
         self.canDrawConcurrently = true
         

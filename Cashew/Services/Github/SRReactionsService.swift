@@ -12,37 +12,37 @@ import AFNetworking
 class SRReactionsService: QBaseService {
     
     //GET /repos/:owner/:repo/issues/:number/reactions
-    func reactionsForIssue(issue: QIssue, onCompletion: QServiceOnCompletion) {
+    func reactionsForIssue(_ issue: QIssue, onCompletion: @escaping QServiceOnCompletion) {
         let reactionsSet = NSMutableOrderedSet()
         fetchReactionsForIssue(issue, pageNumber: 0, reactionsSet: reactionsSet, onCompletion: onCompletion)
     }
     
-    private func fetchReactionsForIssue(issue: QIssue, pageNumber: Int, reactionsSet: NSMutableOrderedSet, onCompletion: QServiceOnCompletion) {
+    fileprivate func fetchReactionsForIssue(_ issue: QIssue, pageNumber: Int, reactionsSet: NSMutableOrderedSet, onCompletion: @escaping QServiceOnCompletion) {
         
         let manager = httpSessionManager()
         
         manager.requestSerializer.setValue("application/vnd.github.squirrel-girl-preview", forHTTPHeaderField: "Accept")
         
         
-        manager.GET("repos/\(issue.repository.owner.login)/\(issue.repository.name)/issues/\(issue.number)/reactions", parameters: ["page": pageNumber, "per_page": 100], progress: nil) { [weak self] (responseObject, context, err) in
-            guard let responseArray = responseObject as? [NSDictionary] where err == nil else {
+        manager.get("repos/\(issue.repository.owner.login)/\(issue.repository.name)/issues/\(issue.number)/reactions", parameters: ["page": pageNumber, "per_page": 100], progress: nil) { [weak self] (responseObject, context, err) in
+            guard let responseArray = responseObject as? [NSDictionary] , err == nil else {
                 onCompletion(nil, context, err)
                 return;
             }
             
             //var reactions = [SRReaction]()
             responseArray.forEach({ (json) in
-                let reaction = SRIssueReaction.fromJSON(json as [NSObject : AnyObject])
+                let reaction = SRIssueReaction.fromJSON(json as! [AnyHashable: Any])
                 reaction.repository = issue.repository
                 reaction.account = issue.account
                 reaction.issueNumber = issue.number
                 
-                reactionsSet.addObject(reaction)
+                reactionsSet.add(reaction)
                 //reactions.append(reaction)
             })
             
             if let nextPageNumber = context.nextPageNumber {
-                self?.fetchReactionsForIssue(issue, pageNumber: nextPageNumber.integerValue, reactionsSet: reactionsSet, onCompletion: onCompletion)
+                self?.fetchReactionsForIssue(issue, pageNumber: nextPageNumber.intValue, reactionsSet: reactionsSet, onCompletion: onCompletion)
             } else {
                 let reactionsArray = reactionsSet.array
                 onCompletion(reactionsArray, context, nil)
@@ -53,19 +53,19 @@ class SRReactionsService: QBaseService {
     
     
     //POST /repos/:owner/:repo/issues/:number/reactions
-    func createReactionForIssue(issue: QIssue, content: String, onCompletion: QServiceOnCompletion) {
-        let manager = httpSessionManagerForRequestSerializer(AFJSONRequestSerializer())
+    func createReactionForIssue(_ issue: QIssue, content: String, onCompletion: @escaping QServiceOnCompletion) {
+        let manager = httpSessionManager(for: AFJSONRequestSerializer())
         
         
         manager.requestSerializer.setValue("application/vnd.github.squirrel-girl-preview", forHTTPHeaderField: "Accept")
         
-        manager.POST("repos/\(issue.repository.owner.login)/\(issue.repository.name)/issues/\(issue.number)/reactions", parameters: ["content": content], progress: nil) { (responseObject, context, err) in
-            guard let json = responseObject as? NSDictionary where err == nil else {
+        manager.post("repos/\(issue.repository.owner.login)/\(issue.repository.name)/issues/\(issue.number)/reactions", parameters: ["content": content], progress: nil) { (responseObject, context, err) in
+            guard let json = responseObject as? NSDictionary , err == nil else {
                 onCompletion(nil, context, err)
                 return;
             }
             
-            let reaction = SRIssueReaction.fromJSON(json as [NSObject : AnyObject])
+            let reaction = SRIssueReaction.fromJSON(json as! [AnyHashable: Any])
             reaction.repository = issue.repository
             reaction.account = issue.account
             reaction.issueNumber = issue.number
@@ -77,37 +77,37 @@ class SRReactionsService: QBaseService {
     
     
     //GET /repos/:owner/:repo/issues/comments/:id/reactions
-    func reactionsForIssueComment(issueComment: QIssueComment, onCompletion: QServiceOnCompletion) {
+    func reactionsForIssueComment(_ issueComment: QIssueComment, onCompletion: @escaping QServiceOnCompletion) {
         let reactionsSet = NSMutableOrderedSet()
         fetchReactionsForIssueComment(issueComment, pageNumber: 0, reactionsSet: reactionsSet, onCompletion: onCompletion)
     }
     
-    private func fetchReactionsForIssueComment(issueComment: QIssueComment, pageNumber: Int, reactionsSet: NSMutableOrderedSet, onCompletion: QServiceOnCompletion) {
+    fileprivate func fetchReactionsForIssueComment(_ issueComment: QIssueComment, pageNumber: Int, reactionsSet: NSMutableOrderedSet, onCompletion: @escaping QServiceOnCompletion) {
         
         let manager = httpSessionManager()
         
         manager.requestSerializer.setValue("application/vnd.github.squirrel-girl-preview", forHTTPHeaderField: "Accept")
         
         
-        manager.GET("repos/\(issueComment.repo().owner.login)/\(issueComment.repo().name)/issues/comments/\(issueComment.identifier)/reactions", parameters: ["page": pageNumber, "per_page": 100], progress: nil) { [weak self] (responseObject, context, err) in
-            guard let responseArray = responseObject as? [NSDictionary] where err == nil else {
+        manager.get("repos/\(issueComment.repo().owner.login)/\(issueComment.repo().name)/issues/comments/\(issueComment.identifier)/reactions", parameters: ["page": pageNumber, "per_page": 100], progress: nil) { [weak self] (responseObject, context, err) in
+            guard let responseArray = responseObject as? [NSDictionary] , err == nil else {
                 onCompletion(nil, context, err)
                 return;
             }
             
             //var reactions = [SRReaction]()
             responseArray.forEach({ (json) in
-                let reaction = SRIssueCommentReaction.fromJSON(json as [NSObject : AnyObject])
+                let reaction = SRIssueCommentReaction.fromJSON(json as! [AnyHashable: Any])
                 reaction.repository = issueComment.repo()
                 reaction.account = issueComment.repo().account
                 reaction.issueCommentIdentifier = issueComment.identifier
                 
-                reactionsSet.addObject(reaction)
+                reactionsSet.add(reaction)
                 //reactions.append(reaction)
             })
             
             if let nextPageNumber = context.nextPageNumber {
-                self?.fetchReactionsForIssueComment(issueComment, pageNumber: nextPageNumber.integerValue, reactionsSet: reactionsSet, onCompletion: onCompletion)
+                self?.fetchReactionsForIssueComment(issueComment, pageNumber: nextPageNumber.intValue, reactionsSet: reactionsSet, onCompletion: onCompletion)
             } else {
                 let reactionsArray = reactionsSet.array
                 onCompletion(reactionsArray, context, nil)
@@ -118,19 +118,19 @@ class SRReactionsService: QBaseService {
     
     
     //POST  /repos/:owner/:repo/issues/comments/:id/reactions
-    func createReactionForIssueComment(issueComment: QIssueComment, content: String, onCompletion: QServiceOnCompletion) {
-        let manager = httpSessionManagerForRequestSerializer(AFJSONRequestSerializer())
+    func createReactionForIssueComment(_ issueComment: QIssueComment, content: String, onCompletion: @escaping QServiceOnCompletion) {
+        let manager = httpSessionManager(for: AFJSONRequestSerializer())
         
         
         manager.requestSerializer.setValue("application/vnd.github.squirrel-girl-preview", forHTTPHeaderField: "Accept")
         
-        manager.POST("repos/\(issueComment.repo().owner.login)/\(issueComment.repo().name)/issues/comments/\(issueComment.identifier)/reactions", parameters: ["content": content], progress: nil) { (responseObject, context, err) in
-            guard let json = responseObject as? NSDictionary where err == nil else {
+        manager.post("repos/\(issueComment.repo().owner.login)/\(issueComment.repo().name)/issues/comments/\(issueComment.identifier)/reactions", parameters: ["content": content], progress: nil) { (responseObject, context, err) in
+            guard let json = responseObject as? NSDictionary , err == nil else {
                 onCompletion(nil, context, err)
                 return;
             }
             
-            let reaction = SRIssueCommentReaction.fromJSON(json as [NSObject : AnyObject])
+            let reaction = SRIssueCommentReaction.fromJSON(json as! [AnyHashable: Any])
             reaction.repository = issueComment.repo()
             reaction.account = issueComment.repo().account
             reaction.issueCommentIdentifier = issueComment.identifier
@@ -143,12 +143,12 @@ class SRReactionsService: QBaseService {
     }
     
     //DELETE /reactions/:id
-    func deleteReactionWithId(identifier: NSNumber, onCompletion: QServiceOnCompletion) {
+    func deleteReactionWithId(_ identifier: NSNumber, onCompletion: @escaping QServiceOnCompletion) {
         let manager = httpSessionManager()
         
         manager.requestSerializer.setValue("application/vnd.github.squirrel-girl-preview", forHTTPHeaderField: "Accept")
         
-        manager.DELETE("reactions/\(identifier)", parameters: nil) { (responseObject, context, err) in
+        manager.delete("reactions/\(identifier)", parameters: nil) { (responseObject, context, err) in
             onCompletion(responseObject, context, err)
         }
     }

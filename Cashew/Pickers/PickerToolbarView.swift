@@ -10,11 +10,11 @@ import Cocoa
 
 class PickerToolbarView: BaseView {
     
-    private static let padding: CGFloat = 6.0
+    fileprivate static let padding: CGFloat = 6.0
     //private static let buttonSize: CGSize = CGSize(width: 100, height: 20)
     
-    private var leftButton: BaseImageLabelButton?
-    private var rightButton: BaseImageLabelButton?
+    fileprivate var leftButton: BaseImageLabelButton?
+    fileprivate var rightButton: BaseImageLabelButton?
     
     var viewModel: PickerToolbarViewModel {
         didSet {
@@ -37,56 +37,56 @@ class PickerToolbarView: BaseView {
     }
     
     
-    private func didSetViewModel() {
+    fileprivate func didSetViewModel() {
         
         setupLeftButton()
         setupRightButton()
         
-        if let leftButton = leftButton, leftButtonViewModel = viewModel.leftButtonViewModel {
+        if let leftButton = leftButton, let leftButtonViewModel = viewModel.leftButtonViewModel {
             leftButton.viewModel = leftButtonViewModel
-            leftButton.hidden = false
+            leftButton.isHidden = false
         } else {
-            leftButton?.hidden = true
+            leftButton?.isHidden = true
         }
         
-        if let rightButton = rightButton, rightButtonViewModel = viewModel.rightButtonViewModel {
+        if let rightButton = rightButton, let rightButtonViewModel = viewModel.rightButtonViewModel {
             rightButton.viewModel = rightButtonViewModel
-            rightButton.hidden = false
+            rightButton.isHidden = false
         } else {
-            rightButton?.hidden = true
+            rightButton?.isHidden = true
         }
     }
     
     // MARK: Setup
-    private func setupLeftButton() {
+    fileprivate func setupLeftButton() {
         guard let leftButtonViewModel = viewModel.leftButtonViewModel else {
-            leftButton?.hidden = true
+            leftButton?.isHidden = true
             return
         }
         
         if let leftButton = leftButton {
             leftButton.viewModel = leftButtonViewModel
-            leftButton.hidden = false
+            leftButton.isHidden = false
         } else {
             let leftButton = BaseImageLabelButton(viewModel: leftButtonViewModel)
-            leftButton.hidden = false
+            leftButton.isHidden = false
             addSubview(leftButton)
             self.leftButton = leftButton
         }
     }
     
-    private func setupRightButton() {
+    fileprivate func setupRightButton() {
         guard let rightButtonViewModel = viewModel.rightButtonViewModel else {
-            rightButton?.hidden = true
+            rightButton?.isHidden = true
             return
         }
         
         if let rightButton = rightButton {
             rightButton.viewModel = rightButtonViewModel
-            rightButton.hidden = false
+            rightButton.isHidden = false
         } else {
             let rightButton = BaseImageLabelButton(viewModel: rightButtonViewModel)
-            rightButton.hidden = false
+            rightButton.isHidden = false
             addSubview(rightButton)
             self.rightButton = rightButton
         }

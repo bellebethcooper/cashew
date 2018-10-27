@@ -11,18 +11,15 @@ import CloudKit
 @objc(SRRepositoriesCloudKitService)
 class RepositoriesCloudKitService: BaseCloudKitService {
     
-    func saveRepository(repository: QRepository, onCompletion: CloudOnCompletion) {
-        let db = CKContainer.defaultContainer().publicCloudDatabase
-        let container = CKContainer.defaultContainer()
+    func saveRepository(_ repository: QRepository, onCompletion: @escaping CloudOnCompletion) {
+        let db = CKContainer.default().publicCloudDatabase
+        let container = CKContainer.default()
         
-        guard let baseURL = repository.account.baseURL.absoluteString else {
-            onCompletion(nil, NSError(domain: "co.cashewapp.missingURL", code: 0, userInfo: nil))
-            return
-        }
+        let baseURL = repository.account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
         
-        container.fetchUserRecordIDWithCompletionHandler { (currentUserId, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        container.fetchUserRecordID { (currentUserId, err) in
+            DispatchQueue.global(qos: .background).async {
                 
                 guard let currentUserId = currentUserId else {
                     onCompletion(nil, nil)
@@ -31,36 +28,36 @@ class RepositoriesCloudKitService: BaseCloudKitService {
                 
                 if let recordName = repository.externalId {
                     let recordId = CKRecordID(recordName: recordName)
-                    db.fetchRecordWithID(recordId, completionHandler: { (record, err) in
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                            guard let record = record where err == nil else {
-                                onCompletion(nil, err)
+                    db.fetch(withRecordID: recordId, completionHandler: { (record, err) in
+                        DispatchQueue.global(qos: .background).async {
+                            guard let record = record , err == nil else {
+                                onCompletion(nil, err as! NSError)
                                 return;
                             }
                             
-                            if let isDeleted = record["deleted"] as? Bool, updatedAt = record.modificationDate ?? record.creationDate where !isDeleted && updatedAt != repository.updatedAt && repository.updatedAt != nil {
+                            if let isDeleted = record["deleted"] as? Bool, let updatedAt = record.modificationDate ?? record.creationDate , !isDeleted && updatedAt != repository.updatedAt && repository.updatedAt != nil {
                                 onCompletion(repository, nil)
                                 return
                             }
                             
-                            record["fullName"] = repository.fullName
-                            record["ownerLogin"] = repository.owner.login
-                            record["name"] = repository.name
+                            record["fullName"] = repository.fullName as! CKRecordValue
+                            record["ownerLogin"] = repository.owner.login as! CKRecordValue
+                            record["name"] = repository.name as! CKRecordValue
                             record["identifier"] = repository.identifier
                             record["baseURL"] = trimmedBaseURL
                             record["userId"] = repository.account.userId
-                            record["deleted"] = false
-                            record["creatorId"] = currentUserId.recordName
+                            record["deleted"] = false as CKRecordValue
+                            record["creatorId"] = currentUserId.recordName as CKRecordValue
                             
-                            db.saveRecord(record, completionHandler: { (saveRecord, saveError) in
-                                guard let saveRecord = saveRecord where saveError == nil else {
-                                    onCompletion(nil, saveError)
+                            db.save(record, completionHandler: { (saveRecord, saveError) in
+                                guard let saveRecord = saveRecord , saveError == nil else {
+                                    onCompletion(nil, saveError as! NSError)
                                     return;
                                 }
                                 
                                 repository.externalId = saveRecord.recordID.recordName
                                 repository.updatedAt = saveRecord.modificationDate ?? saveRecord.modificationDate
-                                QRepositoryStore.saveRepository(repository)
+                                QRepositoryStore.save(repository)
                                 onCompletion(repository, nil)
                             })
                             
@@ -71,24 +68,24 @@ class RepositoriesCloudKitService: BaseCloudKitService {
                     
                     let record = CKRecord(recordType: CloudRecordType.Repository.rawValue)
                     
-                    record["fullName"] = repository.fullName
-                    record["ownerLogin"] = repository.owner.login
-                    record["name"] = repository.name
+                    record["fullName"] = repository.fullName as! CKRecordValue
+                    record["ownerLogin"] = repository.owner.login as! CKRecordValue
+                    record["name"] = repository.name as! CKRecordValue
                     record["identifier"] = repository.identifier
                     record["baseURL"] = trimmedBaseURL
                     record["userId"] = repository.account.userId
-                    record["deleted"] = false
-                    record["creatorId"] = currentUserId.recordName
+                    record["deleted"] = false as CKRecordValue?
+                    record["creatorId"] = currentUserId.recordName as CKRecordValue?
                     
-                    db.saveRecord(record, completionHandler: { (saveRecord, saveError) in
-                        guard let saveRecord = saveRecord where saveError == nil else {
-                            onCompletion(nil, saveError)
+                    db.save(record, completionHandler: { (saveRecord, saveError) in
+                        guard let saveRecord = saveRecord , saveError == nil else {
+                            onCompletion(nil, saveError as NSError?)
                             return;
                         }
                         
                         repository.externalId = saveRecord.recordID.recordName
                         repository.updatedAt = saveRecord.modificationDate ?? saveRecord.modificationDate
-                        QRepositoryStore.saveRepository(repository)
+                        QRepositoryStore.save(repository)
                         onCompletion(repository, nil)
                     })
                 }
@@ -96,8 +93,8 @@ class RepositoriesCloudKitService: BaseCloudKitService {
         }
     }
     
-    func deleteRepository(repository: QRepository, onCompletion: CloudOnCompletion) {
-        let db = CKContainer.defaultContainer().publicCloudDatabase
+    func delete(_ repository: QRepository, onCompletion: @escaping CloudOnCompletion) {
+        let db = CKContainer.default().publicCloudDatabase
         guard let recordName = repository.externalId else {
             onCompletion(repository, nil);
             return
@@ -105,45 +102,44 @@ class RepositoriesCloudKitService: BaseCloudKitService {
         
         let recordId = CKRecordID(recordName: recordName)
         
-        db.fetchRecordWithID(recordId, completionHandler: { (currentRecord, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                guard let currentRecord = currentRecord where err == nil else {
-                    onCompletion(nil, err)
+        db.fetch(withRecordID: recordId, completionHandler: { (currentRecord, err) in
+            DispatchQueue.global(qos: .background).async {
+                guard let currentRecord = currentRecord , err == nil else {
+                    onCompletion(nil, err as! NSError)
                     return;
                 }
                 
-                currentRecord["deleted"] = true
+                currentRecord["deleted"] = true as CKRecordValue
                 
-                db.saveRecord(currentRecord, completionHandler: { (record, saveError) in
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                db.save(currentRecord, completionHandler: { (record, saveError) in
+                    DispatchQueue.global(qos: .background).async {
                         self.deleteDuplicateRecordsForRepository(repository)
                     }
                     
-                    onCompletion(repository, saveError)
+                    onCompletion(repository, saveError as! NSError)
                 })
             }
             
         })
     }
     
-    private func deleteDuplicateRecordsForRepository(repository: QRepository) {
-        guard let baseURL = repository.account.baseURL.absoluteString else { return }
+    fileprivate func deleteDuplicateRecordsForRepository(_ repository: QRepository) {
+        let baseURL = repository.account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
-        
-        let container = CKContainer.defaultContainer()
+        let container = CKContainer.default()
         let privateDatabase = container.publicCloudDatabase
         let predicate = NSPredicate(format: "baseURL = %@ && identifier = %@ && userId = %@", trimmedBaseURL, repository.identifier, repository.account.userId)
         let query = CKQuery(recordType: CloudRecordType.Repository.rawValue, predicate: predicate)
         
-        privateDatabase.performQuery(query, inZoneWithID: nil) { (foundRecords, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
+            DispatchQueue.global(qos: .background).async {
                 guard err == nil else {
                     DDLogDebug("error fetching records for repository -> \(err)")
                     return
                 }
                 foundRecords?.forEach({ (record) in
-                    if let isDeleted = record["deleted"] as? Bool where !isDeleted {
-                        privateDatabase.deleteRecordWithID(record.recordID, completionHandler: { (record, err) in
+                    if let isDeleted = record["deleted"] as? Bool , !isDeleted {
+                        privateDatabase.delete(withRecordID: record.recordID, completionHandler: { (record, err) in
                             DDLogDebug("Did delete duplicate repository record \(repository.fullName)")
                         })
                         // privateDatabase.deleteRecordWithID(record.recordID
@@ -155,74 +151,71 @@ class RepositoriesCloudKitService: BaseCloudKitService {
     }
     
     
-    func syncRepositoriesForAccount(account: QAccount, onCompletion: CloudOnCompletion) {
-        let container = CKContainer.defaultContainer()
-        let group = dispatch_group_create()
-        let service = QRepositoriesService(forAccount: account)
-        let accessQueue = dispatch_queue_create("co.cashewapp.RepositoriesCloudKitService.syncRepositoriesForAccount", DISPATCH_QUEUE_SERIAL)
-        guard let baseURL = account.baseURL.absoluteString else {
-            onCompletion(nil, NSError(domain: "co.cashewapp.URLError", code: 0, userInfo: nil ))
-            return
-        }
+    func syncRepositoriesForAccount(_ account: QAccount, onCompletion: @escaping CloudOnCompletion) {
+        let container = CKContainer.default()
+        let group = DispatchGroup()
+        let service = QRepositoriesService(for: account)
+        let accessQueue = DispatchQueue(label: "co.cashewapp.RepositoriesCloudKitService.syncRepositoriesForAccount", attributes: [])
+        let baseURL = account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
         
-        container.fetchUserRecordIDWithCompletionHandler { (currentUserId, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        container.fetchUserRecordID { (currentUserId, err) in
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
-                guard let currentUserId = currentUserId where err == nil else {
-                    onCompletion(nil, err)
+                guard let currentUserId = currentUserId , err == nil else {
+                    onCompletion(nil, err as NSError?)
                     return
                 }
                 
                 let predicate = NSPredicate(format: "creatorId = %@", currentUserId.recordName)
                 let query = CKQuery(recordType: CloudRecordType.Repository.rawValue, predicate: predicate)
-                let db = CKContainer.defaultContainer().publicCloudDatabase
+                let db = CKContainer.default().publicCloudDatabase
                 
-                db.performQuery(query, inZoneWithID: nil, completionHandler: { (records, queryErr) in
-                    guard let records = records where queryErr == nil else {
-                        onCompletion(nil, queryErr)
+                db.perform(query, inZoneWith: nil, completionHandler: { (records, queryErr) in
+                    guard let records = records , queryErr == nil else {
+                        onCompletion(nil, queryErr as NSError?)
                         return;
                     }
                     
                     var repositories = [QRepository]()
                     records.forEach({ (record) in
                         
-                        guard let baseURL = record["baseURL"] as? String, userId = record["userId"] as? NSNumber where baseURL == trimmedBaseURL && userId == account.userId else { return }
-                        guard let fullName = record["fullName"] as? String, ownerLogin = record["ownerLogin"] as? String, repositoryName = record["name"] as? String  else { return }
+                        guard let baseURL = record["baseURL"] as? String, let userId = record["userId"] as? NSNumber , baseURL == trimmedBaseURL as String && userId == account.userId else { return }
+                        guard let fullName = record["fullName"] as? String, let ownerLogin = record["ownerLogin"] as? String, let repositoryName = record["name"] as? String  else { return }
                         
-                        if let isDeleted = record["deleted"] as? Bool where isDeleted == true {
-                            if let existingRepo = QRepositoryStore.repositoryForAccountId(account.identifier, fullName: fullName) {
-                                QRepositoryStore.deleteRepository(existingRepo)
+                        if let isDeleted = record["deleted"] as? Bool , isDeleted == true {
+                            if let existingRepo = QRepositoryStore.repository(forAccountId: account.identifier, fullName: fullName) {
+                                QRepositoryStore.delete(existingRepo)
                             }
                         } else {
-                            if let repo = QRepositoryStore.repositoryForAccountId(account.identifier, fullName: fullName) {
-                                dispatch_sync(accessQueue, {
+                            if let repo = QRepositoryStore.repository(forAccountId: account.identifier, fullName: fullName) {
+                                accessQueue.sync(execute: {
                                     repositories.append(repo)
                                 })
                             } else {
-                                dispatch_group_enter(group)
-                                service.repositoryForOwnerLogin(ownerLogin, repositoryName: repositoryName, onCompletion: { (repo, context, err) in
-                                    guard let repo = repo as? QRepository where err == nil  else {
-                                        dispatch_group_leave(group)
+                                group.enter()
+                                service.repository(forOwnerLogin: ownerLogin, repositoryName: repositoryName, onCompletion: { (repo, context, err) in
+                                    guard let repo = repo as? QRepository , err == nil  else {
+                                        group.leave()
                                         return
                                     }
                                     repo.account = account
                                     repo.updatedAt = record.modificationDate ?? record.creationDate
                                     repo.externalId = record.recordID.recordName
-                                    QRepositoryStore.saveRepository(repo)
-                                    dispatch_sync(accessQueue, {
+                                    QRepositoryStore.save(repo)
+                                    accessQueue.sync {
                                         repositories.append(repo)
-                                    })
+                                    }
                                     
-                                    dispatch_group_leave(group)
+                                    group.leave()
                                 })
                                 
                             }
                         }
                     })
                     
-                    dispatch_group_wait(group, DISPATCH_TIME_FOREVER)
-                    onCompletion(repositories, nil)
+                    group.wait(timeout: DispatchTime.distantFuture)
+                    onCompletion(repositories as AnyObject, nil)
                 })
             }
         }

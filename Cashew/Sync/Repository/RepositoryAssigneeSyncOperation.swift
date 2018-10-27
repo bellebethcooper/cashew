@@ -10,36 +10,36 @@ import Cocoa
 
 class RepositoryAssigneeSyncOperation: RepositoryBaseSyncOperation {
     
-    private let repositoriesService: QRepositoriesService
-    private var ownersSet = Set<QOwner>()
+    fileprivate let repositoriesService: QRepositoriesService
+    fileprivate var ownersSet = Set<QOwner>()
     
     let repository: QRepository
     
     required init(repository: QRepository) {
         self.repository = repository
-        self.repositoriesService = QRepositoriesService(forAccount: repository.account)
+        self.repositoriesService = QRepositoriesService(for: repository.account)
         super.init()
     }
     
     override func main() {
         
         // fetch local assignees
-        let owners = QOwnerStore.ownersForAccountId(repository.account.identifier, repositoryId: repository.identifier)
-        owners.forEach({ ownersSet.insert($0) })
+        let owners = QOwnerStore.owners(forAccountId: repository.account.identifier, repositoryId: repository.identifier)
+        owners?.forEach({ ownersSet.insert($0) })
         
         // fetch remote assignees
-        let semaphore = dispatch_semaphore_create(0)
+        let semaphore = DispatchSemaphore(value: 0)
         var successful = true
         fetchAssignees { [weak self] (err) in
-            dispatch_semaphore_signal(semaphore)
+            semaphore.signal()
             guard let strongSelf = self else { return }
-            successful = (err == nil && !strongSelf.cancelled)
+            successful = (err == nil && !strongSelf.isCancelled)
         }
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        semaphore.wait(timeout: DispatchTime.distantFuture)
         
         if successful {
             ownersSet.forEach { (owner) in
-                QRepositoryStore.deleteAssignee(owner, forRepository: repository)
+                QRepositoryStore.deleteAssignee(owner, for: repository)
             }
         }
         
@@ -47,27 +47,27 @@ class RepositoryAssigneeSyncOperation: RepositoryBaseSyncOperation {
     
     // MARK: Service calls
     
-    private func fetchAssignees(pageNumber pageNumber: Int = 1, onCompletion: ( (NSError?) -> Void ) ) {
+    fileprivate func fetchAssignees(pageNumber: Int = 1, onCompletion: @escaping ( (NSError?) -> Void ) ) {
         
-        if cancelled {
+        if isCancelled {
             onCompletion( NSError(domain: "co.cashewapp.RepositoryAssigneesSyncError", code: 0, userInfo: nil) )
             return;
         }
         
-        repositoriesService.assigneesForRepository(repository, pageNumber: pageNumber, pageSize: RepositoryAssigneeSyncOperation.pageSize) { [weak self] (owners, context, err) in
-            guard let owners = owners as? [QOwner], strongSelf = self where err == nil else {
-                onCompletion(err)
+        repositoriesService.assignees(for: repository, pageNumber: pageNumber, pageSize: RepositoryAssigneeSyncOperation.pageSize) { [weak self] (owners, context, err) in
+            guard let owners = owners as? [QOwner], let strongSelf = self , err == nil else {
+                onCompletion(err as! NSError)
                 return
             }
             
             // save new owners
             for owner in owners {
-                guard !strongSelf.cancelled else { return }
-                QRepositoryStore.saveAssignee(owner, forRepository: strongSelf.repository)
+                guard !strongSelf.isCancelled else { return }
+                QRepositoryStore.saveAssignee(owner, for: strongSelf.repository)
                 strongSelf.ownersSet.remove(owner)
             }
             
-            if strongSelf.cancelled {
+            if strongSelf.isCancelled {
                 onCompletion( NSError(domain: "co.cashewapp.RepositoryAssigneesSyncError", code: 0, userInfo: nil) )
                 return;
             }
@@ -77,10 +77,10 @@ class RepositoryAssigneeSyncOperation: RepositoryBaseSyncOperation {
             
             
             // next page or complete operation
-            if let nextPageNumber = context.nextPageNumber as? Int where !strongSelf.cancelled {
+            if let nextPageNumber = context.nextPageNumber as? Int , !strongSelf.isCancelled {
                 strongSelf.fetchAssignees(pageNumber: nextPageNumber, onCompletion: onCompletion)
                 
-            } else if strongSelf.cancelled {
+            } else if strongSelf.isCancelled {
                 onCompletion( NSError(domain: "co.cashewapp.RepositoryAssigneesSyncError", code: 0, userInfo: nil) )
                 
             } else {

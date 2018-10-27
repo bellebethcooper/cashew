@@ -14,8 +14,8 @@ class ImageViewerWindowController: NSWindowController {
     @IBOutlet weak var windowContainerView: NSView!
     @IBOutlet weak var titleLabel: NSTextField!
     
-    let imageViewerViewController = ImageViewerViewController(nibName: "ImageViewerViewController", bundle: nil)!
-    var imageURLs = [NSURL]() {
+    let imageViewerViewController = ImageViewerViewController(nibName: NSNib.Name(rawValue: "ImageViewerViewController"), bundle: nil)
+    var imageURLs = [URL]() {
         didSet {
             imageViewerViewController.imageURLs = imageURLs
         }
@@ -27,12 +27,12 @@ class ImageViewerWindowController: NSWindowController {
         super.windowDidLoad()
         guard let contentView = self.window?.contentView else { return }
         self.window?.titlebarAppearsTransparent = true
-        self.window?.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+        self.window?.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
         contentView.wantsLayer = true
         contentView.layer?.masksToBounds = true
-        contentView.layer?.backgroundColor = NSColor.blackColor().CGColor
+        contentView.layer?.backgroundColor = NSColor.black.cgColor
         windowContainerView.wantsLayer = true
-        windowContainerView.layer?.backgroundColor = NSColor.blackColor().CGColor
+        windowContainerView.layer?.backgroundColor = NSColor.black.cgColor
         titleLabel.superview?.addSubview(imageViewerViewController.view)
         titleLabel.superview?.addSubview(titleLabel)
         
@@ -54,7 +54,7 @@ class ImageViewerWindowController: NSWindowController {
         imageViewerViewController.onScrollToPage = onScrollToPage
     }
     
-    override func keyDown(event: NSEvent) {
+    override func keyDown(with event: NSEvent) {
         switch event.keyCode {
         case 123:
             imageViewerViewController.didClickPreviousButton(imageViewerViewController.previousImageButton)
@@ -63,7 +63,7 @@ class ImageViewerWindowController: NSWindowController {
             imageViewerViewController.didClickNextButton(imageViewerViewController.nextImageButton)
           //  super.keyDown(event)
         default:
-            super.keyDown(event)
+            super.keyDown(with: event)
         }
     }
 }

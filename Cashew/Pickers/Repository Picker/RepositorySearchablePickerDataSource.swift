@@ -16,9 +16,9 @@ extension QRepository: RepositoryPickerItem { }
 @objc(SRRepositorySearchablePickerDataSource)
 class RepositorySearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     
-    private var results = [RepositoryPickerItem]()
-    private var recentRequestId: Int = 0
-    private var selectedRepositoriesSet = NSMutableSet()
+    fileprivate var results = [RepositoryPickerItem]()
+    fileprivate var recentRequestId: Int = 0
+    fileprivate var selectedRepositoriesSet = NSMutableSet()
     
     var sourceIssue: QIssue?
     
@@ -31,19 +31,19 @@ class RepositorySearchablePickerDataSource: NSObject, SearchablePickerDataSource
         }
     }
     
-    private func selectRepository(repo: RepositoryPickerItem) {
+    fileprivate func selectRepository(_ repo: RepositoryPickerItem) {
         guard repo is QRepository else { return }
-        selectedRepositoriesSet.addObject(repo)
+        selectedRepositoriesSet.add(repo)
     }
     
-    private func unselectRepository(repo: RepositoryPickerItem) {
+    fileprivate func unselectRepository(_ repo: RepositoryPickerItem) {
         guard repo is QRepository else { return }
-        selectedRepositoriesSet.removeObject(repo)
+        selectedRepositoriesSet.remove(repo)
     }
     
-    private func isSelectedRepository(repo: RepositoryPickerItem)  -> Bool {
+    fileprivate func isSelectedRepository(_ repo: RepositoryPickerItem)  -> Bool {
         guard repo is QRepository else { return false }
-        return selectedRepositoriesSet.containsObject(repo)
+        return selectedRepositoriesSet.contains(repo)
     }
     
     
@@ -56,21 +56,21 @@ class RepositorySearchablePickerDataSource: NSObject, SearchablePickerDataSource
         return [QRepository]()
     }
     
-    var selectedIndexes: NSIndexSet {
+    var selectedIndexes: IndexSet {
         let set = NSMutableIndexSet()
-        for (i , repo) in results.enumerate() {
+        for (i , repo) in results.enumerated() {
             guard repo is QRepository else { continue }
-            if selectedRepositoriesSet.containsObject(results[i]) {
-                set.addIndex(i)
+            if selectedRepositoriesSet.contains(results[i]) {
+                set.add(i)
             }
         }
-        return set
+        return set as IndexSet
     }
     
-    var mode: SearchablePickerDataSourceMode = .SearchResults {
+    var mode: SearchablePickerDataSourceMode = .searchResults {
         didSet {
             switch mode {
-            case .SelectedItems:
+            case .selectedItems:
                 if let selectedItems = selectedRepositoriesSet.allObjects as? [RepositoryPickerItem] {
                     results = selectedItems
                 }
@@ -94,19 +94,19 @@ class RepositorySearchablePickerDataSource: NSObject, SearchablePickerDataSource
         return selectedRepositoriesSet.count
     }
     
-    func selectItem(item: AnyObject) {
+    func selectItem(_ item: AnyObject) {
         if let repo = item as? QRepository {
             selectRepository(repo)
         }
     }
     
-    func unselectItem(item: AnyObject) {
+    func unselectItem(_ item: AnyObject) {
         if let repo = item as? QRepository {
             unselectRepository(repo)
         }
     }
     
-    func isSelectedItem(item: AnyObject) -> Bool {
+    func isSelectedItem(_ item: AnyObject) -> Bool {
         if let repo = item as? QRepository {
             return isSelectedRepository(repo)
         }
@@ -117,68 +117,70 @@ class RepositorySearchablePickerDataSource: NSObject, SearchablePickerDataSource
         return results.count
     }
     
-    func itemAtIndex(index: Int) -> AnyObject {
+    func itemAtIndex(_ index: Int) -> AnyObject {
         return results[index]
     }
     
-    func search(string: String, onCompletion: dispatch_block_t) {
+    func search(_ string: String, onCompletion: @escaping ()->()) {
         
-        mode = .SearchResults
-        let service = QRepositoriesService(forAccount: QContext.sharedContext().currentAccount)
+        mode = .searchResults
+        let service = QRepositoriesService(for: QContext.shared().currentAccount)
         recentRequestId += 1
-        service.searchRepositoriesWithQuery(string, pageNumber: 0, pageSize: 100, contextId: recentRequestId) { [weak self] (returnedObject, context, err) in
-            guard let strongSelf = self where strongSelf.recentRequestId == context.contextId?.integerValue && strongSelf.mode == .SearchResults else {
-                dispatch_async(dispatch_get_main_queue(), {
+        service.searchRepositories(withQuery: string, pageNumber: 0, pageSize: 100, contextId: recentRequestId as NSNumber) { [weak self] (returnedObject, context, err) in
+            guard let strongSelf = self,
+                strongSelf.recentRequestId == context.contextId?.intValue && strongSelf.mode == .searchResults else {
+                DispatchQueue.main.async {
                     onCompletion()
-                })
+                }
                 return
             }
             
             if var repositories = returnedObject as? [RepositoryPickerItem] {
-                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), atIndex: 0)
+                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), at: 0)
                 strongSelf.results = repositories
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async {
                     onCompletion()
-                })
+                }
                 return
             } else {
                 var repositories = [RepositoryPickerItem]()
-                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), atIndex: 0)
+                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), at: 0)
                 strongSelf.results = repositories
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async {
                     onCompletion()
-                })
+                }
             }
         }
     }
     
-    func defaults(onCompletion: dispatch_block_t) {
+    func defaults(_ onCompletion: @escaping ()->()) {
         
-        mode = .DefaultResults
-        let service = QRepositoriesService(forAccount: QContext.sharedContext().currentAccount)
-        service.repositoriesForCurrentUserWithPageNumber(1, pageSize: 100) { [weak self] (returnedObject: AnyObject?, context: QServiceResponseContext, err: NSError?) -> Void in
-
-            guard let strongSelf = self where strongSelf.mode == .DefaultResults else {
-                dispatch_async(dispatch_get_main_queue(), {
+        mode = .defaultResults
+        let service = QRepositoriesService(for: QContext.shared().currentAccount)
+        service.repositoriesForCurrentUser(withPageNumber: 1, pageSize: 100) { [weak self] (returnedObject,
+            context, err) in
+            guard let strongSelf = self,
+                strongSelf.mode == .defaultResults else {
+                DispatchQueue.main.async {
                     onCompletion()
-                })
+                }
                 return
             }
             
             if var repositories = returnedObject as? [RepositoryPickerItem] {
-                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), atIndex: 0)
+                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), at: 0)
                 strongSelf.results = repositories
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async {
                     onCompletion()
-                })
+                }
                 return
             } else {
                 var repositories = [RepositoryPickerItem]()
-                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), atIndex: 0)
+                repositories.insert(OrganizationPrivateRepositoryPermissionViewModel(), at: 0)
                 strongSelf.results = repositories
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async {
                     onCompletion()
-                })
+                }
             }
         }
     }

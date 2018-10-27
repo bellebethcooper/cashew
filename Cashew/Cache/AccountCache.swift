@@ -11,23 +11,25 @@ import Foundation
 @objc(SRAccountCache)
 class AccountCache: NSObject {
     
-    private static var token: dispatch_once_t = 0
-    private static var _sharedCache: AccountCache?
+    private static var __once: () = {
+            _sharedCache = AccountCache()
+        }()
     
-    private let cache = BaseCache<QAccount>(countLimit: 1000)
+    fileprivate static var token: Int = 0
+    fileprivate static var _sharedCache: AccountCache?
+    
+    fileprivate let cache = BaseCache<QAccount>(countLimit: 1000)
     
     class func sharedCache() -> AccountCache {
-        dispatch_once(&token) {
-            _sharedCache = AccountCache()
-        }
+        _ = AccountCache.__once
         return _sharedCache!
     }
     
-    func removeObjectForKey(key: String) {
+    func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(key: String, fetcher: ( () -> QAccount? )) -> QAccount? {
+    func fetch(_ key: String, fetcher: ( () -> QAccount? )) -> QAccount? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
@@ -35,7 +37,7 @@ class AccountCache: NSObject {
         cache.removeAll()
     }
     
-    class func AccountCacheKeyForAccountId(accountId: NSNumber) -> String {
+    class func AccountCacheKeyForAccountId(_ accountId: NSNumber) -> String {
         return "account_\(accountId)"
     }
     

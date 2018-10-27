@@ -12,7 +12,7 @@ import Foundation
 extension NSAttributedString {
     
     @objc
-    public func textSize(containerSize aContainerSize: CGSize = CGSizeMake(CGFloat.max, CGFloat.max)) -> NSSize {
+    public func textSize(containerSize aContainerSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) -> NSSize {
         let textStorage = NSTextStorage(attributedString: self)
         let textContainer = NSTextContainer(containerSize: aContainerSize )
         let layoutManager = NSLayoutManager()
@@ -22,8 +22,8 @@ extension NSAttributedString {
         textStorage.addLayoutManager(layoutManager)
         //        textStorage.addAttributes(attributes!, range: NSMakeRange(0, (stringVal as NSString).length))
         
-        layoutManager.glyphRangeForTextContainer(textContainer)
-        let size = layoutManager.usedRectForTextContainer(textContainer).size
+        layoutManager.glyphRange(for: textContainer)
+        let size = layoutManager.usedRect(for: textContainer).size
         
         return size
         

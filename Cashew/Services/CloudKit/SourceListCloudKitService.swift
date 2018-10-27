@@ -13,54 +13,54 @@ import CloudKit
 class SourceListCloudKitService: BaseCloudKitService {
     
     
-    func deleteSourceListUserQuery(userQuery: UserQuery, legacyRecordType: CloudRecordType, onCompletion: CloudOnCompletion) {
-        let privateDatabase = CKContainer.defaultContainer().publicCloudDatabase
+    func deleteSourceListUserQuery(_ userQuery: UserQuery, legacyRecordType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
+        let privateDatabase = CKContainer.default().publicCloudDatabase
         
         fetchRecordsForUserQuery(userQuery, legacyRecordType: legacyRecordType) { (deleteRecords, err) in
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async(execute: {
                 
                 guard let deleteRecords = deleteRecords as? [CKRecord] else {
                     onCompletion(nil, err)
                     return
                 }
                 
-                let group = dispatch_group_create()
+                let group = DispatchGroup()
                 var error: NSError? = nil
                 deleteRecords.forEach { (deleteRecord) in
-                    dispatch_group_enter(group)
-                    privateDatabase.deleteRecordWithID(deleteRecord.recordID, completionHandler: { (recordID, err) in
-                        error = err
-                        dispatch_group_leave(group)
+                    group.enter()
+                    privateDatabase.delete(withRecordID: deleteRecord.recordID, completionHandler: { (recordID, err) in
+                        error = err as NSError?
+                        group.leave()
                     })
                 }
-                dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+                group.wait(timeout: DispatchTime.distantFuture);
                 
-                onCompletion(deleteRecords, error)
+                onCompletion(deleteRecords as AnyObject?, error)
             })
         }
     }
     
-    func fetchSourceListUserQueriesForAccount(account: QAccount, legacyRecordType: CloudRecordType, onCompletion: CloudOnCompletion) {
-        guard let baseURL = account.baseURL.absoluteString else { return }
+    func fetchSourceListUserQueriesForAccount(_ account: QAccount, legacyRecordType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
+        let baseURL = account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
-        let privateDatabase = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDatabase = CKContainer.default().publicCloudDatabase
         let predicate = NSPredicate(format: "baseURL = %@ && userId = %@", trimmedBaseURL, account.userId)
         let query = CKQuery(recordType: legacyRecordType.rawValue, predicate: predicate)
-        privateDatabase.performQuery(query, inZoneWithID: nil) { [weak self] (records, err) in
-            guard let records = records where err == nil && records.count > 0 else {
-                onCompletion(nil, err);
+        privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, err) in
+            guard let records = records , err == nil && records.count > 0 else {
+                onCompletion(nil, err as! NSError);
                 return
             }
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            DispatchQueue.global().async {
                 self?.fetchUserQueriesForRecords(records, account: account, onCompletion: onCompletion);
             }
         }
     }
     
-    private func fetchUserQueriesForRecords(records: [CKRecord], account: QAccount, onCompletion: CloudOnCompletion) {
+    fileprivate func fetchUserQueriesForRecords(_ records: [CKRecord], account: QAccount, onCompletion: CloudOnCompletion) {
         var queries = [UserQuery]()
         for record in records {
-            guard let query = record["query"] as? String, name = record["name"] as? String else {
+            guard let query = record["query"] as? String, let name = record["name"] as? String else {
                 continue
             }
             //QUserQueryStore.saveUserQueryWithQuery(query, account: account, name: name)
@@ -68,18 +68,18 @@ class SourceListCloudKitService: BaseCloudKitService {
             queries.append(userQuery)
         }
         
-        onCompletion(queries, nil)
+        onCompletion(queries as AnyObject?, nil)
     }
     
-    private func fetchRecordsForUserQuery(userQuery: UserQuery, legacyRecordType: CloudRecordType, onCompletion: CloudOnCompletion) {
-        guard let baseURL = userQuery.account.baseURL.absoluteString else { return }
+    fileprivate func fetchRecordsForUserQuery(_ userQuery: UserQuery, legacyRecordType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
+        let baseURL = userQuery.account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
-        let privateDatabase = CKContainer.defaultContainer().publicCloudDatabase
+        let privateDatabase = CKContainer.default().publicCloudDatabase
         let predicate = NSPredicate(format: "baseURL = %@ && name = %@ && userId = %@", trimmedBaseURL, userQuery.displayName, userQuery.account.userId)
         let query = CKQuery(recordType: legacyRecordType.rawValue, predicate: predicate)
         
-        privateDatabase.performQuery(query, inZoneWithID: nil) { (foundRecords, err) in
-            onCompletion(foundRecords, err)
+        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
+            onCompletion(foundRecords as AnyObject, err as! NSError)
         }
     }
     
@@ -89,19 +89,16 @@ class SourceListCloudKitService: BaseCloudKitService {
 
 extension SourceListCloudKitService {
     
-    func fetchSourceListRepositoriesForAccount(account: QAccount, legacyRepoCloudType: CloudRecordType, onCompletion: CloudOnCompletion) {
-        guard let baseURL = account.baseURL.absoluteString else {
-            onCompletion(nil, NSError(domain: "co.cashewapp.URLError", code: 0, userInfo: nil ))
-            return
-        }
+    func fetchSourceListRepositoriesForAccount(_ account: QAccount, legacyRepoCloudType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
+        let baseURL = account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
-        let container = CKContainer.defaultContainer()
+        let container = CKContainer.default()
         let privateDatabase = container.publicCloudDatabase
         let predicate = NSPredicate(format: "baseURL = %@ && userId = %@", trimmedBaseURL, account.userId)
         let query = CKQuery(recordType: legacyRepoCloudType.rawValue, predicate: predicate)
-        privateDatabase.performQuery(query, inZoneWithID: nil) { [weak self] (records, err) in
-            guard let records = records where err == nil && records.count > 0 else {
-                onCompletion(nil, err);
+        privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, err) in
+            guard let records = records , err == nil && records.count > 0 else {
+                onCompletion(nil, err as! NSError);
                 return
             }
             
@@ -110,48 +107,48 @@ extension SourceListCloudKitService {
     }
     
     
-    private func fetchRepositoriesForRecords(records: [CKRecord], account: QAccount, onCompletion: CloudOnCompletion) {
-        let group = dispatch_group_create()
-        let service = QRepositoriesService(forAccount: account)
+    fileprivate func fetchRepositoriesForRecords(_ records: [CKRecord], account: QAccount, onCompletion: CloudOnCompletion) {
+        let group = DispatchGroup()
+        let service = QRepositoriesService(for: account)
         var repositories = [QRepository]()
-        let accessQueue = dispatch_queue_create("SourceListCloudKitService.fetchRepositoriesForRecords", DISPATCH_QUEUE_SERIAL)
+        let accessQueue = DispatchQueue(label: "SourceListCloudKitService.fetchRepositoriesForRecords", attributes: [])
         
         for record in records {
-            guard let ownerLogin = record["ownerLogin"] as? String, repositoryName = record["name"] as? String else {
+            guard let ownerLogin = record["ownerLogin"] as? String, let repositoryName = record["name"] as? String else {
                 continue
             }
             
-            let repo: QRepository? = QRepositoryStore.repositoryForAccountId(account.identifier, ownerLogin: ownerLogin, repositoryName: repositoryName)
+            let repo: QRepository? = QRepositoryStore.repository(forAccountId: account.identifier, ownerLogin: ownerLogin, repositoryName: repositoryName)
             
             if let repo = repo {
                 
-                dispatch_sync(accessQueue, {
+                accessQueue.sync(execute: {
                     repositories.append(repo)
                 })
             } else {
-                dispatch_group_enter(group)
-                service.repositoryForOwnerLogin(ownerLogin, repositoryName: repositoryName, onCompletion: { (repo, context, err) in
-                    guard let repo = repo as? QRepository where err == nil  else {
-                        dispatch_group_leave(group)
+                group.enter()
+                service.repository(forOwnerLogin: ownerLogin, repositoryName: repositoryName, onCompletion: { (repo, context, err) in
+                    guard let repo = repo as? QRepository , err == nil  else {
+                        group.leave()
                         return
                     }
                     repo.account = account
-                    QRepositoryStore.saveRepository(repo)
-                    dispatch_sync(accessQueue, {
+                    QRepositoryStore.save(repo)
+                    accessQueue.sync {
                         repositories.append(repo)
-                    })
+                    }
                     
-                    dispatch_group_leave(group)
+                    group.leave()
                 })
             }
         }
         
-        dispatch_group_wait(group, DISPATCH_TIME_FOREVER); // FIXME: probably a bad idea
-        onCompletion(repositories, nil)
+        group.wait(timeout: DispatchTime.distantFuture); // FIXME: probably a bad idea
+        onCompletion(repositories as AnyObject, nil)
     }
     
-    func deleteSourceListRepository(repository: QRepository, legacyRepoCloudType: CloudRecordType, onCompletion: CloudOnCompletion) {
-        let container = CKContainer.defaultContainer()
+    func deleteSourceListRepository(_ repository: QRepository, legacyRepoCloudType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
+        let container = CKContainer.default()
         let privateDatabase = container.publicCloudDatabase
         
         fetchRecordsForRepository(repository, legacyRepoCloudType: legacyRepoCloudType) { (deleteRecords, err) in
@@ -160,49 +157,46 @@ extension SourceListCloudKitService {
                 return
                 
             }
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                let group = dispatch_group_create()
+            DispatchQueue.global().async {
+                let group = DispatchGroup()
                 var error: NSError? = nil
                 deleteRecords.forEach { (deleteRecord) in
-                    dispatch_group_enter(group)
+                    group.enter()
                     //
-                    privateDatabase.deleteRecordWithID(deleteRecord.recordID, completionHandler: { (recordID, err) in
-                        error = err
-                        dispatch_group_leave(group)
+                    privateDatabase.delete(withRecordID: deleteRecord.recordID, completionHandler: { (recordID, err) in
+                        error = err as! NSError
+                        group.leave()
                     })
                     //
                 }
-                dispatch_group_wait(group, DISPATCH_TIME_FOREVER); // FIXME: probably a bad idea
+                group.wait(timeout: .distantFuture) // FIXME: probably a bad idea
                 
-                onCompletion(deleteRecords, error)
-            })
+                onCompletion(deleteRecords as AnyObject, error)
+            }
         }
     }
     
-    private func fetchRecordsForRepository(repository: QRepository, legacyRepoCloudType: CloudRecordType, onCompletion: CloudOnCompletion) {
+    fileprivate func fetchRecordsForRepository(_ repository: QRepository, legacyRepoCloudType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
         //        guard let baseURL = repository.account.baseURL.absoluteString else {
         //            onCompletion(nil, NSError(domain: "co.cashewapp.Cloud.InvalidBaseURL", code: 2345, userInfo: nil))
         //            return;
         //        }
         
-        guard let baseURL = repository.account.baseURL.absoluteString else {
-            onCompletion(nil, NSError(domain: "co.cashewapp.URLError", code: 0, userInfo: nil ))
-            return
-        }
+        let baseURL = repository.account.baseURL.absoluteString
         let trimmedBaseURL = (baseURL as NSString).trimmedString()
         
-        let container = CKContainer.defaultContainer()
+        let container = CKContainer.default()
         let privateDatabase = container.publicCloudDatabase
         let predicate = NSPredicate(format: "baseURL = %@ && identifier = %@ && userId = %@", trimmedBaseURL, repository.identifier, repository.account.userId)
         let query = CKQuery(recordType: legacyRepoCloudType.rawValue, predicate: predicate)
         
-        privateDatabase.performQuery(query, inZoneWithID: nil) { (foundRecords, err) in
+        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
             guard err == nil else {
                 DDLogDebug("error fetching records for repository -> \(err)")
-                onCompletion(nil, err)
+                onCompletion(nil, err as! NSError)
                 return
             }
-            onCompletion(foundRecords, nil)
+            onCompletion(foundRecords as AnyObject, nil)
         }
     }
     

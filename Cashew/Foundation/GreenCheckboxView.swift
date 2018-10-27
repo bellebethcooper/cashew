@@ -10,11 +10,11 @@ import Cocoa
 
 class GreenCheckboxView: BaseView {
     
-    private static let checkboxCircleSize = CGSize(width: 20, height: 20)
-    private static let checkboxBgColor =  NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1)
+    fileprivate static let checkboxCircleSize = CGSize(width: 20, height: 20)
+    fileprivate static let checkboxBgColor =  NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1)
     
-    private let imageView = NSImageView()
-    private let imageViewContainerView = BaseView()
+    fileprivate let imageView = NSImageView()
+    fileprivate let imageViewContainerView = BaseView()
     
     init() {
         super.init(frame: CGRect.zero)
@@ -22,7 +22,7 @@ class GreenCheckboxView: BaseView {
 
         addSubview(imageViewContainerView)
         imageViewContainerView.addSubview(imageView)
-        if let image = NSImage(named: "check")?.imageWithTintColor(NSColor.whiteColor()) {
+        if let image = NSImage(named: NSImage.Name(rawValue: "check"))?.withTintColor(NSColor.white) {
             imageView.image = image
             imageView.wantsLayer = true
             
@@ -41,7 +41,7 @@ class GreenCheckboxView: BaseView {
     
     var checked: Bool = false {
         didSet {
-            imageViewContainerView.hidden = !checked
+            imageViewContainerView.isHidden = !checked
         }
     }
     

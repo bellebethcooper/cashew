@@ -11,8 +11,8 @@ import Cocoa
 @objc(SRAssigneeSearchablePickerViewController)
 class AssigneeSearchablePickerViewController: BaseViewController {
     
-    private var dataSource: AssigneeSearchablePickerDataSource?
-    private var searchablePickerController: SearchablePickerViewController?
+    fileprivate var dataSource: AssigneeSearchablePickerDataSource?
+    fileprivate var searchablePickerController: SearchablePickerViewController?
     
     weak var popover: NSPopover?
     var sourceIssue: QIssue? {
@@ -24,8 +24,8 @@ class AssigneeSearchablePickerViewController: BaseViewController {
     }
     
     @objc
-    private func issueSelectionChanged(notification: NSNotification) {
-        guard let searchablePickerController = searchablePickerController where searchablePickerController.dirtyFlag else {
+    fileprivate func issueSelectionChanged(_ notification: Notification) {
+        guard let searchablePickerController = searchablePickerController , searchablePickerController.dirtyFlag else {
             reloadPicker()
             return
         }
@@ -42,11 +42,11 @@ class AssigneeSearchablePickerViewController: BaseViewController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    private func reloadPicker() {
-        guard let issue = (sourceIssue ?? QContext.sharedContext().currentIssues.first) else {
+    fileprivate func reloadPicker() {
+        guard let issue = (sourceIssue ?? QContext.shared().currentIssues.first) else {
             return
         }
         
@@ -78,7 +78,7 @@ class AssigneeSearchablePickerViewController: BaseViewController {
         searchablePickerController.repositoryPopupButton.currentRepository = dataSource.repository
         
         searchablePickerController.onTappedItemBlock = { [weak self] (cell, item) in
-            guard let cell = cell as? AssigneeSearchResultTableRowView, item = item as? QOwner, dataSource = self?.dataSource else { return }
+            guard let cell = cell as? AssigneeSearchResultTableRowView, let item = item as? QOwner, let dataSource = self?.dataSource else { return }
             
             if dataSource.isPartialSelection(item) {
                 cell.accessoryView = GreenDottedView()
@@ -88,13 +88,13 @@ class AssigneeSearchablePickerViewController: BaseViewController {
                 cell.checked = dataSource.isSelectedItem(item) ?? false
             }
             cell.accessoryView?.disableThemeObserver = true
-            cell.accessoryView?.backgroundColor = NSColor.clearColor()
+            cell.accessoryView?.backgroundColor = NSColor.clear
             cell.needsLayout = true
             cell.layoutSubtreeIfNeeded()
         }
         
         searchablePickerController.onDoneButtonClick = { [weak searchablePickerController, weak self] in
-            guard let strongPickerController = searchablePickerController, strongSelf = self else { return }
+            guard let strongPickerController = searchablePickerController, let strongSelf = self else { return }
             strongSelf.doSaveWithCompletion({
                 if let popover = strongSelf.popover {
                     popover.close()
@@ -113,7 +113,7 @@ class AssigneeSearchablePickerViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AssigneeSearchablePickerViewController.issueSelectionChanged(_:)), name: kQContextIssueSelectionChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AssigneeSearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         
         super.viewDidLoad()
         Analytics.logContentViewWithName(NSStringFromClass(AssigneeSearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
@@ -121,13 +121,13 @@ class AssigneeSearchablePickerViewController: BaseViewController {
         reloadPicker()
     }
     
-    private func doSaveWithCompletion(completion: dispatch_block_t?) {
+    fileprivate func doSaveWithCompletion(_ completion: (()->())?) {
         
-        guard let strongPickerController = searchablePickerController, dataSource = self.dataSource, selectionMap = dataSource.selectionMap, userToRepoMap = dataSource.userToRepositoryMap else { return }
+        guard let strongPickerController = searchablePickerController, let dataSource = self.dataSource, let selectionMap = dataSource.selectionMap, let userToRepoMap = dataSource.userToRepositoryMap else { return }
         
         strongPickerController.loading = true
         
-        let operationQueue = NSOperationQueue()
+        let operationQueue = OperationQueue()
         operationQueue.name = "co.cashewapp.AssigneeSearchablePickerViewController.doSave"
         operationQueue.maxConcurrentOperationCount = 2
         
@@ -137,23 +137,23 @@ class AssigneeSearchablePickerViewController: BaseViewController {
                 continue
             }
             
-            if let assignee = assignee, assigneeRepos = userToRepoMap[assignee] where !assigneeRepos.contains(issue.repository) {
+            if let assignee = assignee, let assigneeRepos = userToRepoMap[assignee] , !assigneeRepos.contains(issue.repository) {
                 continue
             }
             
-            operationQueue.addOperationWithBlock {
-                let semaphore = dispatch_semaphore_create(0)
+            operationQueue.addOperation {
+                let semaphore = DispatchSemaphore(value: 0)
                 let fullRepoName = issue.repository.fullName
                 let sinceDate = issue.updatedAt
-                let issueService = QIssuesService(forAccount: issue.account)
-                Analytics.logCustomEventWithName("Changed Assignee", customAttributes: ["RepositoryName": fullRepoName])
-                issueService.saveAssigneeLogin(assignee?.login, forRepository: issue.repository, number: issue.number, onCompletion: { [weak self] (issue, context, error) in
+                let issueService = QIssuesService(for: issue.account)
+                Analytics.logCustomEventWithName("Changed Assignee", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
+                issueService.saveAssigneeLogin(assignee?.login, for: issue.repository, number: issue.number, onCompletion: { [weak self] (issue, context, error) in
                     if let issue = issue as? QIssue {
-                        Analytics.logCustomEventWithName("Successful Changed Assignee", customAttributes: ["RepositoryName": fullRepoName])
+                        Analytics.logCustomEventWithName("Successful Changed Assignee", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                         self?.searchablePickerController?.syncIssueEventsForIssue(issue, sinceDate: sinceDate)
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
-                            QIssueStore.saveIssue(issue)
-                        })
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            QIssueStore.save(issue)
+                        }
                     } else {
                         let errorString: String
                         if let error = error {
@@ -161,11 +161,11 @@ class AssigneeSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        Analytics.logCustomEventWithName("Failed Changed Assignee", customAttributes: ["error": errorString, "RepositoryName": fullRepoName])
+                        Analytics.logCustomEventWithName("Failed Changed Assignee", customAttributes: ["error": errorString as AnyObject, "RepositoryName": fullRepoName as AnyObject])
                     }
-                    dispatch_semaphore_signal(semaphore)
+                    semaphore.signal()
                     })
-                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+                semaphore.wait(timeout: .distantFuture)
             }
         }
         

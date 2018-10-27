@@ -8,30 +8,30 @@
 
 import Foundation
 
-extension NSUserDefaults {
-    private static let embedLabelsInIssuesConversionDone = "embedLabelsInIssuesConversionDone"
-    private static let repositoriesCloudKitSyncConversion = "repositoriesCloudKitSyncConversion"
+extension UserDefaults {
+    fileprivate static let embedLabelsInIssuesConversionDone = "embedLabelsInIssuesConversionDone"
+    fileprivate static let repositoriesCloudKitSyncConversion = "repositoriesCloudKitSyncConversion"
     
     
     
     class func didRunEmbedLabelsInIssuesConversion() -> Bool {
-        let value = NSUserDefaults.standardUserDefaults().boolForKey(NSUserDefaults.embedLabelsInIssuesConversionDone)
+        let value = UserDefaults.standard.bool(forKey: UserDefaults.embedLabelsInIssuesConversionDone)
         return value
     }
     
     class func embedLabelsInIssuesConversionCompleted() {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: NSUserDefaults.embedLabelsInIssuesConversionDone)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(true, forKey: UserDefaults.embedLabelsInIssuesConversionDone)
+        UserDefaults.standard.synchronize()
     }
     
     class func didRunRepositoriesCloudKitSyncConversion() -> Bool {
-        let value = NSUserDefaults.standardUserDefaults().boolForKey(NSUserDefaults.repositoriesCloudKitSyncConversion)
+        let value = UserDefaults.standard.bool(forKey: UserDefaults.repositoriesCloudKitSyncConversion)
         return value
     }
     
     class func repositoriesCloudKitSyncConversionCompleted() {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: NSUserDefaults.repositoriesCloudKitSyncConversion)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(true, forKey: UserDefaults.repositoriesCloudKitSyncConversion)
+        UserDefaults.standard.synchronize()
     }
     
 }

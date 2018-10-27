@@ -17,40 +17,41 @@ class NewIssueAssigneeTokenFieldDelegate: NSObject {
     
     var recentResults = [QOwner]()
     
-    private func resetResults() {
+    fileprivate func resetResults() {
         recentResults.removeAll()
         guard let repository = repository else {
             return
         }
-        recentResults = QOwnerStore.ownersForAccountId(repository.account.identifier, repositoryId: repository.identifier)
+        recentResults = QOwnerStore.owners(forAccountId: repository.account.identifier, repositoryId: repository.identifier)
     }
 }
 
 
 extension NewIssueAssigneeTokenFieldDelegate: NSTokenFieldDelegate {
     
-    func tokenField(tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<Int>) -> [AnyObject]? {
+    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
         //print("completionsForSubstring = \(substring) selectedIndex = \(selectedIndex)")
         
-        let trimmedSubstring = substring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if let repo = self.repository where trimmedSubstring.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            let users = QOwnerStore.searchUserWithQuery("\(trimmedSubstring)*", forAccountId: repo.account.identifier, repositoryId: repo.identifier)
-            let userStrings = users.map({ (user) -> AnyObject in
-                return user.login!
-            })
-            self.recentResults = users
-            // print("userStrings = \(userStrings)")
-            return userStrings
+        let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        if let repo = self.repository , trimmedSubstring.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            if let users = QOwnerStore.searchUser(withQuery: "\(trimmedSubstring)*", forAccountId: repo.account.identifier, repositoryId: repo.identifier) {
+                let userStrings = users.map({ (user) -> AnyObject in
+                    return user.login as AnyObject
+                })
+                self.recentResults = users
+                // print("userStrings = \(userStrings)")
+                return userStrings
+            }
         }
         
         return []
     }
     
     
-    override func controlTextDidEndEditing(notification: NSNotification) {
+    override func controlTextDidEndEditing(_ notification: Notification) {
         if let tokenField = notification.object as? NSTokenField {
             var exists: Bool = false
-            if let tokens = tokenField.objectValue as? [String], token = tokens.last {
+            if let tokens = tokenField.objectValue as? [String], let token = tokens.last {
                 for owner in self.recentResults {
                     if owner.login == token {
                         exists = true
@@ -64,8 +65,8 @@ extension NewIssueAssigneeTokenFieldDelegate: NSTokenFieldDelegate {
         }
     }
     
-    func tokenField(tokenField: NSTokenField, shouldAddObjects tokens: [AnyObject], atIndex index: Int) -> [AnyObject] {
-        if let lastToken = tokens.last as? String, existingTokens = tokenField.objectValue as? [String] {
+    func tokenField(_ tokenField: NSTokenField, shouldAdd tokens: [Any], at index: Int) -> [Any] {
+        if let lastToken = tokens.last as? String, let existingTokens = tokenField.objectValue as? [String] {
             if existingTokens.count > 1 {
                 return []
             }

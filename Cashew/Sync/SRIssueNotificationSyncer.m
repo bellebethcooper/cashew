@@ -33,7 +33,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [QRepositoryStore removeObserver:self];
+    [QRepositoryStore remove:self];
 }
 
 + (instancetype)sharedIssueNotificationSync;

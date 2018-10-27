@@ -11,12 +11,12 @@ import Cocoa
 class NumberCircleView: BaseView {
     
     
-    private static let checkboxCircleSize = CGSize(width: 20, height: 20)
-    private static let checkboxBgColor = NSColor(calibratedRed: 33/255.0, green: 201/255.0, blue: 115/255.0, alpha: 1.0)
-    private static let padding: CGFloat = 12
+    fileprivate static let checkboxCircleSize = CGSize(width: 20, height: 20)
+    fileprivate static let checkboxBgColor = NSColor(calibratedRed: 33/255.0, green: 201/255.0, blue: 115/255.0, alpha: 1.0)
+    fileprivate static let padding: CGFloat = 12
     
-    private let numberLabel = BaseLabel()
-    private let circleView = BaseView()
+    fileprivate let numberLabel = BaseLabel()
+    fileprivate let circleView = BaseView()
     var count: Int = 0 {
         didSet {
             numberLabel.stringValue = String(count)
@@ -39,9 +39,9 @@ class NumberCircleView: BaseView {
         circleView.backgroundColor = NumberCircleView.checkboxBgColor
         circleView.cornerRadius = NumberCircleView.checkboxCircleSize.height / 2.0
         
-        numberLabel.textColor = NSColor.whiteColor()
-        numberLabel.alignment = .Center
-        numberLabel.font = NSFont.systemFontOfSize(12, weight: NSFontWeightSemibold)
+        numberLabel.textColor = NSColor.white
+        numberLabel.alignment = .center
+        numberLabel.font = NSFont.systemFont(ofSize: 12, weight: NSFont.Weight.semibold)
         
 //        circleView.layer?.borderColor = NSColor.redColor().CGColor
 //        circleView.layer?.borderWidth = 1

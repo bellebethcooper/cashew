@@ -15,10 +15,10 @@ class SearchBuilderValueComboBox: NSComboBox {
 @objc(SRSearchBuilderCriteriaViewControllerDataSource)
 protocol SearchBuilderCriteriaViewControllerDataSource: NSObjectProtocol, NSComboBoxDataSource {
     func criteriaFields() -> [String]
-    func partsOfSpeechForCriteriaField(field: String) -> [String]
-    func valuesForCriteriaField(field: String) -> [String]
+    func partsOfSpeechForCriteriaField(_ field: String) -> [String]
+    func valuesForCriteriaField(_ field: String) -> [String]
     func resetCachedValues()
-    func shouldHideValueForPartOfSpeech(pos: String) -> Bool
+    func shouldHideValueForPartOfSpeech(_ pos: String) -> Bool
 }
 
 @objc(SRSearchBuilderCriteriaViewController)
@@ -60,7 +60,7 @@ class SearchBuilderCriteriaViewController: NSViewController {
         let menu = SRMenu()
         if let dataSource = dataSource {
             dataSource.criteriaFields().forEach{ [weak self] (criteria) in
-                let menuItem = menu.addItemWithTitle(criteria, action: #selector(SearchBuilderCriteriaViewController.didSelectCriteriaType(_:)), keyEquivalent: "")
+                let menuItem = menu.addItem(withTitle: criteria, action: #selector(SearchBuilderCriteriaViewController.didSelectCriteriaType(_:)), keyEquivalent: "")
                 menuItem.target = self
             }
             valueComboBox.usesDataSource = true
@@ -70,22 +70,22 @@ class SearchBuilderCriteriaViewController: NSViewController {
             valueComboBox.dataSource = nil
         }
         filterTypeButton.menu = menu
-        if let firstMenuItem = menu.itemArray.first {
+        if let firstMenuItem = menu.items.first {
             didSelectCriteriaType(firstMenuItem)
         }
     }
     
     var removeButtonEnabled: Bool {
         get {
-            return removeCurrentFilterButton.enabled
+            return removeCurrentFilterButton.isEnabled
         }
         set {
-            removeCurrentFilterButton.enabled = newValue
+            removeCurrentFilterButton.isEnabled = newValue
         }
     }
     
     var clickedRemoveCurrentFilter: ( (SearchBuilderCriteriaViewController) -> Void )?
-    var clickedCreateNewFilter: ( Void -> Void )?
+    var clickedCreateNewFilter: ( () -> Void )?
     
     deinit {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
@@ -101,7 +101,7 @@ class SearchBuilderCriteriaViewController: NSViewController {
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { (mode) in
             guard let view = self.view as? BaseView else { return }
-            if mode == .Dark {
+            if mode == .dark {
                 view.backgroundColor = NSColor(calibratedWhite: 100/255.0, alpha: 1)
             } else {
                 //view.backgroundColor = NSColor.whiteColor()
@@ -112,29 +112,29 @@ class SearchBuilderCriteriaViewController: NSViewController {
     }
     
     @objc
-    private func didSelectCriteriaType(sender: NSMenuItem) {
+    fileprivate func didSelectCriteriaType(_ sender: NSMenuItem) {
         guard let dataSource = dataSource else { return }
         let menu = SRMenu()
         
         let partsOfSpeech = dataSource.partsOfSpeechForCriteriaField(sender.title)
         partsOfSpeech.forEach { [weak self] (pos) in
-            let menuItem = menu.addItemWithTitle(pos, action: #selector(SearchBuilderCriteriaViewController.didSelectPartOfSpeech(_:)), keyEquivalent: "")
+            let menuItem = menu.addItem(withTitle: pos, action: #selector(SearchBuilderCriteriaViewController.didSelectPartOfSpeech(_:)), keyEquivalent: "")
             menuItem.target = self
         }
         
-        partOfSentenceButton.hidden = partsOfSpeech.count == 0
+        partOfSentenceButton.isHidden = partsOfSpeech.count == 0
         partOfSentenceButton.menu = menu
         
-        valueComboBox.hidden = !partOfSentenceButton.hidden && dataSource.shouldHideValueForPartOfSpeech(partOfSentenceButton.title)
+        valueComboBox.isHidden = !partOfSentenceButton.isHidden && dataSource.shouldHideValueForPartOfSpeech(partOfSentenceButton.title)
         valueComboBox.stringValue = ""
-        valueComboBox.representedObject = sender.title
+        valueComboBox.representedObject = sender.title as AnyObject?
         valueComboBox.reloadData()
     }
     
     @objc
-    private func didSelectPartOfSpeech(sender: NSMenuItem) {
+    fileprivate func didSelectPartOfSpeech(_ sender: NSMenuItem) {
         guard let dataSource = dataSource else { return }
-        valueComboBox.hidden = !partOfSentenceButton.hidden && dataSource.shouldHideValueForPartOfSpeech(partOfSentenceButton.title)
+        valueComboBox.isHidden = !partOfSentenceButton.isHidden && dataSource.shouldHideValueForPartOfSpeech(partOfSentenceButton.title)
     }
     
 }
@@ -143,12 +143,12 @@ class SearchBuilderCriteriaViewController: NSViewController {
 
 extension SearchBuilderCriteriaViewController {
     
-    @IBAction func didClickRemoveCurrentFilterButton(sender: AnyObject) {
+    @IBAction func didClickRemoveCurrentFilterButton(_ sender: AnyObject) {
         if let block = clickedRemoveCurrentFilter {
             block(self)
         }
     }
-    @IBAction func didClickCreateNewFilterButton(sender: AnyObject) {
+    @IBAction func didClickCreateNewFilterButton(_ sender: AnyObject) {
         if let block = clickedCreateNewFilter {
             block()
         }

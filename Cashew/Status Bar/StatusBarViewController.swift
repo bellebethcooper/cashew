@@ -27,20 +27,20 @@ class StatusBarBackgroundView: NSView {
     var backgroundColor: NSColor? {
         didSet {
             needsDisplay = true
-            needsToDrawRect(bounds)
+            needsToDraw(bounds)
         }
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if let color = backgroundColor {
             color.set()
-            NSRectFill(self.bounds);
+            self.bounds.fill();
         }
     }
 }
 class StatusBarView: NSView {
     
-    private let bgView = StatusBarBackgroundView()
+    fileprivate let bgView = StatusBarBackgroundView()
     
     var backgroundColor: NSColor? {
         didSet {
@@ -51,8 +51,8 @@ class StatusBarView: NSView {
     override func viewDidMoveToWindow() {
         if let aFrameView = window?.contentView?.superview {
             bgView.frame = aFrameView.bounds
-            bgView.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
-            aFrameView.addSubview(bgView, positioned:NSWindowOrderingMode.Below, relativeTo: aFrameView)
+            bgView.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
+            aFrameView.addSubview(bgView, positioned:NSWindow.OrderingMode.below, relativeTo: aFrameView)
         }
         
     }
@@ -72,12 +72,12 @@ class StatusBarViewController: NSViewController {
     @IBOutlet weak var headerSeparatorView: BaseSeparatorView!
     @IBOutlet weak var footerSeparatorView: BaseSeparatorView!
     
-    private let dataSource = QIssuesViewDataSource()
+    fileprivate let dataSource = QIssuesViewDataSource()
     
-    var didClickCreateIssueAction: dispatch_block_t?
-    var didClickQuitAction: dispatch_block_t?
-    var didClickPreferencesAction: dispatch_block_t?
-    var didClickShowAppAction: dispatch_block_t?
+    var didClickCreateIssueAction: (()->())?
+    var didClickQuitAction: (()->())?
+    var didClickPreferencesAction: (()->())?
+    var didClickShowAppAction: (()->())?
     
     deinit {
         tableView.delegate = nil
@@ -111,7 +111,7 @@ class StatusBarViewController: NSViewController {
         refreshButton.toolTip = "Click to refresh current list"
         
         //        settingsButton.wantsLayer = true
-        //        settingsButton.layer?.backgroundColor = NSColor.clearColor().CGColor
+        //        settingsButton.layer?.backgroundColor = NSColor.clear().CGColor
         //        settingsButton.layer?.masksToBounds = true
         
         [headerView, footerView].forEach { (view) in
@@ -123,7 +123,7 @@ class StatusBarViewController: NSViewController {
             
             //let appearance: NSAppearance?
             let headerBgColor: NSColor
-            if mode == .Dark {
+            if mode == .dark {
                 // appearance = NSAppearance(appearanceNamed: NSAppearanceNameVibrantDark, bundle: nil)
                 headerBgColor = NSColor(calibratedWhite: 25/255.0, alpha: 1)
             } else {
@@ -135,12 +135,12 @@ class StatusBarViewController: NSViewController {
             //  strongSelf.newIssueButton.appearance = appearance
             
             [strongSelf.headerView, strongSelf.footerView].forEach { (view) in
-                view.backgroundColor = headerBgColor
+                view?.backgroundColor = headerBgColor
                 //strongSelf.settingsButton.layer?.backgroundColor = headerBgColor.CGColor
-                view.shouldAllowVibrancy = false
+                view?.shouldAllowVibrancy = false
             }
             
-            strongSelf.settingsButton.image = NSImage(named: "gear")?.imageWithTintColor(CashewColor.foregroundColor())
+            strongSelf.settingsButton.image = NSImage(named: NSImage.Name(rawValue: "gear"))?.withTintColor(CashewColor.foregroundColor())
             
             if let view = strongSelf.view as? StatusBarView {
                 view.backgroundColor = headerBgColor
@@ -171,7 +171,7 @@ class StatusBarViewController: NSViewController {
     
     func refresh() {
         let filter = QIssueFilter()
-        filter.account = QContext.sharedContext().currentAccount
+        filter.account = QContext.shared().currentAccount
         if  self.tabButton.selectedSegment == 0 {
             filter.filterType = SRFilterType_Notifications
         } else if self.tabButton.selectedSegment == 2 {
@@ -179,16 +179,16 @@ class StatusBarViewController: NSViewController {
             
         } else if self.tabButton.selectedSegment == 1 {
             filter.filterType = SRFilterType_Search
-            let currentUserId = QContext.sharedContext().currentAccount.userId
-            let account = QContext.sharedContext().currentAccount;
-            let currentUser = QOwnerStore.ownerForAccountId(account.identifier, identifier: currentUserId)
-            filter.assignees = NSOrderedSet(object: currentUser.login)
-            filter.states = NSOrderedSet(object: NSNumber(integer: IssueStoreIssueState_Open))
+            let currentUserId = QContext.shared().currentAccount.userId
+            let account = QContext.shared().currentAccount;
+            let currentUser = QOwnerStore.owner(forAccountId: account?.identifier, identifier: currentUserId)
+            filter.assignees = NSOrderedSet(object: currentUser?.login)
+            filter.states = NSOrderedSet(object: NSNumber(value: IssueStoreIssueState_Open))
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
             self.dataSource.fetchIssuesWithFilter(filter)
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 // self.tableView.sizeToFit()
                 //self.tableView.beginUpdates()
                 self.tableView.reloadData()
@@ -199,44 +199,44 @@ class StatusBarViewController: NSViewController {
     
     // MARK: Actions
     
-    @IBAction func didClickCreateIssueButton(sender: AnyObject) {
+    @IBAction func didClickCreateIssueButton(_ sender: AnyObject) {
         Analytics.logCustomEventWithName("Status Bar Did Click Create Issue Button", customAttributes: nil)
         if let didClickCreateIssueAction = self.didClickCreateIssueAction {
             didClickCreateIssueAction()
         }
     }
     
-    @IBAction func didClickSettingsButton(sender: AnyObject) {
+    @IBAction func didClickSettingsButton(_ sender: AnyObject) {
         
         guard let event = self.view.window?.currentEvent else { return }
         let menu = SRMenu()
         
         menu.addItem(NSMenuItem(title: "Open Cashew", action: #selector(StatusBarViewController.didClickShowAppButton(_:)), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Preferences", action: #selector(StatusBarViewController.didClickPreferencesButton(_:)), keyEquivalent: ""))
-        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit Cashew", action: #selector(StatusBarViewController.didClickQuitButton(_:)), keyEquivalent: ""))
         
-        menu.itemArray.forEach { (menuitem) in
+        menu.items.forEach { (menuitem) in
             menuitem.target = self
         }
         
-        let pointInWindow = settingsButton.convertPoint(CGPoint.zero, toView: nil)
+        let pointInWindow = settingsButton.convert(CGPoint.zero, to: nil)
         let point = NSPoint(x: pointInWindow.x + settingsButton.frame.width - menu.size.width, y: pointInWindow.y - settingsButton.frame.height)
-        if let windowNumber = view.window?.windowNumber, popupEvent = NSEvent.mouseEventWithType(.LeftMouseUp, location: point, modifierFlags: event.modifierFlags, timestamp: 0, windowNumber: windowNumber, context: nil, eventNumber: 0, clickCount: 0, pressure: 0) {
-            SRMenu.popUpContextMenu(menu, withEvent: popupEvent, forView: settingsButton)
+        if let windowNumber = view.window?.windowNumber, let popupEvent = NSEvent.mouseEvent(with: .leftMouseUp, location: point, modifierFlags: event.modifierFlags, timestamp: 0, windowNumber: windowNumber, context: nil, eventNumber: 0, clickCount: 0, pressure: 0) {
+            SRMenu.popUpContextMenu(menu, with: popupEvent, for: settingsButton)
         }
         
     }
     
     @objc
-    private func didClickPreferencesButton(sender: AnyObject) {
+    fileprivate func didClickPreferencesButton(_ sender: AnyObject) {
         if let didClickPreferencesAction = didClickPreferencesAction {
             didClickPreferencesAction()
         }
     }
     
     @objc
-    private func didClickQuitButton(sender: AnyObject) {
+    fileprivate func didClickQuitButton(_ sender: AnyObject) {
         if let didClickQuitAction = didClickQuitAction {
             didClickQuitAction()
         }
@@ -244,20 +244,20 @@ class StatusBarViewController: NSViewController {
     
     
     @objc
-    private func didClickShowAppButton(sender: AnyObject) {
+    fileprivate func didClickShowAppButton(_ sender: AnyObject) {
         if let didClickShowAppAction = didClickShowAppAction {
             didClickShowAppAction()
         }
     }
     
     @IBAction
-    func didClickRefreshButton(sender: AnyObject) {
+    func didClickRefreshButton(_ sender: AnyObject) {
         Analytics.logCustomEventWithName("Status Bar Did Click Refresh Button", customAttributes: nil)
         refresh()
     }
     
     @IBAction
-    func didClickOpenCashewAppStatusBarButton(sender: AnyObject) {
+    func didClickOpenCashewAppStatusBarButton(_ sender: AnyObject) {
         Analytics.logCustomEventWithName("Status Bar Did Click Open Cashew App", customAttributes: nil)
         if let didClickShowAppAction = didClickShowAppAction {
             didClickShowAppAction()
@@ -267,17 +267,17 @@ class StatusBarViewController: NSViewController {
     
     
     @IBAction
-    func didClickSegmentatedControleButton(sender: AnyObject) {
-        Analytics.logCustomEventWithName("Status Bar Did Select Tab", customAttributes: ["tabIndex": self.tabButton.selectedSegment])
+    func didClickSegmentatedControleButton(_ sender: AnyObject) {
+        Analytics.logCustomEventWithName("Status Bar Did Select Tab", customAttributes: ["tabIndex": self.tabButton.selectedSegment as AnyObject])
         refresh()
     }
     
     @objc
-    private func didSelectIssue(sender: AnyObject) {
+    fileprivate func didSelectIssue(_ sender: AnyObject) {
         let selectedRow = tableView.selectedRow
         if selectedRow >= 0 && selectedRow < dataSource.numberOfIssues() {
             let issue = dataSource.issueAtIndex(selectedRow)
-            NSNotificationCenter.defaultCenter().postNotificationName(kOpenNewIssueDetailsWindowNotification, object: issue)
+            NotificationCenter.default.post(name: NSNotification.Name.openNewIssueDetailsWindow, object: issue)
         }
     }
 }
@@ -285,11 +285,11 @@ class StatusBarViewController: NSViewController {
 
 extension StatusBarViewController: QIssuesViewDataSourceDelegate {
     
-    func dataSource(dataSource: QIssuesViewDataSource?, didInsertIndexSet: NSIndexSet, forFilter: QIssueFilter) {
+    func dataSource(_ dataSource: QIssuesViewDataSource?, didInsertIndexSet: IndexSet, forFilter: QIssueFilter) {
         
     }
     
-    func dataSource(dataSource: QIssuesViewDataSource?, didDeleteIndexSet: NSIndexSet, forFilter: QIssueFilter) {
+    func dataSource(_ dataSource: QIssuesViewDataSource?, didDeleteIndexSet: IndexSet, forFilter: QIssueFilter) {
         
     }
 }
@@ -297,17 +297,17 @@ extension StatusBarViewController: QIssuesViewDataSourceDelegate {
 
 extension StatusBarViewController: NSTableViewDelegate {
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         return nil;
     }
     
-    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         let issue = dataSource.issueAtIndex(row)
-        let isRowSelected = tableView.selectedRowIndexes.containsIndex(row)
+        let isRowSelected = tableView.selectedRowIndexes.contains(row)
         let cellIdentifier = "QIssueTableViewCell"
         let rowView: QIssueTableViewCell
         
-        if let aRowView = tableView.makeViewWithIdentifier(cellIdentifier, owner: nil) as? QIssueTableViewCell {
+        if let aRowView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: cellIdentifier), owner: nil) as? QIssueTableViewCell {
             rowView = aRowView
         } else {
             let aRowView: QIssueTableViewCell = QIssueTableViewCell.instantiateFromNib()!
@@ -315,14 +315,14 @@ extension StatusBarViewController: NSTableViewDelegate {
         }
         
         rowView.issue = issue
-        rowView.selected = isRowSelected
-        rowView.identifier = cellIdentifier
+        rowView.isSelected = isRowSelected
+        rowView.identifier = NSUserInterfaceItemIdentifier(rawValue: cellIdentifier)
         rowView.shouldAllowVibrancy = false
         
         return rowView
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         return QIssueTableViewCell.suggestedHeight()
     }
     
@@ -330,7 +330,7 @@ extension StatusBarViewController: NSTableViewDelegate {
 
 extension StatusBarViewController: NSTableViewDataSource {
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return dataSource.numberOfIssues()
     }
 }

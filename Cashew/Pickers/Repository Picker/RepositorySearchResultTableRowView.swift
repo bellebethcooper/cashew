@@ -20,14 +20,14 @@ class RepositorySearchResultTableRowView: BaseTableRowView {
         self.repository = repository
         super.init()
         
-        selectionType = .Checkbox
+        selectionType = .checkbox
         
         didSetRepository()
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else{ return }
-            let selected = strongSelf.selected
-            strongSelf.selected = selected
+            let selected = strongSelf.isSelected
+            strongSelf.isSelected = selected
         }
     }
     
@@ -36,11 +36,11 @@ class RepositorySearchResultTableRowView: BaseTableRowView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             needsLayout = true
             layoutSubtreeIfNeeded()
-            if NSUserDefaults.themeMode() == .Dark {
+            if UserDefaults.themeMode() == .dark {
                 backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 backgroundColor = CashewColor.backgroundColor()
@@ -61,7 +61,7 @@ class RepositorySearchResultTableRowView: BaseTableRowView {
     }
     
     
-    private var _checked = false
+    fileprivate var _checked = false
     override var checked: Bool {
         set(newValue) {
             if newValue {
@@ -69,9 +69,9 @@ class RepositorySearchResultTableRowView: BaseTableRowView {
             } else {
                 accessoryView = EmptyCheckboxView()
             }
-            accessoryView?.hidden = false
+            accessoryView?.isHidden = false
             accessoryView?.disableThemeObserver = true
-            accessoryView?.backgroundColor = NSColor.clearColor()
+            accessoryView?.backgroundColor = NSColor.clear
             _checked = newValue
             needsLayout = true
             layoutSubtreeIfNeeded()
@@ -82,7 +82,7 @@ class RepositorySearchResultTableRowView: BaseTableRowView {
     }
     
     // MARK: Setup
-    private func didSetRepository() {
+    fileprivate func didSetRepository() {
         titleLabel.stringValue = repository.fullName
         subtitleLabel.stringValue = repository.desc ?? ""
     }

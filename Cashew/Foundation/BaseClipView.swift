@@ -33,7 +33,7 @@ class BaseClipView: NSClipView {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
     }
     
-    private func setup() {
+    fileprivate func setup() {
         self.wantsLayer = true
         
         if disableThemeObserver {

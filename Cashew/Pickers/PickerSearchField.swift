@@ -22,17 +22,17 @@ class PickerSearchFieldViewModel: NSObject {
 @objc(SRPickerSearchField)
 class PickerSearchField: BaseView {
     
-    private static let padding: CGFloat = 6.0
-    private static let textFieldHeight: CGFloat = 22.0
-    private static let placeholderColor = NSColor(calibratedWhite: 0.7, alpha: 1)
-    private static let textFont = NSFont.systemFontOfSize(14)
+    fileprivate static let padding: CGFloat = 6.0
+    fileprivate static let textFieldHeight: CGFloat = 22.0
+    fileprivate static let placeholderColor = NSColor(calibratedWhite: 0.7, alpha: 1)
+    fileprivate static let textFont = NSFont.systemFont(ofSize: 14)
     //private static let toolbarView:
 
-    private let searchImageView = NSImageView()
-    private let textField = PickerSearchTextField()
-    private let textFieldContainerView = BaseView()
+    fileprivate let searchImageView = NSImageView()
+    fileprivate let textField = PickerSearchTextField()
+    fileprivate let textFieldContainerView = BaseView()
     
-    var onTextChange: dispatch_block_t?
+    var onTextChange: (()->())?
     var text: String {
         return textField.stringValue ?? ""
     }
@@ -58,7 +58,7 @@ class PickerSearchField: BaseView {
         
         textFieldContainerView.disableThemeObserver = true
         
-        if NSUserDefaults.themeMode() == .Dark {
+        if UserDefaults.themeMode() == .dark {
             backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
         } else {
             backgroundColor = CashewColor.backgroundColor()
@@ -71,7 +71,7 @@ class PickerSearchField: BaseView {
                 return
             }
             
-            if mode == .Dark {
+            if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
             } else {
                 strongSelf.backgroundColor = CashewColor.backgroundColor()
@@ -81,7 +81,7 @@ class PickerSearchField: BaseView {
             strongSelf.textFieldContainerView.backgroundColor = strongSelf.backgroundColor
             strongSelf.didSetViewModel()
             
-            if let fieldEditor = strongSelf.window?.fieldEditor(true, forObject: self) as? NSTextView where strongSelf.window?.firstResponder == strongSelf.textField {
+            if let fieldEditor = strongSelf.window?.fieldEditor(true, for: self) as? NSTextView , strongSelf.window?.firstResponder == strongSelf.textField {
                 fieldEditor.insertionPointColor = CashewColor.foregroundColor()
             }
         }
@@ -94,38 +94,38 @@ class PickerSearchField: BaseView {
     
     // MARK: Setup
     
-    private func setupTextField() {
+    fileprivate func setupTextField() {
         guard textField.superview == nil else { return }
         textFieldContainerView.addSubview(textField)
         
-        textField.focusRingType = .None
+        textField.focusRingType = .none
         textField.usesSingleLineMode = true
-        textField.bordered = false
+        textField.isBordered = false
         textField.delegate = self
         textField.font = PickerSearchField.textFont
     }
     
     
-    private func didSetViewModel() {
-        textField.placeholderAttributedString = NSAttributedString(string: viewModel.placeHolderText, attributes:  [NSFontAttributeName: NSFont.systemFontOfSize(14) , NSForegroundColorAttributeName: CashewColor.foregroundSecondaryColor()])
+    fileprivate func didSetViewModel() {
+        textField.placeholderAttributedString = NSAttributedString(string: viewModel.placeHolderText, attributes:  [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 14) , NSAttributedStringKey.foregroundColor: CashewColor.foregroundSecondaryColor()])
     }
     
-    private func setupTextFieldContainerView() {
+    fileprivate func setupTextFieldContainerView() {
         guard textFieldContainerView.superview == nil else { return }
         addSubview(textFieldContainerView)
     }
     
-    private func setupSearchImageView() {
+    fileprivate func setupSearchImageView() {
         guard searchImageView.superview == nil else { return }
         textFieldContainerView.addSubview(searchImageView)
-        searchImageView.image = NSImage(named:"search")?.imageWithTintColor(PickerSearchField.placeholderColor)
+        searchImageView.image = NSImage(named:NSImage.Name(rawValue: "search"))?.withTintColor(PickerSearchField.placeholderColor)
     }
     
     // MARK: Layouts 
     
     override func layout() {
 
-        guard let image = NSImage(named:"search")?.imageWithTintColor(PickerSearchField.placeholderColor) else { return }
+        guard let image = NSImage(named:NSImage.Name(rawValue: "search"))?.withTintColor(PickerSearchField.placeholderColor) else { return }
         
         var searchImageSize = image.size
         image.size = CGSize(width: searchImageSize.width * 0.9, height: searchImageSize.height * 0.9)
@@ -155,7 +155,7 @@ class PickerSearchField: BaseView {
 
 extension PickerSearchField: NSTextFieldDelegate {
     
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         if let onTextChange = onTextChange {
             //if (textField.stringValue as NSString).trimmedString()
             onTextChange()
@@ -166,10 +166,10 @@ extension PickerSearchField: NSTextFieldDelegate {
 
 private class PickerSearchTextField: NSTextField {
    
-    private override func becomeFirstResponder() -> Bool {
+    fileprivate override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
 
-        if let fieldEditor = window?.fieldEditor(true, forObject: self) as? NSTextView where success {
+        if let fieldEditor = window?.fieldEditor(true, for: self) as? NSTextView , success {
             fieldEditor.insertionPointColor = CashewColor.foregroundColor()
         }
         

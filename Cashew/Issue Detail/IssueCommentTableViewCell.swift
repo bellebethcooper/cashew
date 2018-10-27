@@ -12,15 +12,15 @@ class CommentMarkdownContainerView: BaseView { }
 
 class ReactionButton: NSButton {
     
-    private var mouseTrackingArea: NSTrackingArea?
-    var onMouseOver: dispatch_block_t?
+    fileprivate var mouseTrackingArea: NSTrackingArea?
+    var onMouseOver: (()->())?
     
-    override func mouseEntered(theEvent: NSEvent) {
+    override func mouseEntered(with theEvent: NSEvent) {
         if let onMouseOver = onMouseOver {
             onMouseOver()
         }
         
-        super.mouseEntered(theEvent)
+        super.mouseEntered(with: theEvent)
     }
     
     override func updateTrackingAreas() {
@@ -30,7 +30,7 @@ class ReactionButton: NSButton {
             removeTrackingArea(previousTrackingArea)
         }
         
-        let area = NSTrackingArea(rect: bounds, options: [.ActiveAlways, .MouseEnteredAndExited], owner: self, userInfo: nil)
+        let area = NSTrackingArea(rect: bounds, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: nil)
         mouseTrackingArea = area
         addTrackingArea(area)
     }
@@ -43,7 +43,7 @@ class ReactionButton: NSButton {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let area = NSTrackingArea(rect: bounds, options: [.ActiveAlways, .MouseEnteredAndExited], owner: self, userInfo: nil)
+        let area = NSTrackingArea(rect: bounds, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: nil)
         mouseTrackingArea = area
         addTrackingArea(area)
     }
@@ -53,16 +53,16 @@ class ReactionButton: NSButton {
     
     static let reactionViewerHeight: CGFloat = 26
     
-    private static let willShowReactionNotification = "willShowReactionNotification"
+    fileprivate static let willShowReactionNotification = "willShowReactionNotification"
     
-    private static let menuButtonsColor = NSColor(calibratedWhite: 147/255.0, alpha: 0.85)
-    private static let buttonSize = CGSize(width: 92, height: 30)
-    private static let buttonsSpacing: CGFloat = 8
-    private static let submitButtonRightPadding: CGFloat = 6
-    private static let buttonsBottomPadding: CGFloat = 13
-    private static let progressIndicatorRightPadding: CGFloat = 6.0
-    private static let progressIndicatorSize = CGSizeMake(17, 17)
-    private static let markdownCommentContainerViewBottomLayoutConstraintEditConstaint: CGFloat = 50.0
+    fileprivate static let menuButtonsColor = NSColor(calibratedWhite: 147/255.0, alpha: 0.85)
+    fileprivate static let buttonSize = CGSize(width: 92, height: 30)
+    fileprivate static let buttonsSpacing: CGFloat = 8
+    fileprivate static let submitButtonRightPadding: CGFloat = 6
+    fileprivate static let buttonsBottomPadding: CGFloat = 13
+    fileprivate static let progressIndicatorRightPadding: CGFloat = 6.0
+    fileprivate static let progressIndicatorSize = CGSize(width: 17, height: 17)
+    fileprivate static let markdownCommentContainerViewBottomLayoutConstraintEditConstaint: CGFloat = 50.0
     
     @IBOutlet weak var commentContainerBottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var commentContainerTopLayoutConstraint: NSLayoutConstraint!
@@ -71,18 +71,18 @@ class ReactionButton: NSButton {
     @IBOutlet weak var mainContainerRightConstraint: NSLayoutConstraint!
     @IBOutlet weak var commentMarkdownContainerView: CommentMarkdownContainerView!
     
-    @IBOutlet weak private var usernameLabel: NSTextField!
-    @IBOutlet weak private var dateLabel: NSTextField!
-    @IBOutlet weak private var usernameAvatarView: BaseView!
+    @IBOutlet weak fileprivate var usernameLabel: NSTextField!
+    @IBOutlet weak fileprivate var dateLabel: NSTextField!
+    @IBOutlet weak fileprivate var usernameAvatarView: BaseView!
     @IBOutlet weak var menuButton: NSButton!
     
     @IBOutlet weak var headerContainerView: BaseView!
-    private var editableMarkdownView: EditableMarkdownView?
+    fileprivate var editableMarkdownView: EditableMarkdownView?
     
-    private let cancelButton = BaseButton.whiteButton()
-    private let commentButton = BaseButton.greenButton()
-    private let progressIndicator = NSProgressIndicator()
-    private let uploadFileProgressIndicator = LabeledProgressIndicatorView()
+    fileprivate let cancelButton = BaseButton.whiteButton()
+    fileprivate let commentButton = BaseButton.greenButton()
+    fileprivate let progressIndicator = NSProgressIndicator()
+    fileprivate let uploadFileProgressIndicator = LabeledProgressIndicatorView()
     
     @IBOutlet weak var likeButton: ReactionButton!
     //private var mouseTrackingArea: NSTrackingArea?
@@ -91,9 +91,9 @@ class ReactionButton: NSButton {
     @IBOutlet weak var markdownCommentContainerViewBottomLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     
-    private var editableMarkdownViewBottomConstraint: NSLayoutConstraint?
-    private let reactionsViewController: ReactionsViewController = ReactionsViewController(nibName: "ReactionsViewController", bundle: nil)!
-    private var reactionPickerPopover: NSPopover?
+    fileprivate var editableMarkdownViewBottomConstraint: NSLayoutConstraint?
+    fileprivate let reactionsViewController: ReactionsViewController = ReactionsViewController(nibName: NSNib.Name(rawValue: "ReactionsViewController"), bundle: nil)
+    fileprivate var reactionPickerPopover: NSPopover?
     
     var text: String? {
         get {
@@ -107,8 +107,8 @@ class ReactionButton: NSButton {
     
     var draft: IssueCommentDraft? {
         didSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                if let strongSelf = self, draft = strongSelf.draft, editableMarkdownView = strongSelf.editableMarkdownView {
+            DispatchQueue.main.async { [weak self] in
+                if let strongSelf = self, let draft = strongSelf.draft, let editableMarkdownView = strongSelf.editableMarkdownView {
                     strongSelf.editing = true
                     editableMarkdownView.string = draft.body
                     strongSelf.didSetEditing()
@@ -125,30 +125,32 @@ class ReactionButton: NSButton {
         }
     }
     
-    var imageURLs: [NSURL] {
+    var imageURLs: [URL] {
         get {
-            return editableMarkdownView?.imageURLs ?? [NSURL]()
+            return editableMarkdownView?.imageURLs as [URL]? ?? [URL]()
         }
     }
-    var onTextChange: dispatch_block_t? {
+    var onTextChange: (()->())? {
         didSet {
-            if let editableMarkdownView = editableMarkdownView {
+            if let editableMarkdownView = editableMarkdownView,
+                let onTextChange = onTextChange {
                 editableMarkdownView.onTextChange = onTextChange
             }
         }
     }
     
-    var onCommentDiscard: dispatch_block_t?
+    var onCommentDiscard: (()->())?
     
-    var onHeightChanged: dispatch_block_t? {
+    var onHeightChanged: (()->())? {
         didSet {
-            if let editableMarkdownView = editableMarkdownView {
+            if let editableMarkdownView = editableMarkdownView,
+                let onHeightChanged = onHeightChanged {
                 editableMarkdownView.onHeightChanged = onHeightChanged
             }
         }
     }
     
-    var didClickImageBlock: ((url: NSURL!) -> ())? {
+    var didClickImageBlock: ((_ url: URL?) -> ())? {
         didSet {
             if let editableMarkdownView = editableMarkdownView {
                 editableMarkdownView.didClickImageBlock = didClickImageBlock
@@ -170,7 +172,7 @@ class ReactionButton: NSButton {
             if editableMarkdownView?.isFirstResponder == false {
                 editing = false
             }
-            assert(NSThread.isMainThread(), "not on main thread");
+            assert(Thread.isMainThread, "not on main thread");
             
             
             if let aUsername = self.commentInfo?.username() {
@@ -179,15 +181,15 @@ class ReactionButton: NSButton {
                 self.usernameLabel.stringValue = ""
             }
             
-            if let aDate = self.commentInfo?.commentedOn() {
+            if let aDate = self.commentInfo?.commentedOn() as? NSDate {
                 var didUseFullDate = ObjCBool(false)
-                let dateString = aDate.timeAgoForWeekOrLessAndDidUseFullDate(&didUseFullDate);
-                
-                if didUseFullDate.boolValue {
-                    self.dateLabel.stringValue = String(format: "commented on %@", dateString)
-                } else {
-                    self.dateLabel.stringValue = String(format: "commented %@", dateString)
-                }
+                if let dateString = aDate.timeAgo(forWeekOrLessAndDidUseFullDate: &didUseFullDate) {
+                    if didUseFullDate.boolValue {
+                        self.dateLabel.stringValue = String(format: "commented on %@", dateString)
+                    } else {
+                        self.dateLabel.stringValue = String(format: "commented %@", dateString)
+                    }
+                }      
             } else {
                 self.dateLabel.stringValue = ""
             }
@@ -198,7 +200,7 @@ class ReactionButton: NSButton {
                 self.usernameAvatarView.setImageURL(nil)
             }
             
-            if let commentInfo = commentInfo where oldValue == nil || oldValue!.commentBody() != commentInfo.commentBody() {
+            if let commentInfo = commentInfo , oldValue == nil || oldValue!.commentBody() != commentInfo.commentBody() {
                 if setupEditableMarkdownView() == false {
                     editableMarkdownView?.commentInfo = commentInfo
                 }
@@ -210,34 +212,34 @@ class ReactionButton: NSButton {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(IssueCommentTableViewCell.willShowReactionNotification)
+        NotificationCenter.default.removeObserver(IssueCommentTableViewCell.willShowReactionNotification)
         editableMarkdownView?.onDragExited = nil
         editableMarkdownView?.onDragEntered = nil
         editableMarkdownView?.onHeightChanged = nil
         editableMarkdownView?.onFileUploadChange = nil
-        QIssueStore.removeObserver(self)
-        QIssueCommentStore.removeObserver(self)
+        QIssueStore.remove(self)
+        QIssueCommentStore.remove(self)
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
-        SRIssueCommentReactionStore.removeObserver(self)
-        SRIssueReactionStore.removeObserver(self)
+        SRIssueCommentReactionStore.remove(self)
+        SRIssueReactionStore.remove(self)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IssueCommentTableViewCell.willShowReaction(_:)), name: IssueCommentTableViewCell.willShowReactionNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IssueCommentTableViewCell.willShowReaction(_:)), name: NSNotification.Name(rawValue: IssueCommentTableViewCell.willShowReactionNotification), object: nil)
         
-        QIssueStore.addObserver(self)
-        QIssueCommentStore.addObserver(self)
-        SRIssueCommentReactionStore.addObserver(self)
-        SRIssueReactionStore.addObserver(self)
+        QIssueStore.add(self)
+        QIssueCommentStore.add(self)
+        SRIssueCommentReactionStore.add(self)
+        SRIssueReactionStore.add(self)
         
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        usernameAvatarView.layer?.cornerRadius = CGRectGetHeight(usernameAvatarView.frame) / 2.0
+        usernameAvatarView.layer?.cornerRadius = usernameAvatarView.frame.height / 2.0
         usernameAvatarView.layer?.masksToBounds = true
         
-        self.menuButton.hidden = false
+        self.menuButton.isHidden = false
         
         CATransaction.commit()
         
@@ -245,7 +247,7 @@ class ReactionButton: NSButton {
 //        self.addTrackingArea(trackingArea);
 //        self.mouseTrackingArea = trackingArea
         
-        self.likeButton.image = self.likeButton.image?.imageWithTintColor(NSColor(calibratedWhite: 125/255.0, alpha: 1))
+        self.likeButton.image = self.likeButton.image?.withTintColor(NSColor(calibratedWhite: 125/255.0, alpha: 1))
         
         setupButtons()
         setupProgressIndicator()
@@ -262,47 +264,47 @@ class ReactionButton: NSButton {
                 return;
             }
             
-            if mode == .Light {
+            if mode == .light {
                 strongSelf.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
                 strongSelf.usernameLabel.textColor = LightModeColor.sharedInstance.foregroundSecondaryColor()
                 strongSelf.dateLabel.textColor = LightModeColor.sharedInstance.foregroundTertiaryColor()
-                strongSelf.menuButton.image = NSImage(named: "chevron-down")?.imageWithTintColor(IssueCommentTableViewCell.menuButtonsColor)
-                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
-            } else if mode == .Dark {
+                strongSelf.menuButton.image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
+                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
+            } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
                 strongSelf.usernameLabel.textColor = DarkModeColor.sharedInstance.foregroundSecondaryColor()
                 strongSelf.dateLabel.textColor = DarkModeColor.sharedInstance.foregroundTertiaryColor()
-                strongSelf.menuButton.image = NSImage(named: "chevron-down")?.imageWithTintColor(IssueCommentTableViewCell.menuButtonsColor)
-                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+                strongSelf.menuButton.image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
+                strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             }
             
-            strongSelf.likeButton.image = NSImage(named: "reactions")?.imageWithTintColor(IssueCommentTableViewCell.menuButtonsColor)
+            strongSelf.likeButton.image = NSImage(named: NSImage.Name(rawValue: "reactions"))?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
         }
         
         likeButton.onMouseOver = { [weak self] in
-            guard let strongSelf = self where strongSelf.reactionPickerPopover == nil else { return }
+            guard let strongSelf = self , strongSelf.reactionPickerPopover == nil else { return }
             strongSelf.didClickReactionsButton(strongSelf.likeButton)
         }
     }
     
     
     @objc
-    private func willShowReaction(notification: NSNotification) {
-        if let obj = notification.object as? NSPopover where obj != self.reactionPickerPopover {
+    fileprivate func willShowReaction(_ notification: Notification) {
+        if let obj = notification.object as? NSPopover , obj != self.reactionPickerPopover {
             self.reactionPickerPopover?.close()
         }
     }
     
     
-    private func didSetEditing() {
+    fileprivate func didSetEditing() {
         if editing {
             markdownCommentContainerViewBottomLayoutConstraint.constant = IssueCommentTableViewCell.markdownCommentContainerViewBottomLayoutConstraintEditConstaint
-            cancelButton.hidden = false
-            commentButton.hidden = false
+            cancelButton.isHidden = false
+            commentButton.isHidden = false
         } else {
             markdownCommentContainerViewBottomLayoutConstraint.constant = 0
-            cancelButton.hidden = true
-            commentButton.hidden = true
+            cancelButton.isHidden = true
+            commentButton.isHidden = true
         }
         
         editableMarkdownView?.editing = editing
@@ -311,40 +313,40 @@ class ReactionButton: NSButton {
         
     }
     
-    private func setupFileUploadProgressIndicator() {
+    fileprivate func setupFileUploadProgressIndicator() {
         guard uploadFileProgressIndicator.superview == nil else { return }
         
         addSubview(uploadFileProgressIndicator)
-        uploadFileProgressIndicator.hidden = true
+        uploadFileProgressIndicator.isHidden = true
         uploadFileProgressIndicator.translatesAutoresizingMaskIntoConstraints = false
-        uploadFileProgressIndicator.leftAnchor.constraintEqualToAnchor(commentMarkdownContainerView.leftAnchor).active = true
+        uploadFileProgressIndicator.leftAnchor.constraint(equalTo: commentMarkdownContainerView.leftAnchor).isActive = true
         
-        uploadFileProgressIndicator.setContentCompressionResistancePriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        uploadFileProgressIndicator.setContentHuggingPriority(NSLayoutPriorityRequired, forOrientation: .Horizontal)
-        uploadFileProgressIndicator.heightAnchor.constraintEqualToConstant(IssueCommentTableViewCell.buttonSize.height).active = true
-        uploadFileProgressIndicator.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -IssueCommentTableViewCell.buttonsBottomPadding).active = true
+        uploadFileProgressIndicator.setContentCompressionResistancePriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        uploadFileProgressIndicator.setContentHuggingPriority(NSLayoutConstraint.Priority.required, for: .horizontal)
+        uploadFileProgressIndicator.heightAnchor.constraint(equalToConstant: IssueCommentTableViewCell.buttonSize.height).isActive = true
+        uploadFileProgressIndicator.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -IssueCommentTableViewCell.buttonsBottomPadding).isActive = true
     }
     
-    private func didClickCommentButton() {
+    fileprivate func didClickCommentButton() {
         let strongSelf = self
         
-        guard let repository = strongSelf.commentInfo?.repo(), account = strongSelf.commentInfo?.repo().account else { return }
+        guard let repository = strongSelf.commentInfo?.repo(), let account = strongSelf.commentInfo?.repo().account else { return }
         
         strongSelf.commentButton.enabled = false
         strongSelf.cancelButton.enabled = false
         strongSelf.progressIndicator.startAnimation(nil)
-        strongSelf.progressIndicator.hidden = false
+        strongSelf.progressIndicator.isHidden = false
         
-        let service = QIssuesService(forAccount: account)
+        let service = QIssuesService(for: account)
         if let issue = strongSelf.commentInfo as? QIssue {
             Analytics.logCustomEventWithName("Clicked Save Issue Description", customAttributes: nil)
-            service.saveIssueBody(strongSelf.editableMarkdownView?.markdown, forRepository: repository, number: issue.number, onCompletion: { (updatedIssue, context, error) in
+            service.saveIssueBody(strongSelf.editableMarkdownView?.markdown, for: repository, number: issue.number, onCompletion: { (updatedIssue, context, error) in
                 if let updatedIssue = updatedIssue as? QIssue {
                     if let onCommentDiscard = strongSelf.onCommentDiscard {
                         onCommentDiscard()
                     }
                     
-                    QIssueStore.saveIssue(updatedIssue)
+                    QIssueStore.save(updatedIssue)
                     Analytics.logCustomEventWithName("Successful Save Issue Description", customAttributes: nil)
                 } else {
                     let errorString: String
@@ -353,28 +355,28 @@ class ReactionButton: NSButton {
                     } else {
                         errorString = ""
                     }
-                    Analytics.logCustomEventWithName("Failed Save Issue Description", customAttributes: ["error": errorString])
+                    Analytics.logCustomEventWithName("Failed Save Issue Description", customAttributes: ["error": errorString as AnyObject])
                 }
                 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     
                     strongSelf.commentButton.enabled = true
                     strongSelf.cancelButton.enabled = true
                     strongSelf.progressIndicator.stopAnimation(nil)
-                    strongSelf.progressIndicator.hidden = true
+                    strongSelf.progressIndicator.isHidden = true
                     
                     self.editing = false
                 }
             })
             
-        } else if let issueComment = strongSelf.commentInfo as? QIssueComment, issueCommentMarkdown = strongSelf.editableMarkdownView?.markdown {
+        } else if let issueComment = strongSelf.commentInfo as? QIssueComment, let issueCommentMarkdown = strongSelf.editableMarkdownView?.markdown {
             Analytics.logCustomEventWithName("Clicked Save Issue Comment", customAttributes: nil)
-            service.updateCommentText(issueCommentMarkdown, forRepository: repository, issueNumber: issueComment.issueNumber, commentIdentifier: issueComment.identifier, onCompletion: { (updatedIssueComment, context, error) in
+            service.updateCommentText(issueCommentMarkdown, for: repository, issueNumber: issueComment.issueNumber, commentIdentifier: issueComment.identifier, onCompletion: { (updatedIssueComment, context, error) in
                 if let updatedIssueComment = updatedIssueComment as? QIssueComment {
                     if let onCommentDiscard = strongSelf.onCommentDiscard {
                         onCommentDiscard()
                     }
-                    QIssueCommentStore.saveIssueComment(updatedIssueComment)
+                    QIssueCommentStore.save(updatedIssueComment)
                     Analytics.logCustomEventWithName("Successful Save Issue Comment", customAttributes: nil)
                 } else {
                     let errorString: String
@@ -383,14 +385,14 @@ class ReactionButton: NSButton {
                     } else {
                         errorString = ""
                     }
-                    Analytics.logCustomEventWithName("Failed Save Issue Comment", customAttributes: ["error": errorString])
+                    Analytics.logCustomEventWithName("Failed Save Issue Comment", customAttributes: ["error": errorString as AnyObject])
                 }
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     
                     strongSelf.commentButton.enabled = true
                     strongSelf.cancelButton.enabled = true
                     strongSelf.progressIndicator.stopAnimation(nil)
-                    strongSelf.progressIndicator.hidden = true
+                    strongSelf.progressIndicator.isHidden = true
                     
                     self.editing = false
                 }
@@ -398,8 +400,8 @@ class ReactionButton: NSButton {
         }
     }
     
-    private func setupReactionsViewController() {
-        assert(NSThread.isMainThread())
+    fileprivate func setupReactionsViewController() {
+        assert(Thread.isMainThread)
         let reactionsView = reactionsViewController.view
         
         if editing {
@@ -414,10 +416,10 @@ class ReactionButton: NSButton {
                         self.commentMarkdownContainerView.addSubview(reactionsView)
                         reactionsView.translatesAutoresizingMaskIntoConstraints = false
                         let reactionsHeight: CGFloat = IssueCommentTableViewCell.reactionViewerHeight
-                        reactionsView.leftAnchor.constraintEqualToAnchor(self.commentMarkdownContainerView.leftAnchor).active = true
+                        reactionsView.leftAnchor.constraint(equalTo: self.commentMarkdownContainerView.leftAnchor).isActive = true
                         //reactionsView.rightAnchor.constraintEqualToAnchor(commentMarkdownContainerView.rightAnchor).active = true
-                        reactionsView.bottomAnchor.constraintEqualToAnchor(self.commentMarkdownContainerView.bottomAnchor).active = true
-                        reactionsView.heightAnchor.constraintEqualToConstant(reactionsHeight).active = true
+                        reactionsView.bottomAnchor.constraint(equalTo: self.commentMarkdownContainerView.bottomAnchor).isActive = true
+                        reactionsView.heightAnchor.constraint(equalToConstant: reactionsHeight).isActive = true
                         self.editableMarkdownViewBottomConstraint?.constant = -reactionsHeight
                     }
                     
@@ -427,30 +429,30 @@ class ReactionButton: NSButton {
                 }
             }
             
-            if NSThread.isMainThread() {
+            if Thread.isMainThread {
                 block()
             } else {
-                dispatch_sync(dispatch_get_main_queue(), block)
+                DispatchQueue.main.sync(execute: block)
             }
         }
         
     }
     
     
-    private func setupEditableMarkdownView() -> Bool {
-        guard let commentInfo = commentInfo where self.editableMarkdownView == nil else { return false }
+    fileprivate func setupEditableMarkdownView() -> Bool {
+        guard let commentInfo = commentInfo , self.editableMarkdownView == nil else { return false }
         let editableMarkdownView = EditableMarkdownView(commentInfo: commentInfo)
         
         editableMarkdownView.disableScrolling = true
         commentMarkdownContainerView.addSubview(editableMarkdownView)
         //        editableMarkdownView.pinAnchorsToSuperview()
         editableMarkdownView.translatesAutoresizingMaskIntoConstraints = false
-        editableMarkdownView.leftAnchor.constraintEqualToAnchor(commentMarkdownContainerView.leftAnchor).active = true
-        editableMarkdownView.rightAnchor.constraintEqualToAnchor(commentMarkdownContainerView.rightAnchor).active = true
-        editableMarkdownView.topAnchor.constraintEqualToAnchor(commentMarkdownContainerView.topAnchor).active = true
+        editableMarkdownView.leftAnchor.constraint(equalTo: commentMarkdownContainerView.leftAnchor).isActive = true
+        editableMarkdownView.rightAnchor.constraint(equalTo: commentMarkdownContainerView.rightAnchor).isActive = true
+        editableMarkdownView.topAnchor.constraint(equalTo: commentMarkdownContainerView.topAnchor).isActive = true
         
-        editableMarkdownViewBottomConstraint = editableMarkdownView.bottomAnchor.constraintEqualToAnchor(commentMarkdownContainerView.bottomAnchor)
-        editableMarkdownViewBottomConstraint?.active = true
+        editableMarkdownViewBottomConstraint = editableMarkdownView.bottomAnchor.constraint(equalTo: commentMarkdownContainerView.bottomAnchor)
+        editableMarkdownViewBottomConstraint?.isActive = true
         
         setupReactionsViewController()
         
@@ -459,7 +461,7 @@ class ReactionButton: NSButton {
         editableMarkdownView.onTextChange = onTextChange
         
         editableMarkdownView.didDoubleClick = { [weak self] in
-            guard let strongSelf = self where strongSelf.isCurrentUserACollaborator() && strongSelf.editing == false else { return }
+            guard let strongSelf = self , strongSelf.isCurrentUserACollaborator() && strongSelf.editing == false else { return }
             strongSelf.editing = true
         }
         
@@ -475,7 +477,7 @@ class ReactionButton: NSButton {
         editableMarkdownView.onDragEntered = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.layer?.borderWidth = 2
-            strongSelf.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).CGColor
+            strongSelf.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
         }
         
         editableMarkdownView.onFileUploadChange = { [weak self] in
@@ -483,12 +485,12 @@ class ReactionButton: NSButton {
             let fileUploadCount = editableMarkdownView.currentUploadCount
             if fileUploadCount == 0 {
                 strongSelf.uploadFileProgressIndicator.hideProgress()
-                strongSelf.uploadFileProgressIndicator.hidden = true
+                strongSelf.uploadFileProgressIndicator.isHidden = true
                 strongSelf.commentButton.enabled = true
                 strongSelf.cancelButton.enabled = true
             } else {
                 strongSelf.uploadFileProgressIndicator.showProgressWithString("Uploading \(fileUploadCount) file\(fileUploadCount == 1 ? "" : "s")")
-                strongSelf.uploadFileProgressIndicator.hidden = false
+                strongSelf.uploadFileProgressIndicator.isHidden = false
                 strongSelf.commentButton.enabled = false
                 strongSelf.cancelButton.enabled = false
             }
@@ -497,7 +499,7 @@ class ReactionButton: NSButton {
         return true
     }
     
-    private func setupButtons() {
+    fileprivate func setupButtons() {
         guard commentButton.superview == nil && cancelButton.superview == nil else { return }
         commentButton.text = "Comment"
         cancelButton.text = "Discard"
@@ -534,28 +536,28 @@ class ReactionButton: NSButton {
         [commentButton, cancelButton].forEach { (bttn) in
             addSubview(bttn)
             bttn.translatesAutoresizingMaskIntoConstraints = false
-            bttn.heightAnchor.constraintEqualToConstant(IssueCommentTableViewCell.buttonSize.height).active = true
-            bttn.widthAnchor.constraintEqualToConstant(IssueCommentTableViewCell.buttonSize.width).active = true
-            bttn.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -IssueCommentTableViewCell.buttonsBottomPadding).active = true
+            bttn.heightAnchor.constraint(equalToConstant: IssueCommentTableViewCell.buttonSize.height).isActive = true
+            bttn.widthAnchor.constraint(equalToConstant: IssueCommentTableViewCell.buttonSize.width).isActive = true
+            bttn.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -IssueCommentTableViewCell.buttonsBottomPadding).isActive = true
         }
         
-        commentButton.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -IssueCommentTableViewCell.submitButtonRightPadding).active = true
-        cancelButton.rightAnchor.constraintEqualToAnchor(commentButton.leftAnchor, constant: -IssueCommentTableViewCell.buttonsSpacing).active = true
+        commentButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -IssueCommentTableViewCell.submitButtonRightPadding).isActive = true
+        cancelButton.rightAnchor.constraint(equalTo: commentButton.leftAnchor, constant: -IssueCommentTableViewCell.buttonsSpacing).isActive = true
     }
     
-    private func setupProgressIndicator() {
+    fileprivate func setupProgressIndicator() {
         guard progressIndicator.superview == nil else { return }
         addSubview(progressIndicator)
-        progressIndicator.style = .SpinningStyle
-        progressIndicator.hidden = true
+        progressIndicator.style = .spinning
+        progressIndicator.isHidden = true
         progressIndicator.translatesAutoresizingMaskIntoConstraints = false
-        progressIndicator.heightAnchor.constraintEqualToConstant(IssueCommentTableViewCell.progressIndicatorSize.height).active = true
-        progressIndicator.widthAnchor.constraintEqualToConstant(IssueCommentTableViewCell.progressIndicatorSize.width).active = true
-        progressIndicator.rightAnchor.constraintEqualToAnchor(cancelButton.leftAnchor, constant: -IssueCommentTableViewCell.progressIndicatorRightPadding).active = true
-        progressIndicator.centerYAnchor.constraintEqualToAnchor(cancelButton.centerYAnchor).active = true
+        progressIndicator.heightAnchor.constraint(equalToConstant: IssueCommentTableViewCell.progressIndicatorSize.height).isActive = true
+        progressIndicator.widthAnchor.constraint(equalToConstant: IssueCommentTableViewCell.progressIndicatorSize.width).isActive = true
+        progressIndicator.rightAnchor.constraint(equalTo: cancelButton.leftAnchor, constant: -IssueCommentTableViewCell.progressIndicatorRightPadding).isActive = true
+        progressIndicator.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor).isActive = true
     }
     
-    @IBAction func didClickMenuButton(sender: AnyObject) {
+    @IBAction func didClickMenuButton(_ sender: AnyObject) {
         guard let event = NSApp.currentEvent else { return }
         let menu = SRMenu()
         
@@ -567,7 +569,7 @@ class ReactionButton: NSButton {
             menu.addItem(deleteComment)
         }
         
-        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(NSMenuItem.separator())
         
         let copyTextAsMarkdown = NSMenuItem(title: "Copy text as markdown", action: #selector(IssueCommentTableViewCell.copyTextAsMarkdown), keyEquivalent: "")
         menu.addItem(copyTextAsMarkdown)
@@ -575,10 +577,10 @@ class ReactionButton: NSButton {
         let copyTextAsHTML = NSMenuItem(title: "Copy text as HTML", action: #selector(IssueCommentTableViewCell.copyTextAsHTML), keyEquivalent: "")
         menu.addItem(copyTextAsHTML)
         
-        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(NSMenuItem.separator())
         
-        if let commentInfo = commentInfo, _ = commentInfo.htmlURL {
-            let sharingServices = NSSharingService.sharingServicesForItems(itemsForShareService())
+        if let commentInfo = commentInfo, let _ = commentInfo.htmlURL {
+            let sharingServices = NSSharingService.sharingServices(forItems: itemsForShareService())
             if sharingServices.count > 0 {
                 let shareMenu = NSMenuItem(title: "Share", action: nil, keyEquivalent: "") //, action: #selector(IssueCommentTableViewCell.shareComment), keyEquivalent: "")
                 let shareSubmenu = SRMenu()
@@ -596,28 +598,28 @@ class ReactionButton: NSButton {
             }
         }
         
-        let pointInWindow = menuButton.convertPoint(CGPoint.zero, toView: nil)
+        let pointInWindow = menuButton.convert(CGPoint.zero, to: nil)
         let point = NSPoint(x: pointInWindow.x + menuButton.frame.width - menu.size.width, y: pointInWindow.y - menuButton.frame.height)
-        if let windowNumber = window?.windowNumber, popupEvent = NSEvent.mouseEventWithType(.LeftMouseUp, location: point, modifierFlags: event.modifierFlags, timestamp: 0, windowNumber: windowNumber, context: nil, eventNumber: 0, clickCount: 0, pressure: 0) {
-            SRMenu.popUpContextMenu(menu, withEvent: popupEvent, forView: self.menuButton)
+        if let windowNumber = window?.windowNumber, let popupEvent = NSEvent.mouseEvent(with: .leftMouseUp, location: point, modifierFlags: event.modifierFlags, timestamp: 0, windowNumber: windowNumber, context: nil, eventNumber: 0, clickCount: 0, pressure: 0) {
+            SRMenu.popUpContextMenu(menu, with: popupEvent, for: self.menuButton)
         }
     }
     
-    private func itemsForShareService() -> [AnyObject] {
-        if let commentInfo = commentInfo, htmlURL = commentInfo.htmlURL {
-            return ["\n Shared via @cashewappco\n", htmlURL]
+    fileprivate func itemsForShareService() -> [AnyObject] {
+        if let commentInfo = commentInfo, let htmlURL = commentInfo.htmlURL {
+            return ["\n Shared via @cashewappco\n" as AnyObject, htmlURL as AnyObject]
         } else {
             return [AnyObject]()
         }
     }
     
     @objc
-    private func shareFromService(sender: AnyObject) {
-        guard let menuItem = sender as? NSMenuItem, shareService = menuItem.representedObject as? NSSharingService, commentInfo = commentInfo, _ = commentInfo.htmlURL else { return }
-        shareService.performWithItems(itemsForShareService())
+    fileprivate func shareFromService(_ sender: AnyObject) {
+        guard let menuItem = sender as? NSMenuItem, let shareService = menuItem.representedObject as? NSSharingService, let commentInfo = commentInfo, let _ = commentInfo.htmlURL else { return }
+        shareService.perform(withItems: itemsForShareService())
     }
     
-    override func validateMenuItem(menuItem: NSMenuItem) -> Bool {
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         
         if menuItem.action == #selector(IssueCommentTableViewCell.didClickEditComment) || menuItem.action == #selector(IssueCommentTableViewCell.didClickDeleteComment) {
             return isCurrentUserACollaborator()
@@ -626,10 +628,10 @@ class ReactionButton: NSButton {
         return true;
     }
     
-    private func isCurrentUserACollaborator() -> Bool {
+    fileprivate func isCurrentUserACollaborator() -> Bool {
         guard let commentInfo = commentInfo else { return false }
-        let currentAccount = QContext.sharedContext().currentAccount
-        let currentUser = QOwnerStore.ownerForAccountId(currentAccount.identifier, identifier: currentAccount.userId)
+        let currentAccount = QContext.shared().currentAccount
+        let currentUser = QOwnerStore.owner(forAccountId: currentAccount?.identifier, identifier: currentAccount?.userId)
         return QAccount.isCurrentUserCollaboratorOfRepository(commentInfo.repo()) || commentInfo.author() == currentUser
     }
     
@@ -653,22 +655,22 @@ class ReactionButton: NSButton {
     
     // MARK: Actions
     
-    @IBAction func didClickReactionsButton(sender: AnyObject) {
+    @IBAction func didClickReactionsButton(_ sender: AnyObject) {
         guard reactionPickerPopover == nil else { return }
         
         let size = NSMakeSize(288.0, 48.0)
         
-        guard let reactionsPickerViewController = ReactionsPickerViewController(nibName: "ReactionsPickerViewController", bundle: nil) else { return }
+        let reactionsPickerViewController = ReactionsPickerViewController(nibName: NSNib.Name(rawValue: "ReactionsPickerViewController"), bundle: nil)
         reactionsPickerViewController.view.frame = NSMakeRect(0, 0, size.width, size.height);
         reactionsPickerViewController.commentInfo = commentInfo
         
         let popover = NSPopover()
         
-        if .Dark == NSUserDefaults.themeMode() {
-            let appearance = NSAppearance(named: NSAppearanceNameAqua)
+        if .dark == UserDefaults.themeMode() {
+            let appearance = NSAppearance(named: NSAppearance.Name.aqua)
             popover.appearance = appearance;
         } else {
-            let appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+            let appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             popover.appearance = appearance;
         }
         
@@ -677,36 +679,36 @@ class ReactionButton: NSButton {
         popover.contentSize = size
         popover.contentViewController = reactionsPickerViewController
         popover.animates = true
-        popover.behavior = .Transient
-        popover.showRelativeToRect(likeButton.bounds, ofView:likeButton, preferredEdge:.MinY);
+        popover.behavior = .transient
+        popover.show(relativeTo: likeButton.bounds, of:likeButton, preferredEdge:.minY);
         self.reactionPickerPopover = popover
         
-        NSNotificationCenter.defaultCenter().postNotificationName(IssueCommentTableViewCell.willShowReactionNotification, object: popover, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: IssueCommentTableViewCell.willShowReactionNotification), object: popover, userInfo: nil)
     }
     
     
     @objc
-    private func copyTextAsMarkdown() {
+    fileprivate func copyTextAsMarkdown() {
         if let markdown = self.editableMarkdownView?.markdown {
-            let pasteboard = NSPasteboard.generalPasteboard()
+            let pasteboard = NSPasteboard.general
             //[pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-            pasteboard.declareTypes([NSStringPboardType], owner: nil)
-            pasteboard.setString(markdown, forType: NSStringPboardType)
+            pasteboard.declareTypes([.string], owner: nil)
+            pasteboard.setString(markdown, forType: .string)
         }
     }
     
     @objc
-    private func copyTextAsHTML() {
+    fileprivate func copyTextAsHTML() {
         if let html = self.editableMarkdownView?.html {
-            let pasteboard = NSPasteboard.generalPasteboard()
+            let pasteboard = NSPasteboard.general
             //[pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-            pasteboard.declareTypes([NSStringPboardType], owner: nil)
-            pasteboard.setString(html, forType: NSStringPboardType)
+            pasteboard.declareTypes([.string], owner: nil)
+            pasteboard.setString(html, forType: .string)
         }
     }
     
     @objc
-    private func shareComment() {
+    fileprivate func shareComment() {
         //        if let html = self.editableMarkdownView?.html {
         //            let pasteboard = NSPasteboard.generalPasteboard()
         //            //[pasteBoard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
@@ -716,7 +718,7 @@ class ReactionButton: NSButton {
     }
     
     @objc
-    private func didClickEditComment() {
+    fileprivate func didClickEditComment() {
         if let _ = commentInfo as? QIssue {
             Analytics.logCustomEventWithName("Clicked Edit Issue Description", customAttributes: nil)
         } else {
@@ -726,8 +728,8 @@ class ReactionButton: NSButton {
     }
     
     @objc
-    private func didClickDeleteComment() {
-        guard let comment = commentInfo as? QIssueComment, account = comment.account, repository = comment.repository else { return }
+    fileprivate func didClickDeleteComment() {
+        guard let comment = commentInfo as? QIssueComment, let account = comment.account, let repository = comment.repository else { return }
         
         if let onCommentDiscard = self.onCommentDiscard {
             onCommentDiscard()
@@ -736,9 +738,9 @@ class ReactionButton: NSButton {
         Analytics.logCustomEventWithName("Clicked Delete Issue Comment", customAttributes: nil)
         
         NSAlert.showWarningMessage("Are you sure you want to delete this comment?") {
-            QIssuesService(forAccount: account).deleteIssueComment(comment, onCompletion: { (responseObject, context, error) in
-                if let error = error, data = error.userInfo["com.alamofire.serialization.response.error.data"] as? NSData {
-                    let dataString = NSString(data: data, encoding: NSUTF8StringEncoding)
+            QIssuesService(for: account).delete(comment, onCompletion: { (responseObject, context, error) in
+                if let error = error as? NSError, let data = error.userInfo["com.alamofire.serialization.response.error.data"] as? NSData {
+                    let dataString = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)
                     DDLogDebug("deletedComment=> \(dataString)");
                 } else {
                     QIssueCommentStore.deleteIssueCommentId(comment.identifier, accountId:account.identifier, repositoryId:repository.identifier)
@@ -754,8 +756,8 @@ extension IssueCommentTableViewCell: NSSharingServiceDelegate {
 }
 
 extension IssueCommentTableViewCell: NSPopoverDelegate {
-    func popoverDidClose(notification: NSNotification) {
-        if let popover = notification.object as? NSPopover where self.reactionPickerPopover == popover {
+    func popoverDidClose(_ notification: Notification) {
+        if let popover = notification.object as? NSPopover , self.reactionPickerPopover == popover {
             self.reactionPickerPopover = nil
         }
     }
@@ -764,39 +766,39 @@ extension IssueCommentTableViewCell: NSPopoverDelegate {
 
 extension IssueCommentTableViewCell: QStoreObserver {
     
-    func store(store: AnyClass!, didInsertRecord record: AnyObject!) {
-        if let issue = record as? QIssue, commentInfo = commentInfo as? QIssue where store == QIssueStore.self && issue == commentInfo {
+    func store(_ store: AnyClass!, didInsertRecord record: Any!) {
+        if let issue = record as? QIssue, let commentInfo = commentInfo as? QIssue , store == QIssueStore.self && issue == commentInfo {
             reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
-        } else if let issueComment = record as? QIssueComment, commentInfo = commentInfo as? QIssueComment where store == QIssueCommentStore.self && issueComment == commentInfo {
+        } else if let issueComment = record as? QIssueComment, let commentInfo = commentInfo as? QIssueComment , store == QIssueCommentStore.self && issueComment == commentInfo {
             reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
-        } else if let reaction = record as? SRIssueReaction, commentInfo = commentInfo as? QIssue where commentInfo.number == reaction.issueNumber && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
+        } else if let reaction = record as? SRIssueReaction, let commentInfo = commentInfo as? QIssue , commentInfo.number == reaction.issueNumber && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
             //  reloadReactionsAndNotifyHeightChange()
-        } else if let reaction = record as? SRIssueCommentReaction, commentInfo = commentInfo as? QIssueComment where commentInfo.identifier == reaction.issueCommentIdentifier && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
+        } else if let reaction = record as? SRIssueCommentReaction, let commentInfo = commentInfo as? QIssueComment , commentInfo.identifier == reaction.issueCommentIdentifier && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
             //  reloadReactionsAndNotifyHeightChange()
         }
     }
     
-    func store(store: AnyClass!, didRemoveRecord record: AnyObject!) {
-        if let reaction = record as? SRIssueReaction, commentInfo = commentInfo as? QIssue where commentInfo.number == reaction.issueNumber && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
+    func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
+        if let reaction = record as? SRIssueReaction, let commentInfo = commentInfo as? QIssue , commentInfo.number == reaction.issueNumber && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
             // reloadReactionsAndNotifyHeightChange()
-        } else if let reaction = record as? SRIssueCommentReaction, commentInfo = commentInfo as? QIssueComment where commentInfo.identifier == reaction.issueCommentIdentifier && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
-            // reloadReactionsAndNotifyHeightChange()
-        }
-    }
-    
-    func store(store: AnyClass!, didUpdateRecord record: AnyObject!) {
-        if let issue = record as? QIssue, commentInfo = commentInfo as? QIssue where store == QIssueStore.self && issue == commentInfo {
-            reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
-        } else if let issueComment = record as? QIssueComment, commentInfo = commentInfo as? QIssueComment where store == QIssueCommentStore.self && issueComment == commentInfo {
-            reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
-        } else if let reaction = record as? SRIssueReaction, commentInfo = commentInfo as? QIssue where commentInfo.number == reaction.issueNumber && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
-            reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
-        } else if let reaction = record as? SRIssueCommentReaction, commentInfo = commentInfo as? QIssueComment where commentInfo.identifier == reaction.issueCommentIdentifier && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
+        } else if let reaction = record as? SRIssueCommentReaction, let commentInfo = commentInfo as? QIssueComment , commentInfo.identifier == reaction.issueCommentIdentifier && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
             // reloadReactionsAndNotifyHeightChange()
         }
     }
     
-    private func reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo: QIssueCommentInfo) {
+    func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
+        if let issue = record as? QIssue, let commentInfo = commentInfo as? QIssue , store == QIssueStore.self && issue == commentInfo {
+            reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
+        } else if let issueComment = record as? QIssueComment, let commentInfo = commentInfo as? QIssueComment , store == QIssueCommentStore.self && issueComment == commentInfo {
+            reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
+        } else if let reaction = record as? SRIssueReaction, let commentInfo = commentInfo as? QIssue , commentInfo.number == reaction.issueNumber && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
+            reloadReactionsAndNotifyHeightChangeWithCommentInfo(commentInfo)
+        } else if let reaction = record as? SRIssueCommentReaction, let commentInfo = commentInfo as? QIssueComment , commentInfo.identifier == reaction.issueCommentIdentifier && commentInfo.repository == reaction.repository && reaction.account == commentInfo.account {
+            // reloadReactionsAndNotifyHeightChange()
+        }
+    }
+    
+    fileprivate func reloadReactionsAndNotifyHeightChangeWithCommentInfo(_ commentInfo: QIssueCommentInfo) {
         let block = {
             self.commentInfo = commentInfo
             self.setupReactionsViewController()
@@ -806,10 +808,10 @@ extension IssueCommentTableViewCell: QStoreObserver {
             }
         }
         
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             block()
         } else {
-            dispatch_sync(dispatch_get_main_queue(), block)
+            DispatchQueue.main.sync(execute: block)
         }
         
     }

@@ -25,10 +25,10 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
     }
     var body: String!
     var issueNumber: NSNumber!
-    var createdAt: NSDate!
-    var updatedAt: NSDate!
+    var createdAt: Date!
+    var updatedAt: Date!
     var user: QOwner!
-    var htmlURL: NSURL?
+    var htmlURL: URL?
     
     var thumbsUpCount: Int = 0
     var thumbsDownCount: Int = 0
@@ -54,7 +54,7 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         return user
     }
     
-    func sortDate() -> NSDate! {
+    func sortDate() -> Date! {
         return self.createdAt
     }
     
@@ -68,11 +68,11 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         }
     }
     
-    func commentUpdatedAt() -> NSDate {
+    func commentUpdatedAt() -> Date {
         return updatedAt
     }
     
-    static func fromJSON(json: NSDictionary) -> QIssueComment {
+    static func fromJSON(_ json: NSDictionary) -> QIssueComment {
         
         let issueComment = QIssueComment()
         
@@ -82,16 +82,16 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         let createdAt = json["created_at"] as! String
         let updatedAt = json["updated_at"] as! String
         
-        issueComment.createdAt = NSDate.githubDateFormatter().dateFromString(createdAt)
-        issueComment.updatedAt = NSDate.githubDateFormatter().dateFromString(updatedAt)
+        issueComment.createdAt = Date.githubDateFormatter.date(from: createdAt)
+        issueComment.updatedAt = Date.githubDateFormatter.date(from: updatedAt)
         
-        issueComment.user = QOwner.fromJSON(json["user"] as! [NSObject : AnyObject])
+        issueComment.user = QOwner.fromJSON(json["user"] as! [AnyHashable: Any])
         
         if let htmlUrlString = json["html_url"] as? String {
-            issueComment.htmlURL = NSURL(string: htmlUrlString)
+            issueComment.htmlURL = URL(string: htmlUrlString)
         }
         
-        if let reactionsJSON = json["reactions"] as? [NSObject: AnyObject] {
+        if let reactionsJSON = json["reactions"] as? [AnyHashable: Any] {
             if let count = reactionsJSON["+1"] as? Int {
                 issueComment.thumbsUpCount = count
             }
@@ -114,7 +114,7 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         return issueComment
     }
     
-    override func isEqual(object: AnyObject?) -> Bool {
+    override func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? QIssueComment else { return false }
         return other.account == self.account && other.repository == self.repository && other.identifier == self.identifier
     }
@@ -133,11 +133,11 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         return self.body ?? ""
     }
     
-    func usernameAvatarURL() -> NSURL {
+    func usernameAvatarURL() -> URL {
         return self.user.avatarURL
     }
     
-    func commentedOn() -> NSDate {
+    func commentedOn() -> Date {
         return self.createdAt
     }
     

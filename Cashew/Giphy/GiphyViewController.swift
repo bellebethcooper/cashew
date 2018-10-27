@@ -27,7 +27,7 @@ class SRGiphyViewControllerView: BaseView {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.disableThemeObserver = true
-        self.backgroundColor = NSColor.blackColor()
+        self.backgroundColor = NSColor.black
     }
 }
 
@@ -40,7 +40,7 @@ class GiphyViewController: NSViewController {
     @IBOutlet weak var searchFieldContainerView: BaseView!
     
     
-    private let dataSource = GiphySearchDataSource()
+    fileprivate let dataSource = GiphySearchDataSource()
     
     
     var onGifSelection: ( (GiphyImage) -> Void )?
@@ -54,11 +54,11 @@ class GiphyViewController: NSViewController {
         controllerView.backgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
         tableView.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
         searchFieldContainerView.disableThemeObserver = true
-        searchFieldContainerView.backgroundColor = NSColor.clearColor()
+        searchFieldContainerView.backgroundColor = NSColor.clear
         searchField.drawsBackground = true
-        searchField.backgroundColor = NSColor.whiteColor()
-        searchField.textColor = NSColor.blackColor()
-        searchField.appearance = NSAppearance(named: NSAppearanceNameAqua)
+        searchField.backgroundColor = NSColor.white
+        searchField.textColor = NSColor.black
+        searchField.appearance = NSAppearance(named: NSAppearance.Name.aqua)
         searchField.delegate = self
         
         let adapter = GiphySearchResultsTableViewAdapter(tableView: tableView)
@@ -69,10 +69,10 @@ class GiphyViewController: NSViewController {
 }
 
 extension GiphyViewController: NSTextFieldDelegate {
-    override func controlTextDidChange(obj: NSNotification) {
+    override func controlTextDidChange(_ obj: Notification) {
         self.dataSource.search(self.searchField.stringValue) { [weak self] in
             DispatchOnMainQueue({
-                self?.tableView.scrollPoint(NSPoint.zero)
+                self?.tableView.scroll(NSPoint.zero)
                 self?.tableView.reloadData()
             })
         }
@@ -81,7 +81,7 @@ extension GiphyViewController: NSTextFieldDelegate {
 
 extension GiphyViewController: NSTableViewDataSource {
     
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+    func numberOfRows(in tableView: NSTableView) -> Int {
         return dataSource.numberOfRows
     }
     
@@ -89,11 +89,11 @@ extension GiphyViewController: NSTableViewDataSource {
 
 extension GiphyViewController: NSTableViewDelegate {
     
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         return nil;
     }
     
-    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         if row > dataSource.numberOfRows - 1 {
             return nil
         }
@@ -102,12 +102,12 @@ extension GiphyViewController: NSTableViewDelegate {
         return self.tableView.adaptForItem(item, row: row, owner: self)
     }
     
-    func tableView(tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         let item = dataSource.itemAtIndex(row)
         return self.tableView.heightForItem(item, row: row)
     }
     
-    func tableViewSelectionDidChange(notification: NSNotification) {
+    func tableViewSelectionDidChange(_ notification: Notification) {
         let selectedIndex = tableView.selectedRow
         let item = dataSource.itemAtIndex(selectedIndex)
         if let onGifSelection = onGifSelection {
