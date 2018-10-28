@@ -972,8 +972,11 @@ static NSString *kQTitleKey = @"Title";
 //    [(NSTableCellView *)cell layer].backgroundColor = NSColor.yellowColor.CGColor;
 //}
 
-- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
-{
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row {
+    if (!NSThread.isMainThread) {
+        return nil;
+    }
+    
     if (row > [_dataSource numberOfIssues] - 1) {
         return nil;
     }
