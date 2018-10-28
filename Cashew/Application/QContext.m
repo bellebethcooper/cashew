@@ -115,7 +115,6 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
         if (account.authToken) {
             dictionary[@"auth_token"] = account.authToken;
         }
-        NSLog(@"QContext addAccount: %@ password: %@", account.username, password);
         [self _storeValue:dictionary inKeychainForKey:account.username];
     });
 }
