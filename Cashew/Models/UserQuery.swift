@@ -13,12 +13,12 @@ class UserQuery: NSObject {
     
     var identifier: NSNumber?
     var account: QAccount
-    var displayName: String
-    var query: String
+    @objc var displayName: String
+    @objc var query: String
     var externalId: String?
     var updatedAt: Date?
     
-    required init(identifier: NSNumber?, account: QAccount, displayName: String, query: String) {
+    @objc required init(identifier: NSNumber?, account: QAccount, displayName: String, query: String) {
         self.identifier = identifier
         self.account = account
         self.displayName = displayName

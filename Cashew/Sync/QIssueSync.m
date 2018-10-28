@@ -64,15 +64,15 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
         sync = [[QIssueSync alloc] init];
         //        sync->_repositorySerialQueues = [NSCache new];
         //        [sync->_repositorySerialQueues setCountLimit:10000];
-        sync.eventsAndCommentSyncherFetchQueue = dispatch_queue_create("com.simplerocket.issueSync.eventsAndCommentsFetchQueue", DISPATCH_QUEUE_CONCURRENT);
-        sync.refreshEventsAndCommentFetchQueue = dispatch_queue_create("com.simplerocket.issue.refreshEventsAndCommentFetchQueue", DISPATCH_QUEUE_CONCURRENT);
+        sync.eventsAndCommentSyncherFetchQueue = dispatch_queue_create("co.hellocode.issueSync.eventsAndCommentsFetchQueue", DISPATCH_QUEUE_CONCURRENT);
+        sync.refreshEventsAndCommentFetchQueue = dispatch_queue_create("co.hellocode.cashew.refreshEventsAndCommentFetchQueue", DISPATCH_QUEUE_CONCURRENT);
         
         sync.repositorySyncherOperationQueue = [NSOperationQueue new];
         sync.repositorySyncherOperationQueue.maxConcurrentOperationCount = 3;
         sync.repositorySyncherOperationQueue.name = @"co.cashewapp.QIssueSync.repositorySyncer";
         
         sync.repositorySet = [NSMutableSet new];
-        sync.repositoryAccessQueue = dispatch_queue_create("com.simplerocket.issue.sync.repositoryAccessQueue", DISPATCH_QUEUE_CONCURRENT);
+        sync.repositoryAccessQueue = dispatch_queue_create("co.hellocode.cashew.sync.repositoryAccessQueue", DISPATCH_QUEUE_CONCURRENT);
         
 //        [QRepositoryStore addObserver:sync];
 //        [QAccountStore addObserver:sync];
@@ -113,8 +113,8 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     self.stopSyncher = YES;
 }
 
-- (void)start;
-{
+- (void)start {
+    DDLogDebug(@"QIssueSync start");
     self.stopSyncher = NO;
     
     NSArray<QAccount *> *accounts = [QAccountStore accounts];
@@ -139,7 +139,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 }
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:kWillStartSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @NO}];
-                //  // DDLogDebug(@"Starting Sync Issues Job For Repository = [%@]", [repository fullName]);r
+                   DDLogDebug(@"Starting Sync Issues Job For Repository = [%@]", [repository fullName]);
                 
                 // fetch milestones
                 __block NSError *error = nil;
@@ -160,7 +160,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 // fetch labels
                 semaphore = dispatch_semaphore_create(0);
                 NSMutableSet<QLabel *> *currentLabels = [[NSMutableSet alloc] initWithArray:[QLabelStore labelsForAccountId:repository.account.identifier repositoryId:repository.identifier includeHidden:YES]];
-                //// DDLogDebug(@"currentLabel => %@", currentLabels);
+                 DDLogDebug(@"currentLabel => %@", currentLabels);
                 [self _fetchLabelsForRepository:repository pageNumber:1 pageSize:100 currentLabels:currentLabels onCompletion:^(NSError *err) {
                     error = err;
                     dispatch_semaphore_signal(semaphore);
@@ -198,7 +198,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 
                 NSDate *deltaSyncDate = repository.deltaSyncDate;
                 if (!deltaSyncDate) {
-                    // DDLogDebug(@"Delta sync date not setup yet. for repo %@", repository.fullName);
+//                     DDLogDebug(@"Delta sync date not setup yet. for repo %@", repository.fullName);
                     [[NSNotificationCenter defaultCenter] postNotificationName:kDidFinishSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @NO}];
                     return;
                 }
@@ -210,7 +210,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:kDidFinishSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @NO}];
-                // DDLogDebug(@"Finishing Sync Issues Job For Repository = [%@]", [repository fullName]);
+                 DDLogDebug(@"Finishing Sync Issues Job For Repository = [%@]", [repository fullName]);
                 
                 // make sure all repo data are deleted if repo is not synchable
                 __block BOOL deletedRepository = NO;
@@ -271,7 +271,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     }
     [self.repositorySyncherOperationQueue addOperationWithBlock:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kWillStartSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @YES}];
-        // // DDLogDebug(@"Starting [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
+          DDLogDebug(@"Starting [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
         
         // fetch milestones
         __block NSError *error = nil;
@@ -292,7 +292,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
         // fetch labels
         semaphore = dispatch_semaphore_create(0);
         NSMutableSet<QLabel *> *currentLabels = [[NSMutableSet alloc] initWithArray:[QLabelStore labelsForAccountId:repository.account.identifier repositoryId:repository.identifier includeHidden:YES]];
-        //// DDLogDebug(@"currentLabel => %@", currentLabels);
+         DDLogDebug(@"currentLabel => %@", currentLabels);
         [self _fetchLabelsForRepository:repository pageNumber:1 pageSize:100 currentLabels:currentLabels onCompletion:^(NSError *err) {
             error = err;
             dispatch_semaphore_signal(semaphore);
@@ -335,7 +335,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kDidFinishSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @YES}];
-        // DDLogDebug(@"Finishing [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
+         DDLogDebug(@"Finishing [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
         
         // make sure all repo data are deleted if repo is not synchable
         __block BOOL deletedRepository = NO;
@@ -714,7 +714,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     NSParameterAssert(onCompletion);
     
     if (![self _isSynchableRepository:repo]) {
-        onCompletion([NSError errorWithDomain:@"com.simpelrocket.syncher.error" code:0 userInfo:nil]);
+        onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
         return;
     }
     
@@ -722,7 +722,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     [service milestonesForRepository:repo pageNumber:pageNumber pageSize:pageSize onCompletion:^(NSArray<QMilestone *> *milestones, QServiceResponseContext *context, NSError *error) {
         
         if (![self _isSynchableRepository:repo]) {
-            onCompletion([NSError errorWithDomain:@"com.simpelrocket.syncher.error" code:0 userInfo:nil]);
+            onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
             return;
         }
         
@@ -753,7 +753,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     NSParameterAssert(onCompletion);
     
     if (![self _isSynchableRepository:repo]) {
-        onCompletion([NSError errorWithDomain:@"com.simpelrocket.syncher.error" code:0 userInfo:nil]);
+        onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
         return;
     }
     
@@ -761,7 +761,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     [service labelsForRepository:repo pageNumber:pageNumber pageSize:pageSize onCompletion:^(NSArray<QLabel *> *labels, QServiceResponseContext *context, NSError *error) {
         
         if (![self _isSynchableRepository:repo]) {
-            onCompletion([NSError errorWithDomain:@"com.simpelrocket.syncher.error" code:0 userInfo:nil]);
+            onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
             return;
         }
         
@@ -790,7 +790,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     NSParameterAssert(onCompletion);
     
     if (![self _isSynchableRepository:repo]) {
-        onCompletion([NSError errorWithDomain:@"com.simpelrocket.syncher.error" code:0 userInfo:nil]);
+        onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
         return;
     }
     
@@ -798,7 +798,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     [service assigneesForRepository:repo pageNumber:pageNumber pageSize:pageSize onCompletion:^(NSArray<QOwner *> *assignees, QServiceResponseContext *context, NSError *error) {
         
         if (![self _isSynchableRepository:repo]) {
-            onCompletion([NSError errorWithDomain:@"com.simpelrocket.syncher.error" code:0 userInfo:nil]);
+            onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
             return;
         }
         

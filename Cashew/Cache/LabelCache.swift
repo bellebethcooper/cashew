@@ -20,24 +20,24 @@ class LabelCache: NSObject {
     
     fileprivate let cache = BaseCache<QLabel>(countLimit: 1000)
     
-    class func sharedCache() -> LabelCache {
+    @objc class func sharedCache() -> LabelCache {
         _ = LabelCache.__once
         return _sharedCache!
     }
     
-    func removeAll() {
+    @objc func removeAll() {
         cache.removeAll()
     }
     
-    func fetch(_ key: String, fetcher: ( () -> QLabel? )) -> QLabel? {
+    @objc func fetch(_ key: String, fetcher: ( () -> QLabel? )) -> QLabel? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
-    func set(_ value: QLabel, forKey key: String) {
+    @objc func set(_ value: QLabel, forKey key: String) {
         cache.set(value, forKey: key)
     }
     
-    class func LabelCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber, name: NSString) -> NSString {
+    @objc class func LabelCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber, name: NSString) -> NSString {
         return "label_\(accountId)_\(repositoryId)_\(name)" as NSString
     }
     

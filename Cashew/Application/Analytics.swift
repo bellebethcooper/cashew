@@ -22,7 +22,7 @@ class Analytics: NSObject {
         
     }
     
-    class func logCustomEventWithName(_ eventName: String, customAttributes customAttributesOrNil: [String : AnyObject]? = nil) {
+    @objc class func logCustomEventWithName(_ eventName: String, customAttributes customAttributesOrNil: [String : AnyObject]? = nil) {
         #if DEBUG
             DDLogDebug("logCustomEventWithName \(eventName) \(customAttributesOrNil)")
         #else
@@ -30,7 +30,7 @@ class Analytics: NSObject {
         #endif
     }
     
-    class func logLoginWithMethod(_ loginMethodOrNil: String?, success loginSucceededOrNil: NSNumber?, customAttributes customAttributesOrNil: [String : AnyObject]?) {
+    @objc class func logLoginWithMethod(_ loginMethodOrNil: String?, success loginSucceededOrNil: NSNumber?, customAttributes customAttributesOrNil: [String : AnyObject]?) {
         #if DEBUG
             DDLogDebug("logLoginWithMethod \(loginMethodOrNil) \(loginSucceededOrNil) \(customAttributesOrNil)")
         #else

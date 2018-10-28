@@ -21,10 +21,10 @@ class IssueCommentDraft: NSObject {
     let repository: QRepository
     let issueCommentId: NSNumber?
     let issueNumber: NSNumber
-    let body: String
+    @objc let body: String
     let type: IssueCommentDraftType
     
-    required init(account: QAccount, repository: QRepository, issueCommentId: NSNumber?, issueNumber: NSNumber, body: String, type: IssueCommentDraftType) {
+    @objc required init(account: QAccount, repository: QRepository, issueCommentId: NSNumber?, issueNumber: NSNumber, body: String, type: IssueCommentDraftType) {
         self.account = account
         self.repository = repository
         self.issueCommentId = issueCommentId

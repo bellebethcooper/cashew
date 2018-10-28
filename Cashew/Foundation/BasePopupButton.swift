@@ -15,23 +15,23 @@ class BasePopupButton: BaseView {
     fileprivate static let chevronImageSize = NSMakeSize(8, 5)
     
     let label = BaseLabel()
-    let chevronImageView = NSImageView()
-    var menuItems = [NSMenuItem]()
+    @objc let chevronImageView = NSImageView()
+    @objc var menuItems = [NSMenuItem]()
     
-    var font: NSFont? {
+    @objc var font: NSFont? {
         didSet {
             label.font = font
             invalidateIntrinsicContentSize()
         }
     }
     
-    var textColor: NSColor? {
+    @objc var textColor: NSColor? {
         didSet {
             label.textColor = textColor
         }
     }
     
-    var stringValue: String = "" {
+    @objc var stringValue: String = "" {
         didSet {
             label.stringValue = stringValue
             invalidateIntrinsicContentSize()
@@ -127,7 +127,7 @@ class BasePopupButton: BaseView {
         }
     }
     
-    func chevronImage(_ color: NSColor = CashewColor.foregroundColor()) -> NSImage {
+    @objc func chevronImage(_ color: NSColor = CashewColor.foregroundColor()) -> NSImage {
         let image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))!.withTintColor(color)
         image?.size = BasePopupButton.chevronImageSize
         return image!

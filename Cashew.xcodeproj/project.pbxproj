@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8C6BB9A727FE78FF45DA08F7 /* Pods_CashewUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5C2F7E6349D4F084E1CE6B5 /* Pods_CashewUITests.framework */; };
+		655F543710B19EA132310885 /* Pods_CashewUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53D3B42BC852CA3A680B297 /* Pods_CashewUITests.framework */; };
+		67FB33AC275DDE8CD6FFAD77 /* Pods_Cashew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89250B67753070F20126DA6B /* Pods_Cashew.framework */; };
+		682DDF71218572C100DE2676 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682DDF70218572C100DE2676 /* AFNetworking.framework */; };
+		68F2F5D9218501EE0035880F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68F2F5D8218501EE0035880F /* CloudKit.framework */; };
 		9500A1611D33415000D894A0 /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9500A1601D33415000D894A0 /* BaseTextField.swift */; };
 		950948101C4AD2B000D06DF2 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9509480F1C4AD2B000D06DF2 /* CoreServices.framework */; };
 		950973581C96FF17004F5CA1 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950973571C96FF17004F5CA1 /* NotificationManager.swift */; };
@@ -30,7 +33,6 @@
 		9511690F1C4F5049001309CF /* QOwnerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9511690E1C4F5049001309CF /* QOwnerConstants.m */; };
 		951169121C509A54001309CF /* QThrottler.m in Sources */ = {isa = PBXBuildFile; fileRef = 951169111C509A54001309CF /* QThrottler.m */; };
 		951169151C50B17B001309CF /* QMilestone.m in Sources */ = {isa = PBXBuildFile; fileRef = 951169141C50B17B001309CF /* QMilestone.m */; };
-		951325CC1D2D8384005075FA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 951325CB1D2D8384005075FA /* CloudKit.framework */; };
 		951362601C5F3987008FB9DC /* UserQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9513625F1C5F3987008FB9DC /* UserQuery.swift */; };
 		951362631C5F3A69008FB9DC /* QUserQueryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 951362621C5F3A69008FB9DC /* QUserQueryStore.m */; };
 		95144E2B1D864C480046866C /* SRMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95144E2A1D864C480046866C /* SRMenu.swift */; };
@@ -311,8 +313,7 @@
 		95F8B7CC1C854FC20094CA53 /* NewIssueViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F8B7CA1C854FC20094CA53 /* NewIssueViewController.xib */; };
 		95F8B7CF1C8554600094CA53 /* NewIssueWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F8B7CD1C8554600094CA53 /* NewIssueWindowController.swift */; };
 		95F8B7D01C8554600094CA53 /* NewIssueWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95F8B7CE1C8554600094CA53 /* NewIssueWindowController.xib */; };
-		D7D8BAF2F1F7D45AEEBD760D /* Pods_CashewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6DF124E3F2B64527C89B035 /* Pods_CashewTests.framework */; };
-		E43903D0A748B8A5F19ABFF5 /* Pods_Cashew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23067CDA76C83383E1A0E39C /* Pods_Cashew.framework */; };
+		E3EE90F49E815E69D95D8B15 /* Pods_CashewTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FDD35DD21B813AFE464D234 /* Pods_CashewTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -347,21 +348,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		23067CDA76C83383E1A0E39C /* Pods_Cashew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cashew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		32D312E4B9E179B9018711B7 /* Pods-IssuesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssuesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IssuesTests/Pods-IssuesTests.release.xcconfig"; sourceTree = "<group>"; };
-		41EF6AEDD1D64B53E2A58B1D /* Pods-IssuesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssuesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IssuesTests/Pods-IssuesTests.debug.xcconfig"; sourceTree = "<group>"; };
-		42D35DE7EBDF0B800754A835 /* Pods_IssuesTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IssuesTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		46CB984CB3BBC85377456B9D /* Pods-Cashew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cashew/Pods-Cashew.debug.xcconfig"; sourceTree = "<group>"; };
-		481632FF7B851358CC6A4E92 /* Pods_Issues.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Issues.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		491270B5645DF729F76C06B7 /* Pods-IssuesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssuesUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IssuesUITests/Pods-IssuesUITests.release.xcconfig"; sourceTree = "<group>"; };
-		5D4FD22536962813414A79B9 /* Pods-IssuesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssuesUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IssuesUITests/Pods-IssuesUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		667487060CAB42A1E517A9EA /* Pods-Cashew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashew.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cashew/Pods-Cashew.release.xcconfig"; sourceTree = "<group>"; };
-		6F4C6EE07CD7C3C33377346B /* Pods-CashewUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CashewUITests/Pods-CashewUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		80FE5B33C65621D89FE8B06F /* Pods_IssuesUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IssuesUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8AABCAE70938BB1D46463CC7 /* Pods-Issues.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Issues.release.xcconfig"; path = "Pods/Target Support Files/Pods-Issues/Pods-Issues.release.xcconfig"; sourceTree = "<group>"; };
-		90B71AA198182B22C7D3B65F /* Pods-Issues.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Issues.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Issues/Pods-Issues.debug.xcconfig"; sourceTree = "<group>"; };
+		0FDD35DD21B813AFE464D234 /* Pods_CashewTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashewTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EB242AAB8F3BF7D5C31FFDC /* Pods-CashewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CashewTests/Pods-CashewTests.release.xcconfig"; sourceTree = "<group>"; };
+		3630F1CC7A066AAE2252B3C2 /* Pods-CashewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CashewTests/Pods-CashewTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4C5B04FAC7094D45DA1ED35B /* Pods-CashewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CashewUITests/Pods-CashewUITests.release.xcconfig"; sourceTree = "<group>"; };
+		682DDF6E2185729F00DE2676 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		682DDF70218572C100DE2676 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68F2F5D7218500140035880F /* Cashew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cashew.entitlements; sourceTree = "<group>"; };
+		68F2F5D8218501EE0035880F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		89250B67753070F20126DA6B /* Pods_Cashew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cashew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9500A1601D33415000D894A0 /* BaseTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
-		95033DF71C5D5AD300E8D571 /* Cashew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Cashew.entitlements; sourceTree = "<group>"; };
 		9509480F1C4AD2B000D06DF2 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		950973571C96FF17004F5CA1 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		950C5F7D1C45D2430070D21C /* QImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QImageManager.h; sourceTree = "<group>"; };
@@ -398,7 +394,6 @@
 		951169111C509A54001309CF /* QThrottler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QThrottler.m; sourceTree = "<group>"; };
 		951169131C50B17B001309CF /* QMilestone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMilestone.h; sourceTree = "<group>"; };
 		951169141C50B17B001309CF /* QMilestone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMilestone.m; sourceTree = "<group>"; };
-		951325CB1D2D8384005075FA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		9513625F1C5F3987008FB9DC /* UserQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserQuery.swift; sourceTree = "<group>"; };
 		951362611C5F3A69008FB9DC /* QUserQueryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QUserQueryStore.h; sourceTree = "<group>"; };
 		951362621C5F3A69008FB9DC /* QUserQueryStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QUserQueryStore.m; sourceTree = "<group>"; };
@@ -736,11 +731,10 @@
 		95F8B7CA1C854FC20094CA53 /* NewIssueViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewIssueViewController.xib; sourceTree = "<group>"; };
 		95F8B7CD1C8554600094CA53 /* NewIssueWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIssueWindowController.swift; sourceTree = "<group>"; };
 		95F8B7CE1C8554600094CA53 /* NewIssueWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewIssueWindowController.xib; sourceTree = "<group>"; };
-		A24CCC3A0981438C0A3FEA66 /* Pods-CashewTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CashewTests/Pods-CashewTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A508A33733BD27FAC16AEEC2 /* Pods-CashewTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CashewTests/Pods-CashewTests.release.xcconfig"; sourceTree = "<group>"; };
-		B38742E02865490F76770E8F /* Pods-CashewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CashewUITests/Pods-CashewUITests.release.xcconfig"; sourceTree = "<group>"; };
-		C6DF124E3F2B64527C89B035 /* Pods_CashewTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashewTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D5C2F7E6349D4F084E1CE6B5 /* Pods_CashewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2B365300BE3A4767062E6FA /* Pods-Cashew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cashew/Pods-Cashew.debug.xcconfig"; sourceTree = "<group>"; };
+		DCC7619AC6D0D25884679DAB /* Pods-Cashew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cashew.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cashew/Pods-Cashew.release.xcconfig"; sourceTree = "<group>"; };
+		EAFADCCBC01AF764268A8277 /* Pods-CashewUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CashewUITests/Pods-CashewUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F53D3B42BC852CA3A680B297 /* Pods_CashewUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CashewUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -748,6 +742,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				682DDF71218572C100DE2676 /* AFNetworking.framework in Frameworks */,
 				95B7193F1D4C7C4F002C4E10 /* AVFoundation.framework in Frameworks */,
 				957122E71D5C41A10076242E /* ObjectiveGit.framework in Frameworks */,
 				95B719401D4C7C4F002C4E10 /* AVKit.framework in Frameworks */,
@@ -755,10 +750,10 @@
 				9539BC7C1D45CD7900038D09 /* JavaScriptCore.framework in Frameworks */,
 				951F92911CF10CC500F9C58F /* Cocoa.framework in Frameworks */,
 				95F253B61C55C91200725B66 /* QuartzCore.framework in Frameworks */,
+				68F2F5D9218501EE0035880F /* CloudKit.framework in Frameworks */,
 				95E71B9A1C536083007B1A5B /* WebKit.framework in Frameworks */,
-				951325CC1D2D8384005075FA /* CloudKit.framework in Frameworks */,
 				950948101C4AD2B000D06DF2 /* CoreServices.framework in Frameworks */,
-				E43903D0A748B8A5F19ABFF5 /* Pods_Cashew.framework in Frameworks */,
+				67FB33AC275DDE8CD6FFAD77 /* Pods_Cashew.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -766,7 +761,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7D8BAF2F1F7D45AEEBD760D /* Pods_CashewTests.framework in Frameworks */,
+				E3EE90F49E815E69D95D8B15 /* Pods_CashewTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,7 +769,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C6BB9A727FE78FF45DA08F7 /* Pods_CashewUITests.framework in Frameworks */,
+				655F543710B19EA132310885 /* Pods_CashewUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,24 +779,36 @@
 		0B0DB921AA1ED86568311486 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				682DDF70218572C100DE2676 /* AFNetworking.framework */,
+				682DDF6E2185729F00DE2676 /* AFNetworking.framework */,
+				68F2F5D8218501EE0035880F /* CloudKit.framework */,
 				957122E41D5C40290076242E /* ObjectiveGit.framework */,
 				95B7193D1D4C7C4F002C4E10 /* AVFoundation.framework */,
 				95B7193E1D4C7C4F002C4E10 /* AVKit.framework */,
 				9539BC811D4A534B00038D09 /* libsqlite3.tbd */,
 				9539BC7B1D45CD7900038D09 /* JavaScriptCore.framework */,
-				951325CB1D2D8384005075FA /* CloudKit.framework */,
 				951F92901CF10CC500F9C58F /* Cocoa.framework */,
 				95F253B51C55C91200725B66 /* QuartzCore.framework */,
 				95E71B991C536083007B1A5B /* WebKit.framework */,
 				9509480F1C4AD2B000D06DF2 /* CoreServices.framework */,
-				481632FF7B851358CC6A4E92 /* Pods_Issues.framework */,
-				42D35DE7EBDF0B800754A835 /* Pods_IssuesTests.framework */,
-				80FE5B33C65621D89FE8B06F /* Pods_IssuesUITests.framework */,
-				23067CDA76C83383E1A0E39C /* Pods_Cashew.framework */,
-				C6DF124E3F2B64527C89B035 /* Pods_CashewTests.framework */,
-				D5C2F7E6349D4F084E1CE6B5 /* Pods_CashewUITests.framework */,
+				89250B67753070F20126DA6B /* Pods_Cashew.framework */,
+				0FDD35DD21B813AFE464D234 /* Pods_CashewTests.framework */,
+				F53D3B42BC852CA3A680B297 /* Pods_CashewUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		229AA59E7291613DC13EFA01 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C2B365300BE3A4767062E6FA /* Pods-Cashew.debug.xcconfig */,
+				DCC7619AC6D0D25884679DAB /* Pods-Cashew.release.xcconfig */,
+				3630F1CC7A066AAE2252B3C2 /* Pods-CashewTests.debug.xcconfig */,
+				2EB242AAB8F3BF7D5C31FFDC /* Pods-CashewTests.release.xcconfig */,
+				EAFADCCBC01AF764268A8277 /* Pods-CashewUITests.debug.xcconfig */,
+				4C5B04FAC7094D45DA1ED35B /* Pods-CashewUITests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		950C5F7C1C45D2230070D21C /* Image Manager */ = {
@@ -1288,10 +1295,10 @@
 			children = (
 				95C752ED1C40643800A0FD51 /* Cashew */,
 				0B0DB921AA1ED86568311486 /* Frameworks */,
-				D36858581CA5A7838BBAAFD3 /* Pods */,
 				95C752EC1C40643800A0FD51 /* Products */,
 				95C753041C40643800A0FD51 /* QueuesTests */,
 				95C7530F1C40643800A0FD51 /* QueuesUITests */,
+				229AA59E7291613DC13EFA01 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1308,6 +1315,7 @@
 		95C752ED1C40643800A0FD51 /* Cashew */ = {
 			isa = PBXGroup;
 			children = (
+				68F2F5D7218500140035880F /* Cashew.entitlements */,
 				95DF80B01C41C93700239501 /* Application */,
 				95D69C851D209CF0004C7926 /* Cache */,
 				95DF80C11C422DE100239501 /* Datastore */,
@@ -1334,7 +1342,6 @@
 				95CF04801C457229005AF3C6 /* Sync */,
 				957A659A1D2EF90300F5E621 /* Theme */,
 				95CCF3A81CD9A0460054F981 /* Utilities */,
-				95033DF71C5D5AD300E8D571 /* Cashew.entitlements */,
 			);
 			path = Cashew;
 			sourceTree = "<group>";
@@ -1602,25 +1609,6 @@
 			path = "Source List";
 			sourceTree = "<group>";
 		};
-		D36858581CA5A7838BBAAFD3 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				90B71AA198182B22C7D3B65F /* Pods-Issues.debug.xcconfig */,
-				8AABCAE70938BB1D46463CC7 /* Pods-Issues.release.xcconfig */,
-				41EF6AEDD1D64B53E2A58B1D /* Pods-IssuesTests.debug.xcconfig */,
-				32D312E4B9E179B9018711B7 /* Pods-IssuesTests.release.xcconfig */,
-				5D4FD22536962813414A79B9 /* Pods-IssuesUITests.debug.xcconfig */,
-				491270B5645DF729F76C06B7 /* Pods-IssuesUITests.release.xcconfig */,
-				46CB984CB3BBC85377456B9D /* Pods-Cashew.debug.xcconfig */,
-				667487060CAB42A1E517A9EA /* Pods-Cashew.release.xcconfig */,
-				A24CCC3A0981438C0A3FEA66 /* Pods-CashewTests.debug.xcconfig */,
-				A508A33733BD27FAC16AEEC2 /* Pods-CashewTests.release.xcconfig */,
-				6F4C6EE07CD7C3C33377346B /* Pods-CashewUITests.debug.xcconfig */,
-				B38742E02865490F76770E8F /* Pods-CashewUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1628,13 +1616,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95C753151C40643800A0FD51 /* Build configuration list for PBXNativeTarget "Cashew" */;
 			buildPhases = (
-				E3E461A8BAA12B9D4AF6D557 /* [CP] Check Pods Manifest.lock */,
+				AD5062126792CEB06571CCC5 /* [CP] Check Pods Manifest.lock */,
 				95C752E71C40643800A0FD51 /* Sources */,
 				95C752E81C40643800A0FD51 /* Frameworks */,
 				95C752E91C40643800A0FD51 /* Resources */,
-				60F62F4C7DD6870A53952CCA /* [CP] Embed Pods Frameworks */,
 				9519ABFE1C59E441004F6E07 /* Crashlytics */,
 				957122E91D5C41A10076242E /* Embed Frameworks */,
+				C9C1FC75C9866A859FDB7DA2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1649,7 +1637,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95C753181C40643800A0FD51 /* Build configuration list for PBXNativeTarget "CashewTests" */;
 			buildPhases = (
-				5411551AA29A0882CC34936B /* [CP] Check Pods Manifest.lock */,
+				9C0EF43BEA37F4E675E410F7 /* [CP] Check Pods Manifest.lock */,
 				95C752FD1C40643800A0FD51 /* Sources */,
 				95C752FE1C40643800A0FD51 /* Frameworks */,
 				95C752FF1C40643800A0FD51 /* Resources */,
@@ -1668,7 +1656,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 95C7531B1C40643800A0FD51 /* Build configuration list for PBXNativeTarget "CashewUITests" */;
 			buildPhases = (
-				08B47CA8A45CE6F354940D19 /* [CP] Check Pods Manifest.lock */,
+				8F0763ECF7F4E91515351707 /* [CP] Check Pods Manifest.lock */,
 				95C753081C40643800A0FD51 /* Sources */,
 				95C753091C40643800A0FD51 /* Frameworks */,
 				95C7530A1C40643800A0FD51 /* Resources */,
@@ -1694,9 +1682,13 @@
 				TargetAttributes = {
 					95C752EA1C40643800A0FD51 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 46Q486TD9M;
 						LastSwiftMigration = 0940;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
 							com.apple.Push = {
 								enabled = 0;
 							};
@@ -1809,7 +1801,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08B47CA8A45CE6F354940D19 /* [CP] Check Pods Manifest.lock */ = {
+		8F0763ECF7F4E91515351707 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1827,7 +1819,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5411551AA29A0882CC34936B /* [CP] Check Pods Manifest.lock */ = {
+		9519ABFE1C59E441004F6E07 /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Crashlytics;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 2f6f618e0a026d8c00d28db64d6b69ed0c6b6bd7 10421a1958331e4a7889d1d5db106d5cf420e242b13d13ea74a63a631dcfc530";
+		};
+		9C0EF43BEA37F4E675E410F7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1845,13 +1851,31 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		60F62F4C7DD6870A53952CCA /* [CP] Embed Pods Frameworks */ = {
+		AD5062126792CEB06571CCC5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Cashew/Pods-Cashew-frameworks.sh",
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Cashew-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C9C1FC75C9866A859FDB7DA2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Cashew/Pods-Cashew-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
@@ -1870,39 +1894,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cashew/Pods-Cashew-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9519ABFE1C59E441004F6E07 /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Crashlytics;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 2f6f618e0a026d8c00d28db64d6b69ed0c6b6bd7 10421a1958331e4a7889d1d5db106d5cf420e242b13d13ea74a63a631dcfc530";
-		};
-		E3E461A8BAA12B9D4AF6D557 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Cashew-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Cashew/Pods-Cashew-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2291,14 +2283,15 @@
 		};
 		95C753161C40643800A0FD51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46CB984CB3BBC85377456B9D /* Pods-Cashew.debug.xcconfig */;
+			baseConfigurationReference = C2B365300BE3A4767062E6FA /* Pods-Cashew.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Cashew/Cashew.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
@@ -2311,9 +2304,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.Issues;
+				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.cashew;
 				PRODUCT_NAME = Cashew;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Cashew/Supporting Files/Issues-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -2323,14 +2317,15 @@
 		};
 		95C753171C40643800A0FD51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 667487060CAB42A1E517A9EA /* Pods-Cashew.release.xcconfig */;
+			baseConfigurationReference = DCC7619AC6D0D25884679DAB /* Pods-Cashew.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Cashew/Cashew.entitlements;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2340,9 +2335,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Cashew/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.Issues;
+				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.cashew;
 				PRODUCT_NAME = Cashew;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Cashew/Supporting Files/Issues-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -2352,13 +2348,13 @@
 		};
 		95C753191C40643800A0FD51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A24CCC3A0981438C0A3FEA66 /* Pods-CashewTests.debug.xcconfig */;
+			baseConfigurationReference = 3630F1CC7A066AAE2252B3C2 /* Pods-CashewTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = QueuesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.QueuesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewTests;
 				PRODUCT_NAME = Cashew;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cashew.app/Contents/MacOS/Cashew";
 			};
@@ -2366,13 +2362,13 @@
 		};
 		95C7531A1C40643800A0FD51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A508A33733BD27FAC16AEEC2 /* Pods-CashewTests.release.xcconfig */;
+			baseConfigurationReference = 2EB242AAB8F3BF7D5C31FFDC /* Pods-CashewTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = QueuesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.QueuesTests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewTests;
 				PRODUCT_NAME = Cashew;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cashew.app/Contents/MacOS/Cashew";
 			};
@@ -2380,12 +2376,12 @@
 		};
 		95C7531C1C40643800A0FD51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F4C6EE07CD7C3C33377346B /* Pods-CashewUITests.debug.xcconfig */;
+			baseConfigurationReference = EAFADCCBC01AF764268A8277 /* Pods-CashewUITests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = QueuesUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.QueuesUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewUITests;
 				PRODUCT_NAME = Cashew;
 				TEST_TARGET_NAME = Queues;
 				USES_XCTRUNNER = YES;
@@ -2394,12 +2390,12 @@
 		};
 		95C7531D1C40643800A0FD51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B38742E02865490F76770E8F /* Pods-CashewUITests.release.xcconfig */;
+			baseConfigurationReference = 4C5B04FAC7094D45DA1ED35B /* Pods-CashewUITests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = QueuesUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplerocket.QueuesUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewUITests;
 				PRODUCT_NAME = Cashew;
 				TEST_TARGET_NAME = Queues;
 				USES_XCTRUNNER = YES;

@@ -58,7 +58,7 @@ class SearchSuggestionDataSource: NSObject {
     
     fileprivate static let maxPerSection: Int = 3
     
-    fileprivate let searchAccessQueue = DispatchQueue(label: "com.simplerocket.searchSuggestionDataSource.searchAccessQueue", attributes: [])
+    fileprivate let searchAccessQueue = DispatchQueue(label: "co.hellocode.searchSuggestionDataSource.searchAccessQueue", attributes: [])
     fileprivate var searchQuery = ""
     fileprivate var results = [SearchSuggestionResultItem]()
     fileprivate let operationQueue = OperationQueue()
@@ -77,7 +77,7 @@ class SearchSuggestionDataSource: NSObject {
             self.searchQuery = queryText
             self.operationQueue.cancelAllOperations()
         }
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             let account = QContext.shared().currentAccount
             var query = "\(queryText)*"
             self.operationQueue.maxConcurrentOperationCount = 4

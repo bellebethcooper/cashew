@@ -16,7 +16,7 @@ class IssueExtensionsJSContextRunner: NSObject {
     
     fileprivate let context = JSContext(virtualMachine: JSVirtualMachine())
     
-    required init(environment: CodeExtensionEnvironmentProtocol) {
+    @objc required init(environment: CodeExtensionEnvironmentProtocol) {
         super.init()
         
         context?.exceptionHandler = { (context, exception) in

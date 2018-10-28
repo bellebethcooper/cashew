@@ -31,8 +31,8 @@ private class PopoverFixBackgroundView: NSView {
     fileprivate let popoverFixBgView = PopoverFixBackgroundView()
     fileprivate var roundedCornerMask: CAShapeLayer?
     
-    var allowMouseToMoveWindow = true
-    var disableThemeObserver = false {
+    @objc var allowMouseToMoveWindow = true
+    @objc var disableThemeObserver = false {
         didSet {
             if disableThemeObserver {
                 ThemeObserverController.sharedInstance.removeThemeObserver(self)
@@ -96,8 +96,7 @@ private class PopoverFixBackgroundView: NSView {
         return self.allowMouseToMoveWindow
     }
     
-    var userInteractionEnabled: Bool = true
-
+    @objc var userInteractionEnabled: Bool = true
     
     override func mouseDown(with theEvent: NSEvent) {
         if userInteractionEnabled {
@@ -111,7 +110,7 @@ private class PopoverFixBackgroundView: NSView {
         
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == viewType {

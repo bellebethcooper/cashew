@@ -21,9 +21,9 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
     fileprivate var drafts = [String: IssueCommentDraft]()
     fileprivate let draftsAccessQueue = DispatchQueue(label: "co.cashewapp.QIssueDetailsDataSource.draftsAccessQueue", attributes: DispatchQueue.Attributes.concurrent)
     
-    var onRowDeletion: IssueDetailsRowChange?
-    var onRowUpdate: IssueDetailsRowChange?
-    var onRowInsert: IssueDetailsRowChange?
+    @objc var onRowDeletion: IssueDetailsRowChange?
+    @objc var onRowUpdate: IssueDetailsRowChange?
+    @objc var onRowInsert: IssueDetailsRowChange?
     
     deinit {
         QIssueCommentStore.remove(self)
@@ -57,7 +57,7 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
         fatalError()
     }
     
-    func issueCommentDraftForCurrentIssue() -> IssueCommentDraft? {
+    @objc func issueCommentDraftForCurrentIssue() -> IssueCommentDraft? {
         guard let issue = issue else { return nil }
         let key = draftKeyWith(nil, accountId: issue.account.identifier, repositoryId: issue.repository.identifier, type: .comment)
         
@@ -154,7 +154,7 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
         return mergedItems
     }
     
-    var issue: QIssue? {
+    @objc var issue: QIssue? {
         didSet {
             reloadData()
         }
@@ -237,11 +237,11 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
         items = all
     }
     
-    func numberOfItems() -> Int {
+    @objc func numberOfItems() -> Int {
         return items.count
     }
     
-    func itemAtIndex(_ index: Int) -> AnyObject {
+    @objc func itemAtIndex(_ index: Int) -> AnyObject {
         return items[index]
     }
     
@@ -250,7 +250,7 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
         layoutCache.setObject(NSNumber(value: height as Float), forKey: row as AnyObject)
     }
     
-    func webViewLayoutCacheForRow(_ row: Int) -> CGFloat {
+    @objc func webViewLayoutCacheForRow(_ row: Int) -> CGFloat {
         if let val = layoutCache.object(forKey: row as AnyObject) as? NSNumber {
             return CGFloat(val.floatValue)
         } else {

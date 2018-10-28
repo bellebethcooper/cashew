@@ -11,7 +11,7 @@ import Cocoa
 @objc(SRRepositorySyncController)
 class RepositorySyncController: NSObject {
     
-    static let sharedController = RepositorySyncController()
+    @objc static let sharedController = RepositorySyncController()
     
 //    @property (nonatomic) SRSourceListRepositorySyncer *sourceListRepositorySyncer;
 //    @property (nonatomic) SRSourceListUserQuerySyncher *sourceListUserQuerySyncher;
@@ -45,7 +45,7 @@ class RepositorySyncController: NSObject {
         operationQueue.underlyingQueue = DispatchQueue(label: "co.cashewapp.RepositorySyncController.operationQueue", attributes: DispatchQueue.Attributes.concurrent)
     }
     
-    func start(_ forced: Bool) {
+    @objc func start(_ forced: Bool) {
         controllerAccessQueue.sync { [weak self] in
             // bail out if queue already running
             guard let strongSelf = self else { return }
@@ -71,7 +71,7 @@ class RepositorySyncController: NSObject {
         }
     }
     
-    func stop() {
+    @objc func stop() {
         controllerAccessQueue.sync { [weak self] in
             // bail out if queue already stopped
             guard let strongSelf = self , strongSelf.operationQueue.isSuspended == false && strongSelf.timer == nil else { return }

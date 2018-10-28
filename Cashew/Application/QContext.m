@@ -21,8 +21,7 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
 }
 
 
-+ (instancetype)sharedContext
-{
++ (instancetype)sharedContext {
     static dispatch_once_t onceToken;
     static QContext *session;
     dispatch_once(&onceToken, ^{
@@ -35,9 +34,10 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
 {
     self = [super init];
     if (self) {
-        NSString *serviceName = @"com.simplerocket.issues.keychain";
+        NSString *serviceName = @"co.hellocode.cashew.keychain";
         _keychain = [[FXKeychain alloc] initWithService:serviceName accessGroup:nil accessibility:FXKeychainAccessibleAlways];
-        _syncAccountsQueue = dispatch_queue_create("com.simplerocket.issues.sync.accounts", DISPATCH_QUEUE_SERIAL);
+        NSLog(@"QContext init - keychain: %@", _keychain);
+        _syncAccountsQueue = dispatch_queue_create("co.hellocode.cashew.sync.accounts", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -103,8 +103,8 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
     return accounts;
 }
 
-- (void)addAccount:(QAccount *)account withPassword:(NSString *)password;
-{
+- (void)addAccount:(QAccount *)account withPassword:(NSString *)password {
+    NSLog(@"QContext addAccount");
     dispatch_sync(_syncAccountsQueue, ^{
         
         NSMutableDictionary *dictionary = [NSMutableDictionary new];
@@ -115,7 +115,7 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
         if (account.authToken) {
             dictionary[@"auth_token"] = account.authToken;
         }
-        
+        NSLog(@"QContext addAccount: %@ password: %@", account.username, password);
         [self _storeValue:dictionary inKeychainForKey:account.username];
     });
 }
@@ -152,6 +152,7 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
 #pragma mark - Keychain
 
 - (void)_storeValue:(id)value inKeychainForKey:(NSString *)key {
+    NSLog(@"QContext storeValue - value: %@ key: %@ keychain: %@", value, key, _keychain);
     [_keychain setObject:value forKey:key];
 }
 

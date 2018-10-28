@@ -14,21 +14,21 @@ class IssueStateBadgeView: BaseView {
     
     fileprivate var cursorTrackingArea: NSTrackingArea?
     
-    var enabled: Bool = true
+    @objc var enabled: Bool = true
     
-    var open: Bool {
+    @objc var open: Bool {
         didSet {
             didSetOpen()
         }
     }
     
-    var onClick: (()->())?
+    @objc var onClick: (()->())?
     
     fileprivate let contentContainerView = BaseView()
     fileprivate let imageView = NSImageView()
     fileprivate let label = NSTextField()
     
-    required init(open: Bool) {
+    @objc required init(open: Bool) {
         self.open = open
         super.init(frame: NSRect.zero)
         disableThemeObserver = true

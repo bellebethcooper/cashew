@@ -30,7 +30,7 @@ private class ThemeObserver: NSObject {
 @objc(SRThemeObserverController)
 class ThemeObserverController: NSObject {
     
-    static let sharedInstance = ThemeObserverController()
+    @objc static let sharedInstance = ThemeObserverController()
     
     fileprivate let observers = NSMapTable<AnyObject, AnyObject>.weakToStrongObjects() // [NSObject: ThemeBlock]()
     //private let accessQueue = dispatch_queue_create("co.cashewapp.ThemeObserverController.accessQueue", DISPATCH_QUEUE_SERIAL)
@@ -43,7 +43,7 @@ class ThemeObserverController: NSObject {
         UserDefaults.addThemeObserver(self)
     }
     
-    func addThemeObserver(_ observer: NSObject, block: @escaping ThemeBlock) {
+    @objc func addThemeObserver(_ observer: NSObject, block: @escaping ThemeBlock) {
 
         let block = {
             let themeObserver = ThemeObserver(observer: observer, block: block)
@@ -59,7 +59,7 @@ class ThemeObserverController: NSObject {
         
     }
     
-    func removeThemeObserver(_ observer: NSObject) {
+    @objc func removeThemeObserver(_ observer: NSObject) {
 
         let block = {
             self.observers.removeObject(forKey: observer)

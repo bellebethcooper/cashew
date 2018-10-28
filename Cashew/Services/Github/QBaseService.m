@@ -284,7 +284,7 @@
     static dispatch_once_t onceToken;
     static dispatch_queue_t queue;
     dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("com.simplerocket.issues.http.background", DISPATCH_QUEUE_CONCURRENT);
+        queue = dispatch_queue_create("co.hellocode.cashew.http.background", DISPATCH_QUEUE_CONCURRENT);
     });
     return queue;
 }
@@ -293,8 +293,8 @@
 {
     NSParameterAssert(account);
     NSCache *cache = [[self class] _servicesCache];
+    DDLogDebug(@"QBaseService serviceForAccount - account id = %@", account.identifier);
     NSString *key = [NSString stringWithFormat:@"%@_%@", account.identifier, NSStringFromClass([self class])];
-    //DDLogDebug(@"serviceForAccount/key = %@", key);
     QBaseService *service = [cache objectForKey:key];
     
     if (service == nil) {

@@ -20,7 +20,7 @@ class MilestoneCache: NSObject {
     
     fileprivate let cache = BaseCache<QMilestone>(countLimit: 1000)
     
-    class func sharedCache() -> MilestoneCache {
+    @objc class func sharedCache() -> MilestoneCache {
         _ = MilestoneCache.__once
         return _sharedCache!
     }
@@ -33,7 +33,7 @@ class MilestoneCache: NSObject {
         return cache.fetch(key, fetcher: fetcher)
     }
     
-    func removeAll() {
+    @objc func removeAll() {
         cache.removeAll()
     }
     

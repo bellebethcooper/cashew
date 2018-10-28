@@ -17,14 +17,14 @@ class Coalescer: NSObject {
     fileprivate let accessQueue: DispatchQueue
     fileprivate let executionQueue: DispatchQueue
     
-    required init(interval: TimeInterval, name: String, executionQueue: DispatchQueue = DispatchQueue.main) {
+    @objc required init(interval: TimeInterval, name: String, executionQueue: DispatchQueue = DispatchQueue.main) {
         self.accessQueue = DispatchQueue(label: name, attributes: [])
         self.interval = interval
         self.executionQueue = executionQueue
         super.init()
     }
     
-    func executeBlock(_ block: @escaping ()->()) {
+    @objc func executeBlock(_ block: @escaping ()->()) {
         guard let interval = interval else {
             fatalError()
         }

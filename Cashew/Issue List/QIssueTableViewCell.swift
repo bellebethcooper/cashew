@@ -360,7 +360,7 @@ class QIssueTableViewCell: NSTableRowView {
     
     
     // private var _issue: QIssue?
-    var issue: QIssue? {
+    @objc var issue: QIssue? {
         
         didSet {
             SyncDispatchOnMainQueue { [weak self] in
@@ -397,13 +397,13 @@ class QIssueTableViewCell: NSTableRowView {
             CLSLogv("title=[%@]", getVaList([anIssue.title  ?? "<null>"]));
             CLSLogv("number=[%@]", getVaList([anIssue.number  ?? "<null>"]));
             CLSLogv("identifier=[%@]", getVaList([anIssue.identifier  ?? "<null>"]));
-            CLSLogv("createdAt=[%@]", getVaList([anIssue.createdAt  ?? "<null>"]));
-            CLSLogv("closedAt=[%@]", getVaList([anIssue.closedAt  ?? "<null>"]));
-            CLSLogv("updatedAt=[%@]", getVaList([anIssue.updatedAt  ?? "<null>"]));
+        CLSLogv("createdAt=[%@]", getVaList([anIssue.createdAt as CVarArg  ?? "<null>"]));
+        CLSLogv("closedAt=[%@]", getVaList([anIssue.closedAt as! CVarArg  ?? "<null>"]));
+        CLSLogv("updatedAt=[%@]", getVaList([anIssue.updatedAt as CVarArg  ?? "<null>"]));
             CLSLogv("body=[%@]", getVaList([anIssue.body  ?? "<null>"]));
             CLSLogv("state=[%@]", getVaList([anIssue.state  ?? "<null>"]));
             CLSLogv("notification=[%@]", getVaList([anIssue.notification  ?? "<null>"]));
-            CLSLogv("htmlURL=[%@]", getVaList([anIssue.htmlURL  ?? "<null>"]));
+        CLSLogv("htmlURL=[%@]", getVaList([anIssue.htmlURL as! CVarArg  ?? "<null>"]));
             CLSLogv("type=[%@]", getVaList([anIssue.type  ?? "<null>"]));
 
         #endif
@@ -692,7 +692,7 @@ class QIssueTableViewCell: NSTableRowView {
     
     // MARK: Layout
     
-    class func suggestedHeight() -> CGFloat {
+    @objc class func suggestedHeight() -> CGFloat {
         return 81.0
     }
     
@@ -793,7 +793,7 @@ extension QIssueTableViewCell {
         
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == QIssueTableViewCell.self {

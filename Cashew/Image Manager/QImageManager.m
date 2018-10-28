@@ -49,7 +49,7 @@
         
         manager->_completionBlocks = [NSMutableDictionary new];
         
-        manager.accessQueue = dispatch_queue_create("com.simplerocket.issues.image.downloader", DISPATCH_QUEUE_CONCURRENT);
+        manager.accessQueue = dispatch_queue_create("co.hellocode.cashew.image.downloader", DISPATCH_QUEUE_CONCURRENT);
         
     });
     
@@ -117,7 +117,7 @@
                         QImageDowloadCompletion aCompletion = completion;
                         if (aCompletion) {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                aCompletion(nil, URL, [NSError errorWithDomain:@"com.simplerocket.issues" code:404 userInfo:@{}]);
+                                aCompletion(nil, URL, [NSError errorWithDomain:@"co.hellocode.cashew" code:404 userInfo:@{}]);
                             });
                         }
                     }];

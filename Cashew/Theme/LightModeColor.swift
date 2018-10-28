@@ -35,7 +35,7 @@ class LightModeColor: NSObject, ThemeColor {
     fileprivate static let aYellowColor = NSColor(calibratedRed: 234/255.0, green: 183/255.0, blue: 0, alpha: 1)
     fileprivate static let sidebarBgColor = NSColor(calibratedWhite: 245/255.0, alpha: 1.0)
     
-    static let sharedInstance = LightModeColor()
+    @objc static let sharedInstance = LightModeColor()
     
     func backgroundColor() -> NSColor {
         return LightModeColor.bgColor

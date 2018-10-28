@@ -14,73 +14,73 @@ class SourceListCloudKitService: BaseCloudKitService {
     
     
     func deleteSourceListUserQuery(_ userQuery: UserQuery, legacyRecordType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
-        let privateDatabase = CKContainer.default().publicCloudDatabase
-        
-        fetchRecordsForUserQuery(userQuery, legacyRecordType: legacyRecordType) { (deleteRecords, err) in
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async(execute: {
-                
-                guard let deleteRecords = deleteRecords as? [CKRecord] else {
-                    onCompletion(nil, err)
-                    return
-                }
-                
-                let group = DispatchGroup()
-                var error: NSError? = nil
-                deleteRecords.forEach { (deleteRecord) in
-                    group.enter()
-                    privateDatabase.delete(withRecordID: deleteRecord.recordID, completionHandler: { (recordID, err) in
-                        error = err as NSError?
-                        group.leave()
-                    })
-                }
-                group.wait(timeout: DispatchTime.distantFuture);
-                
-                onCompletion(deleteRecords as AnyObject?, error)
-            })
-        }
+//        let privateDatabase = CKContainer.default().publicCloudDatabase
+//
+//        fetchRecordsForUserQuery(userQuery, legacyRecordType: legacyRecordType) { (deleteRecords, err) in
+//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async(execute: {
+//
+//                guard let deleteRecords = deleteRecords as? [CKRecord] else {
+//                    onCompletion(nil, err)
+//                    return
+//                }
+//
+//                let group = DispatchGroup()
+//                var error: NSError? = nil
+//                deleteRecords.forEach { (deleteRecord) in
+//                    group.enter()
+//                    privateDatabase.delete(withRecordID: deleteRecord.recordID, completionHandler: { (recordID, err) in
+//                        error = err as NSError?
+//                        group.leave()
+//                    })
+//                }
+//                group.wait(timeout: DispatchTime.distantFuture);
+//
+//                onCompletion(deleteRecords as AnyObject?, error)
+//            })
+//        }
     }
     
     func fetchSourceListUserQueriesForAccount(_ account: QAccount, legacyRecordType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
-        let baseURL = account.baseURL.absoluteString
-        let trimmedBaseURL = (baseURL as NSString).trimmedString()
-        let privateDatabase = CKContainer.default().publicCloudDatabase
-        let predicate = NSPredicate(format: "baseURL = %@ && userId = %@", trimmedBaseURL, account.userId)
-        let query = CKQuery(recordType: legacyRecordType.rawValue, predicate: predicate)
-        privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, err) in
-            guard let records = records , err == nil && records.count > 0 else {
-                onCompletion(nil, err as! NSError);
-                return
-            }
-            DispatchQueue.global().async {
-                self?.fetchUserQueriesForRecords(records, account: account, onCompletion: onCompletion);
-            }
-        }
+//        let baseURL = account.baseURL.absoluteString
+//        let trimmedBaseURL = (baseURL as NSString).trimmedString()
+//        let privateDatabase = CKContainer.default().publicCloudDatabase
+//        let predicate = NSPredicate(format: "baseURL = %@ && userId = %@", trimmedBaseURL, account.userId)
+//        let query = CKQuery(recordType: legacyRecordType.rawValue, predicate: predicate)
+//        privateDatabase.perform(query, inZoneWith: nil) { [weak self] (records, err) in
+//            guard let records = records , err == nil && records.count > 0 else {
+//                onCompletion(nil, err as! NSError);
+//                return
+//            }
+//            DispatchQueue.global().async {
+//                self?.fetchUserQueriesForRecords(records, account: account, onCompletion: onCompletion);
+//            }
+//        }
     }
     
     fileprivate func fetchUserQueriesForRecords(_ records: [CKRecord], account: QAccount, onCompletion: CloudOnCompletion) {
-        var queries = [UserQuery]()
-        for record in records {
-            guard let query = record["query"] as? String, let name = record["name"] as? String else {
-                continue
-            }
-            //QUserQueryStore.saveUserQueryWithQuery(query, account: account, name: name)
-            let userQuery = UserQuery(identifier: nil, account: account, displayName: name, query: query)
-            queries.append(userQuery)
-        }
-        
-        onCompletion(queries as AnyObject?, nil)
+//        var queries = [UserQuery]()
+//        for record in records {
+//            guard let query = record["query"] as? String, let name = record["name"] as? String else {
+//                continue
+//            }
+//            //QUserQueryStore.saveUserQueryWithQuery(query, account: account, name: name)
+//            let userQuery = UserQuery(identifier: nil, account: account, displayName: name, query: query)
+//            queries.append(userQuery)
+//        }
+//
+//        onCompletion(queries as AnyObject?, nil)
     }
     
     fileprivate func fetchRecordsForUserQuery(_ userQuery: UserQuery, legacyRecordType: CloudRecordType, onCompletion: @escaping CloudOnCompletion) {
-        let baseURL = userQuery.account.baseURL.absoluteString
-        let trimmedBaseURL = (baseURL as NSString).trimmedString()
-        let privateDatabase = CKContainer.default().publicCloudDatabase
-        let predicate = NSPredicate(format: "baseURL = %@ && name = %@ && userId = %@", trimmedBaseURL, userQuery.displayName, userQuery.account.userId)
-        let query = CKQuery(recordType: legacyRecordType.rawValue, predicate: predicate)
-        
-        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
-            onCompletion(foundRecords as AnyObject, err as! NSError)
-        }
+//        let baseURL = userQuery.account.baseURL.absoluteString
+//        let trimmedBaseURL = (baseURL as NSString).trimmedString()
+//        let privateDatabase = CKContainer.default().publicCloudDatabase
+//        let predicate = NSPredicate(format: "baseURL = %@ && name = %@ && userId = %@", trimmedBaseURL, userQuery.displayName, userQuery.account.userId)
+//        let query = CKQuery(recordType: legacyRecordType.rawValue, predicate: predicate)
+//
+//        privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
+//            onCompletion(foundRecords as AnyObject, err as! NSError)
+//        }
     }
     
     

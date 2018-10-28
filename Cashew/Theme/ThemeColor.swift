@@ -29,11 +29,11 @@ private struct ThemeColorConstant {
 @objc(SRCashewColor)
 class CashewColor: NSObject {
     
-    class func notificationDotColor() -> NSColor {
+    @objc class func notificationDotColor() -> NSColor {
         return ThemeColorConstant.notificationDotColor
     }
 
-    class func separatorColor() -> NSColor {
+    @objc class func separatorColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.separatorColor()
@@ -43,7 +43,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
-    class func currentLineBackgroundColor() -> NSColor {
+    @objc class func currentLineBackgroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.currentLineBackgroundColor()
@@ -53,7 +53,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
-    class func backgroundColor() -> NSColor {
+    @objc class func backgroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.backgroundColor()
@@ -63,7 +63,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
-    class func foregroundColor() -> NSColor {
+    @objc class func foregroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.foregroundColor()
@@ -73,7 +73,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
-    class func foregroundSecondaryColor() -> NSColor {
+    @objc class func foregroundSecondaryColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.foregroundSecondaryColor()
@@ -83,7 +83,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
-    class func yellowColor() -> NSColor {
+    @objc class func yellowColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.yellowColor()
@@ -121,7 +121,7 @@ class CashewColor: NSObject {
         return ThemeColorConstant.greenColor!
     }
     
-    class func sidebarBackgroundColor() -> NSColor {
+    @objc class func sidebarBackgroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
             return LightModeColor.sharedInstance.sidebarBackgroundColor()

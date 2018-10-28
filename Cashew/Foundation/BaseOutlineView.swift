@@ -11,7 +11,7 @@ import Cocoa
 @objc(SRBaseOutlineView)
 class BaseOutlineView: NSOutlineView {
     
-    var disableThemeObserver = false {
+    @objc var disableThemeObserver = false {
         didSet {
             ThemeObserverController.sharedInstance.removeThemeObserver(self)
         }
@@ -42,7 +42,7 @@ class BaseOutlineView: NSOutlineView {
         setup()
     }
     
-    func setupThemeObserver() {
+    @objc func setupThemeObserver() {
         
         if disableThemeObserver {
             return;

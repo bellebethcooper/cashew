@@ -224,7 +224,7 @@ class ReactionButton: NSButton {
         SRIssueReactionStore.remove(self)
     }
     
-    override func awakeFromNib() {
+    @objc override func awakeFromNib() {
         super.awakeFromNib()
         
         NotificationCenter.default.addObserver(self, selector: #selector(IssueCommentTableViewCell.willShowReaction(_:)), name: NSNotification.Name(rawValue: IssueCommentTableViewCell.willShowReactionNotification), object: nil)
@@ -401,6 +401,7 @@ class ReactionButton: NSButton {
     }
     
     fileprivate func setupReactionsViewController() {
+        DDLogDebug("IssueCommentTableViewCell setupReactionsVC - reactionsVC: \(reactionsViewController)")
         assert(Thread.isMainThread)
         let reactionsView = reactionsViewController.view
         

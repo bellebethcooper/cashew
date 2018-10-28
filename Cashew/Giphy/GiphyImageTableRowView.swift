@@ -127,7 +127,7 @@ class GiphyImageTableRowView: NSTableRowView {
         let className = "GiphyImageTableRowView"
         
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == GiphyImageTableRowView.self {

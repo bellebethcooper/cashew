@@ -36,7 +36,7 @@ class FileUploaderService: NSObject {
             if let obj = obj as? [String: Any], let uploadURL = obj["upload_url"] as? String, let contentURL = obj["content_url"] as? String {
                 self.doUpload(filename, uploadURL: uploadURL, contentURL: contentURL, onCompletion: onCompletion)
             } else {
-                onCompletion(nil, QServiceResponseContext(), NSError(domain: "com.simplerocket.cashew.FileUploaderService", code: 0, userInfo: nil))
+                onCompletion(nil, QServiceResponseContext(), NSError(domain: "co.hellocode.cashew.FileUploaderService", code: 0, userInfo: nil))
             }
         }) { (task, err) in
             onCompletion(nil, QServiceResponseContext(), err)
@@ -46,7 +46,7 @@ class FileUploaderService: NSObject {
     
     func uploadImage(_ image: NSImage, onCompletion: @escaping QServiceOnCompletion) {
         guard let data = image.imagePNGRepresentation else {
-            onCompletion(nil, QServiceResponseContext(), NSError(domain: "com.simplerocket.cashew.FileUploaderService.uploadImage.PNGData", code: 0, userInfo: nil))
+            onCompletion(nil, QServiceResponseContext(), NSError(domain: "co.hellocode.cashew.FileUploaderService.uploadImage.PNGData", code: 0, userInfo: nil))
             return
         }
         
@@ -64,7 +64,7 @@ class FileUploaderService: NSObject {
                 self?.doUploadUsingData(data as Data, mimeType: "image/png", uploadURL: uploadURL, contentURL: contentURL, onCompletion: onCompletion)
                 
             } else {
-                onCompletion(nil, QServiceResponseContext(), NSError(domain: "com.simplerocket.cashew.FileUploaderService", code: 0, userInfo: nil))
+                onCompletion(nil, QServiceResponseContext(), NSError(domain: "co.hellocode.cashew.FileUploaderService", code: 0, userInfo: nil))
             }
         }) { (task, err) in
             onCompletion(nil, QServiceResponseContext(), err)
@@ -74,7 +74,7 @@ class FileUploaderService: NSObject {
     
     fileprivate func doUpload(_ filename: String, uploadURL: String, contentURL: String, onCompletion: @escaping QServiceOnCompletion) {
         guard let data = FileManager.default.contents(atPath: filename) , (Double(data.count)/1024.0/1024.0) <= 10.0 else {
-            onCompletion(nil, QServiceResponseContext(), NSError(domain: "com.simplerocket.cashew.FileUploaderService.doUpload", code: 80085, userInfo: nil))
+            onCompletion(nil, QServiceResponseContext(), NSError(domain: "co.hellocode.cashew.FileUploaderService.doUpload", code: 80085, userInfo: nil))
             return
         }
         

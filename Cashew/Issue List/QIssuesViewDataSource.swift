@@ -16,13 +16,13 @@ import Cocoa
 
 class QIssuesViewDataSource: NSObject {
     
-    weak var dataSourceDelegate: QIssuesViewDataSourceDelegate?
+    @objc weak var dataSourceDelegate: QIssuesViewDataSourceDelegate?
     
     fileprivate var issues = [QIssue]()
     fileprivate var pagination = QPagination(pageOffset: 0, pageSize: 1000)
     fileprivate var filter: QIssueFilter?
     fileprivate var issuesSet = Set<QIssue>()
-    fileprivate var serialQueue: DispatchQueue = DispatchQueue(label: "com.simplerocket.issues.dataSource", attributes: DispatchQueue.Attributes.concurrent);
+    fileprivate var serialQueue: DispatchQueue = DispatchQueue(label: "co.hellocode.cashew.dataSource", attributes: DispatchQueue.Attributes.concurrent);
     fileprivate var loadedAll: Bool = false
     
     deinit {
@@ -38,7 +38,7 @@ class QIssuesViewDataSource: NSObject {
         QIssueNotificationStore.add(self)
     }
     
-    func numberOfIssues() -> Int {
+    @objc func numberOfIssues() -> Int {
         var total = 0
         (self.serialQueue).sync { () -> Void in
             total = self.issues.count
@@ -47,7 +47,7 @@ class QIssuesViewDataSource: NSObject {
         return total
     }
     
-    func issueAtIndex(_ index: Int) -> QIssue {
+    @objc func issueAtIndex(_ index: Int) -> QIssue {
         var issue: QIssue?
         (self.serialQueue).sync { () -> Void in
             issue =  self.issues[index]
@@ -66,7 +66,7 @@ class QIssuesViewDataSource: NSObject {
     }
     
     
-    func fetchIssuesWithFilter(_ filter: QIssueFilter) {
+    @objc func fetchIssuesWithFilter(_ filter: QIssueFilter) {
         self.serialQueue.sync(flags: .barrier, execute: { () -> Void in
             // self.doneFetching = false
             self.filter = filter

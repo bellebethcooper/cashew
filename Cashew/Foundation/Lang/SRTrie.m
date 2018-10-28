@@ -125,7 +125,7 @@
     if (self) {
         self.root = [SRTrieNode nodeWithCharacter:nil];
         self.items = [NSMutableSet new];
-        self.accessQueue = dispatch_queue_create("com.simplerocket.SRTrie.accessQueue", DISPATCH_QUEUE_CONCURRENT);
+        self.accessQueue = dispatch_queue_create("co.hellocode.SRTrie.accessQueue", DISPATCH_QUEUE_CONCURRENT);
     }
     return self;
 }

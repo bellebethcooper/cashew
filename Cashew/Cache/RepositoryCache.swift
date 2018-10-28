@@ -20,24 +20,24 @@ class RepositoryCache: NSObject {
     
     fileprivate let cache = BaseCache<QRepository>(countLimit: 1000)
     
-    class func sharedCache() -> RepositoryCache {
+    @objc class func sharedCache() -> RepositoryCache {
         _ = RepositoryCache.__once
         return _sharedCache!
     }
     
-    func removeObjectForKey(_ key: String) {
+    @objc func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(_ key: String, fetcher: ( () -> QRepository? )) -> QRepository? {
+    @objc func fetch(_ key: String, fetcher: ( () -> QRepository? )) -> QRepository? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
-    func removeAll() {
+    @objc func removeAll() {
         cache.removeAll()
     }
     
-    class func RepositoryCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber) -> String {
+    @objc class func RepositoryCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber) -> String {
         return "repository_\(accountId)_\(repositoryId)"
     }
     

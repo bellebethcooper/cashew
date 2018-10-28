@@ -20,24 +20,24 @@ class OwnerCache: NSObject {
     
     fileprivate let cache = BaseCache<QOwner>(countLimit: 1000)
     
-    class func sharedCache() -> OwnerCache {
+    @objc class func sharedCache() -> OwnerCache {
         _ = OwnerCache.__once
         return _sharedCache!
     }
     
-    func removeObjectForKey(_ key: String) {
+    @objc func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(_ key: String, fetcher: ( () -> QOwner? )) -> QOwner? {
+    @objc func fetch(_ key: String, fetcher: ( () -> QOwner? )) -> QOwner? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
-    func removeAll() {
+    @objc func removeAll() {
         cache.removeAll()
     }
     
-    class func OwnerCacheKeyForAccountId(_ accountId: NSNumber, ownerId: NSNumber) -> String {
+    @objc class func OwnerCacheKeyForAccountId(_ accountId: NSNumber, ownerId: NSNumber) -> String {
         return "owner_\(accountId)_\(ownerId)"
     }
     

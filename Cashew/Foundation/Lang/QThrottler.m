@@ -24,7 +24,7 @@
     
     thorttler->_sleepInterval = sleepInterval;
     thorttler->_batchSize = batchSize;
-    thorttler->_serialQueue = dispatch_queue_create("com.simplerocket.issues.throttler", DISPATCH_QUEUE_SERIAL);
+    thorttler->_serialQueue = dispatch_queue_create("co.hellocode.cashew.throttler", DISPATCH_QUEUE_SERIAL);
     thorttler->_currentCount = 0;
     
     return thorttler;

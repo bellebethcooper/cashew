@@ -25,9 +25,9 @@ class CommentEditorView: BaseView {
     fileprivate static let firstReponderMinTextViewHeight: CGFloat = 120.0
     
     
-    var onSubmit: (()->())?
-    var onTextChange: (()->())?
-    var onDiscard: (()->())?
+    @objc var onSubmit: (()->())?
+    @objc var onTextChange: (()->())?
+    @objc var onDiscard: (()->())?
     var text: String? {
         get {
             return textView.string
@@ -74,7 +74,7 @@ class CommentEditorView: BaseView {
         }
     }
     
-    var isFirstResponder: Bool {
+    @objc var isFirstResponder: Bool {
         get {
             return textView.isFirstResponder
         }

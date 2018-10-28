@@ -167,7 +167,7 @@
     static dispatch_once_t onceToken;
     static dispatch_queue_t queue;
     dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("com.simplerocket.issues.baseStoreConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+        queue = dispatch_queue_create("co.hellocode.cashew.baseStoreConcurrentQueue", DISPATCH_QUEUE_CONCURRENT);
     });
     
     dispatch_async(queue, block);

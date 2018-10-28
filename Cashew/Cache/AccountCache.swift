@@ -20,24 +20,24 @@ class AccountCache: NSObject {
     
     fileprivate let cache = BaseCache<QAccount>(countLimit: 1000)
     
-    class func sharedCache() -> AccountCache {
+    @objc class func sharedCache() -> AccountCache {
         _ = AccountCache.__once
         return _sharedCache!
     }
     
-    func removeObjectForKey(_ key: String) {
+    @objc func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(_ key: String, fetcher: ( () -> QAccount? )) -> QAccount? {
+    @objc func fetch(_ key: String, fetcher: ( () -> QAccount? )) -> QAccount? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
-    func removeAll() {
+    @objc func removeAll() {
         cache.removeAll()
     }
     
-    class func AccountCacheKeyForAccountId(_ accountId: NSNumber) -> String {
+    @objc class func AccountCacheKeyForAccountId(_ accountId: NSNumber) -> String {
         return "account_\(accountId)"
     }
     

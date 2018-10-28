@@ -35,7 +35,7 @@ class DarkModeColor: NSObject, ThemeColor {
     fileprivate static let popoverBgColor = NSColor(calibratedRed: 60/255.0, green: 62/255.0, blue: 65/255.0, alpha: 1.0)
     fileprivate static let aYellowColor = NSColor(calibratedRed: 255/255.0, green: 204/255.0, blue: 102/255.0, alpha: 1)
     
-    static let sharedInstance = DarkModeColor()
+    @objc static let sharedInstance = DarkModeColor()
     
     func backgroundColor() -> NSColor {
         return DarkModeColor.bgColor

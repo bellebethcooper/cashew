@@ -11,7 +11,7 @@ import Cocoa
 @objc(SRIssuesSearchTokenField)
 class IssuesSearchTokenField: NSTokenField {
     
-    var didBecomeFirstResponderBlock: (()->())?
+    @objc var didBecomeFirstResponderBlock: (()->())?
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)

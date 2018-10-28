@@ -63,7 +63,7 @@ class MarkdownEditorTextView: BaseView {
         return self.window?.firstResponder == internalTextView || self.textSizePopover != nil || self.giphyPopover != nil
     }
     
-    var activateTextViewConstraints: Bool = false {
+    @objc var activateTextViewConstraints: Bool = false {
         didSet {
             if activateTextViewConstraints {
                 NSLayoutConstraint.activate(textViewConstraints)

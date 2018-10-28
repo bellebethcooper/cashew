@@ -474,6 +474,7 @@
 
 - (dispatch_block_t)_onSuccessfulLoginBlockForAccount:(QAccount *)currentAccount
 {
+    DDLogDebug(@"AppDelegate onSuccessfulLogin");
     return ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -898,12 +899,12 @@
 
 - (void)_windowDidResignKeyWindow:(NSNotification *)notification
 {
-    [SRAnalytics logCustomEventWithName:@"Did Resign Key Window" customAttributes:nil];
+//    [SRAnalytics logCustomEventWithName:@"Did Resign Key Window" customAttributes:nil];
 }
 
 - (void)_windowDidBecomeKeyWindow:(NSNotification *)notification
 {
-    [SRAnalytics logCustomEventWithName:@"Did Become Key Window" customAttributes:nil];
+//    [SRAnalytics logCustomEventWithName:@"Did Become Key Window" customAttributes:nil];
     //    if (notification.object == self.window) {
     //        [self sync];
     //    }

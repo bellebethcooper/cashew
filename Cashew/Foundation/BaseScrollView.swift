@@ -17,7 +17,7 @@ class BaseScrollView: NSScrollView {
         return shouldAllowVibrancy
     }
     
-    var disableThemeObserver = false {
+    @objc var disableThemeObserver = false {
         didSet {
             ThemeObserverController.sharedInstance.removeThemeObserver(self)
         }

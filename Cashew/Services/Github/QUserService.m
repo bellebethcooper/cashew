@@ -22,6 +22,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
     
     if (self.account) {
         NSString *password = [[QContext sharedContext] passwordForLogin:self.account.username];
+        DDLogDebug(@"QUserService loginUserOnCompl - password: %@", password);
         [manager.requestSerializer setAuthorizationHeaderFieldWithUsername:self.account.username password:password];
     }
     
@@ -75,8 +76,8 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
 }
 
 //PUT /authorizations/clients/:client_id
-- (void)currentUserAuthTokenWithTwoFactorAuthCode:(NSString *)twoFactorAuthCode onCompletion:(QServiceOnCompletion)onCompletion;
-{
+- (void)currentUserAuthTokenWithTwoFactorAuthCode:(NSString *)twoFactorAuthCode onCompletion:(QServiceOnCompletion)onCompletion {
+    DDLogDebug(@"QUserService currentUserAuthTokenWithTwoFactor");
     QAFHTTPSessionManager *manager = [self httpSessionManagerForRequestSerializer:[AFJSONRequestSerializer serializer] skipAuthToken: true];
     
     if (self.account) {
@@ -98,6 +99,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
     
     [manager POST:@"authorizations" //[NSString stringWithFormat:@"/authorizations/clients/%@", kGithubClientId]
        parameters:params progress:nil onCompletion:^(NSDictionary *json, QServiceResponseContext * _Nonnull context, NSError *error) {
+           DDLogDebug(@"QUserService currentUserAuthToken - POST completion");
            if (error) {
                DDLogDebug(@"json %@", error ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : json);
                onCompletion(nil, context, error);
@@ -113,7 +115,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
                               QOwner *owner = [QOwner fromJSON:responseObject];
                               owner.account = self.account;
                               
-                              //DDLogDebug(@"responseObject %@", responseObject);
+                              DDLogDebug(@"QUSerService currentUserAuthToken - responseObject %@", responseObject);
                               onCompletion(@{@"owner": owner, @"token": json[@"token"]}, context, nil);
                           }
                       }];

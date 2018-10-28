@@ -99,7 +99,7 @@ static NSString *kQTitleKey = @"Title";
         
         self.nextPageCoalescer = [[SRCoalescer alloc] initWithInterval:0.05
                                                                   name:@"co.cashewapp.QIssuesViewController.nextPageCoalescer"
-                                                        executionQueue:dispatch_queue_create("com.simplerocket.issues.QIssuesViewController.scrollSerialQueue", DISPATCH_QUEUE_SERIAL)];
+                                                        executionQueue:dispatch_queue_create("co.hellocode.cashew.QIssuesViewController.scrollSerialQueue", DISPATCH_QUEUE_SERIAL)];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_willStartSync:) name:kWillStartSynchingRepositoryNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didEndSync:) name:kDidFinishSynchingRepositoryNotification object:nil];
@@ -412,8 +412,8 @@ static NSString *kQTitleKey = @"Title";
     });
 }
 
-- (void)_updateCountLabel
-{
+- (void)_updateCountLabel {
+    DDLogDebug(@"QIssuesVC updateCountLabel");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         if (self.filter.account == nil) {
             return;
@@ -1132,8 +1132,8 @@ static NSString *kQTitleKey = @"Title";
 
 #pragma mark - Notifications
 
-- (void)_willStartSync:(NSNotification *)notification
-{
+- (void)_willStartSync:(NSNotification *)notification {
+    DDLogDebug(@"QIssuesVC willStartSync");
     dispatch_async(dispatch_get_main_queue(), ^{
         if (notification.object) {
             if ([notification.userInfo[@"isFullSync"] boolValue]) {
@@ -1144,8 +1144,8 @@ static NSString *kQTitleKey = @"Title";
     });
 }
 
-- (void)_didEndSync:(NSNotification *)notification
-{
+- (void)_didEndSync:(NSNotification *)notification {
+    DDLogDebug(@"QIssuesVC didEndSync");
     dispatch_async(dispatch_get_main_queue(), ^{
         if (notification.object) {
             if ([notification.userInfo[@"isFullSync"] boolValue]) {

@@ -21,7 +21,7 @@ class BaseClipView: NSClipView {
         self.setup()
     }
     
-    var disableThemeObserver = false {
+    @objc var disableThemeObserver = false {
         didSet {
             if disableThemeObserver {
                 ThemeObserverController.sharedInstance.removeThemeObserver(self)

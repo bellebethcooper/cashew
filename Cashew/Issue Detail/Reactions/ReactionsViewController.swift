@@ -28,6 +28,7 @@ class ReactionsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DDLogDebug("ReactionsVC VDL - thumbs up: \(thumbsUpCountView) icon: \(thumbsUpCountView.icon)")
         reactionsStackView.wantsLayer = true
         reactionsStackView.layer?.borderColor = CashewColor.separatorColor().cgColor
         reactionsStackView.layer?.borderWidth = 1

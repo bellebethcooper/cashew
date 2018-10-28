@@ -12,7 +12,7 @@ import Cocoa
 class IssueDetailLabelsTableViewModel: NSObject {
     var issue: QIssue
     
-    required init(issue: QIssue) {
+    @objc required init(issue: QIssue) {
         self.issue = issue
         super.init()
     }
@@ -40,7 +40,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
         }
     }
     
-    var viewModel: IssueDetailLabelsTableViewModel? {
+    @objc var viewModel: IssueDetailLabelsTableViewModel? {
         didSet {
             
             if let issue = viewModel?.issue {
@@ -135,17 +135,17 @@ class IssueDetailLabelsTableViewCell: BaseView {
         labelSearchablePicker.popover = popover;
     }
     
-    class func suggestedHeight() -> CGFloat {
+    @objc class func suggestedHeight() -> CGFloat {
         return 35.0;
     }
     
-    static func instanceFromNib() -> IssueDetailLabelsTableViewCell? {
+    @objc static func instanceFromNib() -> IssueDetailLabelsTableViewCell? {
         var viewArray: NSArray?
         let className = "IssueDetailLabelsTableViewCell"
         
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: nil)
+        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == IssueDetailLabelsTableViewCell.self {
@@ -160,7 +160,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
 class IssueDetailsLabelTagButton: BaseView {
     fileprivate var cursorTrackingArea: NSTrackingArea?
     
-    var enabled = true
+    @objc var enabled = true
 
     override func updateTrackingAreas() {
         if let cursorTrackingArea = cursorTrackingArea {
