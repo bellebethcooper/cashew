@@ -1,34 +1,18 @@
 # Cashew macOS app
 
-Recently, we've been getting alot of interest to fix the current version of Cashew on the Mac App Store. And we want you to know that we're very humbled and excited that people love our product 🙏🏼 However, due to lack of time required to maintain this app, we've decided to open source it! So feel free to send PRs out for bugs fixes, new features or even code refactors. On our side, we'll commit to pushing updates to the Mac App Store every two weeks if enough interest is there. 
+This project started with the abandoned-but-open-sourced Cashew app source code. After spending many days migrating the code through the various Swift versions from Swift 2 to Swift 4 and fixing crashes, now I'd like to build on this base to develop Cashew with my own ideas and priorities in mind. It'll remain open-source, and you're welcome to contribute PRs for fixes, or suggest new features via issues.
+
+Eventually I'd like to get this available to download and run without having to compile it, but right now I'm still getting my head around the codebase and how macOS development works.
 
 ### To run app:
 1. Install Xcode from Mac App Store
 2. Open workspace file: Cashew.xcworkspace
-3. Run!
+3. Run app!
 
-### Want to contribute?
-1. Code away
-2. Create a PR
-3. We'll merge the PR if all looks good!
-
-### What do I need to know?
-1. The app is 50/50 Swift and Objective-C
-2. All new code preferrably written in Swift but we'll never say no to Objective-C
-3. Currently, the project requires an upgrade to Swift 4 in order to even run. We need a volunteer to do that first in order for other folks to contribute.
-
-
-### Want to donate to this project? Every bit helps!
-Send ethers or bitcoins to the following address:
-
-- Bitcoin: 1MhFfhwtYw7KVHdNbs8nmVLnphrUtBSzmy
-- Ethereum: 0x51561AAEF617d1c800c737aaee7EE527fc7D8024
-- Litecoin: LN5rComsBgGvDhBu1wANMDnLgrbQwS1Fc8
-
-Please follow us on Twitter <a href="http://twitter.com/cashewappco">cashewappco</a>
-
-Download app here <a href="https://itunes.apple.com/us/app/cashew/id1126100185?mt=12">Cashew on Mac App Store</a>
+*Note: You might need to turn off code signing for it to run. If you have any other issues, please let me know. I'm not well-versed in sharing the source for my projects, or in macOS development yet.*
 
 ### License
 
 OpenCashew is distributed under the MIT License (see LICENSE for details).
+
+*Note: You can find the open-source version of the original Cashew app [here](https://github.com/simplerocket-llc/OpenCashew).*
