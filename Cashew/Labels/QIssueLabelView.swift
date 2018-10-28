@@ -38,10 +38,9 @@ class QIssueLabelView: BaseView {
     
     @IBOutlet weak var leftConstraint: NSLayoutConstraint!
     @IBOutlet weak var rightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var labelTextField: QIssueLabelViewTextView!
     
-    fileprivate static let labelHeight: CGFloat = 15.0
+    fileprivate static let labelHeight: CGFloat = 18.0
     
     var mode: QIssueLabelViewMode = QIssueLabelViewMode.coloredForeground {
         didSet {
@@ -70,7 +69,7 @@ class QIssueLabelView: BaseView {
     fileprivate func updateLabelColors() {
         guard let viewModel = viewModel, let layer = layer else {
             backgroundColor = NSColor.clear
-            labelTextField.backgroundColor = self.backgroundColor
+            labelTextField.backgroundColor = self.backgroundColor.withAlphaComponent(0.2)
             return
         }
         
@@ -97,11 +96,14 @@ class QIssueLabelView: BaseView {
         
         switch mode {
         case .coloredBackground:
-            backgroundColor = viewModel.color//NSColor(fromHexadecimalValue: label.color)
-            labelTextField.textColor = otherColor // NSColor.whiteColor()
-            layer.borderWidth = 0
+            DDLogDebug("QIssueLabelView coloredBg")
+            backgroundColor = viewModel.color.withAlphaComponent(0.2)//NSColor(fromHexadecimalValue: label.color)
+            labelTextField.textColor = viewModel.color //otherColor // NSColor.whiteColor()
+            layer.borderWidth = 1
+            layer.borderColor = viewModel.color.cgColor
         //    layer.borderColor = NSColor(calibratedWhite: 0.90, alpha: 1).CGColor
         case .coloredForeground:
+            DDLogDebug("QIssueLabelView coloredForeground")
             backgroundColor = otherColor // NSColor.clear()
             labelTextField.textColor = viewModel.color //NSColor(fromHexadecimalValue: label.color)
             layer.borderWidth = 1

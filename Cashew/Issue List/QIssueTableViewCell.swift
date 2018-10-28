@@ -97,13 +97,13 @@ class QIssueTableViewCell: NSTableRowView {
     fileprivate static let separatorLineHeight: CGFloat = 1.0
     
     fileprivate static let titleLabelFont = NSFont.systemFont(ofSize: 15, weight: .regular)
-    fileprivate static let subtitleFont = NSFont.systemFont(ofSize: 12, weight: .regular)
+    fileprivate static let subtitleFont = NSFont.systemFont(ofSize: 12, weight: .light)
     
     fileprivate static let subtitleRepoMilestoneFont = NSFont.systemFont(ofSize: 11, weight: .medium)
     
     fileprivate static let selectionColor = NSColor(calibratedRed: 62/255.0, green: 96/255.0, blue: 218/255.0, alpha: 1)
     
-    fileprivate static let labelsViewHeight: CGFloat = 17.0
+    fileprivate static let labelsViewHeight: CGFloat = 22.0
     
     fileprivate static let textContainerLeftPaddingWithImage: CGFloat = 80
     fileprivate static let textContainerLeftPaddingWithoutImage: CGFloat = 35

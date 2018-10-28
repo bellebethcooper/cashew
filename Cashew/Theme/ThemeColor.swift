@@ -83,6 +83,16 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    @objc class func foregroundTertiaryColor() -> NSColor {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
+            return LightModeColor.sharedInstance.foregroundTertiaryColor()
+        } else if mode == .dark {
+            return DarkModeColor.sharedInstance.foregroundTertiaryColor()
+        }
+        fatalError()
+    }
+    
     @objc class func yellowColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
