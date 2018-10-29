@@ -5,7 +5,14 @@ This project started with the abandoned-but-open-sourced Cashew app source code.
 Eventually I'd like to get this available to download and run without having to compile it, but right now I'm still getting my head around the codebase and how macOS development works.
 
 ### To run app:
-1. Install Xcode from Mac App Store
+
+1. Download the .dmg file [here](https://github.com/bellebethcooper/cashew/releases/tag/1.10.4)
+2. Open the .dmg file you downloaded
+3. Open Cashew.app from the contents of the .dmg when it opens
+
+### To compile the source code:
+
+1. Open Xcode 10
 2. Open workspace file: Cashew.xcworkspace
 3. Run app!
 
