@@ -91,7 +91,7 @@
             return;
         }
         strongSelf.titleTextField.textColor = [SRCashewColor foregroundColor];
-        strongSelf.commentEditorView.backgroundColor = [SRCashewColor currentLineBackgroundColor];
+        strongSelf.commentEditorView.backgroundColor = [SRCashewColor backgroundColor];
         [strongSelf.editableFieldsCache removeAllObjects];
         [strongSelf.activityTableView reloadData];
         
@@ -647,10 +647,10 @@
     self.titleTextField = createAndAddQTextFieldToView(_titleContainerView);
     self.titleTextField.textColor = [SRCashewColor foregroundColor];
     self.titleTextField.delegate = self;
-    [self.titleTextField setFont:[NSFont systemFontOfSize:26]];
+    [self.titleTextField setFont:[NSFont boldSystemFontOfSize:16]];
     [self.titleTextField setEditable:NO];
     self.titleTextField.usesSingleLineMode = true;
-    [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByTruncatingTail];
+    [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
     [self.titleTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
     
 //    self.numberTextField = createAndAddQTextFieldToView(_numberContainerView);

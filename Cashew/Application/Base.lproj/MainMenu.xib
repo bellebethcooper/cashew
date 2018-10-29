@@ -400,9 +400,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Issue" id="iUN-kO-cmd">
                         <items>
-                            <menuItem title="Open Issue" id="r3J-kr-c7A">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                            </menuItem>
+                            <menuItem title="Open Issue" keyEquivalent="t" id="r3J-kr-c7A"/>
                             <menuItem title="Favorite Issue" keyEquivalent="b" id="wXd-8s-fHA">
                                 <connections>
                                     <action selector="sr_favoriteIssues:" target="Voe-Tx-rLC" id="xmh-Eb-WLL"/>
