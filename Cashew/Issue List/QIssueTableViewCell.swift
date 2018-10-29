@@ -98,6 +98,7 @@ class QIssueTableViewCell: NSTableRowView {
     
     fileprivate static let titleLabelFont = NSFont.systemFont(ofSize: 15, weight: .regular)
     fileprivate static let subtitleFont = NSFont.systemFont(ofSize: 12, weight: .light)
+    fileprivate static let subtitleBoldFont = NSFont.boldSystemFont(ofSize: 12)
     
     fileprivate static let subtitleRepoMilestoneFont = NSFont.systemFont(ofSize: 11, weight: .medium)
     
@@ -488,7 +489,8 @@ class QIssueTableViewCell: NSTableRowView {
         guard let issue = issue else { return NSAttributedString(string: "") }
         
         let subtitleTextColor = isSelected ? subtitleLabelSelectedColor : subtitleLabelColor
-        let subtitleAttrString = NSMutableAttributedString(string: "#\(issue.number) • Opened \(issue.createdAtTimeAgo) by \(issue.authorUsername)   ")
+        let subtitleAttrString = NSMutableAttributedString(string: "#\(issue.number)")
+        subtitleAttrString.append(NSMutableAttributedString(string: " • Opened \(issue.createdAtTimeAgo) by \(issue.authorUsername)   "))
         let subtitleRange = NSMakeRange(0, subtitleAttrString.length)
         subtitleAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleFont, range: subtitleRange)
         subtitleAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: subtitleTextColor, range: subtitleRange)

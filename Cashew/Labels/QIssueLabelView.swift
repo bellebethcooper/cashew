@@ -69,7 +69,7 @@ class QIssueLabelView: BaseView {
     fileprivate func updateLabelColors() {
         guard let viewModel = viewModel, let layer = layer else {
             backgroundColor = NSColor.clear
-            labelTextField.backgroundColor = self.backgroundColor.withAlphaComponent(0.2)
+            labelTextField.backgroundColor = self.backgroundColor.withAlphaComponent(0.1)
             return
         }
         
@@ -97,7 +97,7 @@ class QIssueLabelView: BaseView {
         switch mode {
         case .coloredBackground:
             DDLogDebug("QIssueLabelView coloredBg")
-            backgroundColor = viewModel.color.withAlphaComponent(0.2)//NSColor(fromHexadecimalValue: label.color)
+            backgroundColor = viewModel.color.withAlphaComponent(0.1)//NSColor(fromHexadecimalValue: label.color)
             labelTextField.textColor = viewModel.color //otherColor // NSColor.whiteColor()
             layer.borderWidth = 1
             layer.borderColor = viewModel.color.cgColor
@@ -142,7 +142,7 @@ class QIssueLabelView: BaseView {
     
     
     override func layout() {
-        layer?.cornerRadius = self.frame.height / 2.0
+        layer?.cornerRadius = self.frame.height / 3.0 //2.0
         
         super.layout()
     }

@@ -81,7 +81,11 @@ class LabelSearchResultTableRowView: BaseTableRowView {
     // MARK: Setup
     fileprivate func didSetLabel() {
         titleLabel.stringValue = label.name ?? ""
-        subtitleLabel.stringValue = "\(label.repository!.name) • #\(label.color!.uppercased())"
+        var subtitle = " • #\(label.color!.uppercased())"
+        if let repoName = label.repository?.name {
+            subtitle = repoName + subtitle
+        }
+        subtitleLabel.stringValue = subtitle
         colorCircleView.backgroundColor = NSColor(fromHexadecimalValue: label.color)
     }
 }
