@@ -20,6 +20,6 @@ Eventually I'd like to get this available to download and run without having to 
 
 ### License
 
-OpenCashew is distributed under the MIT License (see LICENSE for details).
+Cashew is distributed under the MIT License (see LICENSE for details).
 
 *Note: You can find the open-source version of the original Cashew app [here](https://github.com/simplerocket-llc/OpenCashew).*
