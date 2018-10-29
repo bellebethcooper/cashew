@@ -91,16 +91,27 @@ class QIssueLabelView: BaseView {
         }
         
         
+        func adjustedBrightness(for color: NSColor) -> CGFloat {
+            var brightness = color.brightnessComponent
+            if brightness > 0.6 {
+                brightness = max(viewModel.color.brightnessComponent - 0.2, 0.0)
+            }
+            return brightness
+        }
         
-        
+        func darkenedColor(from color: NSColor) -> NSColor {
+            let brightness = adjustedBrightness(for: color)
+            return NSColor(hue: color.hueComponent, saturation: color.saturationComponent, brightness: brightness, alpha: 1.0)
+        }
         
         switch mode {
         case .coloredBackground:
             DDLogDebug("QIssueLabelView coloredBg")
             backgroundColor = viewModel.color.withAlphaComponent(0.1)//NSColor(fromHexadecimalValue: label.color)
-            labelTextField.textColor = viewModel.color //otherColor // NSColor.whiteColor()
+            let darkerColor = darkenedColor(from: viewModel.color)
+            labelTextField.textColor = darkerColor
             layer.borderWidth = 1
-            layer.borderColor = viewModel.color.cgColor
+            layer.borderColor = darkerColor.cgColor
         //    layer.borderColor = NSColor(calibratedWhite: 0.90, alpha: 1).CGColor
         case .coloredForeground:
             DDLogDebug("QIssueLabelView coloredForeground")
@@ -142,7 +153,7 @@ class QIssueLabelView: BaseView {
     
     
     override func layout() {
-        layer?.cornerRadius = self.frame.height / 3.0 //2.0
+        layer?.cornerRadius = self.frame.height / 3.0
         
         super.layout()
     }

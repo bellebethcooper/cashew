@@ -28,7 +28,6 @@
 #import "QRepositoryStore.h"
 #import "QUserService.h"
 #import "SRUserFeebackViewController.h"
-#import <iRate/iRate.h>
 #import "SRMenuUtilities.h"
 #import "SRIssueNotificationSyncer.h"
 #import "QIssueFavoriteStore.h"
@@ -52,7 +51,7 @@
 
 @end
 
-@interface AppDelegate () <QSourceListViewControllerDelegate, QIssuesViewControllerDelegate, QLineSplitterViewDelegate, QAccountCreationWindowControllerDelegate, BaseModalWindowControllerDelegate, NSWindowDelegate, NSUserNotificationCenterDelegate, SRStatusImageViewDelegate, QStoreObserver, iRateDelegate, NSPopoverDelegate>
+@interface AppDelegate () <QSourceListViewControllerDelegate, QIssuesViewControllerDelegate, QLineSplitterViewDelegate, QAccountCreationWindowControllerDelegate, BaseModalWindowControllerDelegate, NSWindowDelegate, NSUserNotificationCenterDelegate, SRStatusImageViewDelegate, QStoreObserver, NSPopoverDelegate>
 
 @property (weak) IBOutlet NSMenuItem *closeOrOpenIssuesMenuItem;
 @property (nonatomic, weak) IBOutlet QView *rightContainerView;
@@ -158,11 +157,6 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [NSUserDefaults fixDefaultsIfNeeded];
-    
-    // setup iRate
-    [iRate sharedInstance].daysUntilPrompt = 5;
-    [iRate sharedInstance].usesUntilPrompt = 0;
-    [iRate sharedInstance].delegate = self;
     
     // setup loggers
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
@@ -2368,34 +2362,6 @@
     
     
     return handled;
-}
-
-#pragma mark - iRateDelegate
-
-
-- (void)iRateDidPromptForRating;
-{
-    [SRAnalytics logCustomEventWithName:@"iRate did prompt for rating" customAttributes:nil];
-}
-
-- (void)iRateUserDidAttemptToRateApp;
-{
-    [SRAnalytics logCustomEventWithName:@"iRate user did attempt to rate app" customAttributes:nil];
-}
-
-- (void)iRateUserDidDeclineToRateApp;
-{
-    [SRAnalytics logCustomEventWithName:@"iRate user did decline to rate app" customAttributes:nil];
-}
-
-- (void)iRateUserDidRequestReminderToRateApp;
-{
-    [SRAnalytics logCustomEventWithName:@"iRate user did request reminder to rate app" customAttributes:nil];
-}
-
-- (void)iRateDidOpenAppStore;
-{
-    [SRAnalytics logCustomEventWithName:@"iRate did open app store" customAttributes:nil];
 }
 
 #pragma mark - NSPopoverDelegate

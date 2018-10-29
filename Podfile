@@ -9,10 +9,7 @@ pod 'FMDB/FTS'
 pod 'Fabric'
 pod 'Crashlytics'
 pod 'hoedown'
-pod 'iRate', '~> 1.11'
-# pod 'MASShortcut'
 pod 'CocoaLumberjack/Swift'
-# pod 'ObjectiveGit'
 
 end
 
