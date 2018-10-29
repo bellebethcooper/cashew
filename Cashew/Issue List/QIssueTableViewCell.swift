@@ -387,25 +387,25 @@ class QIssueTableViewCell: NSTableRowView {
             
         #else
   
-            CLSLogv("account=[%@]",    getVaList([anIssue.account ?? "<null>"]));
-            CLSLogv("repository=[%@]", getVaList([anIssue.repository ?? "<null>"]));
-            CLSLogv("repository.name=[%@]", getVaList([anIssue.repository.name ?? "<null>"]));
-            CLSLogv("user=[%@]", getVaList([anIssue.user ?? "<null>"]));
-            CLSLogv("user.login=[%@]", getVaList([anIssue.user.login ?? "<null>"]));
-            CLSLogv("assignee=[%@]", getVaList([anIssue.assignee?.login ?? "<null>"]));
-            CLSLogv("milestone=[%@]", getVaList([anIssue.milestone?.title ?? "<null>"]));
-            CLSLogv("labels=[%@]", getVaList([anIssue.labels  ?? "<null>"]));
-            CLSLogv("title=[%@]", getVaList([anIssue.title  ?? "<null>"]));
-            CLSLogv("number=[%@]", getVaList([anIssue.number  ?? "<null>"]));
-            CLSLogv("identifier=[%@]", getVaList([anIssue.identifier  ?? "<null>"]));
-        CLSLogv("createdAt=[%@]", getVaList([anIssue.createdAt as CVarArg  ?? "<null>"]));
-        CLSLogv("closedAt=[%@]", getVaList([anIssue.closedAt as! CVarArg  ?? "<null>"]));
-        CLSLogv("updatedAt=[%@]", getVaList([anIssue.updatedAt as CVarArg  ?? "<null>"]));
-            CLSLogv("body=[%@]", getVaList([anIssue.body  ?? "<null>"]));
-            CLSLogv("state=[%@]", getVaList([anIssue.state  ?? "<null>"]));
-            CLSLogv("notification=[%@]", getVaList([anIssue.notification  ?? "<null>"]));
-        CLSLogv("htmlURL=[%@]", getVaList([anIssue.htmlURL as! CVarArg  ?? "<null>"]));
-            CLSLogv("type=[%@]", getVaList([anIssue.type  ?? "<null>"]));
+//            CLSLogv("account=[%@]",    getVaList([anIssue.account ?? "<null>"]));
+//            CLSLogv("repository=[%@]", getVaList([anIssue.repository ?? "<null>"]));
+//            CLSLogv("repository.name=[%@]", getVaList([anIssue.repository.name ?? "<null>"]));
+//            CLSLogv("user=[%@]", getVaList([anIssue.user ?? "<null>"]));
+//            CLSLogv("user.login=[%@]", getVaList([anIssue.user.login ?? "<null>"]));
+//            CLSLogv("assignee=[%@]", getVaList([anIssue.assignee?.login ?? "<null>"]));
+//            CLSLogv("milestone=[%@]", getVaList([anIssue.milestone?.title ?? "<null>"]));
+//            CLSLogv("labels=[%@]", getVaList([anIssue.labels  ?? "<null>"]));
+//            CLSLogv("title=[%@]", getVaList([anIssue.title  ?? "<null>"]));
+//            CLSLogv("number=[%@]", getVaList([anIssue.number  ?? "<null>"]));
+//            CLSLogv("identifier=[%@]", getVaList([anIssue.identifier  ?? "<null>"]));
+//        CLSLogv("createdAt=[%@]", getVaList([anIssue.createdAt as CVarArg  ?? "<null>"]));
+//        CLSLogv("closedAt=[%@]", getVaList([anIssue.closedAt as! CVarArg  ?? "<null>"]));
+//        CLSLogv("updatedAt=[%@]", getVaList([anIssue.updatedAt as CVarArg  ?? "<null>"]));
+//            CLSLogv("body=[%@]", getVaList([anIssue.body  ?? "<null>"]));
+//            CLSLogv("state=[%@]", getVaList([anIssue.state  ?? "<null>"]));
+//            CLSLogv("notification=[%@]", getVaList([anIssue.notification  ?? "<null>"]));
+//        CLSLogv("htmlURL=[%@]", getVaList([anIssue.htmlURL as! CVarArg  ?? "<null>"]));
+//            CLSLogv("type=[%@]", getVaList([anIssue.type  ?? "<null>"]));
 
         #endif
         
