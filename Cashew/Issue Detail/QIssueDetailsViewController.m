@@ -645,9 +645,9 @@
     };
     
     self.titleTextField = createAndAddQTextFieldToView(_titleContainerView);
-    self.titleTextField.textColor = [SRCashewColor foregroundColor];
+    self.titleTextField.textColor = [SRCashewColor foregroundSecondaryColor];
     self.titleTextField.delegate = self;
-    [self.titleTextField setFont:[NSFont boldSystemFontOfSize:16]];
+    [self.titleTextField setFont:[NSFont systemFontOfSize:16]];
     [self.titleTextField setEditable:NO];
     self.titleTextField.usesSingleLineMode = true;
     [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];

@@ -334,7 +334,7 @@
     
     _countLabel = countLabel;
     _label = nameLabel;
-    [_label setFont:[NSFont systemFontOfSize:12]];
+    [_label setFont:[NSFont systemFontOfSize:14]];
     
 }
 

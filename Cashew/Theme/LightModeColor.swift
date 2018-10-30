@@ -26,14 +26,15 @@ import Cocoa
 @objc(SRLightModeColor)
 class LightModeColor: NSObject, ThemeColor {
     
-    fileprivate static let bgColor = NSColor.white // NSColor(fromHexadecimalValue: "#fdf6e3") // NSColor.whiteColor()
+    fileprivate static let bgColor = NSColor.white
     fileprivate static let currentLineBgColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
-    fileprivate static let fgColor = NSColor(fromHexadecimalValue: "#2a89fb") ?? NSColor.black //NSColor(calibratedWhite: 0, alpha: 0.8) //NSColor(calibratedRed: 77/255.0, green: 77/255.0, blue: 76/255.0, alpha: 1.0)
-    fileprivate static let fgSecondaryColor = NSColor(calibratedRed: 80/255.0, green: 80/255.0, blue: 80/255.0, alpha: 1.0)
-    fileprivate static let fgTertiaryColor = NSColor(calibratedWhite: 100/255.0, alpha: 1.0)
-    fileprivate static let separatorLineColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0) //NSColor(calibratedWhite: 0/255.0, alpha: 0.05)
+    fileprivate static let fgColor = NSColor(fromHexadecimalValue: "#1d87f7") ?? NSColor.black // slightly lighter blue I tried: #2a89fb
+    fileprivate static let fgSecondaryColor = NSColor(calibratedRed: 60/255.0, green: 60/255.0, blue: 60/255.0, alpha: 1.0)
+    fileprivate static let fgTertiaryColor = NSColor(calibratedWhite: 130/255.0, alpha: 1.0)
+    fileprivate static let separatorLineColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
     fileprivate static let aYellowColor = NSColor(calibratedRed: 234/255.0, green: 183/255.0, blue: 0, alpha: 1)
-    fileprivate static let sidebarBgColor = NSColor(fromHexadecimalValue: "#f5f9fe") ?? NSColor.white //NSColor(calibratedWhite: 245/255.0, alpha: 1.0)
+    fileprivate static let sidebarBgColor = NSColor(fromHexadecimalValue: "#f5f9fe") ?? NSColor.white
+    fileprivate static let selectedBgColor = NSColor(fromHexadecimalValue: "#ecf6ff") ?? NSColor.white
     
     @objc static let sharedInstance = LightModeColor()
     
@@ -67,5 +68,9 @@ class LightModeColor: NSObject, ThemeColor {
     
     func sidebarBackgroundColor() -> NSColor {
         return LightModeColor.sidebarBgColor
+    }
+    
+    func selectedBackgroundColor() -> NSColor {
+        return LightModeColor.selectedBgColor
     }
 }

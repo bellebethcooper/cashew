@@ -71,7 +71,6 @@ class QIssueTableViewCell: NSTableRowView {
     @IBOutlet weak fileprivate var titleLabel: IssueTableViewCellTextField!
     @IBOutlet weak fileprivate var subtitleLabel: IssueTableViewCellTextField!
     @IBOutlet weak fileprivate var updatedAtLabel: IssueTableViewCellTextField!
-    @IBOutlet weak fileprivate var bottomLineView: BaseSeparatorView!
     @IBOutlet weak fileprivate var labelContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak fileprivate var labelsContainerView: BaseView!
     @IBOutlet weak fileprivate var titlesContainerView: BaseView!
@@ -120,7 +119,7 @@ class QIssueTableViewCell: NSTableRowView {
     
     var shouldAllowVibrancy: Bool = true {
         didSet {
-            [bottomLineView, labelsView, titlesContainerView, labelsView, readCircleView, assigneeImageView, labelsContainerView].forEach { (view) in
+            [labelsView, titlesContainerView, labelsView, readCircleView, assigneeImageView, labelsContainerView].forEach { (view) in
                 view.shouldAllowVibrancy = shouldAllowVibrancy
             }
             
@@ -184,6 +183,8 @@ class QIssueTableViewCell: NSTableRowView {
         updateAssigneViews()
     }
     
+    // MARK: - setup
+    
     fileprivate func setup() {
         QIssueStore.add(self)
         QIssueNotificationStore.add(self)
@@ -206,6 +207,18 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
+    /// Override to change colour of background on selected items in table view
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        
+        if isSelected == true {
+            CashewColor.selectedBackgroundColor().setFill()
+            dirtyRect.fill()
+        }
+    }
+    
+    // MARK: - colours
+    
     var titleLabelColor: NSColor {
         get {
             let themeMode = UserDefaults.themeMode()
@@ -222,17 +235,17 @@ class QIssueTableViewCell: NSTableRowView {
         get {
             let themeMode = UserDefaults.themeMode()
             if themeMode == .light {
-                return LightModeColor.sharedInstance.foregroundSecondaryColor()
+                return LightModeColor.sharedInstance.foregroundTertiaryColor()
             } else if themeMode == .dark {
-                return DarkModeColor.sharedInstance.foregroundSecondaryColor()
+                return DarkModeColor.sharedInstance.foregroundTertiaryColor()
             }
             
             return NSColor(calibratedWhite: 0, alpha: 0.60)
         }
     }
     
-    var titleLabelSelectedColor = NSColor(calibratedWhite: 1, alpha: 1) //NSColor(calibratedWhite: 255/255.0, alpha: 1.0)
-    var subtitleLabelSelectedColor = NSColor(calibratedWhite: 1, alpha: 0.80) // NSColor(calibratedWhite: 255.0/255.0, alpha: 0.80)
+    var titleLabelSelectedColor = CashewColor.foregroundColor()
+    var subtitleLabelSelectedColor = CashewColor.foregroundColor()
     
     var subtitleRepoMilestoneColor: NSColor {
         get {
@@ -248,7 +261,7 @@ class QIssueTableViewCell: NSTableRowView {
     }
     
     fileprivate static let repoMilestoneSelectedDarkColor = NSColor(calibratedWhite: 200/255.0, alpha: 1.0)
-    fileprivate static let repoMilestoneSelectedLightColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
+    fileprivate static let repoMilestoneSelectedLightColor = CashewColor.foregroundColor()
     
     var subtitleRepoMilestoneSelectedColor: NSColor {
         get {
@@ -344,15 +357,16 @@ class QIssueTableViewCell: NSTableRowView {
         didSet {
             if isSelected {
                 titleLabel.textColor = titleLabelSelectedColor
+                self.backgroundColor = CashewColor.selectedBackgroundColor()
                 updatedAtLabel.textColor = subtitleRepoMilestoneSelectedColor
                 readCircleView.backgroundColor = titleLabel.textColor
                 
             } else {
                 titleLabel.textColor = titleLabelColor
+                self.backgroundColor = NSColor.white
                 updatedAtLabel.textColor = subtitleRepoMilestoneColor
                 readCircleView.backgroundColor = CashewColor.notificationDotColor()
             }
-            bottomLineView.selected = isSelected
             
             subtitleLabel.attributedStringValue = subtitleTextForCurrentIssue()
             updateLabelsModeBasedOnSelectionAndHover()

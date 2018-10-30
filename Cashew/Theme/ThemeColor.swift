@@ -66,7 +66,6 @@ class CashewColor: NSObject {
     }
     
     // Sidebar icons
-    // Issue title in issue cells and issue detail
     @objc class func foregroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
@@ -153,6 +152,17 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    // background for issue list items when selected
+    @objc class func selectedBackgroundColor() -> NSColor {
+        let mode = UserDefaults.themeMode()
+        if mode == .light {
+            return LightModeColor.sharedInstance.selectedBackgroundColor()
+        } else if mode == .dark {
+            return DarkModeColor.sharedInstance.sidebarBackgroundColor()
+        }
+        fatalError()
+    }
+    
 }
 
 @objc(SRThemeColor)
@@ -165,7 +175,7 @@ protocol ThemeColor: NSObjectProtocol {
     func foregroundTertiaryColor() -> NSColor
     func separatorColor() -> NSColor
     func sidebarBackgroundColor() -> NSColor
-    
+    func selectedBackgroundColor() -> NSColor
     func yellowColor() -> NSColor
 }
 

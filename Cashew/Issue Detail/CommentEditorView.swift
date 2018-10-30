@@ -170,7 +170,7 @@ class CommentEditorView: BaseView {
                 strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {
                 strongSelf.backgroundColor = NSColor.white //CashewColor.sidebarBackgroundColor()
-                strongSelf.textViewContainerView.borderColor = CashewColor.blueColor() //NSColor(calibratedWhite: 200/255.0, alpha: 1)
+                strongSelf.textViewContainerView.borderColor = NSColor.clear //NSColor(calibratedWhite: 200/255.0, alpha: 1)
                 strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             }
         }

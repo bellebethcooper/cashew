@@ -72,4 +72,8 @@ class DarkModeColor: NSObject, ThemeColor {
     func sidebarBackgroundColor() -> NSColor {
         return DarkModeColor.bgColor
     }
+    
+    func selectedBackgroundColor() -> NSColor {
+        return DarkModeColor.bgColor
+    }
 }

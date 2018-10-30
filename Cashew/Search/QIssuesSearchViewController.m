@@ -91,7 +91,7 @@
             appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
             weakSelf.searchField.backgroundColor = [NSColor whiteColor];
             view.borderColor = [NSColor colorWithCalibratedWhite:195/255.0 alpha:1];
-            weakSelf.searchField.textColor = [SRCashewColor foregroundColor];
+            weakSelf.searchField.textColor = [SRCashewColor foregroundSecondaryColor];
         }
         
         weakSelf.searchFieldContainerView.appearance = appearance;

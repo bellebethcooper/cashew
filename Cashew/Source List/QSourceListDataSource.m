@@ -109,20 +109,20 @@
     draftsNode.issueFilter.account = self.account;
     draftsNode.parentNode = menuNode;
     
-    QUserQuery *favoritesQuery = [[QUserQuery alloc] initWithIdentifier:nil account:_account displayName:@"Favorites" query:@""];
-    QSourceListNode *favoritesNode = [QSourceListNode new];
-    favoritesNode.title = favoritesQuery.displayName;
-    favoritesNode.nodeType = QSourceListNodeType_Favorites;
-    favoritesNode.userQuery = favoritesQuery;
-    favoritesNode.issueFilter = [QIssueFilter filterWithSearchTokens:favoritesQuery.query];
-    favoritesNode.issueFilter.filterType = SRFilterType_Favorites;
-    favoritesNode.issueFilter.account = self.account;
-    favoritesNode.parentNode = menuNode;
+//    QUserQuery *favoritesQuery = [[QUserQuery alloc] initWithIdentifier:nil account:_account displayName:@"Favorites" query:@""];
+//    QSourceListNode *favoritesNode = [QSourceListNode new];
+//    favoritesNode.title = favoritesQuery.displayName;
+//    favoritesNode.nodeType = QSourceListNodeType_Favorites;
+//    favoritesNode.userQuery = favoritesQuery;
+//    favoritesNode.issueFilter = [QIssueFilter filterWithSearchTokens:favoritesQuery.query];
+//    favoritesNode.issueFilter.filterType = SRFilterType_Favorites;
+//    favoritesNode.issueFilter.account = self.account;
+//    favoritesNode.parentNode = menuNode;
     
     [children addObject:allNode];
     [children addObject:notificationNode];
     [children addObject:draftsNode];
-    [children addObject:favoritesNode];
+//    [children addObject:favoritesNode];
     //    [children addObject:mentionsMeNode];
     
     return menuNode;
