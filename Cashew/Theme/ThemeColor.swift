@@ -43,6 +43,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    // Unused??
     @objc class func currentLineBackgroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
@@ -53,6 +54,7 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    // Issue cells bg, issue detail bg
     @objc class func backgroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
@@ -63,6 +65,8 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    // Sidebar icons
+    // Issue title in issue cells and issue detail
     @objc class func foregroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
@@ -73,6 +77,10 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    // Section headers in sidebar
+    // New issue button, number of issue, sort by header
+    // Subtitle in issue cell (issue number, opened by/when)
+    // Username in issue detail
     @objc class func foregroundSecondaryColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
@@ -83,6 +91,9 @@ class CashewColor: NSObject {
         fatalError()
     }
     
+    // Sidebar text items (not section headers)
+    // Issue cell repo name label, time label
+    // Issue detail event labels (not username)
     @objc class func foregroundTertiaryColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {
@@ -131,6 +142,7 @@ class CashewColor: NSObject {
         return ThemeColorConstant.greenColor!
     }
     
+    // Sidebar background
     @objc class func sidebarBackgroundColor() -> NSColor {
         let mode = UserDefaults.themeMode()
         if mode == .light {

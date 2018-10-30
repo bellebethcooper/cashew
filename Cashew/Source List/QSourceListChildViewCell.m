@@ -139,7 +139,7 @@
         [self setBackgroundColor:[NSColor clearColor]];
     }
     
-    [_label setTextColor:[SRCashewColor foregroundTertiaryColor]];
+    [_label setTextColor: [SRCashewColor foregroundSecondaryColor]];
 }
 
 - (void)setNode:(QSourceListNode *)node

@@ -174,7 +174,7 @@
             return;
         }
         
-        NSColor *bgColor = [NSColor clearColor]; //[SRCashewColor sidebarBackgroundColor];
+        NSColor *bgColor = [SRCashewColor sidebarBackgroundColor];
         if (mode == SRThemeModeLight) {
             strongSelf.minusButton.image = [[NSImage imageNamed:NSImageNameRemoveTemplate] imageWithTintColor:[SRLightModeColor.sharedInstance foregroundSecondaryColor]];
             strongSelf.addButton.image = [[NSImage imageNamed:NSImageNameAddTemplate] imageWithTintColor:[SRLightModeColor.sharedInstance foregroundSecondaryColor]];
@@ -202,9 +202,9 @@
 
        // strongSelf.verticalScroller.layer.backgroundColor = bgColor.CGColor;
        // strongSelf.horizontalScroller.layer.backgroundColor = bgColor.CGColor;
-//        strongSelf.filterField.backgroundColor = [NSColor yellowColor]; //;
+        strongSelf.filterField.backgroundColor = [NSColor yellowColor]; //;
         strongSelf.filterField.layer.borderColor = [SRCashewColor separatorColor].CGColor;
-        strongSelf.filterField.backgroundColor = [SRCashewColor backgroundColor];
+//        strongSelf.filterField.backgroundColor = NSColor.whiteColor;
         
         
        //[(_QSourceListView *)strongSelf.view setBackgroundColor:bgColor];
@@ -371,7 +371,7 @@
     [self.sourceListView setDelegate:self];
     [self.sourceListView setWantsLayer:YES];
     [self.sourceListView setIndentationPerLevel:7];
-    [self.sourceListView setIntercellSpacing:NSMakeSize(0, 0)];
+    [self.sourceListView setIntercellSpacing:NSMakeSize(0, 8)];
     [self.sourceListView setAllowsMultipleSelection:NO];
     [self.sourceListView setupThemeObserver];
 }
