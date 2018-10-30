@@ -26,10 +26,13 @@ class NewIssueLabelsTokenFieldDelegate: NSObject {
 extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     
     func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
-        // print("completionsForSubstring = \(substring) selectedIndex = \(selectedIndex)")
+        DDLogDebug("NewIssueLabelsTokenFieldDelegate completionsForSubstring - \(substring) selectedIndex = \(selectedIndex)")
         let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        if let repo = self.repository , trimmedSubstring.lengthOfBytes(using: String.Encoding.utf8) > 0 {
-            let labels = QLabelStore.searchLabels(withQuery: "\(trimmedSubstring)*", forAccountId: repo.account.identifier, repositoryId: repo.identifier) as NSArray as! [QLabel]
+        if let repo = self.repository,
+            trimmedSubstring.lengthOfBytes(using: String.Encoding.utf8) > 0 {
+            let labels = QLabelStore.searchLabels(withQuery: "\(trimmedSubstring)*",
+                forAccountId: repo.account.identifier,
+                repositoryId: repo.identifier) as! [QLabel]
             self.recentResults = labels
             let labelStrings = self.recentResults.map({ (label) -> Any in
                 return label.name!
@@ -42,18 +45,22 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     }
     
     override func controlTextDidEndEditing(_ notification: Notification) {
+        DDLogDebug("NewIssueLabelsTokenFieldDelegate controlTextDidEnd")
         if let tokenField = notification.object as? NSTokenField {
             var finalTokenList = [String]()
             
-            if let tokens = tokenField.objectValue as? [String], let repo = self.repository {
+            if let tokens = tokenField.objectValue as? [String],
+                let repo = self.repository {
                 tokens.forEach({ (token) in
-                    let labels = QLabelStore.searchLabels(withQuery: token, forAccountId: repo.account.identifier, repositoryId: repo.identifier) as NSArray as! [QLabel]
-                    for label in labels {
-                        if label.name == token {
+//                    let labels = QLabelStore.searchLabels(withQuery: token,
+//                                                          forAccountId: repo.account.identifier,
+//                                                          repositoryId: repo.identifier) as! [QLabel]
+//                    for label in labels {
+//                        if label.name == token {
                             finalTokenList.append(token)
-                            break
-                        }
-                    }
+//                            break
+//                        }
+//                    }
                 })
             }
             
@@ -62,13 +69,18 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     }
     
     func tokenField(_ tokenField: NSTokenField, shouldAdd tokens: [Any], at index: Int) -> [Any] {
-        //print("tokens = \(tokens) index = \(index)")
+        DDLogDebug("NewIssueLabelsTokenFieldDelegate tokenField shouldAdd - tokens = \(tokens) index = \(index)")
+        
+        return tokens
         
         var uniqueTokens = Set<String>()
         for label in self.recentResults {
-            if let stringTokens = tokens as? [String], let name = label.name , stringTokens.contains(name) {
+            if let stringTokens = tokens as? [String],
+                let name = label.name,
+                stringTokens.contains(name) {
                 
                 var countOfDups: Int = 0
+                 print("existingTokens =\(tokenField.objectValue)")
                 if let existingTokens = tokenField.objectValue as? [String] {
                     existingTokens.forEach { (existingToken) in
                         if (existingToken == name) {
@@ -76,7 +88,7 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
                         }
                     }
                 }
-                //print("existingTokens =\(tokenField.objectValue) and countOfDups = \(countOfDups)")
+                print("existingTokens =\(tokenField.objectValue) and countOfDups = \(countOfDups)")
                 if countOfDups == 1 || countOfDups == 0 {
                     uniqueTokens.insert(name)
                 }
@@ -84,8 +96,9 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
         }
         
         let resultTokens = Array(uniqueTokens)
-        
+        DDLogDebug("NewIssueLabelsDelegate shouldAdd - returning: \(resultTokens)")
         return resultTokens
+        
     }
     
 }
