@@ -223,7 +223,7 @@
 - (QSourceListNode *)_createNodeForMilestone:(QMilestone *)milestone
 {
     NSString *milestoneValue = [milestone.title containsString:@" "] ? [NSString stringWithFormat:@"\"%@\"", milestone.title] : milestone.title;
-    QUserQuery *milestoneQuery = [[QUserQuery alloc] initWithIdentifier:nil account:_account displayName:milestone.repository.fullName query:[NSString stringWithFormat:@"milestone:%@", milestoneValue]];
+    QUserQuery *milestoneQuery = [[QUserQuery alloc] initWithIdentifier:nil account:_account displayName:milestone.repository.fullName query:[NSString stringWithFormat:@"is:open milestone:%@", milestoneValue]];
     QSourceListNode *milestoneNode = [QSourceListNode new];
     
     milestoneNode.title = milestone.title;
