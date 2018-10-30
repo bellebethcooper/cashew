@@ -198,7 +198,7 @@
 - (QSourceListNode *)_createNodeForRepository:(QRepository *)repo
 {
     NSMutableArray<QSourceListNode *> *repoChildren = [NSMutableArray new];
-    QUserQuery *repositoryQuery = [[QUserQuery alloc] initWithIdentifier:nil account:_account displayName:repo.fullName query:[NSString stringWithFormat:@"repo:%@", repo.fullName]];
+    QUserQuery *repositoryQuery = [[QUserQuery alloc] initWithIdentifier:nil account:_account displayName:repo.name query:[NSString stringWithFormat:@"repo:%@", repo.fullName]];
     QSourceListNode *repositoryNode = [QSourceListNode new];
     
     repositoryNode.title = repositoryQuery.displayName;

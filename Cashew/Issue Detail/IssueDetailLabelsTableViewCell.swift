@@ -76,11 +76,11 @@ class IssueDetailLabelsTableViewCell: BaseView {
             }
             
             if mode == .light {
-                strongSelf.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
-                strongSelf.noLabelTextField.textColor = LightModeColor.sharedInstance.foregroundColor()
+                strongSelf.backgroundColor = NSColor.white
+                strongSelf.noLabelTextField.textColor = LightModeColor.sharedInstance.foregroundSecondaryColor()
             } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
-                strongSelf.noLabelTextField.textColor = DarkModeColor.sharedInstance.foregroundColor()
+                strongSelf.noLabelTextField.textColor = DarkModeColor.sharedInstance.foregroundSecondaryColor()
             }
         }
     }
@@ -97,6 +97,9 @@ class IssueDetailLabelsTableViewCell: BaseView {
         self.addLabelButton.layer?.borderWidth = 1
         self.addLabelButton.layer?.borderColor = color.cgColor
         self.addLabelButton.layer?.cornerRadius = self.addLabelButton.bounds.height / 2.0
+//        self.addLabelButton.layer?.backgroundColor = CashewColor.selectedBackgroundColor().cgColor
+//        self.tagButton.wantsLayer = true
+//        self.tagButton.layer?.backgroundColor = CashewColor.selectedBackgroundColor().cgColor
         
         let clickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(IssueDetailLabelsTableViewCell.didClickAddLabel(_:)))
         clickRecognizer.numberOfClicksRequired = 1

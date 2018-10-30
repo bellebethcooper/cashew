@@ -281,12 +281,12 @@
     
     SRThemeMode mode = [NSUserDefaults themeMode];
     if (mode == SRThemeModeDark) {
-        img = [img imageWithTintColor:[SRDarkModeColor.sharedInstance foregroundColor]]; //[NSColor colorWithWhite:111/255. alpha:1]];
+        img = [img imageWithTintColor:[SRDarkModeColor.sharedInstance foregroundColor]];
     } else {
-        img = [img imageWithTintColor:[SRLightModeColor.sharedInstance foregroundColor]]; //[NSColor colorWithWhite:111/255. alpha:1]];
+        img = [img imageWithTintColor:[SRLightModeColor.sharedInstance foregroundColor]];
     }
     
-    if ([@"notifications" isEqualToString:_imageNamed] || [@"drafts" isEqualToString:_imageNamed]) { // || [@"unfilled_star" isEqualToString:_imageNamed]) {
+    if ([@"notifications" isEqualToString:_imageNamed] || [@"drafts" isEqualToString:_imageNamed]) {
         img.size = NSMakeSize(12, 12);
     }
     
@@ -334,7 +334,7 @@
     
     _countLabel = countLabel;
     _label = nameLabel;
-    [_label setFont:[NSFont systemFontOfSize:14]];
+    [_label setFont:[NSFont systemFontOfSize:13]];
     
 }
 

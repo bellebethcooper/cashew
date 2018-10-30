@@ -14,7 +14,6 @@
                 <outlet property="commentEditorContainerView" destination="Jr0-Ma-Me5" id="qbd-Ax-AKV"/>
                 <outlet property="commentEditorView" destination="ORg-ne-KOh" id="ZqQ-sG-iBV"/>
                 <outlet property="extensionButton" destination="rbu-YT-M8o" id="Bht-h5-9Sn"/>
-                <outlet property="favoriteButton" destination="hk4-0t-oGd" id="VNE-JH-zk0"/>
                 <outlet property="headerSubtitleTextField" destination="jLj-be-j7h" id="1sL-aX-LYe"/>
                 <outlet property="menuButton" destination="7Oa-hr-PRf" id="b94-r6-5S2"/>
                 <outlet property="milestoneButton" destination="TWo-el-Ygf" id="GAG-cI-gCM"/>
@@ -32,24 +31,24 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="12" y="494" width="710" height="40"/>
+                    <rect key="frame" x="12" y="494" width="742" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" placeholder="YES" id="ry1-yy-qVn"/>
                     </constraints>
                 </customView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Fm3-7G-VIc" customClass="SRBaseScrollView">
-                    <rect key="frame" x="5" y="45" width="756" height="391"/>
+                    <rect key="frame" x="0.0" y="45" width="766" height="385"/>
                     <clipView key="contentView" id="7CJ-vD-296" customClass="SRBaseClipView">
-                        <rect key="frame" x="0.0" y="0.0" width="756" height="391"/>
+                        <rect key="frame" x="0.0" y="0.0" width="766" height="385"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="F0z-tV-Zgo" customClass="SRIssueDetailsTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="756" height="391"/>
+                                <rect key="frame" x="0.0" y="0.0" width="766" height="385"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn editable="NO" width="756" minWidth="10" maxWidth="3.4028234663852886e+38" id="Cp9-bw-2d4">
+                                    <tableColumn editable="NO" width="766" minWidth="10" maxWidth="3.4028234663852886e+38" id="Cp9-bw-2d4">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -63,7 +62,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="cxc-8K-9fS">
-                                                <rect key="frame" x="0.0" y="0.0" width="756" height="17"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="766" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ifs-qy-Xhl">
@@ -100,7 +99,7 @@
                     </scroller>
                 </scrollView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="76J-v4-1pp" customClass="SRBaseSeparatorView">
-                    <rect key="frame" x="0.0" y="436" width="766" height="1"/>
+                    <rect key="frame" x="0.0" y="430" width="766" height="1"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="aMM-Pt-GdH"/>
                     </constraints>
@@ -231,22 +230,8 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <button hidden="YES" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="hk4-0t-oGd">
-                    <rect key="frame" x="734" y="503" width="22" height="22"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="22" id="9x5-XT-4L6"/>
-                        <constraint firstAttribute="width" constant="22" id="B4h-wX-XvX"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="unfilled_star" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Xzd-Qy-Q8b">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <connections>
-                        <action selector="didClickFavoriteButton:" target="-2" id="ASE-gS-R6W"/>
-                    </connections>
-                </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="jLj-be-j7h">
-                    <rect key="frame" x="10" y="477" width="714" height="17"/>
+                    <rect key="frame" x="10" y="471" width="746" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" placeholder="YES" id="WQo-fM-z9X"/>
                     </constraints>
@@ -258,17 +243,14 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="hk4-0t-oGd" firstAttribute="centerY" secondItem="pSU-wr-ypB" secondAttribute="centerY" id="1iI-gF-0MC"/>
-                <constraint firstItem="Fm3-7G-VIc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="5" id="2KA-JL-wjX"/>
+                <constraint firstItem="Fm3-7G-VIc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="2KA-JL-wjX"/>
                 <constraint firstItem="Jr0-Ma-Me5" firstAttribute="top" secondItem="Fm3-7G-VIc" secondAttribute="bottom" priority="499" id="2r0-eD-yLF"/>
                 <constraint firstItem="jLj-be-j7h" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="leading" id="3Rp-No-Afz"/>
                 <constraint firstItem="76J-v4-1pp" firstAttribute="top" secondItem="jLj-be-j7h" secondAttribute="bottom" constant="40" id="6S0-bO-xAl"/>
                 <constraint firstItem="pSU-wr-ypB" firstAttribute="top" secondItem="Sjp-0r-kES" secondAttribute="bottom" constant="12" id="BYW-og-Gey"/>
-                <constraint firstItem="hk4-0t-oGd" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="trailing" constant="12" id="IAj-Nj-hWn"/>
                 <constraint firstItem="Sjp-0r-kES" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="ITQ-EJ-dHx"/>
                 <constraint firstAttribute="trailing" secondItem="Jr0-Ma-Me5" secondAttribute="trailing" id="Lj5-cR-I89"/>
-                <constraint firstAttribute="trailing" secondItem="hk4-0t-oGd" secondAttribute="trailing" constant="10" id="Udy-ME-7Mt"/>
-                <constraint firstAttribute="trailing" secondItem="Fm3-7G-VIc" secondAttribute="trailing" constant="5" id="bFc-7B-O4A"/>
+                <constraint firstAttribute="trailing" secondItem="Fm3-7G-VIc" secondAttribute="trailing" id="bFc-7B-O4A"/>
                 <constraint firstItem="Jr0-Ma-Me5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="brp-tc-ZY0"/>
                 <constraint firstItem="76J-v4-1pp" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="elV-ag-vvW"/>
                 <constraint firstAttribute="bottom" secondItem="Jr0-Ma-Me5" secondAttribute="bottom" id="ewK-OS-gwl"/>
@@ -276,9 +258,10 @@
                 <constraint firstItem="pSU-wr-ypB" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="12" id="geN-EH-OCM"/>
                 <constraint firstItem="Fm3-7G-VIc" firstAttribute="top" secondItem="76J-v4-1pp" secondAttribute="bottom" id="gvR-Tp-8EV"/>
                 <constraint firstAttribute="trailing" secondItem="Sjp-0r-kES" secondAttribute="trailing" id="hev-lC-yMK"/>
-                <constraint firstItem="jLj-be-j7h" firstAttribute="top" secondItem="pSU-wr-ypB" secondAttribute="bottom" id="paj-IP-gno"/>
+                <constraint firstItem="jLj-be-j7h" firstAttribute="top" secondItem="pSU-wr-ypB" secondAttribute="bottom" constant="6" id="paj-IP-gno"/>
                 <constraint firstAttribute="trailing" secondItem="76J-v4-1pp" secondAttribute="trailing" id="v6k-ER-6FJ"/>
                 <constraint firstItem="jLj-be-j7h" firstAttribute="trailing" secondItem="pSU-wr-ypB" secondAttribute="trailing" id="vaq-fR-toa"/>
+                <constraint firstAttribute="trailing" secondItem="pSU-wr-ypB" secondAttribute="trailing" constant="12" id="xDg-5k-433"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
@@ -292,7 +275,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5Gc-gZ-3CC">
-                    <rect key="frame" x="169" y="36" width="168" height="25"/>
+                    <rect key="frame" x="168" y="36" width="168" height="25"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No Issue Selected" id="YGy-LN-nER">
                         <font key="font" metaFont="system" size="21"/>
                         <color key="textColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -312,6 +295,5 @@
         <image name="menu" width="54" height="44"/>
         <image name="milestone" width="11" height="12"/>
         <image name="person" width="6" height="12"/>
-        <image name="unfilled_star" width="96" height="91"/>
     </resources>
 </document>

@@ -52,7 +52,7 @@ class CommentEditorView: BaseView {
     fileprivate let cancelButton = BaseButton.whiteButton()
     fileprivate let progressIndicator = NSProgressIndicator()
     
-    var activateTextViewConstraints: Bool = false {
+    @objc var activateTextViewConstraints: Bool = false {
         didSet {
             textView.activateTextViewConstraints = activateTextViewConstraints
         }
@@ -169,7 +169,7 @@ class CommentEditorView: BaseView {
                 strongSelf.textViewContainerView.borderColor = NSColor.white
                 strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {
-                strongSelf.backgroundColor = NSColor.white //CashewColor.sidebarBackgroundColor()
+                strongSelf.backgroundColor = NSColor.white
                 strongSelf.textViewContainerView.borderColor = NSColor.clear //NSColor(calibratedWhite: 200/255.0, alpha: 1)
                 strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             }

@@ -91,7 +91,10 @@
             return;
         }
         strongSelf.titleTextField.textColor = [SRCashewColor foregroundColor];
+        strongSelf.titleContainerView.backgroundColor = [SRCashewColor selectedBackgroundColor];
         strongSelf.commentEditorView.backgroundColor = [SRCashewColor backgroundColor];
+        strongSelf.view.wantsLayer = YES;
+        strongSelf.view.layer.backgroundColor = [[SRCashewColor selectedBackgroundColor] CGColor];
         [strongSelf.editableFieldsCache removeAllObjects];
         [strongSelf.activityTableView reloadData];
         
@@ -165,7 +168,8 @@
     self.labelsTableViewCell.translatesAutoresizingMaskIntoConstraints = false;
     [self.labelsTableViewCell.leftAnchor constraintEqualToAnchor:self.toolbarContainerView.leftAnchor].active = true;
     [self.labelsTableViewCell.rightAnchor constraintEqualToAnchor:self.toolbarContainerView.rightAnchor].active = true;
-    [self.labelsTableViewCell.topAnchor constraintEqualToAnchor:self.headerSubtitleTextField.bottomAnchor constant:-3].active = true;
+    [self.labelsTableViewCell.topAnchor constraintEqualToAnchor:self.headerSubtitleTextField.bottomAnchor constant:6].active = true;
+    [self.labelsTableViewCell.bottomAnchor constraintEqualToAnchor:self.activityScrollView.topAnchor].active = true;
     [self.labelsTableViewCell.heightAnchor constraintEqualToConstant:[SRIssueDetailLabelsTableViewCell suggestedHeight]].active = true;
     
 }

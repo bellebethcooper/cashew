@@ -401,11 +401,6 @@
                     <menu key="submenu" title="Issue" id="iUN-kO-cmd">
                         <items>
                             <menuItem title="Open Issue" keyEquivalent="t" id="r3J-kr-c7A"/>
-                            <menuItem title="Favorite Issue" keyEquivalent="b" id="wXd-8s-fHA">
-                                <connections>
-                                    <action selector="sr_favoriteIssues:" target="Voe-Tx-rLC" id="xmh-Eb-WLL"/>
-                                </connections>
-                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="fQ6-pK-rTU"/>
                             <menuItem title="Label Picker" keyEquivalent="1" id="yBx-i3-Qf1">
                                 <connections>
@@ -514,7 +509,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="0.0" y="377" width="1140" height="800"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <value key="minSize" type="size" width="660" height="700"/>
             <view key="contentView" id="EiT-Mj-1SZ" customClass="QView">
                 <rect key="frame" x="0.0" y="0.0" width="1140" height="800"/>
