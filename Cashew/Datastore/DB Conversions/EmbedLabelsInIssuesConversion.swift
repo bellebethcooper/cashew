@@ -18,7 +18,7 @@ private struct MissingLabelsConversionIssue {
 @objc(SREmbedLabelsInIssuesConversion)
 class EmbedLabelsInIssuesConversion: NSObject {
     
-    func runConversion() {
+    @objc func runConversion() {
         DDLogDebug("Start EmbedLabelsInIssuesConversion")
         var issues = issuesWithNoEmbededLabel()
         while issues.count > 0 {

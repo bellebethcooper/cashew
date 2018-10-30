@@ -25,7 +25,7 @@ PODS:
   - hoedown (3.0.3):
     - hoedown/standard (= 3.0.3)
   - hoedown/standard (3.0.3)
-  - iRate (1.12.2)
+  - HotKey (0.1.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -35,7 +35,7 @@ DEPENDENCIES:
   - FMDB/FTS
   - FXKeychain (~> 1.5)
   - hoedown
-  - iRate (~> 1.11)
+  - HotKey
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -46,7 +46,7 @@ SPEC REPOS:
     - FMDB
     - FXKeychain
     - hoedown
-    - iRate
+    - HotKey
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -56,8 +56,8 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   FXKeychain: 2fe54573946ffef634f4e2a2851e6c8f4ea15e76
   hoedown: c1327bbbc96d269595ed86bf97f1d09867ec7529
-  iRate: 4fc69958788624545e5d050c8ffd20884013c3f1
+  HotKey: 0be143fd015544a63c51be6dc2066dbf455ced72
 
-PODFILE CHECKSUM: 3fdd6ec634308182993c287a18023ba7dcf8605c
+PODFILE CHECKSUM: e4ea0c3c8bca5df0d09fec6ff885efbea6602501
 
 COCOAPODS: 1.6.0.beta.2

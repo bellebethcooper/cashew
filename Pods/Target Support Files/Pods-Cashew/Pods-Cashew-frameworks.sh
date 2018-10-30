@@ -157,16 +157,16 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FXKeychain/FXKeychain.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/hoedown/hoedown.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/iRate/iRate.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FXKeychain/FXKeychain.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/hoedown/hoedown.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/iRate/iRate.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

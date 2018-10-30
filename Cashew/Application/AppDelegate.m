@@ -164,6 +164,10 @@
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
     
+    // set up global hotkey
+    HotKeySetup *hotkey = [HotKeySetup new];
+    [hotkey setUp];
+    
 #ifndef DEBUG
     [Fabric with:@[[Crashlytics class], [Answers class]]];
 #endif

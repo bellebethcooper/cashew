@@ -14,12 +14,12 @@ extension UserDefaults {
     
     
     
-    class func didRunEmbedLabelsInIssuesConversion() -> Bool {
+    @objc class func didRunEmbedLabelsInIssuesConversion() -> Bool {
         let value = UserDefaults.standard.bool(forKey: UserDefaults.embedLabelsInIssuesConversionDone)
         return value
     }
     
-    class func embedLabelsInIssuesConversionCompleted() {
+    @objc class func embedLabelsInIssuesConversionCompleted() {
         UserDefaults.standard.set(true, forKey: UserDefaults.embedLabelsInIssuesConversionDone)
         UserDefaults.standard.synchronize()
     }
