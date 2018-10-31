@@ -90,7 +90,7 @@
         if (!strongSelf) {
             return;
         }
-        strongSelf.titleTextField.textColor = [SRCashewColor foregroundColor];
+        strongSelf.titleTextField.textColor = [SRCashewColor foregroundSecondaryColor];
         strongSelf.titleContainerView.backgroundColor = [SRCashewColor selectedBackgroundColor];
         strongSelf.commentEditorView.backgroundColor = [SRCashewColor backgroundColor];
         strongSelf.view.wantsLayer = YES;
@@ -260,10 +260,14 @@
         BOOL isAuthor = [currentUser isEqual:issue.user];
         
         [self.titleTextField setEditable:isCollaborator || isAuthor];
-        [self.titleTextField setStringValue:_issue.title];
+        NSString *numberString = [NSString stringWithFormat:@"#%@", _issue.number];
+        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ • %@", numberString, _issue.title]];
+        NSRange numberRange = NSMakeRange(0, numberString.length);
+        [titleString addAttribute:NSForegroundColorAttributeName value:[SRCashewColor foregroundColor] range:numberRange];
+        [self.titleTextField setAttributedStringValue:[titleString copy]];
         self.assigneeButton.title = issue.assignee.login ?: @"Unassigned";
         self.milestoneButton.title = issue.milestone.title ?: @"No milestone";
-        self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"#%@ • %@ • Opened %@ by %@", issue.number, issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
+        self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"%@ • Opened %@ by %@", issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
         //Opened \(anIssue.createdAt.timeAgo()) by \(anIssue.user.login)
         if ([_issue.state isEqualToString:@"open"]) {
             self.issueStateBadgeView.open = true;
@@ -627,8 +631,7 @@
     self.activityTableView.selectionHighlightStyle = NSTableViewSelectionHighlightStyleNone;
 }
 
-- (void)_setupTitleLabels
-{
+- (void)_setupTitleLabels {
     SRBaseTextField *(^createAndAddQTextFieldToView)(BaseView *) = ^SRBaseTextField *(BaseView *parentView) {
         SRBaseTextField *view = [[SRBaseTextField alloc] init];
         

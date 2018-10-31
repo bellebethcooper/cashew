@@ -34,7 +34,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
     
     fileprivate var labelPopover: NSPopover?
     
-    var enabled: Bool  = true {
+    @objc var enabled: Bool  = true {
         didSet {
             tagButton.enabled = enabled
         }

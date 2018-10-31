@@ -11,7 +11,7 @@ import Foundation
 
 extension QAccount {
     
-    class func isCurrentUserCollaboratorOfRepository(_ repository: QRepository) -> Bool {
+    @objc class func isCurrentUserCollaboratorOfRepository(_ repository: QRepository) -> Bool {
         let account = QContext.shared().currentAccount
         return (account?.isCollaboratorOfRepository(repository))!
     }

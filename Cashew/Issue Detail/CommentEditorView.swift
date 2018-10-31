@@ -313,7 +313,7 @@ class CommentEditorView: BaseView {
         return size
     }
     
-    func clearText() {
+    @objc func clearText() {
         textView.string = ""
     }
     

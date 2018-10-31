@@ -30,12 +30,6 @@
             <rect key="frame" x="0.0" y="0.0" width="766" height="580"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="12" y="494" width="742" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" placeholder="YES" id="ry1-yy-qVn"/>
-                    </constraints>
-                </customView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Fm3-7G-VIc" customClass="SRBaseScrollView">
                     <rect key="frame" x="0.0" y="45" width="766" height="385"/>
                     <clipView key="contentView" id="7CJ-vD-296" customClass="SRBaseClipView">
@@ -163,7 +157,7 @@
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="TWo-el-Ygf">
-                            <rect key="frame" x="115" y="0.0" width="116" height="32"/>
+                            <rect key="frame" x="114" y="0.0" width="116" height="32"/>
                             <buttonCell key="cell" type="push" title="Milestone" bezelStyle="rounded" image="milestone" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jme-Sn-7ic">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -173,7 +167,7 @@
                             </connections>
                         </button>
                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="h1V-jf-LjD">
-                            <rect key="frame" x="7" y="-1" width="108" height="32"/>
+                            <rect key="frame" x="6" y="-1" width="108" height="32"/>
                             <buttonCell key="cell" type="push" title="Assignee" bezelStyle="rounded" image="person" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Q5s-sZ-Cwt">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
@@ -183,7 +177,7 @@
                             </connections>
                         </button>
                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="rbu-YT-M8o">
-                            <rect key="frame" x="225" y="0.0" width="117" height="32"/>
+                            <rect key="frame" x="230" y="0.0" width="117" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="105" id="EtC-3U-HNt"/>
                             </constraints>
@@ -211,7 +205,7 @@
                         </button>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="h1V-jf-LjD" firstAttribute="leading" secondItem="Sjp-0r-kES" secondAttribute="leading" constant="13" placeholder="YES" id="8Uz-oh-GAl"/>
+                        <constraint firstItem="h1V-jf-LjD" firstAttribute="leading" secondItem="Sjp-0r-kES" secondAttribute="leading" constant="12" placeholder="YES" id="8Uz-oh-GAl"/>
                         <constraint firstItem="h1V-jf-LjD" firstAttribute="centerY" secondItem="Sjp-0r-kES" secondAttribute="centerY" id="Pvd-d6-LDf"/>
                         <constraint firstItem="OHG-Ln-2mq" firstAttribute="leading" secondItem="Sjp-0r-kES" secondAttribute="leading" id="Q8d-Jj-UL4"/>
                         <constraint firstItem="7Oa-hr-PRf" firstAttribute="centerY" secondItem="Sjp-0r-kES" secondAttribute="centerY" id="QUh-w6-Ojz"/>
@@ -222,7 +216,7 @@
                         <constraint firstAttribute="trailing" secondItem="7Oa-hr-PRf" secondAttribute="trailing" constant="10" id="ejj-v0-hvf"/>
                         <constraint firstAttribute="trailing" secondItem="OHG-Ln-2mq" secondAttribute="trailing" id="hbD-er-scw"/>
                         <constraint firstAttribute="height" constant="34" id="jo2-bF-5bd"/>
-                        <constraint firstItem="rbu-YT-M8o" firstAttribute="leading" secondItem="TWo-el-Ygf" secondAttribute="trailing" constant="6" placeholder="YES" id="qM4-vN-vXQ"/>
+                        <constraint firstItem="rbu-YT-M8o" firstAttribute="leading" secondItem="TWo-el-Ygf" secondAttribute="trailing" constant="12" placeholder="YES" id="qM4-vN-vXQ"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
@@ -241,15 +235,21 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="12" y="494" width="742" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" placeholder="YES" id="ry1-yy-qVn"/>
+                    </constraints>
+                </customView>
             </subviews>
             <constraints>
                 <constraint firstItem="Fm3-7G-VIc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="2KA-JL-wjX"/>
                 <constraint firstItem="Jr0-Ma-Me5" firstAttribute="top" secondItem="Fm3-7G-VIc" secondAttribute="bottom" priority="499" id="2r0-eD-yLF"/>
                 <constraint firstItem="jLj-be-j7h" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="leading" id="3Rp-No-Afz"/>
                 <constraint firstItem="76J-v4-1pp" firstAttribute="top" secondItem="jLj-be-j7h" secondAttribute="bottom" constant="40" id="6S0-bO-xAl"/>
-                <constraint firstItem="pSU-wr-ypB" firstAttribute="top" secondItem="Sjp-0r-kES" secondAttribute="bottom" constant="12" id="BYW-og-Gey"/>
                 <constraint firstItem="Sjp-0r-kES" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="ITQ-EJ-dHx"/>
                 <constraint firstAttribute="trailing" secondItem="Jr0-Ma-Me5" secondAttribute="trailing" id="Lj5-cR-I89"/>
+                <constraint firstItem="pSU-wr-ypB" firstAttribute="top" secondItem="Sjp-0r-kES" secondAttribute="bottom" constant="12" id="PbQ-o3-t2l"/>
                 <constraint firstAttribute="trailing" secondItem="Fm3-7G-VIc" secondAttribute="trailing" id="bFc-7B-O4A"/>
                 <constraint firstItem="Jr0-Ma-Me5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="brp-tc-ZY0"/>
                 <constraint firstItem="76J-v4-1pp" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="elV-ag-vvW"/>

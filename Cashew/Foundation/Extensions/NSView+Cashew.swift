@@ -11,7 +11,7 @@ import Foundation
 
 extension NSView {
     
-    public func pinAnchorsToSuperview() {
+    @objc public func pinAnchorsToSuperview() {
         guard let superview = superview else { return }
         translatesAutoresizingMaskIntoConstraints = false
         leftAnchor.constraint(equalTo: superview.leftAnchor).isActive = true
