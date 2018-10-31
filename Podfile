@@ -9,7 +9,6 @@ pod 'FMDB/FTS'
 pod 'Fabric'
 pod 'Crashlytics'
 pod 'hoedown'
-pod 'HotKey' # global keyboard shortcut
 pod 'CocoaLumberjack/Swift'
 
 end
