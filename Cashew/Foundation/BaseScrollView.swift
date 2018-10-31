@@ -50,7 +50,6 @@ class BaseScrollView: NSScrollView {
     override class var isCompatibleWithResponsiveScrolling: Bool {
         return true
     }
-
     
     fileprivate func setup() {
         self.wantsLayer = true
@@ -68,7 +67,6 @@ class BaseScrollView: NSScrollView {
                 ThemeObserverController.sharedInstance.removeThemeObserver(strongSelf)
                 return;
             }
-            strongSelf.backgroundColor = CashewColor.backgroundColor()
         }
     }
     

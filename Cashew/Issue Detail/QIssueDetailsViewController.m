@@ -268,7 +268,6 @@
         self.assigneeButton.title = issue.assignee.login ?: @"Unassigned";
         self.milestoneButton.title = issue.milestone.title ?: @"No milestone";
         self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"%@ • Opened %@ by %@", issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
-        //Opened \(anIssue.createdAt.timeAgo()) by \(anIssue.user.login)
         if ([_issue.state isEqualToString:@"open"]) {
             self.issueStateBadgeView.open = true;
             self.issueStateBadgeView.toolTip = @"Click to close issue";

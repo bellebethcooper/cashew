@@ -94,8 +94,8 @@ class QIssueLabelView: BaseView {
         // only if the brightness is < 0.6 or whatever
         func adjustedBrightness(for color: NSColor) -> CGFloat {
             var brightness = color.brightnessComponent
-            if brightness > 0.8 {
-                brightness = max(viewModel.color.brightnessComponent - 0.2, 0.0)
+            if brightness > 0.9 {
+                brightness = viewModel.color.brightnessComponent - 0.2
             }
             return brightness
         }

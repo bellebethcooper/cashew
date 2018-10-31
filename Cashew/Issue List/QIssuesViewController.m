@@ -60,7 +60,7 @@ static NSString *kQTitleKey = @"Title";
 @property (weak) IBOutlet BaseView *createIssueCircleImageView;
 @property (weak) IBOutlet NSImageView *createImageView;
 @property (weak) IBOutlet SRBaseTableView *tableView;
-@property (weak) IBOutlet NSScrollView *scrollView;
+@property (weak) IBOutlet SRBaseScrollView *scrollView;
 @property (weak) IBOutlet NSTextField *createIssueLabel;
 @property (weak) IBOutlet SRBasePopupButton *sortByButton;
 @property (weak) IBOutlet NSTextField *numberOfIssuesLabel;
