@@ -41,7 +41,7 @@ class IssueStateBadgeView: BaseView {
     
     override var intrinsicContentSize: NSSize {
         get {
-            return NSSize(width: 5 * 3 + imageView.intrinsicContentSize.width + label.intrinsicContentSize.width, height: 36)
+            return NSSize(width: 5 * 4 + imageView.intrinsicContentSize.width + label.intrinsicContentSize.width, height: 40)
         }
     }
     

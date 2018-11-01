@@ -94,12 +94,11 @@ class IssueDetailLabelsTableViewCell: BaseView {
         let color = NSColor(calibratedWhite: 147/255.0, alpha: 0.85)
         self.addLabelButton.wantsLayer = true
         self.addLabelButton.image = self.addLabelButton.image?.withTintColor(color)
-        self.addLabelButton.layer?.borderWidth = 1
-        self.addLabelButton.layer?.borderColor = color.cgColor
-        self.addLabelButton.layer?.cornerRadius = self.addLabelButton.bounds.height / 2.0
-//        self.addLabelButton.layer?.backgroundColor = CashewColor.selectedBackgroundColor().cgColor
-//        self.tagButton.wantsLayer = true
-//        self.tagButton.layer?.backgroundColor = CashewColor.selectedBackgroundColor().cgColor
+        if #available(OSX 10.14, *) {
+            self.addLabelButton.contentTintColor = CashewColor.foregroundTertiaryColor()
+        } else {
+            // Fallback on earlier versions
+        }
         
         let clickRecognizer = NSClickGestureRecognizer(target: self, action: #selector(IssueDetailLabelsTableViewCell.didClickAddLabel(_:)))
         clickRecognizer.numberOfClicksRequired = 1

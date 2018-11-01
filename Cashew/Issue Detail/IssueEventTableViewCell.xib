@@ -1,22 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" id="c22-O7-iKe" customClass="IssueEventTableViewCell" customModule="Cashew" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="36"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="57"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="CCO-2i-eKi" userLabel="ContainerView">
-                    <rect key="frame" x="0.0" y="6" width="480" height="24"/>
+                    <rect key="frame" x="0.0" y="8" width="480" height="41"/>
                     <subviews>
                         <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T71-0k-0PX" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="5" y="0.0" width="24" height="24"/>
+                            <rect key="frame" x="5" y="-2" width="24" height="24"/>
                             <subviews>
                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QDr-O3-vz5">
                                     <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
@@ -25,6 +26,7 @@
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="3L2-dl-05p"/>
+                                <constraint firstItem="QDr-O3-vz5" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" id="3pB-Sz-XxU"/>
                                 <constraint firstAttribute="trailing" secondItem="QDr-O3-vz5" secondAttribute="trailing" id="41H-5W-And"/>
                                 <constraint firstAttribute="width" constant="24" id="Pg3-4m-an9"/>
                                 <constraint firstItem="QDr-O3-vz5" firstAttribute="top" secondItem="T71-0k-0PX" secondAttribute="top" id="QQ6-J3-pqZ"/>
@@ -41,9 +43,9 @@
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <textField verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nTZ-hL-TFj">
-                            <rect key="frame" x="32" y="4" width="445" height="16"/>
+                            <rect key="frame" x="39" y="12" width="438" height="17"/>
                             <textFieldCell key="cell" selectable="YES" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="hishboy commented 3 days ago" id="Ltt-kc-mo7">
-                                <font key="font" metaFont="cellTitle"/>
+                                <font key="font" metaFont="system"/>
                                 <color key="textColor" red="0.41568627450000001" green="0.41568627450000001" blue="0.41568627450000001" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -51,18 +53,18 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="T71-0k-0PX" firstAttribute="leading" secondItem="CCO-2i-eKi" secondAttribute="leading" constant="5" id="C5C-sk-W8a"/>
-                        <constraint firstItem="T71-0k-0PX" firstAttribute="top" secondItem="CCO-2i-eKi" secondAttribute="top" id="DuV-fr-erJ"/>
-                        <constraint firstAttribute="bottom" secondItem="nTZ-hL-TFj" secondAttribute="bottom" constant="4" id="EID-Ua-cuJ"/>
-                        <constraint firstItem="nTZ-hL-TFj" firstAttribute="top" secondItem="CCO-2i-eKi" secondAttribute="top" constant="4" id="F0w-6g-Mn2"/>
-                        <constraint firstItem="nTZ-hL-TFj" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="trailing" constant="5" id="hZF-XO-sd9"/>
+                        <constraint firstItem="nTZ-hL-TFj" firstAttribute="top" secondItem="CCO-2i-eKi" secondAttribute="top" constant="12" id="P4g-X1-bSq"/>
+                        <constraint firstItem="T71-0k-0PX" firstAttribute="centerY" secondItem="CCO-2i-eKi" secondAttribute="centerY" constant="11" id="X1g-As-2eu"/>
+                        <constraint firstAttribute="bottom" secondItem="nTZ-hL-TFj" secondAttribute="bottom" constant="12" id="ewF-6L-bCq"/>
+                        <constraint firstItem="nTZ-hL-TFj" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="trailing" constant="12" id="hZF-XO-sd9"/>
                         <constraint firstAttribute="trailing" secondItem="nTZ-hL-TFj" secondAttribute="trailing" constant="5" id="rm6-hI-NQK"/>
                     </constraints>
                 </customView>
             </subviews>
             <constraints>
                 <constraint firstItem="CCO-2i-eKi" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="1ae-1j-xfz"/>
-                <constraint firstAttribute="bottom" secondItem="CCO-2i-eKi" secondAttribute="bottom" constant="6" id="Auu-hu-fYO"/>
-                <constraint firstItem="CCO-2i-eKi" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="6" id="gZp-bn-S01"/>
+                <constraint firstAttribute="bottom" secondItem="CCO-2i-eKi" secondAttribute="bottom" constant="8" id="Auu-hu-fYO"/>
+                <constraint firstItem="CCO-2i-eKi" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="8" id="gZp-bn-S01"/>
                 <constraint firstAttribute="trailing" secondItem="CCO-2i-eKi" secondAttribute="trailing" id="vQL-QR-WlM"/>
             </constraints>
             <connections>
@@ -70,7 +72,7 @@
                 <outlet property="eventImageContainerView" destination="T71-0k-0PX" id="h8f-T3-a4E"/>
                 <outlet property="eventImageView" destination="QDr-O3-vz5" id="y6N-1r-j80"/>
             </connections>
-            <point key="canvasLocation" x="148" y="179.5"/>
+            <point key="canvasLocation" x="148" y="155.5"/>
         </customView>
     </objects>
 </document>

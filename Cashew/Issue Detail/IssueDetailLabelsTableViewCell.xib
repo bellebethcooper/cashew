@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner"/>
@@ -12,27 +13,8 @@
             <rect key="frame" x="0.0" y="0.0" width="630" height="35"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="rkk-Rg-q6x" customClass="IssueDetailsLabelTagButton" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="594" y="0.0" width="30" height="35"/>
-                    <subviews>
-                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iUG-Ih-Yrc">
-                            <rect key="frame" x="5" y="8" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="QfF-5k-EGG"/>
-                                <constraint firstAttribute="width" constant="20" id="mLB-7H-cJo"/>
-                            </constraints>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="tag" id="6qh-Cs-vlu"/>
-                        </imageView>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="30" id="3lV-PP-WRU"/>
-                        <constraint firstAttribute="height" constant="35" id="JuM-fg-L7n"/>
-                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerX" secondItem="rkk-Rg-q6x" secondAttribute="centerX" id="Kkg-P3-Jog"/>
-                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerY" secondItem="rkk-Rg-q6x" secondAttribute="centerY" id="RJY-CQ-LmJ"/>
-                    </constraints>
-                </customView>
                 <textField hidden="YES" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="vtW-L6-eKr">
-                    <rect key="frame" x="10" y="9" width="536" height="17"/>
+                    <rect key="frame" x="40" y="9" width="123" height="17"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="17" placeholder="YES" id="alS-D8-hEn"/>
                     </constraints>
@@ -42,8 +24,27 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="rkk-Rg-q6x" customClass="IssueDetailsLabelTagButton" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="30" height="35"/>
+                    <subviews>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iUG-Ih-Yrc">
+                            <rect key="frame" x="5" y="8" width="20" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="QfF-5k-EGG"/>
+                                <constraint firstAttribute="width" constant="20" id="mLB-7H-cJo"/>
+                            </constraints>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="label" id="6qh-Cs-vlu"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="3lV-PP-WRU"/>
+                        <constraint firstAttribute="height" constant="35" id="JuM-fg-L7n"/>
+                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerX" secondItem="rkk-Rg-q6x" secondAttribute="centerX" id="Kkg-P3-Jog"/>
+                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerY" secondItem="rkk-Rg-q6x" secondAttribute="centerY" constant="-5.5" id="RJY-CQ-LmJ"/>
+                    </constraints>
+                </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="dXu-iu-W8D" customClass="QIssueLabelContainerView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="12" y="0.0" width="582" height="35"/>
+                    <rect key="frame" x="42" y="0.0" width="576" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="sJS-bf-0KK"/>
                     </constraints>
@@ -57,14 +58,12 @@
             <constraints>
                 <constraint firstItem="vtW-L6-eKr" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="3fu-Ll-Rsa"/>
                 <constraint firstAttribute="bottom" secondItem="dXu-iu-W8D" secondAttribute="bottom" id="6Bw-yT-dHc"/>
-                <constraint firstAttribute="bottom" secondItem="rkk-Rg-q6x" secondAttribute="bottom" id="NlJ-1Q-x4h"/>
-                <constraint firstItem="rkk-Rg-q6x" firstAttribute="leading" secondItem="dXu-iu-W8D" secondAttribute="trailing" id="VZK-n8-Fb6"/>
-                <constraint firstItem="rkk-Rg-q6x" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="aCt-IM-z1a"/>
+                <constraint firstItem="rkk-Rg-q6x" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="KbX-w9-FX7"/>
+                <constraint firstItem="dXu-iu-W8D" firstAttribute="leading" secondItem="vtW-L6-eKr" secondAttribute="leading" id="cb3-WC-0fZ"/>
                 <constraint firstItem="dXu-iu-W8D" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="fXm-dA-o6z"/>
-                <constraint firstItem="rkk-Rg-q6x" firstAttribute="leading" secondItem="vtW-L6-eKr" secondAttribute="trailing" constant="50" id="joX-M2-jjA"/>
-                <constraint firstAttribute="trailing" secondItem="rkk-Rg-q6x" secondAttribute="trailing" constant="6" id="qeU-0B-dHg"/>
-                <constraint firstItem="dXu-iu-W8D" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="12" id="snl-vQ-wmd"/>
-                <constraint firstItem="vtW-L6-eKr" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="12" id="tm9-CY-ldE"/>
+                <constraint firstAttribute="trailing" secondItem="dXu-iu-W8D" secondAttribute="trailing" constant="12" id="pwJ-4S-SYU"/>
+                <constraint firstItem="dXu-iu-W8D" firstAttribute="leading" secondItem="rkk-Rg-q6x" secondAttribute="trailing" constant="12" id="tsB-pp-MjE"/>
+                <constraint firstItem="rkk-Rg-q6x" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="yzY-og-40K"/>
             </constraints>
             <connections>
                 <outlet property="addLabelButton" destination="iUG-Ih-Yrc" id="dsp-bO-Mi3"/>
@@ -76,6 +75,6 @@
         </customView>
     </objects>
     <resources>
-        <image name="tag" width="11" height="12"/>
+        <image name="label" width="22" height="22"/>
     </resources>
 </document>

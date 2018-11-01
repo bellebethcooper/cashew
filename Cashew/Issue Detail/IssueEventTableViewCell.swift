@@ -12,15 +12,15 @@ class IssueEventTableViewCell: BaseView {
     
     fileprivate static let verticalPadding: CGFloat = 10.0
     fileprivate static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 37.0
-    fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 12, weight: NSFont.Weight.semibold)]
+    fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)]
     
     @IBOutlet weak var eventDetailsLabel: NSTextField!
     @IBOutlet weak var eventImageView: NSImageView!
     @IBOutlet weak var eventImageContainerView: BaseView!
     
-    var onHeightChanged: (()->())?
+    @objc var onHeightChanged: (()->())?
     
-    var issueEvent: IssueEventInfo? {
+    @objc var issueEvent: IssueEventInfo? {
         didSet {
             didSetIssueEvent()
         }
@@ -53,12 +53,13 @@ class IssueEventTableViewCell: BaseView {
                 return;
             }
             
+            strongSelf.eventDetailsLabel.font = NSFont.systemFont(ofSize: 13, weight: .light)
             if mode == .light {
                 strongSelf.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
-                strongSelf.eventDetailsLabel.textColor = LightModeColor.sharedInstance.foregroundTertiaryColor()
+                strongSelf.eventDetailsLabel.textColor = LightModeColor.sharedInstance.foregroundSecondaryColor()
             } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
-                strongSelf.eventDetailsLabel.textColor = DarkModeColor.sharedInstance.foregroundTertiaryColor()
+                strongSelf.eventDetailsLabel.textColor = DarkModeColor.sharedInstance.foregroundSecondaryColor()
             }
             
             strongSelf.didSetIssueEvent()
@@ -76,7 +77,7 @@ class IssueEventTableViewCell: BaseView {
             color = DarkModeColor.sharedInstance.foregroundSecondaryColor()
         }
         
-        let attr = [NSAttributedStringKey.font.rawValue: NSFont.systemFont(ofSize: 12, weight: NSFont.Weight.semibold), NSAttributedStringKey.foregroundColor: color] as [AnyHashable : NSObject]
+        let attr = [NSAttributedStringKey.font.rawValue: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold), NSAttributedStringKey.foregroundColor: color] as [AnyHashable : NSObject]
         return attr as! [NSAttributedStringKey : NSObject]
     }
     

@@ -24,10 +24,9 @@
 
 @property (weak) IBOutlet BaseView *toolbarContainerView;
 
-@property (nonatomic) IBOutlet NSButton *assigneeButton;
+@property (weak) IBOutlet BaseView *milestoneContainerView;
 @property (nonatomic) IBOutlet NSButton *milestoneButton;
-@property (weak) IBOutlet NSButton *extensionButton;
-
+@property (nonatomic) SRBaseTextField *milestoneTextField;
 
 @property (weak) IBOutlet SRBaseScrollView *activityScrollView;
 @property (weak) IBOutlet NSTableView *activityTableView;
@@ -35,15 +34,17 @@
 @property (weak) IBOutlet BaseView *titleContainerView;
 @property (nonatomic) SRBaseTextField *titleTextField;
 
+@property (weak) IBOutlet BaseView *assigneeContainerView;
+@property (nonatomic) IBOutlet NSButton *assigneeButton;
+@property (nonatomic) SRBaseTextField *assigneeTextField;
+
 @property (nonatomic) NSCache *editableFieldsCache;
 
 @property (weak) IBOutlet CommentEditorView *commentEditorView;
 @property (weak) IBOutlet BaseView *commentEditorContainerView;
-@property (weak) IBOutlet BaseView *titleSeparatorView;
-
-//@property (nonatomic) SRCoalescer *setIssueCoalescer;
 
 @property (nonatomic) SRIssueStateBadgeView *issueStateBadgeView;
+@property (nonatomic) NSTextField *issueNumberLabel;
 
 @property (nonatomic) NSPopover *assigneePopover;
 @property (nonatomic) NSPopover *milestonePopover;
@@ -51,7 +52,6 @@
 
 @property (nonatomic) SRIssueDetailLabelsTableViewCell *labelsTableViewCell;
 @property (strong) IBOutlet BaseView *noIssueSelectedView;
-@property (weak) IBOutlet NSButton *favoriteButton;
 @property (weak) IBOutlet IssueTableViewCellTextField *headerSubtitleTextField;
 @property (weak) IBOutlet NSButton *menuButton;
 
@@ -91,10 +91,10 @@
             return;
         }
         strongSelf.titleTextField.textColor = [SRCashewColor foregroundSecondaryColor];
-        strongSelf.titleContainerView.backgroundColor = [SRCashewColor selectedBackgroundColor];
+        strongSelf.titleContainerView.backgroundColor = [SRCashewColor backgroundColor];
         strongSelf.commentEditorView.backgroundColor = [SRCashewColor backgroundColor];
         strongSelf.view.wantsLayer = YES;
-        strongSelf.view.layer.backgroundColor = [[SRCashewColor selectedBackgroundColor] CGColor];
+        strongSelf.view.layer.backgroundColor = [[SRCashewColor backgroundColor] CGColor];
         [strongSelf.editableFieldsCache removeAllObjects];
         [strongSelf.activityTableView reloadData];
         
@@ -103,7 +103,6 @@
         } else {
             strongSelf.titleTextField.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantLight];
         }
-        [strongSelf _updateFavoriteButtonState];
     }];
     
     
@@ -145,7 +144,6 @@
         });
     }];
     
-    self.titleSeparatorView.hidden = true;
     [_activityScrollView setAutohidesScrollers:YES];
     [_activityScrollView setScrollerStyle:NSScrollerStyleOverlay];
     
@@ -154,6 +152,8 @@
   
     [self _setupToolbarView];
     [self _setupTitleLabels];
+    [self _setupMilestoneLabels];
+    [self _setupAssigneeLabels];
     [self _setupActivityTableView];
     [self _setupCommentEditorView];
     [self _setupLabelsContainerView];
@@ -201,28 +201,6 @@
     //  }];
 }
 
-- (void)_updateFavoriteButtonState
-{
-    if (!self.issue) {
-        self.favoriteButton.toolTip = nil;
-        return;
-    }
-    BOOL isFavorited = [QIssueFavoriteStore isFavoritedIssue:self.issue];
-    if (isFavorited) {
-        NSImage *image = [NSImage imageNamed:@"filled_star"];
-        self.favoriteButton.toolTip = @"Click to unfavorite issue";
-        self.favoriteButton.image = [image imageWithTintColor:[SRCashewColor yellowColor]];
-    } else {
-        NSImage *image = [NSImage imageNamed:@"unfilled_star"];
-        self.favoriteButton.toolTip = @"Click to favorite issue";
-        self.favoriteButton.image = [image imageWithTintColor:[SRCashewColor foregroundSecondaryColor]];
-    }
-    
-    if (self.favoriteButton.hidden) {
-        self.favoriteButton.hidden = false;
-    }
-}
-
 - (void)_updateIssue:(QIssue *)issue
 {
     NSParameterAssert([NSThread mainThread]);
@@ -260,14 +238,11 @@
         BOOL isAuthor = [currentUser isEqual:issue.user];
         
         [self.titleTextField setEditable:isCollaborator || isAuthor];
-        NSString *numberString = [NSString stringWithFormat:@"#%@", _issue.number];
-        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ • %@", numberString, _issue.title]];
-        NSRange numberRange = NSMakeRange(0, numberString.length);
-        [titleString addAttribute:NSForegroundColorAttributeName value:[SRCashewColor foregroundColor] range:numberRange];
-        [self.titleTextField setAttributedStringValue:[titleString copy]];
+        [self.titleTextField setStringValue:_issue.title];
         self.assigneeButton.title = issue.assignee.login ?: @"Unassigned";
         self.milestoneButton.title = issue.milestone.title ?: @"No milestone";
         self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"%@ • Opened %@ by %@", issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
+        self.issueNumberLabel.stringValue = [NSString stringWithFormat:@"#%@", issue.number];
         if ([_issue.state isEqualToString:@"open"]) {
             self.issueStateBadgeView.open = true;
             self.issueStateBadgeView.toolTip = @"Click to close issue";
@@ -279,9 +254,6 @@
         [self.issueStateBadgeView layoutSubtreeIfNeeded];
         
         self.labelsTableViewCell.viewModel = [[SRIssueDetailLabelsTableViewModel alloc] initWithIssue:issue];
-        
-        [self _updateFavoriteButtonState];
-        
 
         self.issueStateBadgeView.hidden = false;
         
@@ -290,7 +262,6 @@
         self.assigneeButton.enabled = isCollaborator;
         self.issueStateBadgeView.enabled = isCollaborator || isAuthor;
         self.labelsTableViewCell.enabled = isCollaborator;
-        self.extensionButton.enabled = isCollaborator;
         
         SRIssueDetailLabelsTableViewCell *cell = self.labelsTableViewCell;
         if (cell) {
@@ -355,19 +326,27 @@
 {
     self.milestoneButton.image.template = true;
     self.assigneeButton.image.template = true;
-    self.extensionButton.image.size = NSMakeSize(12, 12);
-    self.extensionButton.image.template = true;
     self.menuButton.image.template = true;
+    if (@available(macOS 10.14, *)) {
+        [self.menuButton setContentTintColor: [SRCashewColor foregroundTertiaryColor]];
+    }
+    [self.menuButton setBordered:NO];
 
     self.milestoneButton.toolTip = @"Click to change milestone";
     self.assigneeButton.toolTip = @"Click to change assignee";
     
-
+    self.issueNumberLabel = [NSTextField new];
+    [self.toolbarContainerView addSubview:self.issueNumberLabel];
+    self.issueNumberLabel.translatesAutoresizingMaskIntoConstraints = false;
+    self.issueNumberLabel.stringValue = @"#0";
+    
     self.issueStateBadgeView = [[SRIssueStateBadgeView alloc] initWithOpen:false];
     [self.toolbarContainerView addSubview:self.issueStateBadgeView];
     self.issueStateBadgeView.translatesAutoresizingMaskIntoConstraints = false;
     
-    [self.issueStateBadgeView.leftAnchor constraintEqualToAnchor:self.toolbarContainerView.leftAnchor constant:4.0].active = true;
+    [self.issueNumberLabel.leadingAnchor constraintEqualToAnchor:self.toolbarContainerView.leadingAnchor].active = true;
+    [self.issueNumberLabel.centerYAnchor constraintEqualToAnchor:self.toolbarContainerView.centerYAnchor].active = true;
+    [self.issueStateBadgeView.leadingAnchor constraintEqualToAnchor:self.issueNumberLabel.trailingAnchor constant:12].active = true;
     [self.issueStateBadgeView.centerYAnchor constraintEqualToAnchor:self.toolbarContainerView.centerYAnchor].active = true;
     [self.issueStateBadgeView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
     [self.issueStateBadgeView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
@@ -375,12 +354,6 @@
     
     self.assigneeButton.translatesAutoresizingMaskIntoConstraints = false;
     self.milestoneButton.translatesAutoresizingMaskIntoConstraints = false;
-    
-    [self.assigneeButton.leftAnchor constraintEqualToAnchor:self.issueStateBadgeView.rightAnchor constant:4.0].active = true;
-    [self.milestoneButton.leftAnchor constraintEqualToAnchor:self.assigneeButton.rightAnchor constant:4.0].active = true;
-    
-    [self.extensionButton.leftAnchor constraintEqualToAnchor:self.milestoneButton.rightAnchor constant:4.0].active = true;
-    [self.extensionButton.rightAnchor constraintLessThanOrEqualToAnchor:self.menuButton.leftAnchor constant:-12.0].active = true;
     
     __weak QIssueDetailsViewController *weakSelf = self;
     self.issueStateBadgeView.onClick = ^{
@@ -510,16 +483,6 @@
         [popover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSRectEdgeMaxY];
         milestonePickerController.popover = popover;
         
-    } else if (sender == self.extensionButton) {
-
-        
-        NSMenu *menu = [SRMenuUtilities menuForExtensions];
-        NSPoint pointInWindow = [self.extensionButton convertPoint:CGPointZero toView:nil];
-        NSPoint point = NSMakePoint(pointInWindow.x, pointInWindow.y - self.extensionButton.frame.size.height);
-        NSEvent *popupEvent = [NSEvent mouseEventWithType:NSLeftMouseUp location:point modifierFlags:[NSApp currentEvent].modifierFlags timestamp:0 windowNumber:self.view.window.windowNumber context:nil eventNumber:0 clickCount:0 pressure:0];
-        
-        [SRMenu popUpContextMenu:menu withEvent:popupEvent forView:self.extensionButton];
-        
     }
 }
 
@@ -630,6 +593,90 @@
     self.activityTableView.selectionHighlightStyle = NSTableViewSelectionHighlightStyleNone;
 }
 
+- (void)_setupMilestoneLabels {
+    SRBaseTextField *(^createAndAddQTextFieldToView)(BaseView *) = ^SRBaseTextField *(BaseView *parentView) {
+        SRBaseTextField *view = [[SRBaseTextField alloc] init];
+        
+        view.drawsBackground = false;
+        view.bordered = false;
+        view.cell.wraps = NO;
+        view.lineBreakMode = NSLineBreakByTruncatingTail;
+        [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.milestoneButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [parentView addSubview:view];
+        [parentView addSubview:self.milestoneButton];
+        
+        if (@available(macOS 10.14, *)) {
+            [self.milestoneButton setContentTintColor:[SRCashewColor foregroundTertiaryColor]];
+        }
+        
+        [self.milestoneButton.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
+        [self.milestoneButton.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
+        [self.milestoneButton.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
+        [self.milestoneButton setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+        
+        [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+        [view.leadingAnchor constraintEqualToAnchor:self.milestoneButton.trailingAnchor constant:8].active = YES;
+        [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
+        
+        [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
+        [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
+        
+        return view;
+    };
+    
+    self.milestoneTextField = createAndAddQTextFieldToView(_milestoneContainerView);
+    self.milestoneTextField.textColor = [SRCashewColor foregroundSecondaryColor];
+    self.milestoneTextField.delegate = self;
+    [self.milestoneTextField setFont:[NSFont systemFontOfSize:15]];
+    [self.milestoneTextField setEditable:NO];
+    self.milestoneTextField.usesSingleLineMode = true;
+    [(NSTextFieldCell *)self.milestoneTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
+    [self.milestoneTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
+}
+
+- (void)_setupAssigneeLabels {
+    SRBaseTextField *(^createAndAddQTextFieldToView)(BaseView *) = ^SRBaseTextField *(BaseView *parentView) {
+        SRBaseTextField *view = [[SRBaseTextField alloc] init];
+        
+        view.drawsBackground = false;
+        view.bordered = false;
+        view.cell.wraps = NO;
+        view.lineBreakMode = NSLineBreakByTruncatingTail;
+        [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.assigneeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [parentView addSubview:view];
+        [parentView addSubview:self.assigneeButton];
+        
+        if (@available(macOS 10.14, *)) {
+            [self.assigneeButton setContentTintColor:[SRCashewColor foregroundTertiaryColor]];
+        }
+        
+        [self.assigneeButton.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
+        [self.assigneeButton.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
+        [self.assigneeButton.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
+        [self.assigneeButton setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+        
+        [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+        [view.leadingAnchor constraintEqualToAnchor:self.assigneeButton.trailingAnchor constant:8].active = YES;
+        [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
+        
+        [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
+        [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
+        
+        return view;
+    };
+    
+    self.assigneeTextField = createAndAddQTextFieldToView(_assigneeContainerView);
+    self.assigneeTextField.textColor = [SRCashewColor foregroundSecondaryColor];
+    self.assigneeTextField.delegate = self;
+    [self.assigneeTextField setFont:[NSFont systemFontOfSize:15]];
+    [self.assigneeTextField setEditable:NO];
+    self.assigneeTextField.usesSingleLineMode = true;
+    [(NSTextFieldCell *)self.assigneeTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
+    [self.assigneeTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
+}
+
 - (void)_setupTitleLabels {
     SRBaseTextField *(^createAndAddQTextFieldToView)(BaseView *) = ^SRBaseTextField *(BaseView *parentView) {
         SRBaseTextField *view = [[SRBaseTextField alloc] init];
@@ -641,7 +688,8 @@
         [view setTranslatesAutoresizingMaskIntoConstraints:NO];
         [parentView addSubview:view];
         
-        [view.leftAnchor constraintEqualToAnchor:parentView.leftAnchor].active = YES;
+        [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+        [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
         
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
@@ -653,27 +701,13 @@
     self.titleTextField = createAndAddQTextFieldToView(_titleContainerView);
     self.titleTextField.textColor = [SRCashewColor foregroundSecondaryColor];
     self.titleTextField.delegate = self;
-    [self.titleTextField setFont:[NSFont systemFontOfSize:16]];
+    [self.titleTextField setFont:[NSFont systemFontOfSize:15]];
     [self.titleTextField setEditable:NO];
     self.titleTextField.usesSingleLineMode = true;
     [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
     [self.titleTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
     
-//    self.numberTextField = createAndAddQTextFieldToView(_numberContainerView);
-//    [self.numberTextField setEditable:NO];
-//    [self.numberTextField setFont:[NSFont systemFontOfSize:26 weight:NSFontWeightLight]];
-//    [self.numberTextField setTextColor:[NSColor colorWithWhite:154/255. alpha:1]];
-//    
-//    [self.numberTextField setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-//    [self.numberTextField setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-//    [self.numberTextField setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-//    [self.numberTextField setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-//    
-//    NSClickGestureRecognizer *clickGesture = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(_openURLForCurrentIssue:)];
-//    clickGesture.numberOfClicksRequired = 1;
-//    [self.numberTextField addGestureRecognizer:clickGesture];
-    
-    
+    self.headerSubtitleTextField.textColor = [SRCashewColor foregroundTertiaryColor];
 }
 
 - (IBAction)_openURLForCurrentIssue:(id)sender
@@ -1071,21 +1105,10 @@
 }
 
 
-#pragma mark - Scroll View
-- (void)scrollViewDidScroll:(NSNotification *)notification
-{
-    self.titleSeparatorView.hidden = (self.activityScrollView.documentVisibleRect.origin.y <= 0);
-}
-
 #pragma mark - QStoreObserver
 
-- (void)store:(Class)store didInsertRecord:(id)record;
-{
-    if (store == QIssueFavoriteStore.class && [record isKindOfClass:QIssue.class]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self _updateFavoriteButtonState];
-        });
-    }
+- (void)store:(Class)store didInsertRecord:(id)record {
+    
 }
 
 - (void)store:(Class)store didUpdateRecord:(id)record;
@@ -1100,23 +1123,12 @@
     }
 }
 
-- (void)store:(Class)store didRemoveRecord:(id)record;
-{
-    if (store == QIssueFavoriteStore.class && [record isKindOfClass:QIssue.class]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self _updateFavoriteButtonState];
-        });
-    }
+- (void)store:(Class)store didRemoveRecord:(id)record {
 }
 
-- (IBAction)didClickFavoriteButton:(id)sender
-{
-    BOOL isFavorited = [QIssueFavoriteStore isFavoritedIssue:self.issue];
-    if (isFavorited) {
-        [QIssueFavoriteStore unfavoriteIssue:self.issue];
-    } else {
-        [QIssueFavoriteStore favoriteIssue:self.issue];
-    }
+#pragma mark - Scroll View
+- (void)scrollViewDidScroll:(NSNotification *)notification {
+    
 }
 
 #pragma mark - NSTextFieldDelegate

@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner"/>
@@ -92,27 +93,13 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </customView>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="kJl-t9-b8d" userLabel="Bottom Horizontal Line" customClass="SRBaseSeparatorView">
-                            <rect key="frame" x="32" y="0.0" width="553" height="1"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="V7b-li-iRk"/>
-                            </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </customView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="1j0-dS-dD8"/>
-                        <constraint firstAttribute="bottom" secondItem="kJl-t9-b8d" secondAttribute="bottom" id="20e-QE-eOl"/>
                         <constraint firstAttribute="trailing" secondItem="Cyv-Pf-WmG" secondAttribute="trailing" id="5VS-d0-gbH"/>
-                        <constraint firstItem="kJl-t9-b8d" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="32" id="KkT-dM-mAH"/>
                         <constraint firstAttribute="bottom" secondItem="Cyv-Pf-WmG" secondAttribute="bottom" id="Tn8-mD-sev"/>
                         <constraint firstItem="Cyv-Pf-WmG" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="cHG-sD-bFw"/>
                         <constraint firstItem="Cyv-Pf-WmG" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="nzQ-SN-q5X"/>
-                        <constraint firstAttribute="trailing" secondItem="kJl-t9-b8d" secondAttribute="trailing" constant="5" id="sDP-qY-1Ld"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
@@ -134,23 +121,9 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="EUx-8S-8Hu" userLabel="Bottom Horizontal Line" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="5" y="49" width="580" height="1"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="1" id="Oqj-Ta-vXQ"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                            <color key="value" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </customView>
             </subviews>
             <constraints>
                 <constraint firstItem="c22-O7-iKe" firstAttribute="leading" secondItem="pkT-qi-1pc" secondAttribute="leading" id="1zA-HQ-afM"/>
-                <constraint firstAttribute="trailing" secondItem="EUx-8S-8Hu" secondAttribute="trailing" constant="5" id="9B1-jJ-270"/>
-                <constraint firstItem="EUx-8S-8Hu" firstAttribute="leading" secondItem="pkT-qi-1pc" secondAttribute="leading" constant="5" id="EWw-i5-Gau"/>
-                <constraint firstItem="EUx-8S-8Hu" firstAttribute="top" secondItem="WzV-rZ-rNK" secondAttribute="bottom" id="OqX-Uy-m2c"/>
                 <constraint firstAttribute="trailing" secondItem="WzV-rZ-rNK" secondAttribute="trailing" id="Y0k-te-myn"/>
                 <constraint firstItem="WzV-rZ-rNK" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="bottom" id="ZYF-2B-JBP"/>
                 <constraint firstItem="c22-O7-iKe" firstAttribute="top" secondItem="pkT-qi-1pc" secondAttribute="top" id="bZL-LD-hUO"/>
@@ -170,7 +143,6 @@
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
             <connections>
-                <outlet property="bottomHorizontalLineView" destination="EUx-8S-8Hu" id="BcF-MA-F6d"/>
                 <outlet property="commentContainerTopLayoutConstraint" destination="bZL-LD-hUO" id="RQy-s9-SBv"/>
                 <outlet property="commentMarkdownContainerView" destination="WzV-rZ-rNK" id="zZi-oE-7YV"/>
                 <outlet property="dateLabel" destination="Hg5-RB-iXi" id="IOP-Rd-YDu"/>
