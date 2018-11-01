@@ -12,6 +12,8 @@ class QIssueLabelContainerView: BaseView {
     
     fileprivate static let labelSpacing: CGFloat = 4.0
     
+    public var issueClosed = false
+    
     let labelViewPool: ObjectPool = ObjectPool<QIssueLabelView>() {
         let labelView = QIssueLabelView.instantiateFromNib()
         return labelView
@@ -95,7 +97,8 @@ class QIssueLabelContainerView: BaseView {
         labels.forEach({ (label: QLabel) -> () in
             let labelView = labelViewPool.borrowObject() //QIssueLabelView.instantiateFromNib()
             if let labelName = label.name {
-                labelView.viewModel = QIssueLabelViewModel(title: labelName, color: NSColor(fromHexadecimalValue: label.color))
+                let colour: NSColor = issueClosed ? CashewColor.foregroundTertiaryColor() : NSColor(fromHexadecimalValue: label.color)
+                labelView.viewModel = QIssueLabelViewModel(title: labelName, color: colour)
                 labelView.objectValue = label
                 addSubview(labelView)
                 labelViews.append(labelView)

@@ -30,7 +30,7 @@ class LightModeColor: NSObject, ThemeColor {
     fileprivate static let currentLineBgColor = NSColor(calibratedWhite: 220/255.0, alpha: 1.0)
     fileprivate static let fgColor = NSColor(fromHexadecimalValue: "#0f7ff6") ?? NSColor.black // slightly lighter blue I tried: #1d87f7 and lighter again: #2a89fb
     fileprivate static let fgSecondaryColor = NSColor(calibratedRed: 50/255.0, green: 50/255.0, blue: 50/255.0, alpha: 1.0)
-    fileprivate static let fgTertiaryColor = NSColor(calibratedWhite: 145/255.0, alpha: 1.0)
+    fileprivate static let fgTertiaryColor = NSColor(red: 145/255.0, green: 145/255.0, blue: 145/255.0, alpha: 1.0)
     fileprivate static let separatorLineColor = NSColor(calibratedWhite: 235/255.0, alpha: 1.0)
     fileprivate static let aYellowColor = NSColor(calibratedRed: 234/255.0, green: 183/255.0, blue: 0, alpha: 1)
     fileprivate static let sidebarBgColor = NSColor(fromHexadecimalValue: "#f5f9fe") ?? NSColor.white

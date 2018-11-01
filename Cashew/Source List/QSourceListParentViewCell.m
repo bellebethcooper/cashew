@@ -48,7 +48,7 @@
         
         if (color) {
             [strongSelf setBackgroundColor:[NSColor clearColor]]; //[color backgroundColor]];
-            [strongSelf.headerLabel setTextColor:[color foregroundSecondaryColor]];
+            [strongSelf.headerLabel setTextColor:[color foregroundTertiaryColor]];
             
             NSMutableAttributedString *colorTitle = [[NSMutableAttributedString alloc] initWithAttributedString:[strongSelf.menuButton attributedTitle]];
             NSRange titleRange = NSMakeRange(0, [colorTitle length]);

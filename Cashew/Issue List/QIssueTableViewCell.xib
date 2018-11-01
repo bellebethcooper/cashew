@@ -10,11 +10,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView identifier="QIssueTableViewCell" id="c22-O7-iKe" customClass="QIssueTableViewCell" customModule="Cashew" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="99"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="103"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RZh-1I-bvg" customClass="QIssueTableViewCellCircleImageView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="16" y="26" width="48" height="48"/>
+                    <rect key="frame" x="16" y="28" width="48" height="48"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="3bP-Bf-ihH"/>
                         <constraint firstAttribute="width" constant="48" id="pRC-jE-zJq"/>
@@ -22,14 +22,14 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bQS-x2-Q2u"/>
                 </imageView>
                 <customView canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Zq-vh-KwD" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="16" y="26" width="48" height="48"/>
+                    <rect key="frame" x="16" y="28" width="48" height="48"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="48" id="HHp-1o-3tm"/>
                         <constraint firstAttribute="height" constant="48" id="VT2-s5-qdE"/>
                     </constraints>
                 </customView>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Zv-ni-hWf" customClass="QIssueTableViewCellCircleImageView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="48" y="28" width="16" height="16"/>
+                    <rect key="frame" x="48" y="32" width="16" height="16"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="aTH-nH-jTd"/>
                         <constraint firstAttribute="width" constant="16" id="oQa-en-eXd"/>
@@ -37,21 +37,21 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="issue-closed" id="d2w-jq-d96"/>
                 </imageView>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eOr-u4-LHE" customClass="QIssueTableViewCellCircleImageView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="48" y="28" width="16" height="16"/>
+                    <rect key="frame" x="48" y="32" width="16" height="16"/>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="issue-opened" id="GRd-86-A9y"/>
                 </imageView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="K1s-3m-Rks" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="5" y="47" width="6" height="6"/>
+                    <rect key="frame" x="5" y="49" width="6" height="6"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="6" id="Ln3-Kz-DmF"/>
                         <constraint firstAttribute="width" constant="6" id="gSh-RJ-drU"/>
                     </constraints>
                 </customView>
                 <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="g7a-Sr-nV9" userLabel="Text Field Container View" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="80" y="8" width="376" height="83"/>
+                    <rect key="frame" x="80" y="8" width="376" height="87"/>
                     <subviews>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="jzf-iw-7X9" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="346" y="29" width="32" height="17"/>
+                            <rect key="frame" x="346" y="31" width="32" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="17" id="sxn-sI-pe1"/>
                             </constraints>
@@ -62,7 +62,7 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iUb-X6-Heh" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="-2" y="53" width="342" height="19"/>
+                            <rect key="frame" x="-2" y="57" width="342" height="19"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="19" placeholder="YES" id="RMi-8k-GLo"/>
                             </constraints>
@@ -73,7 +73,7 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5KT-9L-KcL" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="-2" y="32" width="336" height="17"/>
+                            <rect key="frame" x="-2" y="36" width="336" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="17" placeholder="YES" id="2wm-gw-IWM"/>
                             </constraints>
@@ -94,7 +94,7 @@
                         <constraint firstItem="5cy-rM-6b2" firstAttribute="leading" secondItem="g7a-Sr-nV9" secondAttribute="leading" id="6pj-Gu-9V9"/>
                         <constraint firstItem="jzf-iw-7X9" firstAttribute="centerY" secondItem="g7a-Sr-nV9" secondAttribute="centerY" constant="4" id="7Uc-wU-qPk"/>
                         <constraint firstItem="iUb-X6-Heh" firstAttribute="top" secondItem="g7a-Sr-nV9" secondAttribute="top" constant="11" id="Dn0-s4-w4f"/>
-                        <constraint firstItem="5cy-rM-6b2" firstAttribute="top" secondItem="5KT-9L-KcL" secondAttribute="bottom" constant="8" id="DoG-NU-Tli"/>
+                        <constraint firstItem="5cy-rM-6b2" firstAttribute="top" secondItem="5KT-9L-KcL" secondAttribute="bottom" constant="12" id="DoG-NU-Tli"/>
                         <constraint firstItem="jzf-iw-7X9" firstAttribute="leading" secondItem="iUb-X6-Heh" secondAttribute="trailing" constant="10" id="Geu-nW-0QZ"/>
                         <constraint firstItem="5KT-9L-KcL" firstAttribute="top" secondItem="iUb-X6-Heh" secondAttribute="bottom" constant="4" id="OeU-L0-UwF"/>
                         <constraint firstAttribute="trailing" secondItem="5cy-rM-6b2" secondAttribute="trailing" id="R0T-XP-mfZ"/>

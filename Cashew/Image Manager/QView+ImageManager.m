@@ -51,7 +51,8 @@
     static dispatch_once_t onceToken;
     static NSImage *img;
     dispatch_once(&onceToken, ^{
-        img = [[NSImage imageNamed:@"issue-closed"] imageWithTintColor:[NSColor colorWithCalibratedRed:175/255. green:25/255. blue:0 alpha:1]];
+        img = [[NSImage imageNamed:@"issue-closed"] imageWithTintColor:[NSColor colorWithRed:145/255.0 green:145/255.0 blue:145/255.0 alpha:1.0]];
+                                                                        //colorWithCalibratedRed:175/255. green:25/255. blue:0 alpha:1]];
     });
     return img;
 }

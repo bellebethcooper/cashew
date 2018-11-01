@@ -158,7 +158,7 @@
     [self _setupCommentEditorView];
     [self _setupLabelsContainerView];
     
-    [self.view addSubview:self.headerSubtitleTextField]; // make sure  header subtitle is above label container view
+//    [self.view addSubview:self.headerSubtitleTextField]; // make sure  header subtitle is above label container view
 }
 
 - (void)_setupLabelsContainerView
@@ -168,7 +168,7 @@
     self.labelsTableViewCell.translatesAutoresizingMaskIntoConstraints = false;
     [self.labelsTableViewCell.leftAnchor constraintEqualToAnchor:self.toolbarContainerView.leftAnchor].active = true;
     [self.labelsTableViewCell.rightAnchor constraintEqualToAnchor:self.toolbarContainerView.rightAnchor].active = true;
-    [self.labelsTableViewCell.topAnchor constraintEqualToAnchor:self.headerSubtitleTextField.bottomAnchor constant:6].active = true;
+    [self.labelsTableViewCell.topAnchor constraintEqualToAnchor:self.milestoneContainerView.bottomAnchor constant:6].active = true;
     [self.labelsTableViewCell.bottomAnchor constraintEqualToAnchor:self.activityScrollView.topAnchor].active = true;
     [self.labelsTableViewCell.heightAnchor constraintEqualToConstant:[SRIssueDetailLabelsTableViewCell suggestedHeight]].active = true;
     
@@ -241,7 +241,7 @@
         [self.titleTextField setStringValue:_issue.title];
         self.assigneeButton.title = issue.assignee.login ?: @"Unassigned";
         self.milestoneButton.title = issue.milestone.title ?: @"No milestone";
-        self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"%@ • Opened %@ by %@", issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
+//        self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"%@ • Opened %@ by %@", issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
         self.issueNumberLabel.stringValue = [NSString stringWithFormat:@"#%@", issue.number];
         if ([_issue.state isEqualToString:@"open"]) {
             self.issueStateBadgeView.open = true;
@@ -351,9 +351,6 @@
     [self.issueStateBadgeView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
     [self.issueStateBadgeView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
     self.issueStateBadgeView.hidden = true;
-    
-    self.assigneeButton.translatesAutoresizingMaskIntoConstraints = false;
-    self.milestoneButton.translatesAutoresizingMaskIntoConstraints = false;
     
     __weak QIssueDetailsViewController *weakSelf = self;
     self.issueStateBadgeView.onClick = ^{
@@ -707,7 +704,7 @@
     [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
     [self.titleTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
     
-    self.headerSubtitleTextField.textColor = [SRCashewColor foregroundTertiaryColor];
+//    self.headerSubtitleTextField.textColor = [SRCashewColor foregroundTertiaryColor];
 }
 
 - (IBAction)_openURLForCurrentIssue:(id)sender

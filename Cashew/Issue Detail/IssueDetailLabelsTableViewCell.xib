@@ -33,7 +33,7 @@
                                 <constraint firstAttribute="height" constant="30" id="QfF-5k-EGG"/>
                                 <constraint firstAttribute="width" constant="20" id="mLB-7H-cJo"/>
                             </constraints>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="label" id="6qh-Cs-vlu"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="tag" id="6qh-Cs-vlu"/>
                         </imageView>
                     </subviews>
                     <constraints>
@@ -75,6 +75,6 @@
         </customView>
     </objects>
     <resources>
-        <image name="label" width="22" height="22"/>
+        <image name="tag" width="11" height="12"/>
     </resources>
 </document>

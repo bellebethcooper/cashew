@@ -140,6 +140,8 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
+    // MARK: - init
+    
     deinit {
         QIssueStore.remove(self)
         QIssueNotificationStore.remove(self)
@@ -155,6 +157,8 @@ class QIssueTableViewCell: NSTableRowView {
         super.init(coder:coder)
         self.setup()
     }
+    
+    // MARK: - view style transitions
     
     fileprivate func transitionToStandardView() {
         if let closedImageViewCenterYConstraint = closedImageViewCenterYConstraint {
@@ -221,6 +225,11 @@ class QIssueTableViewCell: NSTableRowView {
     
     var titleLabelColor: NSColor {
         get {
+            if let issue = self.issue,
+                issue.state == "closed" {
+                return CashewColor.foregroundTertiaryColor()
+            }
+            
             let themeMode = UserDefaults.themeMode()
             if themeMode == .light {
                 return LightModeColor.sharedInstance.foregroundSecondaryColor()
@@ -276,6 +285,7 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
+    // MARK: -
     
     fileprivate static let imageCache: [String: NSImage] = {
         var dict = [String: NSImage]()
@@ -374,7 +384,7 @@ class QIssueTableViewCell: NSTableRowView {
     }
     
     
-    // private var _issue: QIssue?
+    // MARK: - self.issue / didSetIssue
     @objc var issue: QIssue? {
         
         didSet {
@@ -406,16 +416,19 @@ class QIssueTableViewCell: NSTableRowView {
         let titleString = "\(numberString) • \(anIssue.title)"
         titleLabel.stringValue = titleString
         
-        updateAssigneViews()
         
         if anIssue.state == "closed" {
             openIssueImageView.isHidden = true
             closedIssueImageView.isHidden = false
+            labelsView.issueClosed = true
         } else if anIssue.state == "open" {
             openIssueImageView.isHidden = false
             closedIssueImageView.isHidden = true
+            labelsView.issueClosed = false
         }
         
+        updateAssigneViews()
+
         labelsView.labels = anIssue.labels
         if let labels = labelsView.labels , labels.count > 0 {
             labelContainerHeightConstraint.constant = QIssueTableViewCell.labelsViewHeight
@@ -455,6 +468,8 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
+    // MARK: -
+    
     fileprivate func updateAssigneViews() {
         switch viewType {
         case .noAssigneeImage:
@@ -478,7 +493,7 @@ class QIssueTableViewCell: NSTableRowView {
         guard let issue = issue else { return NSAttributedString(string: "") }
         
         let subtitleTextColor = isSelected ? subtitleLabelSelectedColor : subtitleLabelColor
-        let subtitleAttrString = NSMutableAttributedString(string: "Opened \(issue.createdAtTimeAgo) by \(issue.authorUsername)   ")
+        let subtitleAttrString = NSMutableAttributedString(string: "") //Opened \(issue.createdAtTimeAgo) by \(issue.authorUsername)   ")
         let subtitleRange = NSMakeRange(0, subtitleAttrString.length)
         subtitleAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleFont, range: subtitleRange)
         subtitleAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: subtitleTextColor, range: subtitleRange)

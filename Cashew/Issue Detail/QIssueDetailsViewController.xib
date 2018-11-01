@@ -71,12 +71,12 @@
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="9wz-5s-Zvd" userLabel="Assignee Container View" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="50" width="726" height="50"/>
                             <subviews>
-                                <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="h1V-jf-LjD">
-                                    <rect key="frame" x="12" y="9" width="17" height="32"/>
+                                <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h1V-jf-LjD">
+                                    <rect key="frame" x="12" y="9" width="60" height="60"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="17" id="BCx-5O-dNH"/>
                                     </constraints>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="user" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="Q5s-sZ-Cwt">
+                                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="person" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="Q5s-sZ-Cwt">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -97,8 +97,8 @@
                             <rect key="frame" x="0.0" y="0.0" width="726" height="46"/>
                             <subviews>
                                 <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="TWo-el-Ygf">
-                                    <rect key="frame" x="12" y="7" width="24" height="32"/>
-                                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="signpost" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="jme-Sn-7ic">
+                                    <rect key="frame" x="12" y="7" width="15" height="32"/>
+                                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="milestone" imagePosition="leading" alignment="center" imageScaling="proportionallyDown" inset="2" id="jme-Sn-7ic">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -292,8 +292,8 @@
         </customView>
     </objects>
     <resources>
+        <image name="milestone" width="11" height="12"/>
         <image name="more" width="22" height="6"/>
-        <image name="signpost" width="20" height="22"/>
-        <image name="user" width="22" height="18"/>
+        <image name="person" width="6" height="12"/>
     </resources>
 </document>

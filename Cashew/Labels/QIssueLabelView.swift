@@ -108,7 +108,7 @@ class QIssueLabelView: BaseView {
         switch mode {
         case .coloredBackground:
             DDLogDebug("QIssueLabelView coloredBg")
-            backgroundColor = viewModel.color.withAlphaComponent(0.1)//NSColor(fromHexadecimalValue: label.color)
+            backgroundColor = viewModel.color.withAlphaComponent(0.05)
             let darkerColor = darkenedColor(from: viewModel.color)
             labelTextField.textColor = darkerColor
             layer.borderWidth = 1
