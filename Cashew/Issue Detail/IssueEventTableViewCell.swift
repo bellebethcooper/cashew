@@ -11,7 +11,7 @@ import Cocoa
 class IssueEventTableViewCell: BaseView {
     
     fileprivate static let verticalPadding: CGFloat = 10.0
-    fileprivate static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 37.0
+    fileprivate static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 47.0
     fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)]
     
     @IBOutlet weak var eventDetailsLabel: NSTextField!
