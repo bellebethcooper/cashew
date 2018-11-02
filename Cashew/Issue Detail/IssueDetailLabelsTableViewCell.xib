@@ -24,25 +24,6 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="rkk-Rg-q6x" customClass="IssueDetailsLabelTagButton" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="30" height="35"/>
-                    <subviews>
-                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iUG-Ih-Yrc">
-                            <rect key="frame" x="5" y="8" width="20" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="QfF-5k-EGG"/>
-                                <constraint firstAttribute="width" constant="20" id="mLB-7H-cJo"/>
-                            </constraints>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="tag" id="6qh-Cs-vlu"/>
-                        </imageView>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="30" id="3lV-PP-WRU"/>
-                        <constraint firstAttribute="height" constant="35" id="JuM-fg-L7n"/>
-                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerX" secondItem="rkk-Rg-q6x" secondAttribute="centerX" id="Kkg-P3-Jog"/>
-                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerY" secondItem="rkk-Rg-q6x" secondAttribute="centerY" constant="-5.5" id="RJY-CQ-LmJ"/>
-                    </constraints>
-                </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="dXu-iu-W8D" customClass="QIssueLabelContainerView" customModule="Cashew" customModuleProvider="target">
                     <rect key="frame" x="42" y="0.0" width="576" height="35"/>
                     <constraints>
@@ -53,6 +34,25 @@
                             <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                </customView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="rkk-Rg-q6x" customClass="IssueDetailsLabelTagButton" customModule="Cashew" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="30" height="35"/>
+                    <subviews>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iUG-Ih-Yrc">
+                            <rect key="frame" x="5" y="3" width="20" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="QfF-5k-EGG"/>
+                                <constraint firstAttribute="width" constant="20" id="mLB-7H-cJo"/>
+                            </constraints>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="label" id="6qh-Cs-vlu"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="3lV-PP-WRU"/>
+                        <constraint firstAttribute="height" constant="35" id="JuM-fg-L7n"/>
+                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerX" secondItem="rkk-Rg-q6x" secondAttribute="centerX" id="Kkg-P3-Jog"/>
+                        <constraint firstItem="iUG-Ih-Yrc" firstAttribute="centerY" secondItem="rkk-Rg-q6x" secondAttribute="centerY" id="RJY-CQ-LmJ"/>
+                    </constraints>
                 </customView>
             </subviews>
             <constraints>
@@ -75,6 +75,6 @@
         </customView>
     </objects>
     <resources>
-        <image name="tag" width="11" height="12"/>
+        <image name="label" width="22" height="22"/>
     </resources>
 </document>

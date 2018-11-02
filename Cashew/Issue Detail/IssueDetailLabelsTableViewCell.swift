@@ -77,10 +77,10 @@ class IssueDetailLabelsTableViewCell: BaseView {
             
             if mode == .light {
                 strongSelf.backgroundColor = NSColor.white
-                strongSelf.noLabelTextField.textColor = LightModeColor.sharedInstance.foregroundSecondaryColor()
+                strongSelf.noLabelTextField.textColor = LightModeColor.sharedInstance.foregroundTertiaryColor()
             } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
-                strongSelf.noLabelTextField.textColor = DarkModeColor.sharedInstance.foregroundSecondaryColor()
+                strongSelf.noLabelTextField.textColor = DarkModeColor.sharedInstance.foregroundTertiaryColor()
             }
         }
     }

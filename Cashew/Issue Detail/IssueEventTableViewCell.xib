@@ -14,19 +14,18 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView verticalHuggingPriority="500" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T71-0k-0PX" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="12" y="59" width="30" height="30"/>
+                    <rect key="frame" x="12" y="51" width="30" height="30"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QDr-O3-vz5">
-                            <rect key="frame" x="2" y="-2" width="26" height="30"/>
+                            <rect key="frame" x="2" y="15" width="26" height="0.0"/>
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="dKL-cn-aTi"/>
                         </imageView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="3L2-dl-05p"/>
-                        <constraint firstItem="QDr-O3-vz5" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" constant="2" id="3pB-Sz-XxU"/>
+                        <constraint firstItem="QDr-O3-vz5" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" id="3pB-Sz-XxU"/>
                         <constraint firstAttribute="trailing" secondItem="QDr-O3-vz5" secondAttribute="trailing" constant="2" id="41H-5W-And"/>
                         <constraint firstAttribute="width" constant="30" id="Pg3-4m-an9"/>
-                        <constraint firstItem="QDr-O3-vz5" firstAttribute="top" secondItem="T71-0k-0PX" secondAttribute="top" constant="2" id="QQ6-J3-pqZ"/>
                         <constraint firstItem="QDr-O3-vz5" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="leading" constant="2" id="nlV-3T-4pT"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
@@ -39,7 +38,7 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nTZ-hL-TFj">
-                    <rect key="frame" x="60" y="66" width="197" height="17"/>
+                    <rect key="frame" x="52" y="58" width="197" height="17"/>
                     <textFieldCell key="cell" selectable="YES" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="hishboy commented 3 days ago" id="Ltt-kc-mo7">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" red="0.41568627450000001" green="0.41568627450000001" blue="0.41568627450000001" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -48,10 +47,10 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="nTZ-hL-TFj" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="trailing" constant="20" id="3Tw-yN-Kpg"/>
+                <constraint firstItem="nTZ-hL-TFj" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="trailing" constant="12" id="3Tw-yN-Kpg"/>
+                <constraint firstItem="T71-0k-0PX" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="8" id="AUv-Op-u3M"/>
                 <constraint firstItem="T71-0k-0PX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="12" id="Xuq-Tq-1Ik"/>
                 <constraint firstItem="nTZ-hL-TFj" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" id="Yw4-cJ-vbg"/>
-                <constraint firstItem="T71-0k-0PX" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="sbt-IL-OHU"/>
             </constraints>
             <connections>
                 <outlet property="eventDetailsLabel" destination="nTZ-hL-TFj" id="sZO-hc-xNP"/>

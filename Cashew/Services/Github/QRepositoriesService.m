@@ -73,7 +73,7 @@
           if (error) {
               onCompletion(nil, context, error);
           } else {
-              
+              DDLogDebug(@"QRepositoriesService milestonesForRepo - results: %@", responseObject);
               NSMutableArray *result = [NSMutableArray array];
               for (NSDictionary *json in responseObject) {
                   QMilestone *milestone = [QMilestone fromJSON:json];

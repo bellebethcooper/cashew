@@ -210,6 +210,7 @@
     repositoryNode.children = repoChildren;
     
     NSArray<QMilestone *> *milestones = [QMilestoneStore openMilestonesForAccountId:repo.account.identifier repositoryId:repo.identifier];
+    DDLogDebug(@"QSourceList createNodeForRepo - repo %@ milestones: %@", repo.name, milestones);
     [milestones enumerateObjectsUsingBlock:^(QMilestone * _Nonnull milestone, NSUInteger idx, BOOL * _Nonnull stop) {
         QSourceListNode *milestoneNode = [self _createNodeForMilestone:milestone];
         milestoneNode.parentNode = repositoryNode;

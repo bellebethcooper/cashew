@@ -426,8 +426,8 @@
 
 #pragma mark - helpers
 
-+ (QMilestone *)_milestoneFromResultSetEntry:(_MilestoneResultSetEntry *)entry
-{
++ (QMilestone *)_milestoneFromResultSetEntry:(_MilestoneResultSetEntry *)entry {
+    
     QMilestone *milestone = entry.milestone;
     milestone.account = [QAccountStore accountForIdentifier:entry.accountId];
     milestone.creator = [QOwnerStore ownerForAccountId:entry.accountId identifier:entry.creatorId];

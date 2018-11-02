@@ -24,19 +24,19 @@
 
 @property (weak) IBOutlet BaseView *toolbarContainerView;
 
-@property (weak) IBOutlet BaseView *milestoneContainerView;
-@property (nonatomic) IBOutlet NSButton *milestoneButton;
-@property (nonatomic) SRBaseTextField *milestoneTextField;
-
-@property (weak) IBOutlet SRBaseScrollView *activityScrollView;
-@property (weak) IBOutlet NSTableView *activityTableView;
-
 @property (weak) IBOutlet BaseView *titleContainerView;
 @property (nonatomic) SRBaseTextField *titleTextField;
 
 @property (weak) IBOutlet BaseView *assigneeContainerView;
 @property (nonatomic) IBOutlet NSButton *assigneeButton;
 @property (nonatomic) SRBaseTextField *assigneeTextField;
+
+@property (weak) IBOutlet BaseView *milestoneContainerView;
+@property (nonatomic) IBOutlet NSButton *milestoneButton;
+@property (nonatomic) SRBaseTextField *milestoneTextField;
+
+@property (weak) IBOutlet SRBaseScrollView *activityScrollView;
+@property (weak) IBOutlet NSTableView *activityTableView;
 
 @property (nonatomic) NSCache *editableFieldsCache;
 
@@ -239,9 +239,17 @@
         
         [self.titleTextField setEditable:isCollaborator || isAuthor];
         [self.titleTextField setStringValue:_issue.title];
-        self.assigneeButton.title = issue.assignee.login ?: @"Unassigned";
-        self.milestoneButton.title = issue.milestone.title ?: @"No milestone";
-//        self.headerSubtitleTextField.stringValue = [NSString stringWithFormat:@"%@ • Opened %@ by %@", issue.repository.fullName, [issue.createdAt timeAgo], issue.user.login ?: @""];
+        [self.assigneeTextField setEditable:isCollaborator || isAuthor];
+        [self.assigneeTextField setStringValue:issue.assignee.login ?: @"Unassigned"];
+        if (!issue.assignee.login) {
+            self.assigneeTextField.textColor = [SRCashewColor foregroundTertiaryColor];
+        }
+        [self.milestoneTextField setEditable:isCollaborator || isAuthor];
+        [self.milestoneTextField setStringValue:issue.milestone.title ?: @"No milestone"];
+        if (!issue.milestone.title) {
+            self.milestoneTextField.textColor = [SRCashewColor foregroundTertiaryColor];
+        }
+        
         self.issueNumberLabel.stringValue = [NSString stringWithFormat:@"#%@", issue.number];
         if ([_issue.state isEqualToString:@"open"]) {
             self.issueStateBadgeView.open = true;
@@ -257,7 +265,6 @@
 
         self.issueStateBadgeView.hidden = false;
         
-        //self.commentEditorView.enabled = isCollaborator;
         self.milestoneButton.enabled = isCollaborator;
         self.assigneeButton.enabled = isCollaborator;
         self.issueStateBadgeView.enabled = isCollaborator || isAuthor;
@@ -613,8 +620,9 @@
         [self.milestoneButton setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
         
         [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-        [view.leadingAnchor constraintEqualToAnchor:self.milestoneButton.trailingAnchor constant:8].active = YES;
+        [view.leadingAnchor constraintEqualToAnchor:self.milestoneButton.trailingAnchor constant:12].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
+        [view.centerYAnchor constraintEqualToAnchor:self.milestoneButton.centerYAnchor].active = YES;
         
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
         [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
@@ -625,7 +633,7 @@
     self.milestoneTextField = createAndAddQTextFieldToView(_milestoneContainerView);
     self.milestoneTextField.textColor = [SRCashewColor foregroundSecondaryColor];
     self.milestoneTextField.delegate = self;
-    [self.milestoneTextField setFont:[NSFont systemFontOfSize:15]];
+    [self.milestoneTextField setFont:[NSFont systemFontOfSize:14]];
     [self.milestoneTextField setEditable:NO];
     self.milestoneTextField.usesSingleLineMode = true;
     [(NSTextFieldCell *)self.milestoneTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
@@ -646,7 +654,7 @@
         [parentView addSubview:self.assigneeButton];
         
         if (@available(macOS 10.14, *)) {
-            [self.assigneeButton setContentTintColor:[SRCashewColor foregroundTertiaryColor]];
+            [self.assigneeButton setContentTintColor:[SRCashewColor foregroundSecondaryColor]];
         }
         
         [self.assigneeButton.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
@@ -655,8 +663,9 @@
         [self.assigneeButton setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
         
         [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-        [view.leadingAnchor constraintEqualToAnchor:self.assigneeButton.trailingAnchor constant:8].active = YES;
+        [view.leadingAnchor constraintEqualToAnchor:self.assigneeButton.trailingAnchor constant:12].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
+        [view.centerYAnchor constraintEqualToAnchor:self.assigneeButton.centerYAnchor].active = YES;
         
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
         [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
@@ -667,7 +676,7 @@
     self.assigneeTextField = createAndAddQTextFieldToView(_assigneeContainerView);
     self.assigneeTextField.textColor = [SRCashewColor foregroundSecondaryColor];
     self.assigneeTextField.delegate = self;
-    [self.assigneeTextField setFont:[NSFont systemFontOfSize:15]];
+    [self.assigneeTextField setFont:[NSFont systemFontOfSize:14]];
     [self.assigneeTextField setEditable:NO];
     self.assigneeTextField.usesSingleLineMode = true;
     [(NSTextFieldCell *)self.assigneeTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
@@ -686,11 +695,11 @@
         [parentView addSubview:view];
         
         [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-        [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
+        [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor constant:30].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
         
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
-        [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor].active = YES;
+        [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor constant:-8].active = YES;
         
         return view;
     };
@@ -698,7 +707,7 @@
     self.titleTextField = createAndAddQTextFieldToView(_titleContainerView);
     self.titleTextField.textColor = [SRCashewColor foregroundSecondaryColor];
     self.titleTextField.delegate = self;
-    [self.titleTextField setFont:[NSFont systemFontOfSize:15]];
+    [self.titleTextField setFont:[NSFont systemFontOfSize:16]];
     [self.titleTextField setEditable:NO];
     self.titleTextField.usesSingleLineMode = true;
     [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];

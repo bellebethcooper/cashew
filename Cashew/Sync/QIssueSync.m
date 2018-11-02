@@ -709,8 +709,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     }];
 }
 
-- (void)_fetchMilestonesForRepository:(QRepository *)repo pageNumber:(NSInteger)pageNumber pageSize:(NSInteger)pageSize currentMilestones:(NSMutableSet<QMilestone *> *)currentMilestones onCompletion:(SRFetcherCompletion)onCompletion;
-{
+- (void)_fetchMilestonesForRepository:(QRepository *)repo pageNumber:(NSInteger)pageNumber pageSize:(NSInteger)pageSize currentMilestones:(NSMutableSet<QMilestone *> *)currentMilestones onCompletion:(SRFetcherCompletion)onCompletion {
     NSParameterAssert(onCompletion);
     
     if (![self _isSynchableRepository:repo]) {
@@ -725,7 +724,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
             onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
             return;
         }
-        
+        DDLogDebug(@"QIssueSync fetchMilestonesForRepo - milestones: %@", milestones);
         [milestones enumerateObjectsUsingBlock:^(QMilestone * _Nonnull milestone, NSUInteger idx, BOOL * _Nonnull stop) {
             //  [_throttler throttle];
             
