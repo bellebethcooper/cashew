@@ -22,7 +22,6 @@
                 <outlet property="classicModeIssueListContainerView" destination="Rkh-DG-cCc" id="EQ1-zF-t8T"/>
                 <outlet property="classicModeSplitView" destination="Jdx-Y0-EMm" id="FKs-Tg-pSM"/>
                 <outlet property="closeOrOpenIssuesMenuItem" destination="r3J-kr-c7A" id="smt-0x-f0u"/>
-                <outlet property="createIssueToolbarItem" destination="WGB-rq-4xX" id="6oj-fx-FiM"/>
                 <outlet property="issueExtensionsMenuItem" destination="fEt-Lg-h9s" id="h1a-Cq-HBE"/>
                 <outlet property="leftCenterLineSplitterView" destination="WSt-vX-gtp" id="3h8-iM-je9"/>
                 <outlet property="leftContainerView" destination="mZY-ad-2aD" id="c3N-Zi-lxF"/>
@@ -673,22 +672,6 @@
                             </connections>
                         </popUpButton>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="DF7124CC-380C-434E-81D7-F42B47BD59C2" label="New Issue" paletteLabel="New Issue" image="NSAddTemplate" id="WGB-rq-4xX">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="40" height="32"/>
-                        <size key="maxSize" width="40" height="32"/>
-                        <button key="view" verticalHuggingPriority="750" id="fN5-yo-UMe">
-                            <rect key="frame" x="11" y="14" width="40" height="32"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSAddTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="OiZ-7X-kDl">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                            <connections>
-                                <action selector="didClickCreateIssueToolbarItemButton:" target="Voe-Tx-rLC" id="6vx-Cm-Kx3"/>
-                            </connections>
-                        </button>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="390B6983-B11F-431B-BB9F-560519A44DCA" label="Sync" paletteLabel="Sync" image="sync" id="hEs-Bh-yI3">
                         <nil key="toolTip"/>
                         <size key="minSize" width="40" height="32"/>
@@ -745,7 +728,6 @@
                     <toolbarItem reference="3mv-62-m4R"/>
                     <toolbarItem reference="yX6-SS-M0y"/>
                     <toolbarItem reference="liM-Z8-eni"/>
-                    <toolbarItem reference="WGB-rq-4xX"/>
                 </defaultToolbarItems>
             </toolbar>
             <connections>
@@ -755,7 +737,6 @@
         </window>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSUser" width="32" height="32"/>
         <image name="manage_search" width="17" height="12"/>

@@ -10,8 +10,8 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView identifier="QIssueTableViewCell" id="c22-O7-iKe" customClass="QIssueTableViewCell" customModule="Cashew" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="103"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <rect key="frame" x="0.0" y="0.0" width="542" height="103"/>
+            <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RZh-1I-bvg" customClass="QIssueTableViewCellCircleImageView" customModule="Cashew" customModuleProvider="target">
                     <rect key="frame" x="16" y="28" width="48" height="48"/>
@@ -48,10 +48,10 @@
                     </constraints>
                 </customView>
                 <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="g7a-Sr-nV9" userLabel="Text Field Container View" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="80" y="8" width="376" height="87"/>
+                    <rect key="frame" x="80" y="8" width="438" height="87"/>
                     <subviews>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="jzf-iw-7X9" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="346" y="31" width="32" height="17"/>
+                            <rect key="frame" x="408" y="31" width="32" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="17" id="sxn-sI-pe1"/>
                             </constraints>
@@ -61,10 +61,11 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </textFieldCell>
                         </textField>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iUb-X6-Heh" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="-2" y="57" width="342" height="19"/>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="iUb-X6-Heh" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
+                            <rect key="frame" x="-2" y="57" width="404" height="19"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="19" placeholder="YES" id="RMi-8k-GLo"/>
+                                <constraint firstAttribute="width" priority="750" constant="400" id="Vcj-Rb-dIe"/>
                             </constraints>
                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Label Title Goes Here" id="I8g-Bt-oJ3">
                                 <font key="font" metaFont="system" size="16"/>
@@ -73,18 +74,18 @@
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5KT-9L-KcL" customClass="IssueTableViewCellTextField" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="-2" y="36" width="336" height="17"/>
+                            <rect key="frame" x="-2" y="36" width="398" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="17" placeholder="YES" id="2wm-gw-IWM"/>
                             </constraints>
-                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Subtitle Text Goes Here" placeholderString="" usesSingleLineMode="YES" id="m9g-Vy-hCX">
+                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Subtitle Text Goes Here" placeholderString="" usesSingleLineMode="YES" id="m9g-Vy-hCX">
                                 <font key="font" metaFont="cellTitle"/>
                                 <color key="textColor" name="windowFrameColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
                         <customView horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5cy-rM-6b2" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="376" height="24"/>
+                            <rect key="frame" x="0.0" y="0.0" width="438" height="24"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="GNg-yq-Mkx"/>
                             </constraints>

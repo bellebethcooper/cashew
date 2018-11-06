@@ -108,7 +108,7 @@
 @property (weak) IBOutlet NSToolbarItem *searchBarToolbarItem;
 @property (weak) IBOutlet NSToolbarItem *searchBuilderButton;
 @property (weak) IBOutlet NSToolbarItem *syncButton;
-@property (weak) IBOutlet NSToolbarItem *createIssueToolbarItem;
+//@property (weak) IBOutlet NSToolbarItem *createIssueToolbarItem;
 @property (weak) IBOutlet NSToolbarItem *refreshToolbarItem;
 
 
@@ -875,7 +875,7 @@
     [syncImageButton.image setTemplate:YES];
     //    syncImageButton.frame = NSMakeRect(syncImageButton.frame.origin.x + syncDelta, syncImageButton.frame.origin.y, createIssueImageButton.frame.size.width, syncImageButton.frame.size.height);
     //
-    [@[self.createIssueToolbarItem, self.searchBuilderButton, self.syncButton, self.refreshToolbarItem] enumerateObjectsUsingBlock:^(NSToolbarItem  *item, NSUInteger idx, BOOL * _Nonnull stop) {
+    [@[self.searchBuilderButton, self.syncButton, self.refreshToolbarItem] enumerateObjectsUsingBlock:^(NSToolbarItem  *item, NSUInteger idx, BOOL * _Nonnull stop) {
         item.minSize = NSMakeSize(45, 34);
         item.maxSize = item.minSize;
     }];
@@ -1620,10 +1620,10 @@
 }
 
 
-- (IBAction)didClickCreateIssueToolbarItemButton:(id)sender
-{
-    [self _showCreateIssueWindowController:nil];
-}
+//- (IBAction)didClickCreateIssueToolbarItemButton:(id)sender
+//{
+//    [self _showCreateIssueWindowController:nil];
+//}
 
 - (IBAction)didClickRefreshToolbarItemButton:(id)sender
 {
