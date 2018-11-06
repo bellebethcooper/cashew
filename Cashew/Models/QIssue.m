@@ -177,7 +177,9 @@
     
 //    DDLogDebug(@"selfRepoId [%@] == issueRepoId [%@] && selfId [%@] = issueId [%@] && selfAccountId [%@] = issueAccountId [%@]",
 //          self.repository.identifier,issue.repository.identifier, self.identifier, issue.identifier, self.account.identifier,issue.identifier);
-    if ([self.repository.identifier isEqualToNumber:issue.repository.identifier] && [self.identifier isEqualToNumber:issue.identifier] && [self.account.identifier isEqualToNumber:issue.account.identifier]) {
+    if ([self.repository.identifier isEqualToNumber:issue.repository.identifier] &&
+        [self.identifier isEqualToNumber:issue.identifier] &&
+        [self.account.identifier isEqualToNumber:issue.account.identifier]) {
         return YES;
     }
     

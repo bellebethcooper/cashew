@@ -223,8 +223,6 @@
     BOOL sameIssueWithUpdatedContent = sameIssue && ![_issue.updatedAt isEqualToDate:issue.updatedAt];
     
     if (!sameIssue) {
-        NSString *contentId = [NSString stringWithFormat:@"%@/%@", issue.repository.fullName, issue.number];
-        [SRAnalytics logContentViewWithName:NSStringFromClass(QIssueDetailsViewController.class) contentType:@"" contentId:contentId customAttributes:nil];
         [self.commentEditorView clearText];
     }
     
@@ -243,11 +241,16 @@
         [self.assigneeTextField setStringValue:issue.assignee.login ?: @"Unassigned"];
         if (!issue.assignee.login) {
             self.assigneeTextField.textColor = [SRCashewColor foregroundTertiaryColor];
+        } else {
+            self.assigneeTextField.textColor = [SRCashewColor foregroundSecondaryColor];
         }
+        
         [self.milestoneTextField setEditable:isCollaborator || isAuthor];
         [self.milestoneTextField setStringValue:issue.milestone.title ?: @"No milestone"];
         if (!issue.milestone.title) {
             self.milestoneTextField.textColor = [SRCashewColor foregroundTertiaryColor];
+        } else {
+            self.milestoneTextField.textColor = [SRCashewColor foregroundSecondaryColor];
         }
         
         self.issueNumberLabel.stringValue = [NSString stringWithFormat:@"#%@", issue.number];
@@ -1117,8 +1120,8 @@
     
 }
 
-- (void)store:(Class)store didUpdateRecord:(id)record;
-{
+- (void)store:(Class)store didUpdateRecord:(id)record {
+    DDLogDebug(@"QIssueDetailsVC didUpdateRecord");
     if (store == QIssueStore.class && [record isKindOfClass:QIssue.class]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             QIssue *updatedIssue = (QIssue *)record;

@@ -137,7 +137,9 @@ class AssigneeSearchablePickerViewController: BaseViewController {
                 continue
             }
             
-            if let assignee = assignee, let assigneeRepos = userToRepoMap[assignee] , !assigneeRepos.contains(issue.repository) {
+            if let assignee = assignee,
+                let assigneeRepos = userToRepoMap[assignee],
+                !assigneeRepos.contains(issue.repository) {
                 continue
             }
             
