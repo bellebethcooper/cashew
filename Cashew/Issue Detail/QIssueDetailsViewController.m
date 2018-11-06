@@ -25,7 +25,7 @@
 @property (weak) IBOutlet BaseView *toolbarContainerView;
 
 @property (weak) IBOutlet BaseView *titleContainerView;
-@property (nonatomic) SRBaseTextField *titleTextField;
+@property (weak) IBOutlet SRBaseTextField *titleTextField;
 
 @property (weak) IBOutlet BaseView *assigneeContainerView;
 @property (nonatomic) IBOutlet NSButton *assigneeButton;
@@ -235,9 +235,9 @@
         BOOL isCollaborator = [QAccount isCurrentUserCollaboratorOfRepository:issue.repository];
         BOOL isAuthor = [currentUser isEqual:issue.user];
         
-        [self.titleTextField setEditable:isCollaborator || isAuthor];
+        [self.titleTextField setEditable:NO]; //isCollaborator || isAuthor];
         [self.titleTextField setStringValue:_issue.title];
-        [self.assigneeTextField setEditable:isCollaborator || isAuthor];
+        [self.assigneeTextField setEditable:NO]; //isCollaborator || isAuthor];
         [self.assigneeTextField setStringValue:issue.assignee.login ?: @"Unassigned"];
         if (!issue.assignee.login) {
             self.assigneeTextField.textColor = [SRCashewColor foregroundTertiaryColor];
@@ -245,7 +245,7 @@
             self.assigneeTextField.textColor = [SRCashewColor foregroundSecondaryColor];
         }
         
-        [self.milestoneTextField setEditable:isCollaborator || isAuthor];
+        [self.milestoneTextField setEditable:NO]; //isCollaborator || isAuthor];
         [self.milestoneTextField setStringValue:issue.milestone.title ?: @"No milestone"];
         if (!issue.milestone.title) {
             self.milestoneTextField.textColor = [SRCashewColor foregroundTertiaryColor];
@@ -692,15 +692,16 @@
         
         view.drawsBackground = false;
         view.bordered = false;
-        view.cell.wraps = NO;
-        view.lineBreakMode = NSLineBreakByTruncatingTail;
+//        view.cell.wraps = YES;
+//        view.cell.lineBreakMode = NSLineBreakByWordWrapping;
+//        view.lineBreakMode = NSLineBreakByWordWrapping;
         [view setTranslatesAutoresizingMaskIntoConstraints:NO];
         [parentView addSubview:view];
         
-        [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+        [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
         [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor constant:30].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
-        
+        [view setPreferredMaxLayoutWidth:300];
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
         [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor constant:-8].active = YES;
         
@@ -712,11 +713,6 @@
     self.titleTextField.delegate = self;
     [self.titleTextField setFont:[NSFont systemFontOfSize:16]];
     [self.titleTextField setEditable:NO];
-    self.titleTextField.usesSingleLineMode = true;
-    [(NSTextFieldCell *)self.titleTextField.cell setLineBreakMode:NSLineBreakByWordWrapping];
-    [self.titleTextField setContentCompressionResistancePriority:NSLayoutPriorityDefaultLow forOrientation:NSLayoutConstraintOrientationHorizontal];
-    
-//    self.headerSubtitleTextField.textColor = [SRCashewColor foregroundTertiaryColor];
 }
 
 - (IBAction)_openURLForCurrentIssue:(id)sender
@@ -1121,7 +1117,6 @@
 }
 
 - (void)store:(Class)store didUpdateRecord:(id)record {
-    DDLogDebug(@"QIssueDetailsVC didUpdateRecord");
     if (store == QIssueStore.class && [record isKindOfClass:QIssue.class]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             QIssue *updatedIssue = (QIssue *)record;

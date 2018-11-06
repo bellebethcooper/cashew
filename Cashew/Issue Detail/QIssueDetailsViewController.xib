@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="QIssueDetailsViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="BaseTextField">
             <connections>
                 <outlet property="activityScrollView" destination="Fm3-7G-VIc" id="RwJ-dE-aUr"/>
                 <outlet property="activityTableView" destination="F0z-tV-Zgo" id="isp-Uu-2LA"/>
@@ -19,6 +19,7 @@
                 <outlet property="milestoneContainerView" destination="KS0-ID-22x" id="F45-k3-99W"/>
                 <outlet property="noIssueSelectedView" destination="sjJ-Bg-XFs" id="UHL-SH-UmF"/>
                 <outlet property="titleContainerView" destination="pSU-wr-ypB" id="j1P-PB-4iB"/>
+                <outlet property="titleTextField" destination="VE2-he-zAw" id="2UP-xz-hJW"/>
                 <outlet property="toolbarContainerView" destination="Sjp-0r-kES" id="3gS-ig-uAK"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -27,7 +28,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="766" height="580"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Sjp-0r-kES" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
                     <rect key="frame" x="20" y="546" width="726" height="34"/>
@@ -58,17 +59,33 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tyj-pZ-p5K">
-                    <rect key="frame" x="20" y="392" width="726" height="142"/>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tyj-pZ-p5K">
+                    <rect key="frame" x="20" y="366" width="726" height="168"/>
                     <subviews>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="102" width="726" height="40"/>
+                        <customView verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="118" width="330" height="50"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="VE2-he-zAw" customClass="SRBaseTextField">
+                                    <rect key="frame" x="28" y="8" width="304" height="34"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="300" id="Txm-78-v7P"/>
+                                    </constraints>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="9do-F8-X6S">
+                                        <font key="font" usesAppearanceFont="YES"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" placeholder="YES" id="ry1-yy-qVn"/>
+                                <constraint firstAttribute="trailing" secondItem="VE2-he-zAw" secondAttribute="trailing" id="3H0-os-hFo"/>
+                                <constraint firstItem="VE2-he-zAw" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="leading" constant="30" id="CXe-gS-7ul"/>
+                                <constraint firstAttribute="bottom" secondItem="VE2-he-zAw" secondAttribute="bottom" constant="8" id="CsD-LQ-JHs"/>
+                                <constraint firstItem="VE2-he-zAw" firstAttribute="top" secondItem="pSU-wr-ypB" secondAttribute="top" constant="8" id="wNa-zV-jfe"/>
                             </constraints>
                         </customView>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="9wz-5s-Zvd" userLabel="Assignee Container View" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="54" width="726" height="48"/>
+                            <rect key="frame" x="0.0" y="62" width="726" height="48"/>
                             <subviews>
                                 <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="h1V-jf-LjD">
                                     <rect key="frame" x="12" y="8" width="24" height="24"/>
@@ -129,13 +146,13 @@
                     </customSpacing>
                 </stackView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Fm3-7G-VIc" customClass="SRBaseScrollView">
-                    <rect key="frame" x="20" y="45" width="726" height="307"/>
+                    <rect key="frame" x="20" y="45" width="726" height="281"/>
                     <clipView key="contentView" id="7CJ-vD-296" customClass="SRBaseClipView">
-                        <rect key="frame" x="0.0" y="0.0" width="726" height="307"/>
+                        <rect key="frame" x="0.0" y="0.0" width="726" height="281"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="F0z-tV-Zgo" customClass="SRIssueDetailsTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="726" height="307"/>
+                                <rect key="frame" x="0.0" y="0.0" width="726" height="281"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
