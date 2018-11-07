@@ -14,6 +14,7 @@
                 <outlet property="assigneeContainerView" destination="9wz-5s-Zvd" id="4Mz-hz-ceH"/>
                 <outlet property="commentEditorContainerView" destination="Jr0-Ma-Me5" id="qbd-Ax-AKV"/>
                 <outlet property="commentEditorView" destination="ORg-ne-KOh" id="ZqQ-sG-iBV"/>
+                <outlet property="issueNumberLabel" destination="aZB-RE-DYz" id="oUD-5k-4uu"/>
                 <outlet property="menuButton" destination="7Oa-hr-PRf" id="b94-r6-5S2"/>
                 <outlet property="milestoneButton" destination="TWo-el-Ygf" id="GAG-cI-gCM"/>
                 <outlet property="milestoneContainerView" destination="KS0-ID-22x" id="F45-k3-99W"/>
@@ -47,6 +48,15 @@
                                 <action selector="_openURLForCurrentIssue:" target="-2" id="8It-9f-wxt"/>
                             </connections>
                         </button>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aZB-RE-DYz" userLabel="Issue Number Label">
+                            <rect key="frame" x="0.0" y="8" width="37" height="17"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <textFieldCell key="cell" lineBreakMode="clipping" title="#340" id="cNs-vI-USw">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
                     </subviews>
                     <constraints>
                         <constraint firstItem="7Oa-hr-PRf" firstAttribute="centerY" secondItem="Sjp-0r-kES" secondAttribute="centerY" id="QUh-w6-Ojz"/>
@@ -63,10 +73,10 @@
                     <rect key="frame" x="20" y="366" width="738" height="168"/>
                     <subviews>
                         <customView verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="12" y="118" width="726" height="50"/>
+                            <rect key="frame" x="0.0" y="118" width="738" height="50"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="VE2-he-zAw" customClass="SRBaseTextField">
-                                    <rect key="frame" x="28" y="8" width="700" height="34"/>
+                                    <rect key="frame" x="10" y="8" width="730" height="34"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="9do-F8-X6S">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -76,7 +86,7 @@
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="VE2-he-zAw" secondAttribute="trailing" id="3H0-os-hFo"/>
-                                <constraint firstItem="VE2-he-zAw" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="leading" constant="30" id="CXe-gS-7ul"/>
+                                <constraint firstItem="VE2-he-zAw" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="leading" constant="12" id="CXe-gS-7ul"/>
                                 <constraint firstAttribute="bottom" secondItem="VE2-he-zAw" secondAttribute="bottom" constant="8" id="CsD-LQ-JHs"/>
                                 <constraint firstItem="VE2-he-zAw" firstAttribute="top" secondItem="pSU-wr-ypB" secondAttribute="top" constant="8" id="wNa-zV-jfe"/>
                             </constraints>
@@ -133,7 +143,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="pSU-wr-ypB" secondAttribute="trailing" id="qFP-9L-QKB"/>
-                        <constraint firstItem="pSU-wr-ypB" firstAttribute="leading" secondItem="Tyj-pZ-p5K" secondAttribute="leading" constant="12" id="vZv-ib-eTK"/>
+                        <constraint firstItem="pSU-wr-ypB" firstAttribute="leading" secondItem="Tyj-pZ-p5K" secondAttribute="leading" id="vZv-ib-eTK"/>
                     </constraints>
                     <visibilityPriorities>
                         <integer value="1000"/>

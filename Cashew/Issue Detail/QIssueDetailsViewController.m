@@ -44,7 +44,7 @@
 @property (weak) IBOutlet BaseView *commentEditorContainerView;
 
 @property (nonatomic) SRIssueStateBadgeView *issueStateBadgeView;
-@property (nonatomic) NSTextField *issueNumberLabel;
+@property (weak) IBOutlet NSTextField *issueNumberLabel;
 
 @property (nonatomic) NSPopover *assigneePopover;
 @property (nonatomic) NSPopover *milestonePopover;
@@ -253,7 +253,7 @@
             self.milestoneTextField.textColor = [SRCashewColor foregroundSecondaryColor];
         }
         
-        self.issueNumberLabel.stringValue = [NSString stringWithFormat:@"#%@", issue.number];
+        [self.issueNumberLabel setStringValue:[NSString stringWithFormat:@"#%@", issue.number]];
         if ([_issue.state isEqualToString:@"open"]) {
             self.issueStateBadgeView.open = true;
             self.issueStateBadgeView.toolTip = @"Click to close issue";
@@ -345,10 +345,12 @@
     self.milestoneButton.toolTip = @"Click to change milestone";
     self.assigneeButton.toolTip = @"Click to change assignee";
     
-    self.issueNumberLabel = [NSTextField new];
     [self.toolbarContainerView addSubview:self.issueNumberLabel];
     self.issueNumberLabel.translatesAutoresizingMaskIntoConstraints = false;
-    self.issueNumberLabel.stringValue = @"#0";
+    [self.issueNumberLabel setStringValue:@"#0"];
+    self.issueNumberLabel.textColor = [SRCashewColor foregroundColor];
+    [self.issueNumberLabel setEditable:YES];
+    [self.issueNumberLabel setUsesSingleLineMode:YES];
     
     self.issueStateBadgeView = [[SRIssueStateBadgeView alloc] initWithOpen:false];
     [self.toolbarContainerView addSubview:self.issueStateBadgeView];
@@ -356,10 +358,11 @@
     
     [self.issueNumberLabel.leadingAnchor constraintEqualToAnchor:self.toolbarContainerView.leadingAnchor].active = true;
     [self.issueNumberLabel.centerYAnchor constraintEqualToAnchor:self.toolbarContainerView.centerYAnchor].active = true;
-    [self.issueStateBadgeView.leadingAnchor constraintEqualToAnchor:self.issueNumberLabel.trailingAnchor constant:12].active = true;
+    [self.issueNumberLabel.widthAnchor constraintEqualToConstant:80];
+    [self.issueNumberLabel setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
+    [self.issueStateBadgeView.leadingAnchor constraintEqualToAnchor:self.issueNumberLabel.trailingAnchor].active = true;
     [self.issueStateBadgeView.centerYAnchor constraintEqualToAnchor:self.toolbarContainerView.centerYAnchor].active = true;
     [self.issueStateBadgeView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-    [self.issueStateBadgeView setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
     self.issueStateBadgeView.hidden = true;
     
     __weak QIssueDetailsViewController *weakSelf = self;
@@ -699,9 +702,8 @@
         [parentView addSubview:view];
         
         [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
-        [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor constant:30].active = YES;
+        [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
-        DDLogDebug(@"QIssueDetailsVC setupTitleLabels - parent width: %f", parentView.frame.size.width);
         [view setPreferredMaxLayoutWidth:400];
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
         [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor constant:-8].active = YES;
