@@ -836,6 +836,7 @@
     if ([item conformsToProtocol:@protocol(SRIssueEventInfo)]) { //([item isKindOfClass:[QIssueEvent class]]) {
         IssueEventTableViewCell *view = [_activityTableView makeViewWithIdentifier:@"IssueEventTableViewCell" owner:self];
         view.issueEvent = item;
+        [view.eventDetailsLabel setPreferredMaxLayoutWidth:400];
         
         view.onHeightChanged = ^{
             QIssueDetailsViewController *strongSelf = weakSelf;
