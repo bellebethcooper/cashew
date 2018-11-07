@@ -701,7 +701,8 @@
         [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
         [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor constant:30].active = YES;
         [view.rightAnchor constraintEqualToAnchor:parentView.rightAnchor].active = YES;
-        [view setPreferredMaxLayoutWidth:300];
+        DDLogDebug(@"QIssueDetailsVC setupTitleLabels - parent width: %f", parentView.frame.size.width);
+        [view setPreferredMaxLayoutWidth:400];
         [view.topAnchor constraintEqualToAnchor:parentView.topAnchor].active = YES;
         [view.bottomAnchor constraintEqualToAnchor:parentView.bottomAnchor constant:-8].active = YES;
         

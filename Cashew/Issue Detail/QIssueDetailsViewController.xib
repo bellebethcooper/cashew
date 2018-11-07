@@ -27,14 +27,14 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="766" height="580"/>
+            <rect key="frame" x="0.0" y="0.0" width="778" height="580"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Sjp-0r-kES" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="20" y="546" width="726" height="34"/>
+                    <rect key="frame" x="20" y="546" width="738" height="34"/>
                     <subviews>
                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="7Oa-hr-PRf">
-                            <rect key="frame" x="708" y="11" width="18" height="12"/>
+                            <rect key="frame" x="720" y="11" width="18" height="12"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="18" id="4ly-mj-b2L"/>
                                 <constraint firstAttribute="height" constant="12" id="Rbu-cl-3eA"/>
@@ -60,16 +60,13 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tyj-pZ-p5K">
-                    <rect key="frame" x="20" y="366" width="726" height="168"/>
+                    <rect key="frame" x="20" y="366" width="738" height="168"/>
                     <subviews>
                         <customView verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="118" width="330" height="50"/>
+                            <rect key="frame" x="12" y="118" width="726" height="50"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="VE2-he-zAw" customClass="SRBaseTextField">
-                                    <rect key="frame" x="28" y="8" width="304" height="34"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="300" id="Txm-78-v7P"/>
-                                    </constraints>
+                                    <rect key="frame" x="28" y="8" width="700" height="34"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="9do-F8-X6S">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -134,6 +131,10 @@
                             </constraints>
                         </customView>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="pSU-wr-ypB" secondAttribute="trailing" id="qFP-9L-QKB"/>
+                        <constraint firstItem="pSU-wr-ypB" firstAttribute="leading" secondItem="Tyj-pZ-p5K" secondAttribute="leading" constant="12" id="vZv-ib-eTK"/>
+                    </constraints>
                     <visibilityPriorities>
                         <integer value="1000"/>
                         <integer value="1000"/>
@@ -146,18 +147,18 @@
                     </customSpacing>
                 </stackView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Fm3-7G-VIc" customClass="SRBaseScrollView">
-                    <rect key="frame" x="20" y="45" width="726" height="281"/>
+                    <rect key="frame" x="20" y="45" width="738" height="281"/>
                     <clipView key="contentView" id="7CJ-vD-296" customClass="SRBaseClipView">
-                        <rect key="frame" x="0.0" y="0.0" width="726" height="281"/>
+                        <rect key="frame" x="0.0" y="0.0" width="738" height="281"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="F0z-tV-Zgo" customClass="SRIssueDetailsTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="726" height="281"/>
+                                <rect key="frame" x="0.0" y="0.0" width="738" height="281"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn editable="NO" width="726" minWidth="10" maxWidth="3.4028234663852886e+38" id="Cp9-bw-2d4">
+                                    <tableColumn editable="NO" width="738" minWidth="10" maxWidth="3.4028234663852886e+38" id="Cp9-bw-2d4">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -171,7 +172,7 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="cxc-8K-9fS">
-                                                <rect key="frame" x="0.0" y="0.0" width="726" height="17"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="738" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ifs-qy-Xhl">
@@ -214,10 +215,10 @@
                     </scroller>
                 </scrollView>
                 <customView hidden="YES" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Jr0-Ma-Me5" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="20" y="0.0" width="726" height="45"/>
+                    <rect key="frame" x="20" y="0.0" width="738" height="45"/>
                     <subviews>
                         <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ORg-ne-KOh" customClass="CommentEditorView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="726" height="45"/>
+                            <rect key="frame" x="0.0" y="0.0" width="738" height="45"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                                     <color key="value" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -225,7 +226,7 @@
                             </userDefinedRuntimeAttributes>
                         </customView>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="jyx-Wj-bpn" userLabel="Top Separator View" customClass="SRBaseSeparatorView">
-                            <rect key="frame" x="0.0" y="44" width="726" height="1"/>
+                            <rect key="frame" x="0.0" y="44" width="738" height="1"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="urb-OC-bjm"/>
                             </constraints>
