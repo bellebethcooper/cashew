@@ -732,7 +732,7 @@
         NSMenuItem *copyURLMenuItem = [[NSMenuItem alloc] initWithTitle:@"Copy URL" action:@selector(_copyURL:) keyEquivalent:@""];
         [menu addItem:copyURLMenuItem];
         
-        NSMenuItem *createIssueMenuItem = [[NSMenuItem alloc] initWithTitle:@"Go to Github" action:@selector(_openGithub:) keyEquivalent:@""];
+        NSMenuItem *createIssueMenuItem = [[NSMenuItem alloc] initWithTitle:@"Open on Github" action:@selector(_openGithub:) keyEquivalent:@""];
         [menu addItem:createIssueMenuItem];
         
         self.menuButton.menu = menu;
