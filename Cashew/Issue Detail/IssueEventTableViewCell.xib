@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -10,23 +10,25 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" id="c22-O7-iKe" customClass="IssueEventTableViewCell" customModule="Cashew" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="89"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="72"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView verticalHuggingPriority="500" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T71-0k-0PX" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="12" y="51" width="30" height="30"/>
+                    <rect key="frame" x="12" y="34" width="30" height="30"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QDr-O3-vz5">
-                            <rect key="frame" x="2" y="15" width="26" height="0.0"/>
+                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="dKL-cn-aTi"/>
                         </imageView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="3L2-dl-05p"/>
                         <constraint firstItem="QDr-O3-vz5" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" id="3pB-Sz-XxU"/>
-                        <constraint firstAttribute="trailing" secondItem="QDr-O3-vz5" secondAttribute="trailing" constant="2" id="41H-5W-And"/>
+                        <constraint firstAttribute="trailing" secondItem="QDr-O3-vz5" secondAttribute="trailing" id="41H-5W-And"/>
                         <constraint firstAttribute="width" constant="30" id="Pg3-4m-an9"/>
-                        <constraint firstItem="QDr-O3-vz5" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="leading" constant="2" id="nlV-3T-4pT"/>
+                        <constraint firstItem="QDr-O3-vz5" firstAttribute="top" secondItem="T71-0k-0PX" secondAttribute="top" id="RhA-7b-lyA"/>
+                        <constraint firstAttribute="bottom" secondItem="QDr-O3-vz5" secondAttribute="bottom" id="ecW-yr-70n"/>
+                        <constraint firstItem="QDr-O3-vz5" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="leading" id="nlV-3T-4pT"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
@@ -38,7 +40,7 @@
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nTZ-hL-TFj">
-                    <rect key="frame" x="52" y="58" width="197" height="17"/>
+                    <rect key="frame" x="52" y="47" width="197" height="17"/>
                     <textFieldCell key="cell" selectable="YES" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="hishboy commented 3 days ago" id="Ltt-kc-mo7">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" red="0.41568627450000001" green="0.41568627450000001" blue="0.41568627450000001" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -50,14 +52,14 @@
                 <constraint firstItem="nTZ-hL-TFj" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="trailing" constant="12" id="3Tw-yN-Kpg"/>
                 <constraint firstItem="T71-0k-0PX" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="8" id="AUv-Op-u3M"/>
                 <constraint firstItem="T71-0k-0PX" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="12" id="Xuq-Tq-1Ik"/>
-                <constraint firstItem="nTZ-hL-TFj" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" id="Yw4-cJ-vbg"/>
+                <constraint firstItem="nTZ-hL-TFj" firstAttribute="top" secondItem="T71-0k-0PX" secondAttribute="top" id="vjG-tL-ijw"/>
             </constraints>
             <connections>
                 <outlet property="eventDetailsLabel" destination="nTZ-hL-TFj" id="sZO-hc-xNP"/>
                 <outlet property="eventImageContainerView" destination="T71-0k-0PX" id="h8f-T3-a4E"/>
                 <outlet property="eventImageView" destination="QDr-O3-vz5" id="y6N-1r-j80"/>
             </connections>
-            <point key="canvasLocation" x="148" y="272.5"/>
+            <point key="canvasLocation" x="148" y="285"/>
         </customView>
     </objects>
 </document>

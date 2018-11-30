@@ -125,7 +125,7 @@ class IssueEventTableViewCell: BaseView {
         let attrString = IssueEventTableViewCell.detailsForIssueEvent(event)
         let containerSize = CGSize(width: width - IssueEventTableViewCell.spacingOccupiedByHorizontalPaddingAndImageView, height: CGFloat.greatestFiniteMagnitude)
         let attrStringSize = attrString.boundingRect(with: containerSize, options: [NSString.DrawingOptions.usesFontLeading, NSString.DrawingOptions.usesLineFragmentOrigin])
-        return attrStringSize.height + IssueEventTableViewCell.verticalPadding * 2
+        return attrStringSize.height + IssueEventTableViewCell.verticalPadding * 3
     }
     
     fileprivate class func detailsForIssueEvent(_ event: IssueEventInfo) -> NSAttributedString {

@@ -411,7 +411,8 @@ class QIssueTableViewCell: NSTableRowView {
         subtitleLabel.attributedStringValue = subtitle
         let updated = anIssue.updatedAt as NSDate
         
-        updatedAtLabel.stringValue = updated.timeAgoSimple(forWeekOrLessAndUserShortForm: true)
+        // temporarily removing this, but leaving the code in case I want to bring it back or make it optional in future
+//        updatedAtLabel.stringValue = updated.timeAgoSimple(forWeekOrLessAndUserShortForm: true)
         let numberString = "#\(anIssue.number)"
         let titleString = "\(numberString) • \(anIssue.title)"
         titleLabel.stringValue = titleString
