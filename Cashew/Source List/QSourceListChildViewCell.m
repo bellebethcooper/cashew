@@ -359,7 +359,7 @@
         NSMenuItem *closeMenuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Close \"%@\"", _label.stringValue] action:@selector(_closeMilestone:) keyEquivalent:@""];
         [menu addItem:closeMenuItem];
     } else {
-        NSMenuItem *deleteMenuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Delete \"%@\"", _label.stringValue] action:@selector(_deleteNode:) keyEquivalent:@""];
+        NSMenuItem *deleteMenuItem = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Remove \"%@\"", _label.stringValue] action:@selector(_deleteNode:) keyEquivalent:@""];
         [menu addItem:deleteMenuItem];
     }
     

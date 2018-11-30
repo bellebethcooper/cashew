@@ -44,7 +44,7 @@
 @property (weak) IBOutlet BaseView *commentEditorContainerView;
 
 @property (nonatomic) SRIssueStateBadgeView *issueStateBadgeView;
-@property (weak) IBOutlet NSTextField *issueNumberLabel;
+@property (nonatomic) NSTextField *issueNumberLabel;
 
 @property (nonatomic) NSPopover *assigneePopover;
 @property (nonatomic) NSPopover *milestonePopover;
@@ -345,22 +345,11 @@
     self.milestoneButton.toolTip = @"Click to change milestone";
     self.assigneeButton.toolTip = @"Click to change assignee";
     
-    [self.toolbarContainerView addSubview:self.issueNumberLabel];
-    self.issueNumberLabel.translatesAutoresizingMaskIntoConstraints = false;
-    [self.issueNumberLabel setStringValue:@"#0"];
-    self.issueNumberLabel.textColor = [SRCashewColor foregroundColor];
-    [self.issueNumberLabel setEditable:YES];
-    [self.issueNumberLabel setUsesSingleLineMode:YES];
-    
     self.issueStateBadgeView = [[SRIssueStateBadgeView alloc] initWithOpen:false];
     [self.toolbarContainerView addSubview:self.issueStateBadgeView];
     self.issueStateBadgeView.translatesAutoresizingMaskIntoConstraints = false;
     
-    [self.issueNumberLabel.leadingAnchor constraintEqualToAnchor:self.toolbarContainerView.leadingAnchor].active = true;
-    [self.issueNumberLabel.centerYAnchor constraintEqualToAnchor:self.toolbarContainerView.centerYAnchor].active = true;
-    [self.issueNumberLabel.widthAnchor constraintEqualToConstant:80];
-    [self.issueNumberLabel setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
-    [self.issueStateBadgeView.leadingAnchor constraintEqualToAnchor:self.issueNumberLabel.trailingAnchor].active = true;
+    [self.issueStateBadgeView.leadingAnchor constraintEqualToAnchor:self.toolbarContainerView.leadingAnchor].active = true;
     [self.issueStateBadgeView.centerYAnchor constraintEqualToAnchor:self.toolbarContainerView.centerYAnchor].active = true;
     [self.issueStateBadgeView setContentHuggingPriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
     self.issueStateBadgeView.hidden = true;
@@ -695,11 +684,22 @@
         
         view.drawsBackground = false;
         view.bordered = false;
-//        view.cell.wraps = YES;
-//        view.cell.lineBreakMode = NSLineBreakByWordWrapping;
-//        view.lineBreakMode = NSLineBreakByWordWrapping;
         [view setTranslatesAutoresizingMaskIntoConstraints:NO];
         [parentView addSubview:view];
+        
+        self.issueNumberLabel = [NSTextField new];
+        [self.toolbarContainerView addSubview:self.issueNumberLabel];
+        self.issueNumberLabel.translatesAutoresizingMaskIntoConstraints = false;
+        [self.issueNumberLabel setStringValue:@"#0"];
+        self.issueNumberLabel.textColor = [SRCashewColor foregroundColor];
+        [self.issueNumberLabel setEditable:YES];
+        [self.issueNumberLabel setWantsLayer:YES];
+        [self.issueNumberLabel setBackgroundColor:[NSColor redColor]];
+        [self.issueNumberLabel setUsesSingleLineMode:YES];
+        [self.issueNumberLabel.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = true;
+        [self.issueNumberLabel.centerYAnchor constraintEqualToAnchor:parentView.centerYAnchor].active = true;
+//        [self.issueNumberLabel.widthAnchor constraintEqualToConstant:80];
+        [self.issueNumberLabel setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationHorizontal];
         
         [view setContentCompressionResistancePriority:NSLayoutPriorityRequired forOrientation:NSLayoutConstraintOrientationVertical];
         [view.leadingAnchor constraintEqualToAnchor:parentView.leadingAnchor].active = YES;
