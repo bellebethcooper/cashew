@@ -33,7 +33,6 @@
 #import "QIssueFavoriteStore.h"
 #import "QIssueNotificationStore.h"
 #import "SRStatusImageView.h"
-//#import <ObjectiveGit/ObjectiveGit.h>
 
 @interface _QTitlebarView : QView
 

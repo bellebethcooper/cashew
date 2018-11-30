@@ -162,8 +162,6 @@
 		955963891D5823B3005BECCE /* ReactionCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955963881D5823B3005BECCE /* ReactionCountView.swift */; };
 		957017411D27A4570052001B /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9570173F1D27A4570052001B /* PreferencesWindowController.swift */; };
 		957017421D27A4570052001B /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 957017401D27A4570052001B /* PreferencesWindowController.xib */; };
-		957122E71D5C41A10076242E /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957122E41D5C40290076242E /* ObjectiveGit.framework */; };
-		957122E81D5C41A10076242E /* ObjectiveGit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 957122E41D5C40290076242E /* ObjectiveGit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		957122EC1D5CCD640076242E /* StatusBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957122EA1D5CCD640076242E /* StatusBarViewController.swift */; };
 		957122ED1D5CCD640076242E /* StatusBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 957122EB1D5CCD640076242E /* StatusBarViewController.xib */; };
 		957122F01D5CCFAA0076242E /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957122EF1D5CCFAA0076242E /* EventMonitor.swift */; };
@@ -340,7 +338,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				957122E81D5C41A10076242E /* ObjectiveGit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,7 +540,6 @@
 		955963881D5823B3005BECCE /* ReactionCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactionCountView.swift; sourceTree = "<group>"; };
 		9570173F1D27A4570052001B /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		957017401D27A4570052001B /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
-		957122E41D5C40290076242E /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ObjectiveGit.framework; sourceTree = "<group>"; };
 		957122EA1D5CCD640076242E /* StatusBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarViewController.swift; sourceTree = "<group>"; };
 		957122EB1D5CCD640076242E /* StatusBarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusBarViewController.xib; sourceTree = "<group>"; };
 		957122EF1D5CCFAA0076242E /* EventMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
@@ -744,7 +740,6 @@
 			files = (
 				682DDF71218572C100DE2676 /* AFNetworking.framework in Frameworks */,
 				95B7193F1D4C7C4F002C4E10 /* AVFoundation.framework in Frameworks */,
-				957122E71D5C41A10076242E /* ObjectiveGit.framework in Frameworks */,
 				95B719401D4C7C4F002C4E10 /* AVKit.framework in Frameworks */,
 				9539BC821D4A534B00038D09 /* libsqlite3.tbd in Frameworks */,
 				9539BC7C1D45CD7900038D09 /* JavaScriptCore.framework in Frameworks */,
@@ -782,7 +777,6 @@
 				682DDF70218572C100DE2676 /* AFNetworking.framework */,
 				682DDF6E2185729F00DE2676 /* AFNetworking.framework */,
 				68F2F5D8218501EE0035880F /* CloudKit.framework */,
-				957122E41D5C40290076242E /* ObjectiveGit.framework */,
 				95B7193D1D4C7C4F002C4E10 /* AVFoundation.framework */,
 				95B7193E1D4C7C4F002C4E10 /* AVKit.framework */,
 				9539BC811D4A534B00038D09 /* libsqlite3.tbd */,
