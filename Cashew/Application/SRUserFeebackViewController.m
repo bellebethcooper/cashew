@@ -58,7 +58,7 @@
     
     [[SRThemeObserverController sharedInstance] addThemeObserver:self block:^(SRThemeMode mode) {
         SRUserFeebackViewController *strongSelf = weakSelf;
-        strongSelf.feedbackDescriptionTextView.textColor = [SRCashewColor foregroundColor];
+        strongSelf.feedbackDescriptionTextView.textColor = [SRCashewColor foregroundSecondaryColor];
     }];
 }
 

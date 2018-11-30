@@ -149,7 +149,7 @@ class EditableMarkdownView: BaseView {
                 return;
             }
             strongSelf.backgroundColor = CashewColor.backgroundColor()
-            strongSelf.textView.textColor = CashewColor.foregroundColor()
+            strongSelf.textView.textColor = CashewColor.foregroundSecondaryColor()
             if mode == .dark {
                 strongSelf.textView.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             } else {

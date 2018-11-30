@@ -75,7 +75,7 @@ class BaseLabel: NSTextField {
             }
             
             strongSelf.backgroundColor = CashewColor.backgroundColor()
-            strongSelf.textColor = CashewColor.foregroundColor()
+            strongSelf.textColor = CashewColor.foregroundSecondaryColor()
         }
     }
     
