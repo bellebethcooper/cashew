@@ -92,7 +92,7 @@ class NewIssueViewController: NSViewController {
                 return
             }
             
-            strongSelf.descriptionTextView.textColor = CashewColor.foregroundColor()
+            strongSelf.descriptionTextView.textColor = CashewColor.foregroundSecondaryColor()
             if (.dark == mode) {
                 let appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
                 strongSelf.progressIndicator.appearance = appearance

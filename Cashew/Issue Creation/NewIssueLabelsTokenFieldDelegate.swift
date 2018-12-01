@@ -70,28 +70,21 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     
     func tokenField(_ tokenField: NSTokenField, shouldAdd tokens: [Any], at index: Int) -> [Any] {
         DDLogDebug("NewIssueLabelsTokenFieldDelegate tokenField shouldAdd - tokens = \(tokens) index = \(index)")
-        
-        return tokens
-        
+        guard let stringTokens = tokens as? [String] else { return tokens }
         var uniqueTokens = Set<String>()
-        for label in self.recentResults {
-            if let stringTokens = tokens as? [String],
-                let name = label.name,
-                stringTokens.contains(name) {
-                
-                var countOfDups: Int = 0
-                 print("existingTokens =\(tokenField.objectValue)")
-                if let existingTokens = tokenField.objectValue as? [String] {
-                    existingTokens.forEach { (existingToken) in
-                        if (existingToken == name) {
-                            countOfDups += 1
-                        }
+        var countOfDups: Int = 0
+        for token in stringTokens {
+            if let existingTokens = tokenField.objectValue as? [String] {
+                DDLogDebug("NewIssueLabelsTokenFieldDelegate shouldAdd - existing tokens: \(existingTokens)")
+                existingTokens.forEach { (existingToken) in
+                    if (existingToken == token) {
+                        DDLogDebug("NewIssueLabelsTokenFieldDelegate shouldAdd - found dup of: \(token) in existing tokens: \(existingTokens)")
+                        countOfDups += 1
                     }
                 }
-                print("existingTokens =\(tokenField.objectValue) and countOfDups = \(countOfDups)")
-                if countOfDups == 1 || countOfDups == 0 {
-                    uniqueTokens.insert(name)
-                }
+            }
+            if countOfDups < 2 {
+                uniqueTokens.insert(token)
             }
         }
         
