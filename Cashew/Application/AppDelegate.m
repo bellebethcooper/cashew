@@ -1864,6 +1864,7 @@
 - (void)_showCreateIssueWindowController:(NSNotification *)notification
 {
     DDLogDebug(@"Delegate showCreateIssueWindowController");
+    [NSApp activateIgnoringOtherApps:YES];
     if (!self.createIssueWindowController.window.isVisible) {
         NewIssueWindowController *controller = [[NewIssueWindowController alloc] initWithWindowNibName:@"NewIssueWindowController"];
         self.createIssueWindowController = controller;
