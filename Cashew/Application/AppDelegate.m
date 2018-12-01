@@ -18,11 +18,6 @@
 #import "NSUserDefaults+SplitViewState.h"
 #import "QAccountCreationWindowController.h"
 #import "QIssueSync.h"
-#ifndef DEBUG
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
-#endif
-#import <Crashlytics/Answers.h>
 #import "Cashew-Swift.h"
 #import "NSUserDefaults+Application.h"
 #import "QRepositoryStore.h"
@@ -165,10 +160,6 @@
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
     
-#ifndef DEBUG
-    [Fabric with:@[[Crashlytics class], [Answers class]]];
-#endif
-    
     self.hotKey = [HotKeyCreator new];
     [self.hotKey register];
     
@@ -269,12 +260,6 @@
     }];
     
     [[NSUserDefaults standardUserDefaults] setObject:@(500) forKey:@"NSInitialToolTipDelay"];
-    
-    if ([NSUserDefaults themeMode] == SRThemeModeDark) {
-        [SRAnalytics logCustomEventWithName:@"Running Dark Mode" customAttributes:nil];
-    } else {
-        [SRAnalytics logCustomEventWithName:@"Running Light Mode" customAttributes:nil];
-    }
     
     QAccount *currentAccount = [self _findCurrentSelectedAccount];
     if (currentAccount) {
@@ -505,7 +490,6 @@
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification;
 {
     DDLogDebug(@"Did deliver notification = %@", notification);
-    [SRAnalytics logCustomEventWithName:@"Delivered System Notification" customAttributes:nil];
     
     //[[[NSApplication sharedApplication] dockTile] setBadgeLabel:@"2234"];
     
@@ -517,7 +501,6 @@
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification;
 {
     DDLogDebug(@"Did activate notification = %@", notification);
-    [SRAnalytics logCustomEventWithName:@"Clicked System Notification" customAttributes:nil];
     if (notification.userInfo[@"issueNumber"]  && notification.userInfo[@"accountId"] && notification.userInfo[@"repositoryId"] ) {
         QRepository *repository = [QRepositoryStore repositoryForAccountId:notification.userInfo[@"accountId"] identifier:notification.userInfo[@"repositoryId"]];
         QIssue *issue = [QIssueStore issueWithNumber:notification.userInfo[@"issueNumber"] forRepository:repository];
@@ -897,12 +880,10 @@
 
 - (void)_windowDidResignKeyWindow:(NSNotification *)notification
 {
-//    [SRAnalytics logCustomEventWithName:@"Did Resign Key Window" customAttributes:nil];
 }
 
 - (void)_windowDidBecomeKeyWindow:(NSNotification *)notification
 {
-//    [SRAnalytics logCustomEventWithName:@"Did Become Key Window" customAttributes:nil];
     //    if (notification.object == self.window) {
     //        [self sync];
     //    }
@@ -1819,19 +1800,16 @@
 
 - (void)_didClickNotificationsStatusItemMenuItem:(id)sender
 {
-    [SRAnalytics logCustomEventWithName:@"Clicked Notifications Menu Item" customAttributes:nil];
     [self.sourceListViewController showNotification];
 }
 
 - (void)_didClickFavoritesStatusItemMenuItem:(id)sender
 {
-    [SRAnalytics logCustomEventWithName:@"Clicked Favorites Menu Item" customAttributes:nil];
     [self.sourceListViewController showFavorites];
 }
 
 - (void)_didClickCreateIssueStatusItemMenuItem:(id)sender
 {
-    [SRAnalytics logCustomEventWithName:@"Clicked Create Issue Menu Item" customAttributes:nil];
     NSRect eventFrame = [[self.statusItem valueForKey:@"window"] frame];
     CGPoint eventOrigin = eventFrame.origin;
     CGSize eventSize = eventFrame.size;
@@ -1966,7 +1944,6 @@
     NSArray<QIssue *> *currentIssues = [self _currentIssues];
     [currentIssues enumerateObjectsUsingBlock:^(QIssue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [QIssueFavoriteStore favoriteIssue:obj];
-        [SRAnalytics logCustomEventWithName:@"Favorite Issue" customAttributes:nil];
     }];
 }
 
@@ -1975,7 +1952,6 @@
     NSArray<QIssue *> *currentIssues = [self _currentIssues];
     [currentIssues enumerateObjectsUsingBlock:^(QIssue * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [QIssueFavoriteStore unfavoriteIssue:obj];
-        [SRAnalytics logCustomEventWithName:@"Unfavorite Issue" customAttributes:nil];
     }];
 }
 
@@ -2224,7 +2200,6 @@
     }
     
     NSSharingService *shareService = (NSSharingService *)[sender representedObject];
-    [SRAnalytics logCustomEventWithName:@"Share Issue" customAttributes:@{@"title": shareService.title ?: @""}];
     [shareService performWithItems:[SRMenuUtilities selectedIssueItemsForSharingService]];
 }
 

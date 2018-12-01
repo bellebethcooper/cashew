@@ -85,7 +85,6 @@ class NewIssueViewController: NSViewController {
         setupFileUploadProgressIndicator()
         
         descriptionTextView.hidePlaceholder = true
-        Analytics.logContentViewWithName(NSStringFromClass(NewIssueViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
         
         ThemeObserverController.sharedInstance.addThemeObserver(self) { [weak self] (mode) in
             guard let strongSelf = self else {
@@ -284,8 +283,6 @@ class NewIssueViewController: NSViewController {
                                 self.errorMessage.isHidden = true
                                 }, completionHandler: nil)
                         })
-                        
-                        Analytics.logCustomEventWithName("Failed Save New Issue", customAttributes: ["error": errorString as AnyObject])
                     }
                     return
                 }
@@ -300,7 +297,6 @@ class NewIssueViewController: NSViewController {
                         }
                         
                         QIssueStore.save(issue)
-                        Analytics.logCustomEventWithName("Successful Save New Issue", customAttributes: nil)
                     }
                     
                     DispatchQueue.main.async  {

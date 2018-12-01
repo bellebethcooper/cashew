@@ -307,77 +307,62 @@ class MarkdownEditorTextView: BaseView {
         
         // bold text
         toolbarView.onBoldButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Bold button on toolbar", customAttributes:nil)
             self?.boldSelectedText()
         }
         internalTextView.onBoldKeyboardShortcut = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Bold keyboard shortcut on toolbar", customAttributes:nil)
             self?.boldSelectedText()
         }
         
         
         toolbarView.onItalicButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Italic button on toolbar", customAttributes:nil)
             self?.italicSelectedText()
         }
         
         toolbarView.onCodeButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Code button on toolbar", customAttributes:nil)
             self?.codeSelectedText()
         }
         
         toolbarView.onQuoteButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Quote button on toolbar", customAttributes:nil)
             self?.quoteSelectedText()
         }
         
         toolbarView.onLinkButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Link button on toolbar", customAttributes:nil)
             self?.linkSelectedText()
         }
         
         toolbarView.onEmojiButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Emoji button on toolbar", customAttributes:nil)
             self?.emojiButtonClick()
         }
         
         toolbarView.onFilePickerButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked File Picker button on toolbar", customAttributes:nil)
             self?.showFilePicker()
         }
         
         toolbarView.onUnorderedListButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Unordered button on toolbar", customAttributes:nil)
             self?.unorderedListButtonClick()
         }
         
         toolbarView.onOrderedListButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Ordered button on toolbar", customAttributes:nil)
             self?.orderedListButtonClick()
         }
         
         toolbarView.onTasklistButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Tasklist button on toolbar", customAttributes:nil)
             self?.taskListButtonClick()
         }
         
         toolbarView.onTextSizeButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked TextSize button on toolbar", customAttributes:nil)
             self?.textSizeButtonClick()
         }
         
         toolbarView.onGifButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked GIF button on toolbar", customAttributes:nil)
             self?.gifButtonClick()
         }
         
         toolbarView.onPreviewButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Preview button on toolbar", customAttributes:nil)
             self?.previewButtonClick()
         }
         
         toolbarView.onHelpButtonClick = { [weak self] in
-            Analytics.logCustomEventWithName("Clicked Help button on toolbar", customAttributes:nil)
             self?.helpButtonClick()
         }
         
@@ -1047,7 +1032,6 @@ class InternalMarkdownEditorTextView: NSTextView {
                         guard let json = json as? [String: Any],
                             let url = json["content_url"] as? String else {
                             self.removeObjectFromSet(filePath as AnyObject)
-                                Analytics.logCustomEventWithName("failed to upload file", customAttributes: ["uploadType":"drag_n_drop" as AnyObject])
                             group.leave()
                             return
                         }
@@ -1065,7 +1049,6 @@ class InternalMarkdownEditorTextView: NSTextView {
                         
                         
                         self.removeObjectFromSet(filePath as AnyObject)
-                        Analytics.logCustomEventWithName("Successfully uploaded file", customAttributes: ["uploadType":"drag_n_drop" as AnyObject])
                         group.leave()
                     })
                 } else if let image = path as? NSImage {
@@ -1075,7 +1058,6 @@ class InternalMarkdownEditorTextView: NSTextView {
                         guard let json = json as? [String: Any],
                             let url = json["content_url"] as? String else {
                             self.removeObjectFromSet(image)
-                                Analytics.logCustomEventWithName("failed to upload file", customAttributes: ["uploadType":"image" as AnyObject])
                             group.leave()
                             return
                         }
@@ -1083,7 +1065,6 @@ class InternalMarkdownEditorTextView: NSTextView {
                         let img = "![image](\(url))"
                         images.append(img)
                         self.removeObjectFromSet(image)
-                        Analytics.logCustomEventWithName("Successfully uploaded file", customAttributes: ["uploadType":"image" as AnyObject])
                         group.leave()
                     })
                 }

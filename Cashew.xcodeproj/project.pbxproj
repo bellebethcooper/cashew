@@ -189,7 +189,6 @@
 		95824B8E1D80F86F005B850C /* QIssueSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CF04851C457259005AF3C6 /* QIssueSync.m */; };
 		95842FB71C74B6BF00E0C181 /* NSMutableAttributedString+Trimmer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95842FB61C74B6BF00E0C181 /* NSMutableAttributedString+Trimmer.m */; };
 		95842FC11C760AA400E0C181 /* QIssueDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842FC01C760AA400E0C181 /* QIssueDetailsDataSource.swift */; };
-		9584A9A21D389B8100AD7096 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9584A9A11D389B8100AD7096 /* Analytics.swift */; };
 		9584A9A41D3B48B500AD7096 /* NSArray+Cashew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9584A9A31D3B48B500AD7096 /* NSArray+Cashew.swift */; };
 		958B5AF01D27BB2900F4913E /* AccountsPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958B5AEE1D27BB2900F4913E /* AccountsPreferenceViewController.swift */; };
 		958B5AF11D27BB2900F4913E /* AccountsPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 958B5AEF1D27BB2900F4913E /* AccountsPreferenceViewController.xib */; };
@@ -569,7 +568,6 @@
 		95842FB51C74B6BF00E0C181 /* NSMutableAttributedString+Trimmer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Trimmer.h"; sourceTree = "<group>"; };
 		95842FB61C74B6BF00E0C181 /* NSMutableAttributedString+Trimmer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Trimmer.m"; sourceTree = "<group>"; };
 		95842FC01C760AA400E0C181 /* QIssueDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QIssueDetailsDataSource.swift; sourceTree = "<group>"; };
-		9584A9A11D389B8100AD7096 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		9584A9A31D3B48B500AD7096 /* NSArray+Cashew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSArray+Cashew.swift"; sourceTree = "<group>"; };
 		958B5AEE1D27BB2900F4913E /* AccountsPreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsPreferenceViewController.swift; sourceTree = "<group>"; };
 		958B5AEF1D27BB2900F4913E /* AccountsPreferenceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountsPreferenceViewController.xib; sourceTree = "<group>"; };
@@ -1513,7 +1511,6 @@
 		95DF80B01C41C93700239501 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				9584A9A11D389B8100AD7096 /* Analytics.swift */,
 				95C752EE1C40643800A0FD51 /* AppDelegate.h */,
 				95C752EF1C40643800A0FD51 /* AppDelegate.m */,
 				95C752F71C40643800A0FD51 /* Assets.xcassets */,
@@ -1617,7 +1614,6 @@
 				95C752E71C40643800A0FD51 /* Sources */,
 				95C752E81C40643800A0FD51 /* Frameworks */,
 				95C752E91C40643800A0FD51 /* Resources */,
-				9519ABFE1C59E441004F6E07 /* Crashlytics */,
 				957122E91D5C41A10076242E /* Embed Frameworks */,
 				C9C1FC75C9866A859FDB7DA2 /* [CP] Embed Pods Frameworks */,
 			);
@@ -1816,20 +1812,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9519ABFE1C59E441004F6E07 /* Crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Crashlytics;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 2f6f618e0a026d8c00d28db64d6b69ed0c6b6bd7 10421a1958331e4a7889d1d5db106d5cf420e242b13d13ea74a63a631dcfc530";
-		};
 		9C0EF43BEA37F4E675E410F7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1961,7 +1943,6 @@
 				95CD2E631D6FEB340086EFC5 /* SearchBuilderCriteriaViewController.swift in Sources */,
 				95D69C911D20AD95004C7926 /* RepositoryCache.swift in Sources */,
 				953906F61D176D3700EC098C /* MimeType.swift in Sources */,
-				9584A9A21D389B8100AD7096 /* Analytics.swift in Sources */,
 				95C6F5671D0DEF24006EABA4 /* SRUserFeebackViewController.m in Sources */,
 				9557DB0E1CFAA61C00FEDFF9 /* BaseTableRowView.swift in Sources */,
 				957A65971D2E922600F5E621 /* BaseClipView.swift in Sources */,

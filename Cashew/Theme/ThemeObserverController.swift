@@ -94,12 +94,6 @@ class ThemeObserverController: NSObject {
             
             let mode = UserDefaults.themeMode()
             
-            if (UserDefaults.themeMode() == .dark) {
-                Analytics.logCustomEventWithName("Switching to Dark Mode", customAttributes: nil)
-            } else {
-                Analytics.logCustomEventWithName("Switching to Light Mode", customAttributes: nil)
-            }
-            
 //            var windowSet = Set<NSWindow>()
             objs.forEach ({ (observerContainer) in
                 

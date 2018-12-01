@@ -1,10 +1,10 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 CODE_SIGN_IDENTITY =
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking" "${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack" "${PODS_CONFIGURATION_BUILD_DIR}/FMDB" "${PODS_CONFIGURATION_BUILD_DIR}/FXKeychain" "${PODS_CONFIGURATION_BUILD_DIR}/HotKey" "${PODS_CONFIGURATION_BUILD_DIR}/hoedown" "${PODS_ROOT}/Crashlytics/OSX" "${PODS_ROOT}/Fabric/OSX"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking" "${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack" "${PODS_CONFIGURATION_BUILD_DIR}/FMDB" "${PODS_CONFIGURATION_BUILD_DIR}/FXKeychain" "${PODS_CONFIGURATION_BUILD_DIR}/HotKey" "${PODS_CONFIGURATION_BUILD_DIR}/hoedown"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking/AFNetworking.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/CocoaLumberjack/CocoaLumberjack.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/FMDB/FMDB.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/FXKeychain/FXKeychain.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/HotKey/HotKey.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/hoedown/hoedown.framework/Headers"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -ObjC -l"c++" -l"sqlite3" -l"z" -framework "AFNetworking" -framework "Appkit" -framework "Carbon" -framework "CocoaLumberjack" -framework "CoreServices" -framework "Crashlytics" -framework "FMDB" -framework "FXKeychain" -framework "Fabric" -framework "HotKey" -framework "Security" -framework "SystemConfiguration" -framework "hoedown"
+OTHER_LDFLAGS = $(inherited) -l"sqlite3" -framework "AFNetworking" -framework "Appkit" -framework "Carbon" -framework "CocoaLumberjack" -framework "CoreServices" -framework "FMDB" -framework "FXKeychain" -framework "HotKey" -framework "Security" -framework "SystemConfiguration" -framework "hoedown"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

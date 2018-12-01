@@ -160,13 +160,11 @@ class StatusBarViewController: NSViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        Analytics.logCustomEventWithName("Status Bar View Did Appear", customAttributes: nil)
         refresh()
     }
     
     override func viewDidDisappear() {
         super.viewDidDisappear()
-        Analytics.logCustomEventWithName("Status Bar View Did Disappear", customAttributes: nil)
     }
     
     func refresh() {
@@ -200,7 +198,6 @@ class StatusBarViewController: NSViewController {
     // MARK: Actions
     
     @IBAction func didClickCreateIssueButton(_ sender: AnyObject) {
-        Analytics.logCustomEventWithName("Status Bar Did Click Create Issue Button", customAttributes: nil)
         if let didClickCreateIssueAction = self.didClickCreateIssueAction {
             didClickCreateIssueAction()
         }
@@ -252,13 +249,11 @@ class StatusBarViewController: NSViewController {
     
     @IBAction
     func didClickRefreshButton(_ sender: AnyObject) {
-        Analytics.logCustomEventWithName("Status Bar Did Click Refresh Button", customAttributes: nil)
         refresh()
     }
     
     @IBAction
     func didClickOpenCashewAppStatusBarButton(_ sender: AnyObject) {
-        Analytics.logCustomEventWithName("Status Bar Did Click Open Cashew App", customAttributes: nil)
         if let didClickShowAppAction = didClickShowAppAction {
             didClickShowAppAction()
         }
@@ -268,7 +263,6 @@ class StatusBarViewController: NSViewController {
     
     @IBAction
     func didClickSegmentatedControleButton(_ sender: AnyObject) {
-        Analytics.logCustomEventWithName("Status Bar Did Select Tab", customAttributes: ["tabIndex": self.tabButton.selectedSegment as AnyObject])
         refresh()
     }
     

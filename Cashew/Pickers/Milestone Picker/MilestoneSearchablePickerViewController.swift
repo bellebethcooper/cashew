@@ -115,7 +115,6 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(MilestoneSearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         
         super.viewDidLoad()
-        Analytics.logContentViewWithName(NSStringFromClass(MilestoneSearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
         
         reloadPicker()
     }
@@ -143,11 +142,9 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                 let sinceDate = issue.updatedAt
                 let issueService = QIssuesService(for: issue.account)
                 
-                Analytics.logCustomEventWithName("Changed Milestone", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                 issueService.saveMilestoneNumber(milestone?.number, for: issue.repository, number: issue.number, onCompletion: { [weak self] (issue, context, error) in
                     if let issue = issue as? QIssue {
                         self?.searchablePickerController?.syncIssueEventsForIssue(issue, sinceDate: sinceDate)
-                        Analytics.logCustomEventWithName("Successful Changed Milestone", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                         DispatchQueue.global().async {
                             QIssueStore.save(issue)
                         }
@@ -159,7 +156,6 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                             errorString = ""
                         }
                         DDLogDebug("Error updating milestone for \(issue) because \(error?.localizedDescription) error \(error)")
-                        Analytics.logCustomEventWithName("Failed Changed Milestone", customAttributes: ["error": errorString as AnyObject, "RepositoryName": fullRepoName as AnyObject])
                     }
                     semaphore.signal()
                     })

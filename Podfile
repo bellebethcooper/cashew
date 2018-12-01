@@ -3,14 +3,12 @@ use_frameworks!
 
 target 'Cashew' do
 
-pod 'FXKeychain', '~> 1.5'
-pod 'AFNetworking', '~> 3.0'
-pod 'FMDB/FTS'
-pod 'Fabric'
-pod 'Crashlytics'
-pod 'hoedown'
-pod 'CocoaLumberjack/Swift'
-pod 'HotKey'
+  pod 'FXKeychain', '~> 1.5' # keychain
+  pod 'AFNetworking', '~> 3.0' # networking
+  pod 'FMDB/FTS' # database
+  pod 'hoedown' # ??
+  pod 'CocoaLumberjack/Swift' # logging
+  pod 'HotKey' # global hotkey
 
 end
 

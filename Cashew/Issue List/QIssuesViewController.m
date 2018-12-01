@@ -605,7 +605,6 @@ static NSString *kQTitleKey = @"Title";
     NSParameterAssert(issue);
     
     NSString *contentId = [NSString stringWithFormat:@"%@/%@", issue.repository.fullName, issue.number];
-    [SRAnalytics logContentViewWithName:[NSString stringWithFormat:@"%@ DoubleClicked", NSStringFromClass(QIssueDetailsViewController.class)] contentType:@"" contentId:contentId customAttributes:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         

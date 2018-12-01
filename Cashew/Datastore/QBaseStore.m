@@ -589,9 +589,7 @@ static FMDatabasePool *readDatabasePool;
             
             NSError *removalError = nil;
             [[NSFileManager defaultManager] removeItemAtURL:dbURL error:&removalError];
-            [SRAnalytics logCustomEventWithName:@"Fixing corrupted database" customAttributes:@{@"db_version": [NSString stringWithFormat:@"%@", currentVersion]}];
             if (removalError) {
-                [SRAnalytics logCustomEventWithName:@"Unable to delete corrupted database" customAttributes:@{@"db_version": [NSString stringWithFormat:@"%@", currentVersion]}];
                 [NSException raise:@"Invalid database version" format:@"currentVersion = %@", currentVersion];
             }
             

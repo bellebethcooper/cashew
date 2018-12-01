@@ -24,7 +24,6 @@ class ImageViewerViewController: NSViewController {
     var onScrollToPage: ((Int) -> ())?
     var imageURLs = [URL]() {
         didSet {
-            Analytics.logCustomEventWithName("Show Image Viewer Controller", customAttributes: ["imageURLCount": imageURLs.count as AnyObject])
             preCacheImages()
             self.pageControllerView.subviews.forEach { (view) in
                 view.removeFromSuperview()

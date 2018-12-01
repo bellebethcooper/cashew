@@ -543,13 +543,6 @@
 {
     BOOL shouldSelect = [self _selectItem:item];
     QSourceListNode *node = (QSourceListNode *)item;
-    
-    if (node.children.count > 0 && node.nodeType != QSourceListNodeType_Repository) {
-        [SRAnalytics logCustomEventWithName:@"SourceListParentSelection" customAttributes:@{@"childrenCount": @(node.children.count), @"Name": node.title, @"didSelect": @(shouldSelect) }];
-    } else {
-        [SRAnalytics logCustomEventWithName:@"SourceListChildSelection" customAttributes:@{@"searchQuery": node.userQuery.query ?: @"", @"Name": node.userQuery.displayName ?: @"", @"didSelect": @(shouldSelect)}];
-    }
-    
     return shouldSelect;
 }
 

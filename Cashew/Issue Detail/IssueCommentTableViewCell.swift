@@ -339,7 +339,6 @@ class ReactionButton: NSButton {
         
         let service = QIssuesService(for: account)
         if let issue = strongSelf.commentInfo as? QIssue {
-            Analytics.logCustomEventWithName("Clicked Save Issue Description", customAttributes: nil)
             service.saveIssueBody(strongSelf.editableMarkdownView?.markdown, for: repository, number: issue.number, onCompletion: { (updatedIssue, context, error) in
                 if let updatedIssue = updatedIssue as? QIssue {
                     if let onCommentDiscard = strongSelf.onCommentDiscard {
@@ -347,7 +346,6 @@ class ReactionButton: NSButton {
                     }
                     
                     QIssueStore.save(updatedIssue)
-                    Analytics.logCustomEventWithName("Successful Save Issue Description", customAttributes: nil)
                 } else {
                     let errorString: String
                     if let error = error {
@@ -355,7 +353,6 @@ class ReactionButton: NSButton {
                     } else {
                         errorString = ""
                     }
-                    Analytics.logCustomEventWithName("Failed Save Issue Description", customAttributes: ["error": errorString as AnyObject])
                 }
                 
                 DispatchQueue.main.async {
@@ -370,14 +367,12 @@ class ReactionButton: NSButton {
             })
             
         } else if let issueComment = strongSelf.commentInfo as? QIssueComment, let issueCommentMarkdown = strongSelf.editableMarkdownView?.markdown {
-            Analytics.logCustomEventWithName("Clicked Save Issue Comment", customAttributes: nil)
             service.updateCommentText(issueCommentMarkdown, for: repository, issueNumber: issueComment.issueNumber, commentIdentifier: issueComment.identifier, onCompletion: { (updatedIssueComment, context, error) in
                 if let updatedIssueComment = updatedIssueComment as? QIssueComment {
                     if let onCommentDiscard = strongSelf.onCommentDiscard {
                         onCommentDiscard()
                     }
                     QIssueCommentStore.save(updatedIssueComment)
-                    Analytics.logCustomEventWithName("Successful Save Issue Comment", customAttributes: nil)
                 } else {
                     let errorString: String
                     if let error = error {
@@ -385,7 +380,6 @@ class ReactionButton: NSButton {
                     } else {
                         errorString = ""
                     }
-                    Analytics.logCustomEventWithName("Failed Save Issue Comment", customAttributes: ["error": errorString as AnyObject])
                 }
                 DispatchQueue.main.async {
                     
@@ -510,12 +504,6 @@ class ReactionButton: NSButton {
         }
         
         cancelButton.onClick = { [weak self] in
-            if let _ = self?.commentInfo as? QIssue {
-                Analytics.logCustomEventWithName("Clicked Discard Issue Description", customAttributes: nil)
-            } else {
-                Analytics.logCustomEventWithName("Clicked Discard Issue Comment", customAttributes: nil)
-            }
-            
             let discardAction = {
                 guard let commentInfo = self?.commentInfo else { return }
                 self?.editableMarkdownView?.commentInfo = commentInfo
@@ -720,11 +708,6 @@ class ReactionButton: NSButton {
     
     @objc
     fileprivate func didClickEditComment() {
-        if let _ = commentInfo as? QIssue {
-            Analytics.logCustomEventWithName("Clicked Edit Issue Description", customAttributes: nil)
-        } else {
-            Analytics.logCustomEventWithName("Clicked Edit Issue Comment", customAttributes: nil)
-        }
         editing = true
     }
     
@@ -735,8 +718,6 @@ class ReactionButton: NSButton {
         if let onCommentDiscard = self.onCommentDiscard {
             onCommentDiscard()
         }
-        
-        Analytics.logCustomEventWithName("Clicked Delete Issue Comment", customAttributes: nil)
         
         NSAlert.showWarningMessage("Are you sure you want to delete this comment?") {
             QIssuesService(for: account).delete(comment, onCompletion: { (responseObject, context, error) in

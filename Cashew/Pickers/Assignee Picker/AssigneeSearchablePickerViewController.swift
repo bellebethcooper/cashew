@@ -116,8 +116,6 @@ class AssigneeSearchablePickerViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(AssigneeSearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         
         super.viewDidLoad()
-        Analytics.logContentViewWithName(NSStringFromClass(AssigneeSearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
-        
         reloadPicker()
     }
     
@@ -148,10 +146,8 @@ class AssigneeSearchablePickerViewController: BaseViewController {
                 let fullRepoName = issue.repository.fullName
                 let sinceDate = issue.updatedAt
                 let issueService = QIssuesService(for: issue.account)
-                Analytics.logCustomEventWithName("Changed Assignee", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                 issueService.saveAssigneeLogin(assignee?.login, for: issue.repository, number: issue.number, onCompletion: { [weak self] (issue, context, error) in
                     if let issue = issue as? QIssue {
-                        Analytics.logCustomEventWithName("Successful Changed Assignee", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                         self?.searchablePickerController?.syncIssueEventsForIssue(issue, sinceDate: sinceDate)
                         DispatchQueue.global(qos: .userInitiated).async {
                             QIssueStore.save(issue)
@@ -163,7 +159,6 @@ class AssigneeSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        Analytics.logCustomEventWithName("Failed Changed Assignee", customAttributes: ["error": errorString as AnyObject, "RepositoryName": fullRepoName as AnyObject])
                     }
                     semaphore.signal()
                     })

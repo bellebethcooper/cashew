@@ -21,11 +21,6 @@
 #import <QuartzCore/CAAnimation.h>
 #import "QRepositoryStore.h"
 
-#ifndef DEBUG
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
-#endif
-
 @interface QAccountCreationWindowController () <NSTextFieldDelegate>
 
 @property (weak) IBOutlet QView *passwordFieldContainerView;
@@ -236,10 +231,8 @@
                 if (error) {
                     NSLog(@"QAccountCreation fetchCurrentUserAuthToken - error: %@", error);
                     if (isTwoFactorAuthRequest) {
-                        [SRAnalytics logLoginWithMethod:@"TwoAuthSignIn" success:@NO customAttributes:nil];
                         [self _flashTwoFactorAuthCodeError];
                     } else {
-                        [SRAnalytics logLoginWithMethod:@"StandardSignIn" success:@NO customAttributes:nil];
                         [self _hideTwoFactorAuthView];
                     }
                     [self _transitionTwoAuthButtonToNormalState];
@@ -535,7 +528,6 @@
                     return;
                 } else if (error) {
                     DDLogDebug(@"QAccountCreationWindow fireLogin - error: %@", error);
-                    [SRAnalytics logLoginWithMethod:@"StandardSignIn" success:@NO customAttributes:nil];
                     [self _flashLoginError];
                     [self _transitionSignInButtonToNormalState];
                     return;

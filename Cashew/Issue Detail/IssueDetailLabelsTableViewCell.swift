@@ -107,7 +107,6 @@ class IssueDetailLabelsTableViewCell: BaseView {
     
     @objc
     fileprivate func didClickAddLabel(_ sender: AnyObject) {
-        Analytics.logCustomEventWithName("Clicked Labels on Issue Details", customAttributes:nil)
         let labelSearchablePicker = LabelSearchablePickerViewController()
         labelSearchablePicker.sourceIssue = viewModel?.issue;
         

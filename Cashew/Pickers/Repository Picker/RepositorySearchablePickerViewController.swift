@@ -58,7 +58,6 @@ class RepositorySearchablePickerViewController: BaseViewController {
             
             for repository in repositories {
                 guard let repo = repository as? QRepository else { continue }
-                Analytics.logCustomEventWithName("Added Repository", customAttributes: ["RepositoryName": repo.fullName as AnyObject])
                 QRepositoryStore.save(repo)
             }
             
@@ -106,8 +105,7 @@ class RepositorySearchablePickerViewController: BaseViewController {
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(RepositorySearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         
-        super.viewDidLoad()
-        Analytics.logContentViewWithName(NSStringFromClass(RepositorySearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)        
+        super.viewDidLoad()    
         reloadPicker()
         
         setupThemeObserver()

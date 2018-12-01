@@ -119,8 +119,6 @@ class LabelSearchablePickerViewController: BaseViewController {
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(LabelSearchablePickerViewController.issueSelectionChanged(_:)), name: NSNotification.Name.qContextIssueSelectionChange, object: nil)
         super.viewDidLoad()
-        Analytics.logContentViewWithName(NSStringFromClass(LabelSearchablePickerViewController.self), contentType: nil, contentId: nil, customAttributes: nil)
-        
         reloadPicker()
     }
     
@@ -147,11 +145,9 @@ class LabelSearchablePickerViewController: BaseViewController {
                 let sinceDate = issue.updatedAt
                 let issueService = QIssuesService(for: issue.account)
                 
-                Analytics.logCustomEventWithName("Changed Label", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                 issueService.saveLabels(labelNames, for: issue.repository, issueNumber: issue.number, onCompletion: { [weak self] (issue, context, err) in
                     if let issue = issue as? QIssue {
                         self?.searchablePickerController?.syncIssueEventsForIssue(issue, sinceDate: sinceDate)
-                        Analytics.logCustomEventWithName("Successful Changed Label", customAttributes: ["RepositoryName": fullRepoName as AnyObject])
                         DispatchQueue.global(qos: .userInitiated).async {
                             QIssueStore.save(issue)
                         }
@@ -162,7 +158,6 @@ class LabelSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        Analytics.logCustomEventWithName("Failed Changed Label", customAttributes: ["error": errorString as AnyObject, "RepositoryName": fullRepoName as AnyObject])
                     }
                     semaphore.signal()
                     })

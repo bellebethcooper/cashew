@@ -40,12 +40,6 @@
 #import "MarkdownParser.h"
 #import "AppDelegate.h"
 #import "QIssueSync.h"
-#ifndef DEBUG
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
-#endif
-
-#import <Crashlytics/Answers.h>
 #import "QIssueMarkdownWebView.h"
 #import "SRTrie.h"
 #import "SRIssueDetailItem.h"

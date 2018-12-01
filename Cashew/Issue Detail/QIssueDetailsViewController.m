@@ -423,7 +423,6 @@
     
     
     if (sender == self.assigneeButton) {
-        [SRAnalytics logCustomEventWithName:@"Clicked Assignee on Issue Details" customAttributes:nil];
         SRAssigneeSearchablePickerViewController *assigneeSearchablePicker = [[SRAssigneeSearchablePickerViewController alloc] init];
         assigneeSearchablePicker.sourceIssue = self.issue;
         
@@ -453,7 +452,6 @@
         assigneeSearchablePicker.popover = popover;
         
     } else if (sender == self.milestoneButton) {
-        [SRAnalytics logCustomEventWithName:@"Clicked Milestone on Issue Details" customAttributes:nil];
         SRMilestoneSearchablePickerViewController *milestonePickerController = [[SRMilestoneSearchablePickerViewController alloc] init];
         milestonePickerController.sourceIssue = self.issue;
         NSSize size = NSMakeSize(320.0f, 420.0f);

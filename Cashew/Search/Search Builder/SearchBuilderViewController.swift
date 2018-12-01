@@ -131,14 +131,10 @@ class SearchBuilderViewController: NSViewController {
         } else {
             saveButton.enabled = true
         }
-        
-        Analytics.logCustomEventWithName("Search Builder Did Appear")
     }
     
     override func viewDidDisappear() {
         super.viewDidDisappear()
-        
-        Analytics.logCustomEventWithName("Search Builder Did Disappear")
     }
     
     
@@ -192,7 +188,6 @@ class SearchBuilderViewController: NSViewController {
 extension SearchBuilderViewController {
     
     func didClickCancelButton() {
-        Analytics.logCustomEventWithName("Did Click Cancel on Search Builder")
         
         while childViewControllers.count > 1 {
             guard let childController = childViewControllers.last as? SearchBuilderCriteriaViewController else { return }
@@ -210,8 +205,6 @@ extension SearchBuilderViewController {
     
     func didClickSearchButton() {
         
-        Analytics.logCustomEventWithName("Did Click Search on Search Builder")
-        
         var results = [SearchBuilderResult]()
         
         childViewControllers.forEach { (child) in
@@ -224,8 +217,6 @@ extension SearchBuilderViewController {
     }
     
     func didClickSaveButton() {
-        
-        Analytics.logCustomEventWithName("Did Click Save on Search Builder")
         
         var results = [SearchBuilderResult]()
         

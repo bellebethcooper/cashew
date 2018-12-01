@@ -137,7 +137,6 @@
         
     }
     
-    [Answers logSearchWithQuery:filter.searchTokens customAttributes:@{}];
     [[QContext sharedContext] setCurrentFilter:filter sender:self];
     //  }
 }
