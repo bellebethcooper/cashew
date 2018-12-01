@@ -10,9 +10,9 @@ import Cocoa
 
 class CreateIssueRequest: NSObject {
     
-    var repositoryFullName: String?
-    var milestoneNumber: NSNumber?
-    var assigneeLogin: String?
-    var labels: [String]?
+    @objc var repositoryFullName: String?
+    @objc var milestoneNumber: NSNumber?
+    @objc var assigneeLogin: String?
+    @objc var labels: [String]?
 
 }

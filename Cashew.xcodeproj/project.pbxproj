@@ -10,6 +10,7 @@
 		655F543710B19EA132310885 /* Pods_CashewUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F53D3B42BC852CA3A680B297 /* Pods_CashewUITests.framework */; };
 		67FB33AC275DDE8CD6FFAD77 /* Pods_Cashew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89250B67753070F20126DA6B /* Pods_Cashew.framework */; };
 		682DDF71218572C100DE2676 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 682DDF70218572C100DE2676 /* AFNetworking.framework */; };
+		68332B9A21B32F8800088638 /* HotKeyCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68332B9921B32F8800088638 /* HotKeyCreator.swift */; };
 		68F2F5D9218501EE0035880F /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68F2F5D8218501EE0035880F /* CloudKit.framework */; };
 		9500A1611D33415000D894A0 /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9500A1601D33415000D894A0 /* BaseTextField.swift */; };
 		950948101C4AD2B000D06DF2 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9509480F1C4AD2B000D06DF2 /* CoreServices.framework */; };
@@ -351,6 +352,7 @@
 		4C5B04FAC7094D45DA1ED35B /* Pods-CashewUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CashewUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CashewUITests/Pods-CashewUITests.release.xcconfig"; sourceTree = "<group>"; };
 		682DDF6E2185729F00DE2676 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		682DDF70218572C100DE2676 /* AFNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AFNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		68332B9921B32F8800088638 /* HotKeyCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyCreator.swift; sourceTree = "<group>"; };
 		68F2F5D7218500140035880F /* Cashew.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cashew.entitlements; sourceTree = "<group>"; };
 		68F2F5D8218501EE0035880F /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		89250B67753070F20126DA6B /* Pods_Cashew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cashew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1002,6 +1004,7 @@
 				95F8B7CA1C854FC20094CA53 /* NewIssueViewController.xib */,
 				95F8B7CD1C8554600094CA53 /* NewIssueWindowController.swift */,
 				95F8B7CE1C8554600094CA53 /* NewIssueWindowController.xib */,
+				68332B9921B32F8800088638 /* HotKeyCreator.swift */,
 			);
 			path = "Issue Creation";
 			sourceTree = "<group>";
@@ -1874,6 +1877,7 @@
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/FXKeychain/FXKeychain.framework",
+				"${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework",
 				"${BUILT_PRODUCTS_DIR}/hoedown/hoedown.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1882,6 +1886,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FXKeychain.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HotKey.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hoedown.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2024,6 +2029,7 @@
 				9539BC801D499D4100038D09 /* MarkdownEditorToolbarView.swift in Sources */,
 				95C6F55E1D0D4E6F006EABA4 /* Array+Cashew.swift in Sources */,
 				9557DB421D00DB0D00FEDFF9 /* AssigneeSearchResultTableRowView.swift in Sources */,
+				68332B9A21B32F8800088638 /* HotKeyCreator.swift in Sources */,
 				9557DB2D1CFCDD1600FEDFF9 /* BaseMenuButton.swift in Sources */,
 				95E3F3E71D3C519A00D016C5 /* SRMenuUtilities.m in Sources */,
 				9557DB461D00DB4800FEDFF9 /* AssigneeSearchablePickerTableViewAdapter.swift in Sources */,

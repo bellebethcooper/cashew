@@ -118,6 +118,8 @@
 
 @property (nonatomic) SRLayoutPreference layoutMode;
 
+@property (nonatomic) HotKeyCreator *hotKey;
+
 @end
 
 @implementation AppDelegate {
@@ -166,6 +168,9 @@
 #ifndef DEBUG
     [Fabric with:@[[Crashlytics class], [Answers class]]];
 #endif
+    
+    self.hotKey = [HotKeyCreator new];
+    [self.hotKey register];
     
     // setup database
     [QBaseStore setupDatabaseQueues];
@@ -1798,6 +1803,11 @@
     [self _showCreateIssueWindowController:nil];
 }
 
+- (void)didUseNewIssueHotKey {
+    DDLogDebug(@"Delegate didUseNewIssueHotKey");
+    [self _showCreateIssueWindowController:nil];
+}
+
 - (void)_terminateApp:(id)sender {
     //[NSApp terminate:nil];
 }
@@ -1853,6 +1863,7 @@
 
 - (void)_showCreateIssueWindowController:(NSNotification *)notification
 {
+    DDLogDebug(@"Delegate showCreateIssueWindowController");
     if (!self.createIssueWindowController.window.isVisible) {
         NewIssueWindowController *controller = [[NewIssueWindowController alloc] initWithWindowNibName:@"NewIssueWindowController"];
         self.createIssueWindowController = controller;

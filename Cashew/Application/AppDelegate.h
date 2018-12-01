@@ -15,6 +15,7 @@
 - (void)presentWindowWithViewController:(nonnull NSViewController *)viewController title:(nonnull NSString *)title onCompletion:(nullable dispatch_block_t)onCompletion;
 - (void)dismissWindowWithViewController:(nonnull NSViewController *)viewController;
 - (void)syncForced:(BOOL)forced;
+- (void)didUseNewIssueHotKey;
 
 @end
 

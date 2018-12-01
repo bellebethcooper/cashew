@@ -65,7 +65,7 @@ class NewIssueViewController: NSViewController {
         return NewIssueLabelsTokenFieldDelegate()
     }()
     
-    var request: CreateIssueRequest?
+    @objc var request: CreateIssueRequest?
     var onCancelClicked: ( () -> Void )?
     
     deinit {

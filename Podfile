@@ -10,6 +10,7 @@ pod 'Fabric'
 pod 'Crashlytics'
 pod 'hoedown'
 pod 'CocoaLumberjack/Swift'
+pod 'HotKey'
 
 end
 
