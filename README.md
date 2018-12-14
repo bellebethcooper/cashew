@@ -2,8 +2,6 @@
 
 This project started with the abandoned-but-open-sourced Cashew app source code. After spending many days migrating the code through the various Swift versions from Swift 2 to Swift 4 and fixing crashes, now I'd like to build on this base to develop Cashew with my own ideas and priorities in mind. It'll remain open-source, and you're welcome to contribute PRs for fixes, or suggest new features via issues.
 
-Eventually I'd like to get this available to download and run without having to compile it, but right now I'm still getting my head around the codebase and how macOS development works.
-
 ### To run app:
 
 1. Download the .dmg file [here](https://github.com/bellebethcooper/cashew/releases/tag/1.10.4)
