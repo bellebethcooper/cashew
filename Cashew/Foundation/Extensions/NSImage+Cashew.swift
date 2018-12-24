@@ -23,7 +23,7 @@ extension NSImage {
         return data as NSData
     }
     
-    func circularImage() -> NSImage {
+    @objc func circularImage() -> NSImage {
         let image = self;
         let width: CGFloat = size.width
         let height: CGFloat = size.height

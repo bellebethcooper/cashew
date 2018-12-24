@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="QSourceListViewController">
             <connections>
+                <outlet property="accountsPopUpButton" destination="SF8-eM-4IS" id="U0P-tz-TWO"/>
                 <outlet property="addButton" destination="ezf-22-lb3" id="e6W-s2-ef0"/>
                 <outlet property="clipView" destination="BNG-wA-AFL" id="bnE-4p-heM"/>
                 <outlet property="filterField" destination="zFF-HP-Dgb" id="M0Y-l4-lNk"/>
@@ -31,6 +33,20 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="U9S-68-8dH" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="666" width="297" height="34"/>
                     <subviews>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SF8-eM-4IS" userLabel="Accounts Pop Up Button">
+                            <rect key="frame" x="12" y="4" width="92" height="25"/>
+                            <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" imagePosition="leading" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="pgu-fT-WsS" id="REF-H0-h6g">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="6l6-cA-5eh">
+                                    <items>
+                                        <menuItem title="Item 1" state="on" image="NSUser" hidden="YES" id="pgu-fT-WsS"/>
+                                        <menuItem title="Item 2" id="svz-Py-pF4"/>
+                                        <menuItem title="Item 3" id="cud-Dv-pCc"/>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="BML-H5-GqL" userLabel="Horizontal Line View" customClass="SRBaseSeparatorView">
                             <rect key="frame" x="0.0" y="0.0" width="297" height="1"/>
                             <constraints>
@@ -44,10 +60,12 @@
                         </customView>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="SF8-eM-4IS" firstAttribute="centerY" secondItem="U9S-68-8dH" secondAttribute="centerY" id="DBx-k3-g9A"/>
                         <constraint firstAttribute="trailing" secondItem="BML-H5-GqL" secondAttribute="trailing" id="FU9-C9-isr"/>
                         <constraint firstAttribute="bottom" secondItem="BML-H5-GqL" secondAttribute="bottom" id="ZJv-7X-kbw"/>
                         <constraint firstItem="BML-H5-GqL" firstAttribute="leading" secondItem="U9S-68-8dH" secondAttribute="leading" id="guX-p3-4xS"/>
                         <constraint firstAttribute="height" constant="34" id="jVK-6n-z7U"/>
+                        <constraint firstItem="SF8-eM-4IS" firstAttribute="leading" secondItem="U9S-68-8dH" secondAttribute="leading" constant="12" id="u2H-Np-Nic"/>
                     </constraints>
                 </customView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4x-Dn-zKb" customClass="SRBaseScrollView">
@@ -57,7 +75,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="8yc-Da-vIs" id="KZM-KJ-O7W" customClass="SRBaseOutlineView">
-                                <rect key="frame" x="0.0" y="0.0" width="297" height="0.0"/>
+                                <rect key="frame" x="0.0" y="0.0" width="297" height="632"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -82,6 +100,7 @@
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qLa-BU-dSo">
                                                         <rect key="frame" x="0.0" y="1" width="145" height="14"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="vO3-TK-NM7">
                                                             <font key="font" metaFont="smallSystemBold"/>
                                                             <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -99,10 +118,12 @@
                                                 <subviews>
                                                     <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Em1-fZ-ppL">
                                                         <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSActionTemplate" id="vFG-T5-ywf"/>
                                                     </imageView>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lmN-qI-2ap">
                                                         <rect key="frame" x="25" y="0.0" width="120" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="mMT-fZ-oxY">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -244,6 +265,7 @@
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="NSUser" width="32" height="32"/>
         <image name="sync" width="20" height="22"/>
     </resources>
 </document>

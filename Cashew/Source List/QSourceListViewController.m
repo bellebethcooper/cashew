@@ -94,6 +94,9 @@
 
 @interface QSourceListViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate, QBasicHeaderSourceListViewCellDelegate, QSourceListChildViewCellDelegate, QSourceListDataSourceDelegate, QStoreObserver, NSTextFieldDelegate> {
 }
+
+@property (weak) IBOutlet NSPopUpButton *accountsPopUpButton;
+
 @property (weak) IBOutlet NSButton *syncButton;
 @property (weak) IBOutlet NSButton *addButton;
 @property (weak) IBOutlet NSButton *minusButton;
@@ -146,6 +149,7 @@
     
     [self _setupDataSource];
     [self _setupSourceList];
+    [self _setupAccountView];
     [self _setupFilterField];
     
     self.reloadCoalescer = [[SRCoalescer alloc] initWithInterval:0.1 name:@"co.cashewapp.Coalescer.accessQueue.reloadCoalescer" executionQueue:dispatch_get_main_queue()];
@@ -374,6 +378,89 @@
     [self.sourceListView setIntercellSpacing:NSMakeSize(0, 8)];
     [self.sourceListView setAllowsMultipleSelection:NO];
     [self.sourceListView setupThemeObserver];
+}
+
+- (void)_setupAccountView
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        QAccount *currentAccount = [QContext sharedContext].currentAccount;
+        
+        NSArray<QAccount *> *accounts = [QAccountStore accounts];
+        
+        NSArray<NSMenuItem *> *existingMenuItems = [[self.accountsPopUpButton.menu itemArray] mutableCopy];
+        NSMutableOrderedSet<QAccount *> *existingAccounts = [NSMutableOrderedSet new];
+        [existingMenuItems enumerateObjectsUsingBlock:^(NSMenuItem * _Nonnull menuItem, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSObject *repObject = [menuItem representedObject];
+            if (repObject && [repObject isKindOfClass:QAccount.class]) {
+                QAccount *existingAccount = (QAccount *)repObject;
+                [existingAccounts addObject:existingAccount];
+            }
+        }];
+        
+        if (existingAccounts.count == accounts.count && accounts.count > 0) {
+            __block BOOL foundMismatch = false;
+            [accounts enumerateObjectsUsingBlock:^(QAccount * _Nonnull account, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (![existingAccounts containsObject:account]) {
+                    foundMismatch = true;
+                    *stop = true;
+                    return;
+                }
+            }];
+            
+            if (!currentAccount || ![existingAccounts.firstObject isEqualToAccount:currentAccount]) {
+                foundMismatch = true;
+            }
+            
+            if (!foundMismatch) {
+                return;
+            }
+        }
+        
+        SRMenu *menu = [SRMenu new];
+        
+        if (currentAccount != nil) {
+            NSMenuItem *firstMenuItem = [[NSMenuItem alloc] initWithTitle:currentAccount.accountName action:@selector(_switchAccount:) keyEquivalent:@""];
+            firstMenuItem.representedObject = currentAccount;
+            [menu addItem:firstMenuItem];
+            
+            QOwner *currentUser = [QOwnerStore ownerForAccountId:currentAccount.identifier identifier:currentAccount.userId];
+            [[QImageManager sharedImageManager] downloadImageURL:currentUser.avatarURL onCompletion:^(NSImage *image, NSURL *URL, NSError *error) {
+                image = [image copy];
+                image.size = NSMakeSize(15, 15);
+                firstMenuItem.image = [image circularImage];
+            }];
+            
+            
+            for (QAccount *anAccount in accounts) {
+                if (![anAccount.identifier isEqualToNumber:currentAccount.identifier]) {
+                    //[menuItems addObject:];
+                    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:anAccount.accountName action:@selector(_switchAccount:) keyEquivalent:@""];
+                    menuItem.representedObject = anAccount;
+                    
+                    QOwner *currentUser = [QOwnerStore ownerForAccountId:anAccount.identifier identifier:anAccount.userId];
+                    [[QImageManager sharedImageManager] downloadImageURL:currentUser.avatarURL onCompletion:^(NSImage *image, NSURL *URL, NSError *error) {
+                        image = [image copy];
+                        image.size = NSMakeSize(15, 15);
+                        menuItem.image = [image circularImage];
+                    }];
+                    
+                    [menu addItem:menuItem];
+                }
+            }
+        }
+        
+        if (menu.numberOfItems > 0) {
+            [menu addItem:[NSMenuItem separatorItem]];
+        }
+        
+        NSMenuItem *addAnotherAccountMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add Account" action:@selector(_didClickAddAccountFromMenuItem) keyEquivalent:@""];
+        addAnotherAccountMenuItem.image = [NSImage imageNamed:NSImageNameAddTemplate];
+        addAnotherAccountMenuItem.image.size = NSMakeSize(10, 10);
+        [menu addItem:addAnotherAccountMenuItem];
+        
+        self.accountsPopUpButton.menu = menu;
+    });
 }
 
 

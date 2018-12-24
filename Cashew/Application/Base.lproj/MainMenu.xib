@@ -15,7 +15,6 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="accountsPopUpButton" destination="k8q-Wb-zNA" id="hLJ-XT-oUo"/>
                 <outlet property="centerContainerView" destination="7Z9-ow-HXl" id="MbM-hv-Gye"/>
                 <outlet property="centerContainerViewWidthConstraint" destination="7WV-6c-yAX" id="oH9-pz-tga"/>
                 <outlet property="classicModeDetailsContainerView" destination="ltU-aW-Qod" id="RkZ-Hp-7s6"/>
@@ -508,7 +507,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="0.0" y="377" width="1140" height="800"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="660" height="700"/>
             <view key="contentView" id="EiT-Mj-1SZ" customClass="QView">
                 <rect key="frame" x="0.0" y="0.0" width="1140" height="800"/>
@@ -649,29 +648,6 @@
                         </customView>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="liM-Z8-eni"/>
-                    <toolbarItem implicitItemIdentifier="92DBF5B6-23F6-4572-9611-4C6576D33D28" label="Accounts" paletteLabel="Accounts" image="NSUser" id="b16-t9-coN">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="130" height="26"/>
-                        <size key="maxSize" width="130" height="26"/>
-                        <popUpButton key="view" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" id="k8q-Wb-zNA">
-                            <rect key="frame" x="0.0" y="14" width="130" height="26"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="roundTextured" title="Item 1" bezelStyle="texturedRounded" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="NiY-pZ-D0h">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
-                                <menu key="menu" id="jKz-MP-3IP">
-                                    <items>
-                                        <menuItem title="Item 1" state="on" image="NSUser" hidden="YES" id="piG-d1-n2d"/>
-                                        <menuItem title="Item 2" id="mRn-Sj-2Tm"/>
-                                        <menuItem title="Item 3" id="AEL-XJ-5wm"/>
-                                    </items>
-                                </menu>
-                            </popUpButtonCell>
-                            <connections>
-                                <action selector="didClickAccountsToolbarItemButton:" target="Voe-Tx-rLC" id="Q5Q-7a-7v5"/>
-                            </connections>
-                        </popUpButton>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="390B6983-B11F-431B-BB9F-560519A44DCA" label="Sync" paletteLabel="Sync" image="sync" id="hEs-Bh-yI3">
                         <nil key="toolTip"/>
                         <size key="minSize" width="40" height="32"/>
@@ -722,7 +698,6 @@
                     </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
-                    <toolbarItem reference="b16-t9-coN"/>
                     <toolbarItem reference="liM-Z8-eni"/>
                     <toolbarItem reference="Vpb-K3-1dp"/>
                     <toolbarItem reference="3mv-62-m4R"/>
@@ -738,7 +713,6 @@
     </objects>
     <resources>
         <image name="NSRefreshTemplate" width="11" height="15"/>
-        <image name="NSUser" width="32" height="32"/>
         <image name="manage_search" width="17" height="12"/>
         <image name="sync" width="20" height="22"/>
     </resources>
