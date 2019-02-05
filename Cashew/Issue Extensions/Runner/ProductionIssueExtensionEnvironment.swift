@@ -100,7 +100,7 @@ extension ProductionIssueExtensionEnvironment: MilestoneServiceExtensionEnvironm
             return
         }
         let milestones = QMilestoneStore.milestones(forAccountId: account?.identifier, repositoryId: repositoryId, includeHidden: false)
-        onCompletion.call(withArguments: milestones?.flatMap( { $0.toExtensionModel() }))
+        onCompletion.call(withArguments: milestones?.compactMap( { $0.toExtensionModel() }))
     }
     
 }
@@ -119,7 +119,7 @@ extension ProductionIssueExtensionEnvironment: OwnerServiceExtensionEnvironmentP
             return
         }
         let owners = QOwnerStore.owners(forAccountId: account?.identifier, repositoryId: repositoryId)
-        onCompletion.call(withArguments: owners?.flatMap({ $0.toExtensionModel() }))
+        onCompletion.call(withArguments: owners?.compactMap({ $0.toExtensionModel() }))
     }
     
 }
@@ -138,7 +138,7 @@ extension ProductionIssueExtensionEnvironment: LabelServiceExtensionEnvironmentP
             return
         }
         let labels = QLabelStore.labels(forAccountId: account?.identifier, repositoryId: repositoryId, includeHidden: false)
-        onCompletion.call(withArguments: labels?.flatMap({ $0.toExtensionModel() }))
+        onCompletion.call(withArguments: labels?.compactMap({ $0.toExtensionModel() }))
     }
     
 }
@@ -305,7 +305,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 return
         }
         
-        let labelNames: [String] = (labels == nil) ? [String]() : labels!.flatMap({ (item) in
+        let labelNames: [String] = (labels == nil) ? [String]() : labels!.compactMap({ (item) in
             if let label = item as? NSDictionary, let name = label["name"] as? String {
                 return name
             }

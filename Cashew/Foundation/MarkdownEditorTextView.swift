@@ -613,7 +613,7 @@ class MarkdownEditorTextView: BaseView {
         picker.canChooseDirectories = false
         picker.allowsMultipleSelection = true
         if picker.runModal().rawValue == NSFileHandlingPanelOKButton {
-            let paths: [String] = picker.urls.flatMap({ $0.path })
+            let paths: [String] = picker.urls.compactMap({ $0.path })
             uploadFilePaths(paths)
         }
     }
@@ -696,7 +696,7 @@ class MarkdownEditorTextView: BaseView {
         let updatedText: String
         var addLineBreakOnFirstLine = false
         if shouldRemovePrefix {
-            updatedText = originalLines.flatMap({ ($0 as String).stringByReplaceOccurrencesOfRegex("^\\d*?\\.\\s{1}(.*)", withTemplate: "$1") }).joined(separator: "\n")
+            updatedText = originalLines.compactMap({ ($0 as String).stringByReplaceOccurrencesOfRegex("^\\d*?\\.\\s{1}(.*)", withTemplate: "$1") }).joined(separator: "\n")
             replaceRange(selectedRange, withString: updatedText)
         } else {
             addLineBreakOnFirstLine = selectedRange.location != 0 && text.substring(with: NSMakeRange(selectedRange.location - 1, 1)) != "\n"

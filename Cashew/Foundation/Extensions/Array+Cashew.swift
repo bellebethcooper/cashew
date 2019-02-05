@@ -41,7 +41,7 @@ extension Sequence {
                 //throw e
             }
         }
-        return orderedSet.flatMap { (item) -> T? in
+        return orderedSet.compactMap { (item) -> T? in
             guard let item = item as? T else { return nil }
             return item
         }
