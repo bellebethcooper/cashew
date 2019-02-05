@@ -18,13 +18,13 @@ class IssueExtensionLogFileManagerDefault: DDLogFileManagerDefault {
     //        return formatter
     //    }()
     
-    override var newLogFileName: String!  {
-        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier");
+    override var newLogFileName: String  {
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier")
         //let timestamp = timestampFormatter.stringFromDate(NSDate())
         return "\(appName!)-CodeExtensions.log"
     }
     
-    override func isLogFile(withName fileName: String!) -> Bool {
+    override func isLogFile(withName fileName: String) -> Bool {
         return false
     }
     
