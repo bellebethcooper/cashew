@@ -61,13 +61,17 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
     func issueNum() -> NSNumber {
         return issueNumber
     }
-    
-    override var hashValue: Int {
-        get {
-            return (account?.hashValue ?? 0) ^ (repository?.hashValue ?? 0) ^ issueNumber.hashValue ^ identifier.hashValue
-        }
+
+    override var hash: Int {
+        var hasher = Hasher()
+        hasher.combine(super.hash)
+        hasher.combine(account?.hash ?? 0)
+        hasher.combine(repository?.hash ?? 0)
+        hasher.combine(issueNumber.hash)
+        hasher.combine(identifier.hash)
+        return hasher.finalize()
     }
-    
+
     func commentUpdatedAt() -> Date {
         return updatedAt
     }

@@ -30,14 +30,20 @@ class UserQuery: NSObject {
         return "identifier=\(identifier), displayName=\(displayName), query=\(query), accountId=\(account.identifier)"
         
     }
-    
-    override var hashValue: Int {
+
+    override var hash: Int {
+        var hasher = Hasher()
+        hasher.combine(account.identifier.hash)
+
         if let identifier = identifier {
-            return account.identifier.hashValue ^ identifier.hashValue
+            hasher.combine(identifier.hash)
+        } else {
+            hasher.combine(query.hash)
         }
-        return account.identifier.hashValue ^ query.hashValue
+
+        return hasher.finalize()
     }
-    
+
     override func isEqual(_ object: Any?) -> Bool {
         guard let object = object as? UserQuery else { return false }
         return object.identifier == self.identifier && object.query == self.query
