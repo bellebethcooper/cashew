@@ -80,7 +80,7 @@ class LabelSearchablePickerViewController: BaseViewController {
                 cell.checked = true
             } else {
                 cell.accessoryView = GreenCheckboxView()
-                cell.checked = dataSource.isSelectedItem(item) ?? false
+                cell.checked = dataSource.isSelectedItem(item)
             }
             cell.accessoryView?.disableThemeObserver = true
             cell.accessoryView?.backgroundColor = NSColor.clear

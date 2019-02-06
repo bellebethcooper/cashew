@@ -34,7 +34,7 @@ class PickerSearchField: BaseView {
     
     var onTextChange: (()->())?
     var text: String {
-        return textField.stringValue ?? ""
+        return textField.stringValue
     }
     
     var viewModel: PickerSearchFieldViewModel {

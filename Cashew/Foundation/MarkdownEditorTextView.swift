@@ -255,7 +255,7 @@ class MarkdownEditorTextView: BaseView {
     }
     
     func calculatedSizeForWidth(_ containerWidth: CGFloat) -> NSSize {
-        let stringVal = (internalTextView.string ?? "RANDOM")
+        let stringVal = (internalTextView.string)
         let font = internalTextView.font!
         let textStorage = NSTextStorage(string: stringVal)
         let textContainer = NSTextContainer(containerSize: CGSize(width: containerWidth, height: CGFloat.greatestFiniteMagnitude) )
@@ -559,7 +559,7 @@ class MarkdownEditorTextView: BaseView {
     
     fileprivate func codeSelectedText() {
         let selectedRange = internalTextView.selectedRange()
-        let text = ((internalTextView.string ?? "") as NSString)
+        let text = internalTextView.string as NSString
         let currentSelectedText = text.substring(with: selectedRange)
         if currentSelectedText.contains("\n") {
             surroundSelectedRangeWithString("\n```\n")
@@ -573,7 +573,7 @@ class MarkdownEditorTextView: BaseView {
     }
     
     fileprivate func replaceRange(_ selectedRange: NSRange, withString str: String) {
-        let text = (internalTextView.string ?? "") as NSString
+        let text = internalTextView.string as NSString
         
         if text.length == 0 {
             internalTextView.insertText(str, replacementRange: internalTextView.selectedRange())
@@ -587,7 +587,7 @@ class MarkdownEditorTextView: BaseView {
     
     func linkSelectedText() {
         let selectedRange = internalTextView.selectedRange()
-        let currentText = ( (internalTextView.string ?? "") as NSString).substring(with: selectedRange)
+        let currentText = (internalTextView.string as NSString).substring(with: selectedRange)
         let isURL = currentText.isURL()
         let titleString = "title"
         let urlString = "url"
@@ -620,7 +620,7 @@ class MarkdownEditorTextView: BaseView {
     
     fileprivate func surroundSelectedRangeWithString(_ wrapper: String) {
         let selectedRange = internalTextView.selectedRange()
-        let text = ((internalTextView.string ?? "") as NSString)
+        let text = internalTextView.string as NSString
         let currentSelectedText = text.substring(with: selectedRange)
         
         let escapedWrapper = wrapper.map({ "\\\($0)" }).joined(separator: "")
@@ -666,7 +666,7 @@ class MarkdownEditorTextView: BaseView {
     
     fileprivate func orderedListButtonClick() {
         let selectedRange = internalTextView.selectedRange()
-        let text = ((internalTextView.string ?? "") as NSString)
+        let text = internalTextView.string as NSString
         
         /*
         // get text from beginning of line
@@ -710,7 +710,7 @@ class MarkdownEditorTextView: BaseView {
     
     fileprivate func prefixSelectedRangeWithString(_ prefix: String) {
         let selectedRange = internalTextView.selectedRange()
-        let text = ((internalTextView.string ?? "") as NSString)
+        let text = internalTextView.string as NSString
         var currentSelectedText = text.substring(with: selectedRange)
         
         let escapedPrefix = prefix.map({ "\\\($0)" }).joined(separator: "")

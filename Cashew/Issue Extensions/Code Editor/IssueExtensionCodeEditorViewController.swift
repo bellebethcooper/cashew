@@ -123,7 +123,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
     }
     
     var code: String {
-        return codeEditorView.code ?? ""
+        return codeEditorView.code
     }
     
     fileprivate func setupConsoleTextView() {
