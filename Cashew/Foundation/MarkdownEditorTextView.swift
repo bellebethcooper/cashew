@@ -594,10 +594,10 @@ class MarkdownEditorTextView: BaseView {
         let linkText = isURL ? "[\(titleString)](\(currentText))" : "[\(currentText)](\(urlString))"
         replaceRange(selectedRange, withString: linkText)
         if isURL || selectedRange.length == 0 {
-            let caretRange = NSMakeRange(selectedRange.location + 1, selectedRange.length == 0 ? 0 : titleString.characters.count)
+            let caretRange = NSMakeRange(selectedRange.location + 1, selectedRange.length == 0 ? 0 : titleString.count)
             internalTextView.setSelectedRange(caretRange)
         } else {
-            let caretRange = NSMakeRange(selectedRange.location + 3 + currentText.characters.count, urlString.characters.count)
+            let caretRange = NSMakeRange(selectedRange.location + 3 + currentText.count, urlString.count)
             internalTextView.setSelectedRange(caretRange)
         }
     }
@@ -623,12 +623,12 @@ class MarkdownEditorTextView: BaseView {
         let text = ((internalTextView.string ?? "") as NSString)
         let currentSelectedText = text.substring(with: selectedRange)
         
-        let escapedWrapper = wrapper.characters.map({ "\\\($0)" }).joined(separator: "")
+        let escapedWrapper = wrapper.map({ "\\\($0)" }).joined(separator: "")
         let pattern = "^\(escapedWrapper){1}(.*)\(escapedWrapper){1}$"
         var matchedContent: String?
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive, .dotMatchesLineSeparators])
-            let matches = regex.matches(in: currentSelectedText, options: .reportCompletion, range: NSMakeRange(0, currentSelectedText.characters.count))
+            let matches = regex.matches(in: currentSelectedText, options: .reportCompletion, range: NSMakeRange(0, currentSelectedText.count))
             for result in matches {
                 matchedContent = (currentSelectedText as NSString).substring(with: result.range(at: 1))
                 break;
@@ -639,12 +639,12 @@ class MarkdownEditorTextView: BaseView {
         
         if let matchedContent = matchedContent {
             replaceRange(selectedRange, withString: matchedContent)
-            let caretRange = NSMakeRange(selectedRange.location, matchedContent.characters.count)
+            let caretRange = NSMakeRange(selectedRange.location, matchedContent.count)
             internalTextView.setSelectedRange(caretRange)
             return;
         }
         
-        let wrapperTextCount = wrapper.characters.count
+        let wrapperTextCount = wrapper.count
         let adjustedText = "\(wrapper)\(currentSelectedText)\(wrapper)"
         
         if (selectedRange.location - wrapperTextCount) >= 0 && (selectedRange.location + selectedRange.length + wrapperTextCount) <= text.length {
@@ -653,14 +653,14 @@ class MarkdownEditorTextView: BaseView {
             if currentSelectedWrapperText == adjustedText {
                 
                 replaceRange(potentialWrapperRange, withString: currentSelectedText)
-                let caretRange = NSMakeRange(potentialWrapperRange.location, currentSelectedText.characters.count)
+                let caretRange = NSMakeRange(potentialWrapperRange.location, currentSelectedText.count)
                 internalTextView.setSelectedRange(caretRange)
                 return
             }
         }
         
         replaceRange(selectedRange, withString: adjustedText)
-        let caretRange = NSMakeRange(selectedRange.location + wrapperTextCount, currentSelectedText.characters.count)
+        let caretRange = NSMakeRange(selectedRange.location + wrapperTextCount, currentSelectedText.count)
         internalTextView.setSelectedRange(caretRange)
     }
     
@@ -704,7 +704,7 @@ class MarkdownEditorTextView: BaseView {
             replaceRange(selectedRange, withString: updatedText)
         }
         
-        internalTextView.setSelectedRange(NSMakeRange(selectedRange.location + (addLineBreakOnFirstLine ? 1 : 0), updatedText.characters.count - (addLineBreakOnFirstLine ? 1 : 0)))
+        internalTextView.setSelectedRange(NSMakeRange(selectedRange.location + (addLineBreakOnFirstLine ? 1 : 0), updatedText.count - (addLineBreakOnFirstLine ? 1 : 0)))
     }
     
     
@@ -713,12 +713,12 @@ class MarkdownEditorTextView: BaseView {
         let text = ((internalTextView.string ?? "") as NSString)
         var currentSelectedText = text.substring(with: selectedRange)
         
-        let escapedPrefix = prefix.characters.map({ "\\\($0)" }).joined(separator: "")
+        let escapedPrefix = prefix.map({ "\\\($0)" }).joined(separator: "")
         let pattern = "^\(escapedPrefix){1}(.*)$"
         var matchedContent: String?
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-            let matches = regex.matches(in: currentSelectedText, options: .reportCompletion, range: NSMakeRange(0, currentSelectedText.characters.count))
+            let matches = regex.matches(in: currentSelectedText, options: .reportCompletion, range: NSMakeRange(0, currentSelectedText.count))
             for result in matches {
                 matchedContent = (currentSelectedText as NSString).substring(with: result.range(at: 1))
                 break;
@@ -729,12 +729,12 @@ class MarkdownEditorTextView: BaseView {
         
         if let matchedContent = matchedContent {
             replaceRange(selectedRange, withString: matchedContent)
-            let caretRange = NSMakeRange(selectedRange.location, matchedContent.characters.count)
+            let caretRange = NSMakeRange(selectedRange.location, matchedContent.count)
             internalTextView.setSelectedRange(caretRange)
             return;
         }
         
-        let prefixTextCount = prefix.characters.count
+        let prefixTextCount = prefix.count
         
         let originalLines = currentSelectedText.components(separatedBy: "\n")
         let lines = originalLines.map({ ($0 as NSString).trimmedString() })
@@ -759,7 +759,7 @@ class MarkdownEditorTextView: BaseView {
             adjustedText = (currentSelectedText as NSString).substring(from: index)
             
             replaceRange(oneLineRange, withString: adjustedText)
-            let caretRange = NSMakeRange(oneLineRange.location, adjustedText.characters.count)
+            let caretRange = NSMakeRange(oneLineRange.location, adjustedText.count)
             internalTextView.setSelectedRange(caretRange)
             
         } else if shouldRemovePrefix {
@@ -772,7 +772,7 @@ class MarkdownEditorTextView: BaseView {
             }).joined(separator: "\n") //.reduce("", combine: { "\($0)\n\($1)"})
             
             replaceRange(selectedRange, withString: adjustedText)
-            let caretRange = originalLines.count <= 1 ? NSMakeRange(selectedRange.location + prefixTextCount, currentSelectedText.characters.count) : NSMakeRange(selectedRange.location, adjustedText.characters.count)
+            let caretRange = originalLines.count <= 1 ? NSMakeRange(selectedRange.location + prefixTextCount, currentSelectedText.count) : NSMakeRange(selectedRange.location, adjustedText.count)
             internalTextView.setSelectedRange(caretRange)
             
         } else {
@@ -797,7 +797,7 @@ class MarkdownEditorTextView: BaseView {
             }
             
             replaceRange(selectedRange, withString: adjustedText)
-            let caretRange = originalLines.count <= 1 ? NSMakeRange(selectedRange.location + prefixTextCount + (didAddLineBreak ? 1 : 0), currentSelectedText.characters.count) : NSMakeRange(selectedRange.location + (didAddLineBreak ? 1 : 0), adjustedText.characters.count)
+            let caretRange = originalLines.count <= 1 ? NSMakeRange(selectedRange.location + prefixTextCount + (didAddLineBreak ? 1 : 0), currentSelectedText.count) : NSMakeRange(selectedRange.location + (didAddLineBreak ? 1 : 0), adjustedText.count)
             internalTextView.setSelectedRange(caretRange)
         }
         
