@@ -146,7 +146,7 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QLabelStore.searchLabels(withQuery: "\(string)*", forAccountId: repository.account.identifier, repositoryId: repository.identifier) as NSArray as? [QLabel] {
                 self.results = results
             }
@@ -162,7 +162,7 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QLabelStore.labels(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as NSArray as? [QLabel] {
                 
                 self.results = results.sorted(by: { (repo1, repo2) -> Bool in

@@ -334,8 +334,8 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         if IssueExtensionCodeEditorViewController.consoleCollapsedHeight == debugBarContainerHeightConstraint.constant {
             expandDebugConsole()
         }
-        
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+
+        DispatchQueue.global(qos: .background).async {
             let issues = QIssueStore.issues(with: filter, pagination: pagination).map({ $0.toExtensionModel() })
             IssueExtensionsJSContextRunner(environment: self).runWithIssues(issues as [NSDictionary], sourceCode: self.codeEditorView.code)
         }

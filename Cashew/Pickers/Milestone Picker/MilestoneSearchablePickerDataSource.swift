@@ -94,7 +94,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
             onCompletion()
             return
         }
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QMilestoneStore.searchMilestone(withQuery: String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QMilestone] {
                 self.results = results
             }
@@ -110,7 +110,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
             return
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QMilestoneStore.milestones(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as AnyObject as? [QMilestone] {
                 
                 self.results = results.sorted(by: { (repo1, repo2) -> Bool in

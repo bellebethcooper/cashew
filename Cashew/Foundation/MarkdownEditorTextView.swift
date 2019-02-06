@@ -1020,7 +1020,7 @@ class InternalMarkdownEditorTextView: NSTextView {
     }
     
     fileprivate func uploadFiles(_ paths: [MarkdownTextViewUploadable]) {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
+        DispatchQueue.global(qos: .userInitiated).async(execute: {
             let group = DispatchGroup()
             var images = [String]()
             for path in paths {
