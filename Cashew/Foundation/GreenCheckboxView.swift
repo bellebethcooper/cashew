@@ -22,7 +22,7 @@ class GreenCheckboxView: BaseView {
 
         addSubview(imageViewContainerView)
         imageViewContainerView.addSubview(imageView)
-        if let image = NSImage(named: NSImage.Name(rawValue: "check"))?.withTintColor(NSColor.white) {
+        if let image = NSImage(named: "check")?.withTintColor(NSColor.white) {
             imageView.image = image
             imageView.wantsLayer = true
             

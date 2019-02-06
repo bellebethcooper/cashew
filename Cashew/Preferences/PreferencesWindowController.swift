@@ -89,7 +89,7 @@ class PreferencesWindowController: NSWindowController {
     fileprivate func showIssueExtensionsTab() {
         guard let contentView = window?.contentView else { return }
         
-        let issueExtensionsViewController = IssueExtensionsPreferenceViewController(nibName: NSNib.Name(rawValue: "IssueExtensionsPreferenceViewController"), bundle: nil)
+        let issueExtensionsViewController = IssueExtensionsPreferenceViewController(nibName: "IssueExtensionsPreferenceViewController", bundle: nil)
         self.issueExtensionsViewController = issueExtensionsViewController
         
         contentView.addSubview(issueExtensionsViewController.view)
@@ -106,7 +106,7 @@ class PreferencesWindowController: NSWindowController {
     fileprivate func showGeneralTab() {
         guard let contentView = window?.contentView else { return }
         
-        let generalViewController = GeneralPreferenceViewController(nibName: NSNib.Name(rawValue: "GeneralPreferenceViewController"), bundle: nil)
+        let generalViewController = GeneralPreferenceViewController(nibName: "GeneralPreferenceViewController", bundle: nil)
         self.generalViewController = generalViewController
         
         contentView.addSubview(generalViewController.view)
@@ -122,7 +122,7 @@ class PreferencesWindowController: NSWindowController {
     fileprivate func showAccountsTab() {
         guard let contentView = window?.contentView else { return }
         
-        let accountsViewController = AccountsPreferenceViewController(nibName: NSNib.Name(rawValue: "AccountsPreferenceViewController"), bundle: nil)
+        let accountsViewController = AccountsPreferenceViewController(nibName: "AccountsPreferenceViewController", bundle: nil)
         self.accountsViewController = accountsViewController
         
         contentView.addSubview(accountsViewController.view)

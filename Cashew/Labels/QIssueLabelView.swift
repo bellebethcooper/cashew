@@ -141,7 +141,7 @@ class QIssueLabelView: BaseView {
         let textStorage = NSTextStorage(string: labelTextField.stringValue)
         let textContainer = NSTextContainer(containerSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: QIssueLabelView.labelHeight))
         let layoutManager = NSLayoutManager()
-        let attributes = [ NSAttributedStringKey.font.rawValue: font ]
+        let attributes: [NSAttributedString.Key: Any] = [ .font: font ]
         
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)

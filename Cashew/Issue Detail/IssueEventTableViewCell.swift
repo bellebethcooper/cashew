@@ -12,7 +12,7 @@ class IssueEventTableViewCell: BaseView {
     
     fileprivate static let verticalPadding: CGFloat = 10.0
     fileprivate static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 47.0
-    fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)]
+    fileprivate static let eventNameBoldedAttribute: [NSAttributedString.Key : Any] = [.font: NSFont.systemFont(ofSize: 13, weight: .semibold)]
     
     @IBOutlet weak var eventDetailsLabel: NSTextField!
     @IBOutlet weak var eventImageView: NSImageView!
@@ -66,7 +66,7 @@ class IssueEventTableViewCell: BaseView {
         }
     }
     
-    fileprivate class func boldedAttribute() -> [NSAttributedStringKey : NSObject]  {
+    fileprivate class func boldedAttribute() -> [NSAttributedString.Key: Any]  {
         
         let themeMode = UserDefaults.themeMode()
         
@@ -77,8 +77,8 @@ class IssueEventTableViewCell: BaseView {
             color = DarkModeColor.sharedInstance.foregroundSecondaryColor()
         }
         
-        let attr = [NSAttributedStringKey.font.rawValue: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold), NSAttributedStringKey.foregroundColor: color] as [AnyHashable : NSObject]
-        return attr as! [NSAttributedStringKey : NSObject]
+        return [.font: NSFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: color]
+
     }
     
     deinit {
@@ -97,18 +97,18 @@ class IssueEventTableViewCell: BaseView {
                 
                 switch(event.event!) {
                 case "labeled", "unlabeled":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "tag"))!.withTintColor(color)
+                    eventImageView.image = NSImage(named: "tag")!.withTintColor(color)
                 case "milestoned", "demilestoned":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "milestone"))!.withTintColor(color)
+                    eventImageView.image = NSImage(named: "milestone")!.withTintColor(color)
                 case "renamed":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "pencil"))!.withTintColor(color)
+                    eventImageView.image = NSImage(named: "pencil")!.withTintColor(color)
                 case "assigned", "unassigned":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "person"))!.withTintColor(color)
+                    eventImageView.image = NSImage(named: "person")!.withTintColor(color)
                 case "closed":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))!.withTintColor(NSColor.white)
+                    eventImageView.image = NSImage(named: "issue-closed")!.withTintColor(NSColor.white)
                     eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
                 case "reopened":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-reopened"))!.withTintColor(NSColor.white)
+                    eventImageView.image = NSImage(named: "issue-reopened")!.withTintColor(NSColor.white)
                     eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
                 default:
                     eventImageView.image = nil

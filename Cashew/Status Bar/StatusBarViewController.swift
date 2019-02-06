@@ -140,7 +140,7 @@ class StatusBarViewController: NSViewController {
                 view?.shouldAllowVibrancy = false
             }
             
-            strongSelf.settingsButton.image = NSImage(named: NSImage.Name(rawValue: "gear"))?.withTintColor(CashewColor.foregroundColor())
+            strongSelf.settingsButton.image = NSImage(named: "gear")?.withTintColor(CashewColor.foregroundColor())
             
             if let view = strongSelf.view as? StatusBarView {
                 view.backgroundColor = headerBgColor

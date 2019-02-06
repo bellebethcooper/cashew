@@ -69,7 +69,7 @@ class GiphyViewController: NSViewController {
 }
 
 extension GiphyViewController: NSTextFieldDelegate {
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         self.dataSource.search(self.searchField.stringValue) { [weak self] in
             DispatchOnMainQueue({
                 self?.tableView.scroll(NSPoint.zero)

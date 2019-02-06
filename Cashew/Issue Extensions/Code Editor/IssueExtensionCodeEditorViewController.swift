@@ -64,9 +64,9 @@ class IssueExtensionCodeEditorViewController: NSViewController {
     fileprivate let saveButton = BaseButton.greenButton()
     fileprivate let extensionCloudKitService = ExtensionCloudKitService()
     
-    fileprivate var expandConsoleImage = NSImage(named: NSImage.Name(rawValue: "expand_console"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
-    fileprivate var collapseConsoleImage = NSImage(named: NSImage.Name(rawValue: "collapse_console"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
-    fileprivate var trashImage = NSImage(named: NSImage.Name(rawValue: "trash"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
+    fileprivate var expandConsoleImage = NSImage(named: "expand_console")?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
+    fileprivate var collapseConsoleImage = NSImage(named: "collapse_console")?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
+    fileprivate var trashImage = NSImage(named: "trash")?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
     
     fileprivate var toggleButtonRecentHeight: CGFloat = IssueExtensionCodeEditorViewController.consoleExpandedMinHeight
     fileprivate var consoleLogDateFormatter: DateFormatter = {
@@ -141,7 +141,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         consoleTextView.usesRuler = false
         consoleTextView.importsGraphics = false
         consoleTextView.font = NSFont(name: "Menlo", size: 12)
-        consoleTextView.typingAttributes = [NSAttributedStringKey.font: consoleTextView.font!]
+        consoleTextView.typingAttributes = [.font: consoleTextView.font!]
     }
     
     fileprivate func setupDebugBar() {
@@ -207,7 +207,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
         saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -IssueExtensionCodeEditorViewController.saveButtonRightPadding).isActive = true
         cancelButton.rightAnchor.constraint(equalTo: saveButton.leftAnchor, constant: -IssueExtensionCodeEditorViewController.buttonsSpacing).isActive = true
         
-        debugButton.image = NSImage(named: NSImage.Name(rawValue: "play"))?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
+        debugButton.image = NSImage(named: "play")?.withTintColor(DarkModeColor.sharedInstance.foregroundColor())
         debugButton.toolTip = "Run code in development mode"
         toggleButton.image = expandConsoleImage
         toggleButton.toolTip = "Expand debug console"
@@ -364,14 +364,14 @@ extension IssueExtensionCodeEditorViewController: CodeExtensionEnvironmentProtoc
         let str = arguments.map({"\($0)"}).joined(separator: " ")
         let date = consoleLogDateFormatter.string(from: Date())
         DispatchOnMainQueue {
-            self.consoleTextView.appendString("\(date) [LOG] \(str)\n", attributes: [NSAttributedStringKey.font: NSFont(name: "Menlo", size: 12)!, NSAttributedStringKey.foregroundColor: NSColor.white])
+            self.consoleTextView.appendString("\(date) [LOG] \(str)\n", attributes: [.font: NSFont(name: "Menlo", size: 12)!, .foregroundColor: NSColor.white])
         }
     }
     
     func exceptionLog(_ line: String, column: String, stacktrace: String, exception: String) {
         let str = "Line: \(line) Column: \(column) Method: \(stacktrace) - \(exception)"
         DispatchOnMainQueue {
-            self.consoleTextView.appendString("\(Date()) [EXCEPTION] \(str)\n", attributes: [NSAttributedStringKey.font: NSFont(name: "Menlo", size: 12)!, NSAttributedStringKey.foregroundColor: NSColor.red])
+            self.consoleTextView.appendString("\(Date()) [EXCEPTION] \(str)\n", attributes: [.font: NSFont(name: "Menlo", size: 12)!, .foregroundColor: NSColor.red])
         }
     }
     
@@ -538,7 +538,7 @@ extension IssueExtensionCodeEditorViewController: IssueServiceExtensionEnvironme
 }
 
 private extension NSTextView {
-    func appendString(_ string: String, attributes: [NSAttributedStringKey: Any]) {
+    func appendString(_ string: String, attributes: [NSAttributedString.Key: Any]) {
         self.textStorage?.append(NSAttributedString(string: string, attributes: attributes))
         self.scrollToEndOfDocument(nil)
     }

@@ -139,14 +139,14 @@ class SearchBuilderViewController: NSViewController {
     
     
     fileprivate func addCriteriaViewController() -> SearchBuilderCriteriaViewController? {
-        let controller = SearchBuilderCriteriaViewController(nibName: NSNib.Name(rawValue: "SearchBuilderCriteriaViewController"), bundle: nil)
+        let controller = SearchBuilderCriteriaViewController(nibName: "SearchBuilderCriteriaViewController", bundle: nil)
         
         
-        if let lastController = childViewControllers.first as? SearchBuilderCriteriaViewController , childViewControllers.count == 1 {
+        if let lastController = children.first as? SearchBuilderCriteriaViewController , children.count == 1 {
             lastController.removeButtonEnabled = true
         }
         
-        addChildViewController(controller)
+        addChild(controller)
         stackView.addView(controller.view, in: .bottom)
         controller.view.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
@@ -171,12 +171,12 @@ class SearchBuilderViewController: NSViewController {
     
     fileprivate func removeCriteriaViewController(_ controller: SearchBuilderCriteriaViewController) {
         
-        if let index = childViewControllers.index(of: controller) {
-            removeChildViewController(at: index)
+        if let index = children.index(of: controller) {
+            removeChild(at: index)
             controller.view.removeFromSuperview()
         }
         
-        if let lastController = childViewControllers.first as? SearchBuilderCriteriaViewController , childViewControllers.count == 1 {
+        if let lastController = children.first as? SearchBuilderCriteriaViewController , children.count == 1 {
             lastController.removeButtonEnabled = false
         }
     }
@@ -189,12 +189,12 @@ extension SearchBuilderViewController {
     
     func didClickCancelButton() {
         
-        while childViewControllers.count > 1 {
-            guard let childController = childViewControllers.last as? SearchBuilderCriteriaViewController else { return }
+        while children.count > 1 {
+            guard let childController = children.last as? SearchBuilderCriteriaViewController else { return }
             removeCriteriaViewController(childController)
         }
         
-        if let childViewController = childViewControllers.first as? SearchBuilderCriteriaViewController {
+        if let childViewController = children.first as? SearchBuilderCriteriaViewController {
             childViewController.reloadData()
         }
         
@@ -207,7 +207,7 @@ extension SearchBuilderViewController {
         
         var results = [SearchBuilderResult]()
         
-        childViewControllers.forEach { (child) in
+        children.forEach { (child) in
             guard let controller = child as? SearchBuilderCriteriaViewController else { return }
             let result = SearchBuilderResult(criteriaType: controller.filterTypeButton.title, partOfSpeech: controller.partOfSentenceButton.title, criteriaValue: controller.valueComboBox.stringValue)
             results.append(result)
@@ -220,7 +220,7 @@ extension SearchBuilderViewController {
         
         var results = [SearchBuilderResult]()
         
-        childViewControllers.forEach { (child) in
+        children.forEach { (child) in
             guard let controller = child as? SearchBuilderCriteriaViewController else { return }
             let result = SearchBuilderResult(criteriaType: controller.filterTypeButton.title, partOfSpeech: controller.partOfSentenceButton.title, criteriaValue: controller.valueComboBox.stringValue)
             results.append(result)
@@ -240,7 +240,7 @@ extension SearchBuilderViewController {
 
 extension SearchBuilderViewController: NSTextFieldDelegate {
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         
         if (searchNameTextField.stringValue as NSString).trimmedString().length == 0 {
             saveButton.enabled = false

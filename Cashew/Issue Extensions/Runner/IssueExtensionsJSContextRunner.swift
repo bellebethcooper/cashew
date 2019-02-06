@@ -94,23 +94,23 @@ class IssueExtensionsJSContextRunner: NSObject {
             environment.labelsForRepository(repository, onCompletion: completion)
         }
         
-        context?.setObject(unsafeBitCast(consoleLog, to: AnyObject.self), forKeyedSubscript: "_consoleLog" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(writeToPasteboard, to: AnyObject.self), forKeyedSubscript: "_writeToPasteboard" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(consoleLog, to: AnyObject.self), forKeyedSubscript: "_consoleLog" as NSString)
+        context?.setObject(unsafeBitCast(writeToPasteboard, to: AnyObject.self), forKeyedSubscript: "_writeToPasteboard" as NSString)
         
-        context?.setObject(unsafeBitCast(closeIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCloseIssue" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(openIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceOpenIssue" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(assignMilestoneToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignMilestoneToIssue" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(assignUserToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignUserToIssue" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(assignLabelsToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignLabelsToIssue" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(createIssueComment, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCreateIssueComment" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(saveIssueTitle, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueTitle" as (NSCopying & NSObjectProtocol)!)
-        context?.setObject(unsafeBitCast(saveIssueBody, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueBody" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(closeIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCloseIssue" as NSString)
+        context?.setObject(unsafeBitCast(openIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceOpenIssue" as NSString)
+        context?.setObject(unsafeBitCast(assignMilestoneToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignMilestoneToIssue" as NSString)
+        context?.setObject(unsafeBitCast(assignUserToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignUserToIssue" as NSString)
+        context?.setObject(unsafeBitCast(assignLabelsToIssue, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceAssignLabelsToIssue" as NSString)
+        context?.setObject(unsafeBitCast(createIssueComment, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceCreateIssueComment" as NSString)
+        context?.setObject(unsafeBitCast(saveIssueTitle, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueTitle" as NSString)
+        context?.setObject(unsafeBitCast(saveIssueBody, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSIssueServiceSaveIssueBody" as NSString)
         
-        context?.setObject(unsafeBitCast(milestonesForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSMilestoneServiceMilestonesForRepository" as (NSCopying & NSObjectProtocol)!)
+        context?.setObject(unsafeBitCast(milestonesForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSMilestoneServiceMilestonesForRepository" as NSString)
         
-        context?.setObject(unsafeBitCast(usersForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSOwnerServiceUsersForRepository" as (NSCopying & NSObjectProtocol)!);
+        context?.setObject(unsafeBitCast(usersForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSOwnerServiceUsersForRepository" as NSString);
         
-        context?.setObject(unsafeBitCast(labelsForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSLabelServiceLabelsForRepository" as (NSCopying & NSObjectProtocol)!);
+        context?.setObject(unsafeBitCast(labelsForRepository, to: AnyObject.self), forKeyedSubscript: "_Cashew_JSLabelServiceLabelsForRepository" as NSString);
         
     }
     

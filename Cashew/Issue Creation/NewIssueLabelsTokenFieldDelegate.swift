@@ -43,8 +43,8 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
             return []
         }
     }
-    
-    override func controlTextDidEndEditing(_ notification: Notification) {
+
+    func controlTextDidEndEditing(_ notification: Notification) {
         DDLogDebug("NewIssueLabelsTokenFieldDelegate controlTextDidEnd")
         if let tokenField = notification.object as? NSTokenField {
             var finalTokenList = [String]()

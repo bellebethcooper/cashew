@@ -81,7 +81,7 @@ class ProductionIssueExtensionEnvironment: NSObject, CodeExtensionEnvironmentPro
     }
     
     func ExtensionLogInfo(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = ProductionIssueExtensionEnvironment.codeExtensionLogContext, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: AnyObject? = nil, asynchronous async: Bool = true, ddlog: DDLog = DDLog.sharedInstance) {
-        _DDLogMessage(message, level: level, flag: .info, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
+        _DDLogMessage(message(), level: level, flag: .info, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
     }
 }
 

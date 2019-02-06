@@ -260,7 +260,7 @@ class MarkdownEditorTextView: BaseView {
         let textStorage = NSTextStorage(string: stringVal)
         let textContainer = NSTextContainer(containerSize: CGSize(width: containerWidth, height: CGFloat.greatestFiniteMagnitude) )
         let layoutManager = NSLayoutManager()
-        let attributes = [ NSAttributedStringKey.font.rawValue: font ]
+        let attributes: [NSAttributedString.Key: Any] = [ .font: font ]
         
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
@@ -502,9 +502,9 @@ class MarkdownEditorTextView: BaseView {
         mediumButton.appearance = popover.appearance;
         largeHeaderButton.appearance = popover.appearance;
         
-        smallButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSAttributedStringKey.font: NSFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: foregroundColor])
-        mediumButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSAttributedStringKey.font: NSFont.boldSystemFont(ofSize: 18), NSAttributedStringKey.foregroundColor: foregroundColor])
-        largeHeaderButton.attributedTitle = NSAttributedString(string: "Header", attributes: [NSAttributedStringKey.font: NSFont.boldSystemFont(ofSize: 20), NSAttributedStringKey.foregroundColor: foregroundColor])
+        smallButton.attributedTitle = NSAttributedString(string: "Header", attributes: [.font: NSFont.boldSystemFont(ofSize: 16), .foregroundColor: foregroundColor])
+        mediumButton.attributedTitle = NSAttributedString(string: "Header", attributes: [.font: NSFont.boldSystemFont(ofSize: 18), .foregroundColor: foregroundColor])
+        largeHeaderButton.attributedTitle = NSAttributedString(string: "Header", attributes: [.font: NSFont.boldSystemFont(ofSize: 20), .foregroundColor: foregroundColor])
         
         popover.delegate = self
         popover.contentSize = size
@@ -516,7 +516,7 @@ class MarkdownEditorTextView: BaseView {
     }
     
     fileprivate func gifButtonClick() {
-        let viewController = GiphyViewController(nibName: NSNib.Name(rawValue: "GiphyViewController"), bundle: nil)
+        let viewController = GiphyViewController(nibName: "GiphyViewController", bundle: nil)
         let size = NSMakeSize(320, 480)
         let popover = NSPopover()
         
@@ -867,11 +867,10 @@ class InternalMarkdownEditorTextView: NSTextView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         let txtColor = NSColor(calibratedWhite: 174/255.0, alpha: 1)
-        let txtDict = [NSAttributedStringKey.foregroundColor: txtColor, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 14)]
+        let txtDict: [NSAttributedString.Key: Any] = [.foregroundColor: txtColor, .font: NSFont.systemFont(ofSize: 14)]
         let placeholderString = NSAttributedString(string: "Leave a comment", attributes: txtDict)
         
-        let isEmptyField = (string == nil || string == "")
-        if !hidePlaceholder && (isEmptyField || (isEmptyField && self != window?.firstResponder && self.selectedRange().length == 0 )) {
+        if !hidePlaceholder && (string.isEmpty || (string.isEmpty && self != window?.firstResponder && self.selectedRange().length == 0 )) {
             placeholderString.draw(at: CGPoint(x: 5, y: -3))
         }
     }
@@ -932,7 +931,7 @@ class InternalMarkdownEditorTextView: NSTextView {
     
     fileprivate func updateDragDropRange(_ sender: NSDraggingInfo?) {
         guard let sender = sender else  { return }
-        let mouseLocation = sender.draggingLocation()
+        let mouseLocation = sender.draggingLocation
         let dropLocation = characterIndexForInsertion(at: convert(mouseLocation, from: nil))  //[self characterIndexForInsertionAtPoint:[self convertPoint:mouseLocation fromView:nil]];
         dragDropRange = NSMakeRange(dropLocation, 0)
     }
@@ -940,16 +939,16 @@ class InternalMarkdownEditorTextView: NSTextView {
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         guard isEditable else { return false }
         
-        let pasteboard = sender.draggingPasteboard()
+        let pasteboard = sender.draggingPasteboard
         
         if #available(OSX 10.13, *) {
             if let types = pasteboard.types , types.contains(.fileURL) {
-                if let paths = sender.draggingPasteboard().propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? [String] {
+                if let paths = sender.draggingPasteboard.propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? [String] {
                     self.uploadFilePaths(paths)
                 }
             } else if let types = pasteboard.types , types.contains(.string) {
                 if let types = pasteboard.types , types.contains(.string) {
-                    if let text = sender.draggingPasteboard().string(forType: .string) as? AnyObject as? String {
+                    if let text = sender.draggingPasteboard.string(forType: .string) as? AnyObject as? String {
                         self.insertText(text, replacementRange: self.selectedRange())
                     }
                 }

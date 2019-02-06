@@ -51,7 +51,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         }
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil;
         }
@@ -105,7 +105,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         
         self.searchablePickerController = searchablePickerController
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()

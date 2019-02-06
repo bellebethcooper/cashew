@@ -126,15 +126,15 @@ extension ImageViewerViewController: NSPageControllerDelegate {
     
     func pageController(_ pageController: NSPageController, identifierFor object: Any) -> NSPageController.ObjectIdentifier {
         
-        if let url = object as? URL, let index = imageURLs.index(of: url) {
-            return NSPageController.ObjectIdentifier(rawValue: String(index))
+        if let url = object as? URL, let index = imageURLs.firstIndex(of: url) {
+            return String(index)
         }
         
-        return NSPageController.ObjectIdentifier(rawValue: "")
+        return ""
     }
     
     func pageController(_ pageController: NSPageController, viewControllerForIdentifier identifier: NSPageController.ObjectIdentifier) -> NSViewController {
-        guard let index = Int(identifier.rawValue) else {
+        guard let index = Int(identifier) else {
             preconditionFailure("Could not unwrap integer identifier index")
         }
         

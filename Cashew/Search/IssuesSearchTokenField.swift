@@ -16,7 +16,10 @@ class IssuesSearchTokenField: NSTokenField {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         let txtColor = NSColor(calibratedWhite: 174/255.0, alpha: 1)
-        let txtDict = [NSAttributedStringKey.foregroundColor: txtColor, NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13)]
+        let txtDict: [NSAttributedString.Key: Any] = [
+            .foregroundColor: txtColor,
+            .font: NSFont.systemFont(ofSize: 13)
+        ]
         let placeholderString = NSAttributedString(string: "Search Issues", attributes: txtDict)
         
         let isEmptyField = (stringValue == "")

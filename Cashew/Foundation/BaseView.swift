@@ -110,7 +110,7 @@ private class PopoverFixBackgroundView: NSView {
         
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
+        Bundle.main.loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == viewType {

@@ -100,13 +100,13 @@ class LabelSearchablePickerViewController: BaseViewController {
             })
         }
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil
         }

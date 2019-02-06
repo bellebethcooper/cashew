@@ -69,7 +69,7 @@ class BaseModalWindowView: BaseView {
         
         if let aViewController = self.viewController {
             
-            self.contentViewController?.addChildViewController(aViewController)
+            self.contentViewController?.addChild(aViewController)
 
             self.windowContentView.addSubview(aViewController.view)
             aViewController.view.translatesAutoresizingMaskIntoConstraints = false
