@@ -17,10 +17,10 @@ enum IssueCommentDraftType: NSInteger {
 @objc(SRIssueCommentDraft)
 class IssueCommentDraft: NSObject {
 
-    let account: QAccount
-    let repository: QRepository
+    @objc let account: QAccount
+    @objc let repository: QRepository
     let issueCommentId: NSNumber?
-    let issueNumber: NSNumber
+    @objc let issueNumber: NSNumber
     @objc let body: String
     let type: IssueCommentDraftType
     

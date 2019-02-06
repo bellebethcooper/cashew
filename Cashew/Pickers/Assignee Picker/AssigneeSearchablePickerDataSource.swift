@@ -62,7 +62,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return [QRepository]()
         }
         let issues = Array(selectionMap.keys)
-        let repos = Array(Set(issues.flatMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
+        let repos = Array(Set(issues.compactMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
         return repos
     }
     
@@ -87,7 +87,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             onCompletion()
             return
         }
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QOwnerStore.searchUser(withQuery: String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QOwner] {
                 self.results = results
             }
@@ -103,7 +103,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QOwnerStore.owners(forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QOwner] {
                 
                 self.results = results.sorted(by: { (owner1, owner2) -> Bool in

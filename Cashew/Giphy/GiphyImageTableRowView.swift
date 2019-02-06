@@ -63,7 +63,7 @@ class GiphyPlayerView: AVPlayerView {
         DispatchOnMainQueue {
 
             if let item = notification.object as? AVPlayerItem , self.player?.currentItem == item && self.isPlaying {
-                self.player?.seek(to: kCMTimeZero)
+                self.player?.seek(to: .zero)
                 if self.isMouseOver() {
                     self.player?.play()
                 }
@@ -127,7 +127,7 @@ class GiphyImageTableRowView: NSTableRowView {
         let className = "GiphyImageTableRowView"
         
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
+        Bundle.main.loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == GiphyImageTableRowView.self {

@@ -51,7 +51,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         }
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil;
         }
@@ -83,7 +83,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                 cell.checked = true
             } else {
                 cell.accessoryView = GreenCheckboxView()
-                cell.checked = dataSource.isSelectedItem(item) ?? false
+                cell.checked = dataSource.isSelectedItem(item)
             }
             
             cell.accessoryView?.disableThemeObserver = true
@@ -105,7 +105,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         
         self.searchablePickerController = searchablePickerController
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()

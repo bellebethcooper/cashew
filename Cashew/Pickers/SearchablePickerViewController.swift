@@ -136,7 +136,7 @@ class SearchablePickerViewController: BaseViewController {
         
         pickerSearchField = PickerSearchField(viewModel: viewModel.pickerSearchFieldViewModel)
         
-        selectionCountButton = BaseImageLabelButton(viewModel: BaseImageLabelButtonViewModel(image: NSImage(named:NSImage.Name(rawValue: "chevron-down"))!.withTintColor(BaseImageLabelButton.foregroundColor), label: "0 SELECTED", buttonType: .rightImage));
+        selectionCountButton = BaseImageLabelButton(viewModel: BaseImageLabelButtonViewModel(image: NSImage(named:"chevron-down")!.withTintColor(BaseImageLabelButton.foregroundColor), label: "0 SELECTED", buttonType: .rightImage));
         
         super.init(nibName: nil, bundle: nil)
         view.addSubview(selectionCountButton)

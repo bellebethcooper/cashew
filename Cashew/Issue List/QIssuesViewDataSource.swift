@@ -311,7 +311,7 @@ extension QIssuesViewDataSource: QStoreObserver {
     func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
         self.serialQueue.async(flags: .barrier, execute: { () -> Void in
             if let repository = record as? QRepository {
-                let removalIndexes = self.issues.enumerated().flatMap({ (index: Int, issue: QIssue) -> (index: Int, issue: QIssue)? in
+                let removalIndexes = self.issues.enumerated().compactMap({ (index: Int, issue: QIssue) -> (index: Int, issue: QIssue)? in
                     if issue.repository.isEqual(repository) {
                         return (index: index, issue: issue)
                     }

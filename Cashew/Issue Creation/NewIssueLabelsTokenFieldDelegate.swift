@@ -24,8 +24,8 @@ class NewIssueLabelsTokenFieldDelegate: NSObject {
 
 
 extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
-    
-    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
+
+    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<Int>?) -> [Any]? {
         DDLogDebug("NewIssueLabelsTokenFieldDelegate completionsForSubstring - \(substring) selectedIndex = \(selectedIndex)")
         let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if let repo = self.repository,
@@ -43,8 +43,8 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
             return []
         }
     }
-    
-    override func controlTextDidEndEditing(_ notification: Notification) {
+
+    func controlTextDidEndEditing(_ notification: Notification) {
         DDLogDebug("NewIssueLabelsTokenFieldDelegate controlTextDidEnd")
         if let tokenField = notification.object as? NSTokenField {
             var finalTokenList = [String]()

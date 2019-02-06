@@ -34,14 +34,13 @@ extension Sequence {
         let orderedSet = NSMutableOrderedSet()
         forEach { (element) in
             do {
-                if let transformed = try transform(element) as? AnyObject {
-                    orderedSet.add(transformed)
-                }
+                let transformed = try transform(element)
+                orderedSet.add(transformed)
             } catch {
                 //throw e
             }
         }
-        return orderedSet.flatMap { (item) -> T? in
+        return orderedSet.compactMap { (item) -> T? in
             guard let item = item as? T else { return nil }
             return item
         }

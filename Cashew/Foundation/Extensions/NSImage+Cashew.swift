@@ -40,7 +40,7 @@ extension NSImage {
         
         let imageFrame = NSRect(x: 0, y: 0, width: width, height: height)
         let clipPath = NSBezierPath(roundedRect: imageFrame, xRadius: xRad, yRadius: yRad)
-        clipPath.windingRule = NSBezierPath.WindingRule.evenOddWindingRule
+        clipPath.windingRule = .evenOdd
         clipPath.addClip()
         
         let rect = NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
