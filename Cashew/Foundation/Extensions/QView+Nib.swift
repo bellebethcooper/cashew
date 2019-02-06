@@ -11,7 +11,7 @@ import Foundation
 
 public extension QView {
     
-    public class func instantiateFromNib<T: QView>(_ viewType: T.Type) -> T? {
+    class func instantiateFromNib<T: QView>(_ viewType: T.Type) -> T? {
         var viewArray: NSArray?
         let className = NSStringFromClass(viewType).components(separatedBy: ".").last! as String
 
@@ -28,7 +28,7 @@ public extension QView {
         return nil //viewArray!.objectAtIndex(1) as! T
     }
     
-    public class func instantiateFromNib() -> Self? {
+    class func instantiateFromNib() -> Self? {
         return instantiateFromNib(self)
     }
     
