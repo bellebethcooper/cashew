@@ -10,9 +10,9 @@ import Cocoa
 
 class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
     
-    var identifier: NSNumber!
-    var repository: QRepository?
-    var account: QAccount? {
+    @objc var identifier: NSNumber!
+    @objc var repository: QRepository?
+    @objc var account: QAccount? {
         didSet {
             if let anAccount = account {
                 self.repository?.account = anAccount
@@ -23,19 +23,19 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
             }
         }
     }
-    var body: String!
-    var issueNumber: NSNumber!
-    var createdAt: Date!
-    var updatedAt: Date!
-    var user: QOwner!
-    var htmlURL: URL?
+    @objc var body: String!
+    @objc var issueNumber: NSNumber!
+    @objc var createdAt: Date!
+    @objc var updatedAt: Date!
+    @objc var user: QOwner!
+    @objc var htmlURL: URL?
     
-    var thumbsUpCount: Int = 0
-    var thumbsDownCount: Int = 0
-    var laughCount: Int = 0
-    var hoorayCount: Int = 0
-    var confusedCount: Int = 0
-    var heartCount: Int = 0
+    @objc var thumbsUpCount: Int = 0
+    @objc var thumbsDownCount: Int = 0
+    @objc var laughCount: Int = 0
+    @objc var hoorayCount: Int = 0
+    @objc var confusedCount: Int = 0
+    @objc var heartCount: Int = 0
     
     func toExtensionModel() -> NSDictionary {
         let dict = NSMutableDictionary()
@@ -72,7 +72,7 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         return updatedAt
     }
     
-    static func fromJSON(_ json: NSDictionary) -> QIssueComment {
+    @objc static func fromJSON(_ json: NSDictionary) -> QIssueComment {
         
         let issueComment = QIssueComment()
         

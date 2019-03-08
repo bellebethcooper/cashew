@@ -29,7 +29,7 @@ class MilestoneCache: NSObject {
         cache.removeObjectForKey(key)
     }
     
-    func fetch(_ key: String, fetcher: ( () -> QMilestone? )) -> QMilestone? {
+    @objc func fetch(_ key: String, fetcher: ( () -> QMilestone? )) -> QMilestone? {
         return cache.fetch(key, fetcher: fetcher)
     }
     
@@ -37,7 +37,7 @@ class MilestoneCache: NSObject {
         cache.removeAll()
     }
     
-    class func MilestoneCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber, milestoneId: NSNumber) -> String {
+    @objc class func MilestoneCacheKeyForAccountId(_ accountId: NSNumber, repositoryId: NSNumber, milestoneId: NSNumber) -> String {
         return "milestone_\(accountId)_\(repositoryId)_\(milestoneId)"
     }
 }

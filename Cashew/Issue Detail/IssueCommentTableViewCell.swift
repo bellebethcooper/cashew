@@ -395,7 +395,7 @@ class ReactionButton: NSButton {
     }
     
     fileprivate func setupReactionsViewController() {
-        DDLogDebug("IssueCommentTableViewCell setupReactionsVC - reactionsVC: \(reactionsViewController)")
+//        DDLogDebug("IssueCommentTableViewCell setupReactionsVC - reactionsVC: \(reactionsViewController)")
         assert(Thread.isMainThread)
         let reactionsView = reactionsViewController.view
         

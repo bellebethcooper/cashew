@@ -36,7 +36,6 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
     if (self) {
         NSString *serviceName = @"co.hellocode.cashew.keychain";
         _keychain = [[FXKeychain alloc] initWithService:serviceName accessGroup:nil accessibility:FXKeychainAccessibleAlways];
-        NSLog(@"QContext init - keychain: %@", _keychain);
         _syncAccountsQueue = dispatch_queue_create("co.hellocode.cashew.sync.accounts", DISPATCH_QUEUE_SERIAL);
     }
     return self;

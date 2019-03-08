@@ -207,7 +207,7 @@
     NSMutableArray<_LabelResultSetEntry *> *results = [NSMutableArray new];
     [QLabelStore doReadInTransaction:^(FMDatabase *db) {
         
-        FMResultSet *rs = [db executeQuery:@"SELECT * FROM label where account_id = ? and repository_id = ? AND deleted in (?,?) ORDER BY name", accountId, repositoryId, @0, includeHidden ? @1 : @0];
+        FMResultSet *rs = [db executeQuery:@"SELECT * FROM label where account_id = ? and repository_id = ? ORDER BY name", accountId, repositoryId];
         while ([rs next]) {
             _LabelResultSetEntry *entry = [_LabelResultSetEntry new];
             entry.label = [QLabel new];
@@ -219,16 +219,14 @@
             entry.label.createdAt = [rs dateForColumn:@"created_at"];
             [results addObject:entry];
         }
-        
     }];
-    
     NSMutableArray<QLabel *> *labels = [NSMutableArray new];
     [results enumerateObjectsUsingBlock:^(_LabelResultSetEntry * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj.label setAccount:[QAccountStore accountForIdentifier:obj.accountId]];
         [obj.label setRepository:[QRepositoryStore repositoryForAccountId:obj.accountId identifier:obj.repositoryId]];
         [labels addObject:obj.label];
     }];
-    
+//    DDLogDebug(@"QLabelStore labelsForAccount - returning: %@", labels);
     return labels;
 }
 

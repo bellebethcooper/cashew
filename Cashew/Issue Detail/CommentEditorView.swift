@@ -28,7 +28,7 @@ class CommentEditorView: BaseView {
     @objc var onSubmit: (()->())?
     @objc var onTextChange: (()->())?
     @objc var onDiscard: (()->())?
-    var text: String? {
+    @objc var text: String? {
         get {
             return textView.string
         }
@@ -37,7 +37,7 @@ class CommentEditorView: BaseView {
         }
     }
     
-    var enabled: Bool = true {
+    @objc var enabled: Bool = true {
         didSet {
             textView.editable = enabled
             submitButton.enabled = enabled
@@ -58,7 +58,7 @@ class CommentEditorView: BaseView {
         }
     }
     
-    var loading: Bool = false {
+    @objc var loading: Bool = false {
         didSet {
             if loading {
                 progressIndicator.isHidden = false

@@ -47,6 +47,7 @@ class LabelSearchablePickerViewController: BaseViewController {
     }
     
     fileprivate func reloadPicker() {
+//        DDLogDebug("LabelSearchablePickerVC reloadPicker")
         guard let issue = sourceIssue ?? QContext.shared().currentIssues.first else {
             return
         }
@@ -124,7 +125,7 @@ class LabelSearchablePickerViewController: BaseViewController {
     
     
     fileprivate func doSaveWithCompletion(_ completion: (()->())?) {
-        
+//        DDLogDebug("LabelSearchablePickerVC doSave")
         guard let strongPickerController = searchablePickerController, let dataSource = self.dataSource, let selectionMap = dataSource.selectionMap else { return }
         strongPickerController.loading = true
         
@@ -135,13 +136,12 @@ class LabelSearchablePickerViewController: BaseViewController {
         for (issue, labelsSet) in selectionMap {
             var labelNames = [String]()
             for label in labelsSet {
-                guard let labelName = label.name, let labelRepo = label.repository , !QLabelStore.isHiddenLabelName(labelName, accountId: labelRepo.account.identifier, repositoryId: labelRepo.identifier) else { continue }
+                guard let labelName = label.name else { continue }
                 labelNames.append(labelName)
             }
             
             operationQueue.addOperation {
                 let semaphore = DispatchSemaphore(value: 0)
-                let fullRepoName = issue.repository.fullName
                 let sinceDate = issue.updatedAt
                 let issueService = QIssuesService(for: issue.account)
                 
@@ -158,6 +158,7 @@ class LabelSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
+                        DDLogError("LabelSearchablePickerVC doSave - error: \(errorString)")
                     }
                     semaphore.signal()
                     })
@@ -171,7 +172,6 @@ class LabelSearchablePickerViewController: BaseViewController {
         if let completion = completion {
             completion()
         }
-        //}
     }
     
 }

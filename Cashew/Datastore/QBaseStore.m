@@ -289,8 +289,6 @@ static FMDatabasePool *readDatabasePool;
         [[NSFileManager defaultManager] copyItemAtURL:vanillaDatabaseURL toURL:dbURL error:&err];
         NSParameterAssert(!err);
     }
-    
-    DDLogDebug(@"Database path: %@", dbURL);
     return dbURL;
 }
 

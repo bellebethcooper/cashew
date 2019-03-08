@@ -86,7 +86,7 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                            <menuItem title="Quit Issues" keyEquivalent="q" id="4sb-4s-VLi">
+                            <menuItem title="Quit Cashew" keyEquivalent="q" id="4sb-4s-VLi" userLabel="Quit Cashew">
                                 <connections>
                                     <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
                                 </connections>

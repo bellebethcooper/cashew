@@ -21,6 +21,7 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     fileprivate(set) var selectionMap: [QIssue: Set<QLabel>]?
     
     required init(sourceIssue: QIssue?) {
+        DDLogDebug("LabelSearchablePickerDataSource init - issue: \(sourceIssue?.title)")
         self.sourceIssue = sourceIssue
         super.init()
         resetToOriginal()
@@ -162,9 +163,10 @@ class LabelSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
+            DDLogDebug("LabelDataSource defaults - account: \(repository.account.identifier) repo: \(repository.identifier)")
             if let results = QLabelStore.labels(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as NSArray as? [QLabel] {
-                
+//                DDLogDebug("LabelDataSource defaults - results: \(results)")
                 self.results = results.sorted(by: { (repo1, repo2) -> Bool in
                     if self.isSelectedItem(repo1) && self.isSelectedItem(repo2) {
                         return repo1.name! < repo2.name!

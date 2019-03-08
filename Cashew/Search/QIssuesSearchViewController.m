@@ -507,9 +507,8 @@
     return editingString;
 }
 
-- (void)dismissSuggestionWindowController
-{
-    DDLogDebug(@"Dismissing Suggestion Window Controller");
+- (void)dismissSuggestionWindowController {
+    DDLogDebug(@"QIssuesSearchVC dismissSuggestionWindowController");
     [self.suggestionWindowController close];
     self.suggestionWindowController = nil;
 }

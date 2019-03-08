@@ -76,10 +76,8 @@
     return model;
 }
 
-+ (instancetype)fromJSON:(NSDictionary *)dict
-{
++ (instancetype)fromJSON:(NSDictionary *)dict {
     QIssue *issue = [QIssue new];
-    
     issue.title = dict[@"title"];
     issue.number = dict[@"number"];
     issue.user = [QOwner fromJSON:dict[@"user"]];
@@ -107,7 +105,6 @@
         QLabel *label = [QLabel fromJSON:labelJSON];
         [labels addObject:label];
     }];
-    
     issue.labels = labels;
     if (dict[@"milestone"] && dict[@"milestone"] != [NSNull null]) {
         issue.milestone = [QMilestone fromJSON:dict[@"milestone"]];

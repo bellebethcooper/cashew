@@ -24,19 +24,19 @@ class ObjectPool<T>: NSObject {
     func borrowObject() -> T {
         var object: T?
         accessQueue.sync {
-            DDLogDebug("ObjectPool borrowObject - inside queue sync")
+//            DDLogDebug("ObjectPool borrowObject - inside queue sync")
             let lastObject = self.data.lastObject as? T
             if let lastObject = lastObject {
-                DDLogDebug("ObjectPool borrowObject - unwrapped lastObject")
+//                DDLogDebug("ObjectPool borrowObject - unwrapped lastObject")
                 self.data.remove(lastObject)
                 object = lastObject
-                DDLogDebug("ObjectPool borrowObject - object is now lastObj: \(object)")
+//                DDLogDebug("ObjectPool borrowObject - object is now lastObj: \(object)")
             } else {
                 object = self.createObject()
-                DDLogDebug("ObjectPool borrowObject - just created new obj: \(object)")
+//                DDLogDebug("ObjectPool borrowObject - just created new obj: \(object)")
             }
         }
-        DDLogDebug("ObjectPool borrowObject - after queue sync, willBorrowObj: \(willBorrowObject), obj: \(object)")
+//        DDLogDebug("ObjectPool borrowObject - after queue sync, willBorrowObj: \(willBorrowObject), obj: \(object)")
         if let preBorrow = willBorrowObject,
             let object = object {
             preBorrow(object)

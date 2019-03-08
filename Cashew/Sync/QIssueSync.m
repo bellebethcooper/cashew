@@ -160,7 +160,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 // fetch labels
                 semaphore = dispatch_semaphore_create(0);
                 NSMutableSet<QLabel *> *currentLabels = [[NSMutableSet alloc] initWithArray:[QLabelStore labelsForAccountId:repository.account.identifier repositoryId:repository.identifier includeHidden:YES]];
-                 DDLogDebug(@"currentLabel => %@", currentLabels);
+                 DDLogDebug(@"QIssueSync start - currentLabels => %@", currentLabels);
                 [self _fetchLabelsForRepository:repository pageNumber:1 pageSize:100 currentLabels:currentLabels onCompletion:^(NSError *err) {
                     error = err;
                     dispatch_semaphore_signal(semaphore);
@@ -724,7 +724,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
             onCompletion([NSError errorWithDomain:@"co.hellocode.syncher.error" code:0 userInfo:nil]);
             return;
         }
-        DDLogDebug(@"QIssueSync fetchMilestonesForRepo - milestones: %@", milestones);
+//        DDLogDebug(@"QIssueSync fetchMilestonesForRepo - milestones: %@", milestones);
         [milestones enumerateObjectsUsingBlock:^(QMilestone * _Nonnull milestone, NSUInteger idx, BOOL * _Nonnull stop) {
             //  [_throttler throttle];
             

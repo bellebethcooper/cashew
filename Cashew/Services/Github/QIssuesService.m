@@ -374,8 +374,7 @@
 - (void)saveLabels:(NSArray<NSString *> *)labels
      forRepository:(QRepository *)repository
        issueNumber:(NSNumber *)number
-      onCompletion:(QServiceOnCompletion)onCompletion;
-{
+      onCompletion:(QServiceOnCompletion)onCompletion {
     NSParameterAssert(repository);
     NSParameterAssert(number);
     NSParameterAssert(onCompletion);
@@ -384,7 +383,7 @@
     QAFHTTPSessionManager *manager = [self httpSessionManagerForRequestSerializer:[AFJSONRequestSerializer serializer]];
     
     NSMutableDictionary *params = [NSMutableDictionary new];
-    
+//    DDLogDebug(@"QIssuesService saveLabels: %@", labels);
     params[@"labels"] = labels ?: [NSNull null];
     
     [[manager requestSerializer] setValue:@"application/vnd.github.squirrel-girl-preview" forHTTPHeaderField:@"Accept"];
@@ -394,7 +393,6 @@
           if (error) {
               onCompletion(nil, context, error);
           } else {
-              
               QIssue *issue = [QIssue fromJSON:json];
               [issue setAccount:self.account];
               [issue setRepository:repository];

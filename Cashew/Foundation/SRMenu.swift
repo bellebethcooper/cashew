@@ -13,6 +13,5 @@ class SRMenu: NSMenu {
     
     convenience init() {
         self.init(title: "")
-        DDLogDebug("created nsnmenu...")
     }
 }

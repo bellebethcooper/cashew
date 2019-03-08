@@ -86,7 +86,7 @@ class IssueSyncWatcher: NSObject {
                 self.deltaSyncRepos.remove(repo)
                 if notEmptySet && self.deltaSyncRepos.count == 0 {
                     self.executionQueue.async {
-                        DDLogDebug("End Delta Issue Syncher = \(Date())");
+//                        DDLogDebug("End Delta Issue Syncher = \(Date())");
                         NotificationCenter.default.post(name: NSNotification.Name.didFinishDeltaIssueSynching, object: nil)
                     }
                 }

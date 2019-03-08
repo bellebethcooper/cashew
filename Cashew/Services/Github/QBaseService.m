@@ -101,7 +101,7 @@
         [self _parseNextPageNumberFromHTTPURLResponse:(NSHTTPURLResponse *)task.response forContext:context];
         [self _parseLastModifiedFromHTTPURLResponse:(NSHTTPURLResponse *)task.response forContext:context];
         
-       DDLogDebug(@"Success [%@] - rate limit: [%@] [%@] URL => [%@]", self.account.username, context.rateLimitRemaining, context.nextRateLimitResetDate, task.currentRequest.URL);
+//        DDLogDebug(@"QBaseService Success - username: [%@] rate limit: [%@] [%@] URL => [%@]", self.account.username, context.rateLimitRemaining, context.nextRateLimitResetDate, task.currentRequest.URL);
         onCompletion(responseObject, context, nil);
     };
 }
@@ -116,7 +116,7 @@
         [self _parseNextPageNumberFromHTTPURLResponse:(NSHTTPURLResponse *)task.response forContext:context];
         onCompletion(nil, context, error);
         NSInteger statusCode = [(NSHTTPURLResponse *)task.response statusCode];
-        DDLogDebug(@"Error [%@] - [%@][%@] - rate limit: [%@] [%@] URL => [%@]", self.account.username, @(statusCode), error && statusCode != 304 ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : @"", context.rateLimitRemaining, context.nextRateLimitResetDate, task.currentRequest.URL);
+//        DDLogDebug(@"QBaseService Error - username: [%@] [%@][%@] - rate limit: [%@] [%@] URL => [%@]", self.account.username, @(statusCode), error && statusCode != 304 ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : @"", context.rateLimitRemaining, context.nextRateLimitResetDate, task.currentRequest.URL);
         
         
         if ( statusCode == 401 || statusCode == 403) {
@@ -293,7 +293,7 @@
 {
     NSParameterAssert(account);
     NSCache *cache = [[self class] _servicesCache];
-    DDLogDebug(@"QBaseService serviceForAccount - account id = %@", account.identifier);
+//    DDLogDebug(@"QBaseService serviceForAccount - account id = %@", account.identifier);
     NSString *key = [NSString stringWithFormat:@"%@_%@", account.identifier, NSStringFromClass([self class])];
     QBaseService *service = [cache objectForKey:key];
     

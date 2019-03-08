@@ -56,7 +56,7 @@
     NSArray<QAccount *> *accounts = [QAccountStore accounts];
     [accounts enumerateObjectsUsingBlock:^(QAccount * _Nonnull account, NSUInteger idx, BOOL * _Nonnull stop) {
         NSDate *sinceDate = [QIssueNotificationStore notificationModifiedOnForAccountId:account.identifier];
-        DDLogDebug(@"START fetching notifications for account = %@ lastModified = %@", account.username, sinceDate);
+//        DDLogDebug(@"START fetching notifications for account = %@ lastModified = %@", account.username, sinceDate);
        [self _fetchNotificationsForAccount:account sinceDate:sinceDate pageNumber:1 pageSize:100];
     }];
     

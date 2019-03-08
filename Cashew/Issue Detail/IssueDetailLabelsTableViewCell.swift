@@ -108,7 +108,7 @@ class IssueDetailLabelsTableViewCell: BaseView {
     @objc
     fileprivate func didClickAddLabel(_ sender: AnyObject) {
         let labelSearchablePicker = LabelSearchablePickerViewController()
-        labelSearchablePicker.sourceIssue = viewModel?.issue;
+        labelSearchablePicker.sourceIssue = viewModel?.issue
         
         let size = NSMakeSize(320.0, 420.0)
         

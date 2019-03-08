@@ -10,18 +10,18 @@ import Cocoa
 
 class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
     
-    var identifier: NSNumber!
-    var actor: QOwner!
-    var issueNumber: NSNumber!
-    var createdAt: Date!
-    var event: NSString?
-    var commitId: NSString?
-    var label: QLabel?
-    var assignee: QOwner?
-    var milestone: QMilestone?
-    var renameFrom: NSString?
-    var renameTo: NSString?
-    var account: QAccount? {
+    @objc var identifier: NSNumber!
+    @objc var actor: QOwner!
+    @objc var issueNumber: NSNumber!
+    @objc var createdAt: Date!
+    @objc var event: NSString?
+    @objc var commitId: NSString?
+    @objc var label: QLabel?
+    @objc var assignee: QOwner?
+    @objc var milestone: QMilestone?
+    @objc var renameFrom: NSString?
+    @objc var renameTo: NSString?
+    @objc var account: QAccount? {
         didSet {
             if let anAccount = account {
                 self.repository?.account = anAccount
@@ -86,7 +86,7 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         return "IssueEvent: actor=\(actor.login) createdAt=\(createdAt) event=\(event) label=\(label) milestone=\(milestone?.title) renameFrom=\(renameFrom) renameTo=\(renameTo)"
     }
     
-    static func fromJSON(_ json: NSDictionary) -> QIssueEvent {
+    @objc static func fromJSON(_ json: NSDictionary) -> QIssueEvent {
         let event = QIssueEvent()
         
         event.identifier = json["id"] as! NSNumber

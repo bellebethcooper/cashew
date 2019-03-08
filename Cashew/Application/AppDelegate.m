@@ -1063,19 +1063,21 @@
     [windowController.window makeKeyAndOrderFront:self];
 }
 
-- (void)_showLabelPickerView
-{
+- (void)_showLabelPickerView {
+    
+    DDLogDebug(@"AppDelegate showLabelPickerView");
+    
     if ([self _currentIssues].count == 0) {
+        DDLogDebug(@"AppDelegate showLabelPickerView - returning");
         return;
     }
-    
-    DDLogDebug(@"Add Label");
     SRLabelSearchablePickerViewController *labelsPickerController = [[SRLabelSearchablePickerViewController alloc] init];
     labelsPickerController.popoverBackgroundColorFixEnabed = false;
     //[labelsPickerController presentViewControllerInWindowControllerModallyWithTitle:@"SELECT LABELS"];
     
     
     if (self.labelsPickerWindowController) {
+        DDLogDebug(@"AppDelegate showLabelPickerView - returning 1");
         return;
     }
     [self.issuesViewController reloadContextIssueSelection];

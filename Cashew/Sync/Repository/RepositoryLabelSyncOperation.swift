@@ -23,7 +23,6 @@ class RepositoryLabelsSyncOperation: RepositoryBaseSyncOperation {
     }
     
     override func main() {
-        
         // fetch local labels
         if let labels = QLabelStore.labels(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: true) {
             labels.forEach({ labelsSet.insert($0) })            
