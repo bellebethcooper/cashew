@@ -11,7 +11,7 @@ import Cocoa
 @objc(SRIssueSyncWatcher)
 class IssueSyncWatcher: NSObject {
     
-    static let sharedWatcher = IssueSyncWatcher()
+    @objc static let sharedWatcher = IssueSyncWatcher()
     
     fileprivate var deltaSyncRepos = Set<QRepository>()
     fileprivate var fullSyncRepos = Set<QRepository>()

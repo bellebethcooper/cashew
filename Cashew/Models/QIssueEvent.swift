@@ -39,7 +39,7 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         }
     }
     
-    var repository: QRepository? {
+    @objc var repository: QRepository? {
         didSet {
             
             if let aRepository = repository {
@@ -56,7 +56,7 @@ class QIssueEvent: NSObject, IssueEventInfo, SRIssueDetailItem {
         return self.createdAt
     }
     
-    var additions: NSMutableOrderedSet {
+    @objc var additions: NSMutableOrderedSet {
         get {
             guard let event = event else { return NSMutableOrderedSet() }
             

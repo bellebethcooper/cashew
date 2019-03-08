@@ -40,7 +40,7 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
         QIssueEventStore.add(self)
     }
     
-    func issueCommentDraftForIssueComment(_ info: QIssueCommentInfo) -> IssueCommentDraft? {
+    @objc func issueCommentDraftForIssueComment(_ info: QIssueCommentInfo) -> IssueCommentDraft? {
         if let info = info as? QIssue {
             var draft: IssueCommentDraft?
             (draftsAccessQueue).sync {
@@ -246,7 +246,7 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
     }
     
     fileprivate let layoutCache = NSCache<AnyObject, AnyObject>()
-    func updateWebViewLayoutCache(_ height: Float, forRow row: Int) {
+    @objc func updateWebViewLayoutCache(_ height: Float, forRow row: Int) {
         layoutCache.setObject(NSNumber(value: height as Float), forKey: row as AnyObject)
     }
     

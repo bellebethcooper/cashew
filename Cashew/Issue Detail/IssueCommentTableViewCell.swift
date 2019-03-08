@@ -95,17 +95,17 @@ class ReactionButton: NSButton {
     fileprivate let reactionsViewController: ReactionsViewController = ReactionsViewController(nibName: NSNib.Name(rawValue: "ReactionsViewController"), bundle: nil)
     fileprivate var reactionPickerPopover: NSPopover?
     
-    var text: String? {
+    @objc var text: String? {
         get {
             return editableMarkdownView?.string
         }
     }
     
-    var isMarkdownEditorFirstResponder: Bool {
+    @objc var isMarkdownEditorFirstResponder: Bool {
         return editableMarkdownView?.isFirstResponder ?? false
     }
     
-    var draft: IssueCommentDraft? {
+    @objc var draft: IssueCommentDraft? {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 if let strongSelf = self, let draft = strongSelf.draft, let editableMarkdownView = strongSelf.editableMarkdownView {
@@ -117,7 +117,7 @@ class ReactionButton: NSButton {
         }
     }
     
-    var editing: Bool = false {
+    @objc var editing: Bool = false {
         didSet {
             if oldValue != editing {
                 didSetEditing()
@@ -125,12 +125,12 @@ class ReactionButton: NSButton {
         }
     }
     
-    var imageURLs: [URL] {
+    @objc var imageURLs: [URL] {
         get {
             return editableMarkdownView?.imageURLs as [URL]? ?? [URL]()
         }
     }
-    var onTextChange: (()->())? {
+    @objc var onTextChange: (()->())? {
         didSet {
             if let editableMarkdownView = editableMarkdownView,
                 let onTextChange = onTextChange {
@@ -139,9 +139,9 @@ class ReactionButton: NSButton {
         }
     }
     
-    var onCommentDiscard: (()->())?
+    @objc var onCommentDiscard: (()->())?
     
-    var onHeightChanged: (()->())? {
+    @objc var onHeightChanged: (()->())? {
         didSet {
             if let editableMarkdownView = editableMarkdownView,
                 let onHeightChanged = onHeightChanged {
@@ -150,7 +150,7 @@ class ReactionButton: NSButton {
         }
     }
     
-    var didClickImageBlock: ((_ url: URL?) -> ())? {
+    @objc var didClickImageBlock: ((_ url: URL?) -> ())? {
         didSet {
             if let editableMarkdownView = editableMarkdownView {
                 editableMarkdownView.didClickImageBlock = didClickImageBlock
@@ -166,7 +166,7 @@ class ReactionButton: NSButton {
         }
     }
     
-    var commentInfo: QIssueCommentInfo? {
+    v@objc ar commentInfo: QIssueCommentInfo? {
         didSet {
             
             if editableMarkdownView?.isFirstResponder == false {
