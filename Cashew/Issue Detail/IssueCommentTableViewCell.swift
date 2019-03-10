@@ -166,7 +166,7 @@ class ReactionButton: NSButton {
         }
     }
     
-    v@objc ar commentInfo: QIssueCommentInfo? {
+    @objc var commentInfo: QIssueCommentInfo? {
         didSet {
             
             if editableMarkdownView?.isFirstResponder == false {
