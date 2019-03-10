@@ -14,18 +14,18 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView verticalHuggingPriority="500" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T71-0k-0PX" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="12" y="34" width="30" height="30"/>
+                    <rect key="frame" x="12" y="38" width="26" height="26"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QDr-O3-vz5">
-                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                            <rect key="frame" x="0.0" y="0.0" width="26" height="26"/>
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="dKL-cn-aTi"/>
                         </imageView>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="3L2-dl-05p"/>
+                        <constraint firstAttribute="height" constant="26" id="3L2-dl-05p"/>
                         <constraint firstItem="QDr-O3-vz5" firstAttribute="centerY" secondItem="T71-0k-0PX" secondAttribute="centerY" id="3pB-Sz-XxU"/>
                         <constraint firstAttribute="trailing" secondItem="QDr-O3-vz5" secondAttribute="trailing" id="41H-5W-And"/>
-                        <constraint firstAttribute="width" constant="30" id="Pg3-4m-an9"/>
+                        <constraint firstAttribute="width" constant="26" id="Pg3-4m-an9"/>
                         <constraint firstItem="QDr-O3-vz5" firstAttribute="top" secondItem="T71-0k-0PX" secondAttribute="top" id="RhA-7b-lyA"/>
                         <constraint firstAttribute="bottom" secondItem="QDr-O3-vz5" secondAttribute="bottom" id="ecW-yr-70n"/>
                         <constraint firstItem="QDr-O3-vz5" firstAttribute="leading" secondItem="T71-0k-0PX" secondAttribute="leading" id="nlV-3T-4pT"/>
@@ -35,12 +35,12 @@
                             <color key="value" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="12"/>
+                            <integer key="value" value="13"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
                 <textField verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="nTZ-hL-TFj">
-                    <rect key="frame" x="52" y="47" width="197" height="17"/>
+                    <rect key="frame" x="48" y="47" width="197" height="17"/>
                     <textFieldCell key="cell" selectable="YES" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" title="hishboy commented 3 days ago" id="Ltt-kc-mo7">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" red="0.41568627450000001" green="0.41568627450000001" blue="0.41568627450000001" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
