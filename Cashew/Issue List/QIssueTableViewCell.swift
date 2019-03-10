@@ -95,7 +95,8 @@ class QIssueTableViewCell: NSTableRowView {
     // NSColor(red: 245/255.0 , green: 248/255.0 , blue: 247/255.0 , alpha: 1);
     fileprivate static let separatorLineHeight: CGFloat = 1.0
     
-    fileprivate static let titleLabelFont = NSFont.systemFont(ofSize: 14, weight: .semibold)
+    fileprivate static let titleNumberLabelFont = NSFont.systemFont(ofSize: 14, weight: .bold)
+    fileprivate static let titleLabelFont = NSFont.systemFont(ofSize: 14, weight: .regular)
     fileprivate static let subtitleFont = NSFont.systemFont(ofSize: 12, weight: .light)
     fileprivate static let subtitleBoldFont = NSFont.boldSystemFont(ofSize: 12)
     
@@ -415,8 +416,14 @@ class QIssueTableViewCell: NSTableRowView {
 //        updatedAtLabel.stringValue = updated.timeAgoSimple(forWeekOrLessAndUserShortForm: true)
         let numberString = "#\(anIssue.number)"
         let titleString = "\(numberString) • \(anIssue.title)"
-        titleLabel.stringValue = titleString
-        
+        let title = NSMutableAttributedString(string: titleString)
+        // make number bold
+        let numberRange = NSMakeRange(0, numberString.count)
+        title.setAttributes([NSAttributedStringKey.font: QIssueTableViewCell.titleNumberLabelFont], range: numberRange)
+        // make title not bold
+        let titleRange = NSMakeRange(numberString.count + 3, anIssue.title.count) // add 3 for the spaces and mid dot
+        title.setAttributes([NSAttributedStringKey.font: QIssueTableViewCell.titleLabelFont], range: titleRange)
+        titleLabel.attributedStringValue = title
         
         closedIssueImageView.isHidden = true
         openIssueImageView.isHidden = true
