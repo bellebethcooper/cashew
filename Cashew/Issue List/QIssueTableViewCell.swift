@@ -69,7 +69,7 @@ class QIssueTableViewCell: NSTableRowView {
     @IBOutlet weak fileprivate var closedIssueImageView: QIssueTableViewCellCircleImageView!
     @IBOutlet weak fileprivate var assigneeImageView: BaseView!
     @IBOutlet weak fileprivate var titleLabel: IssueTableViewCellTextField!
-    @IBOutlet weak fileprivate var subtitleLabel: IssueTableViewCellTextField!
+//    @IBOutlet weak fileprivate var subtitleLabel: IssueTableViewCellTextField!
     @IBOutlet weak fileprivate var updatedAtLabel: IssueTableViewCellTextField!
     @IBOutlet weak fileprivate var labelContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak fileprivate var labelsContainerView: BaseView!
@@ -123,7 +123,7 @@ class QIssueTableViewCell: NSTableRowView {
                 view.shouldAllowVibrancy = shouldAllowVibrancy
             }
             
-            [titleLabel, subtitleLabel, updatedAtLabel].forEach { (view) in
+            [titleLabel, updatedAtLabel].forEach { (view) in
                 view.shouldAllowVibrancy = shouldAllowVibrancy
             }
             
@@ -378,7 +378,7 @@ class QIssueTableViewCell: NSTableRowView {
                 readCircleView.backgroundColor = CashewColor.notificationDotColor()
             }
             
-            subtitleLabel.attributedStringValue = subtitleTextForCurrentIssue()
+//            subtitleLabel.attributedStringValue = subtitleTextForCurrentIssue()
             updateLabelsModeBasedOnSelectionAndHover()
         }
     }
@@ -397,7 +397,7 @@ class QIssueTableViewCell: NSTableRowView {
     fileprivate func didSetIssue() {
         
         guard let anIssue = self.issue else {
-            subtitleLabel.stringValue = ""
+//            subtitleLabel.stringValue = ""
             updatedAtLabel.stringValue = ""
             titleLabel.stringValue = ""
             assigneeImageView.setImageURL(nil)
@@ -407,24 +407,24 @@ class QIssueTableViewCell: NSTableRowView {
             return
         }
         
-        let subtitle = subtitleTextForCurrentIssue()
-        subtitleLabel.attributedStringValue = subtitle
-        let updated = anIssue.updatedAt as NSDate
-        
         // temporarily removing this, but leaving the code in case I want to bring it back or make it optional in future
+//        let subtitle = subtitleTextForCurrentIssue()
+//        subtitleLabel.attributedStringValue = subtitle
+        
+        //        let updated = anIssue.updatedAt as NSDate
 //        updatedAtLabel.stringValue = updated.timeAgoSimple(forWeekOrLessAndUserShortForm: true)
         let numberString = "#\(anIssue.number)"
         let titleString = "\(numberString) • \(anIssue.title)"
         titleLabel.stringValue = titleString
         
         
+        closedIssueImageView.isHidden = true
+        openIssueImageView.isHidden = true
         if anIssue.state == "closed" {
-            openIssueImageView.isHidden = true
-            closedIssueImageView.isHidden = false
+//            closedIssueImageView.isHidden = false
             labelsView.issueClosed = true
         } else if anIssue.state == "open" {
-            openIssueImageView.isHidden = false
-            closedIssueImageView.isHidden = true
+//            openIssueImageView.isHidden = false
             labelsView.issueClosed = false
         }
         
@@ -444,29 +444,29 @@ class QIssueTableViewCell: NSTableRowView {
             readCircleView.isHidden = true
         }
         
-        openIssueImageView.image = anIssue.type == "pull_request" ? QView.openPullRequestImage() : QView.openIssueImage();
-        closedIssueImageView.image = anIssue.type == "pull_request" ? QView.closedPullRequestImage() : QView.openIssueImage();
-        
-        if anIssue.type == "pull_request" {
-            let openPR = QView.openPullRequestImage()
-            let closedPR = QView.closedPullRequestImage()
-            
-            openPR?.size = NSMakeSize(8, 10)
-            closedPR?.size = NSMakeSize(8, 10)
-            openIssueImageView.image = openPR
-            closedIssueImageView.image = closedPR
-            openIssueImageView.imageScaling = .scaleNone
-            closedIssueImageView.imageScaling = .scaleNone
-            openIssueImageView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 192/255.0, blue: 44/255.0, alpha: 1).cgColor
-            closedIssueImageView.layer?.borderColor = NSColor(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
-        } else {
-            openIssueImageView.image = QView.openIssueImage();
-            closedIssueImageView.image = QView.closedIssueImage();
-            openIssueImageView.imageScaling = .scaleProportionallyUpOrDown
-            closedIssueImageView.imageScaling = .scaleProportionallyUpOrDown
-            openIssueImageView.layer?.borderColor = CashewColor.backgroundColor().cgColor
-            closedIssueImageView.layer?.borderColor = CashewColor.backgroundColor().cgColor
-        }
+//        openIssueImageView.image = anIssue.type == "pull_request" ? QView.openPullRequestImage() : QView.openIssueImage();
+//        closedIssueImageView.image = anIssue.type == "pull_request" ? QView.closedPullRequestImage() : QView.openIssueImage();
+//
+//        if anIssue.type == "pull_request" {
+//            let openPR = QView.openPullRequestImage()
+//            let closedPR = QView.closedPullRequestImage()
+//
+//            openPR?.size = NSMakeSize(8, 10)
+//            closedPR?.size = NSMakeSize(8, 10)
+//            openIssueImageView.image = openPR
+//            closedIssueImageView.image = closedPR
+//            openIssueImageView.imageScaling = .scaleNone
+//            closedIssueImageView.imageScaling = .scaleNone
+//            openIssueImageView.layer?.borderColor = NSColor(calibratedRed: 90/255.0, green: 192/255.0, blue: 44/255.0, alpha: 1).cgColor
+//            closedIssueImageView.layer?.borderColor = NSColor(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
+//        } else {
+//            openIssueImageView.image = QView.openIssueImage();
+//            closedIssueImageView.image = QView.closedIssueImage();
+//            openIssueImageView.imageScaling = .scaleProportionallyUpOrDown
+//            closedIssueImageView.imageScaling = .scaleProportionallyUpOrDown
+//            openIssueImageView.layer?.borderColor = CashewColor.backgroundColor().cgColor
+//            closedIssueImageView.layer?.borderColor = CashewColor.backgroundColor().cgColor
+//        }
     }
     
     // MARK: -
@@ -635,7 +635,7 @@ class QIssueTableViewCell: NSTableRowView {
         }
         
         titleLabel.allowsDefaultTighteningForTruncation = false
-        subtitleLabel.allowsDefaultTighteningForTruncation = false
+//        subtitleLabel.allowsDefaultTighteningForTruncation = false
     }
     
     override func updateTrackingAreas() {
