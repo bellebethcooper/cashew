@@ -1,6 +1,6 @@
 # Cashew macOS app
 
-This project started with the abandoned-but-open-sourced Cashew app source code. After spending many days migrating the code through the various Swift versions from Swift 2 to Swift 4 and fixing crashes, now I'd like to build on this base to develop Cashew with my own ideas and priorities in mind. It'll remain open-source, and you're welcome to contribute PRs for fixes, or suggest new features via issues.
+This project started with the abandoned-but-open-sourced Cashew app source code. After spending many days migrating the code through the various Swift versions from Swift 2 to Swift 4 and fixing crashes, I've made a working but buggy version of the app available. It'll remain open-source, but I'm not actively maintaining the app or providing support for it. If you'd like to commit to working on Cashew, please fork it as I can't guarantee I'll be available to review PRs or bug reports.
 
 ### To run app:
 
