@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="590" height="34"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Sid-eT-qQn">
-                                    <rect key="frame" x="32" y="9" width="51" height="16"/>
+                                    <rect key="frame" x="39" y="9" width="51" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="hishboy" id="b2i-1P-J4g">
                                         <font key="font" metaFont="systemSemibold" size="12"/>
                                         <color key="textColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -28,14 +28,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <customView horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="27J-ZV-2E3" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                                    <rect key="frame" x="5" y="5" width="24" height="24"/>
+                                    <rect key="frame" x="12" y="5" width="24" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="24" id="MCt-S8-NhB"/>
                                         <constraint firstAttribute="width" constant="24" id="mwD-Ir-92l"/>
                                     </constraints>
                                 </customView>
                                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Hg5-RB-iXi">
-                                    <rect key="frame" x="81" y="9" width="137" height="16"/>
+                                    <rect key="frame" x="88" y="9" width="137" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="commented 3 days ago" id="qRA-kR-OLu">
                                         <font key="font" metaFont="cellTitle"/>
                                         <color key="textColor" red="0.41568627450980389" green="0.41568627450980389" blue="0.41568627450980389" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -82,7 +82,7 @@
                                 <constraint firstItem="pFz-2L-ee4" firstAttribute="centerY" secondItem="Cyv-Pf-WmG" secondAttribute="centerY" id="ext-sa-w2E"/>
                                 <constraint firstItem="27J-ZV-2E3" firstAttribute="top" secondItem="Cyv-Pf-WmG" secondAttribute="top" constant="5" id="wCZ-8E-87Y"/>
                                 <constraint firstItem="Sid-eT-qQn" firstAttribute="centerY" secondItem="Cyv-Pf-WmG" secondAttribute="centerY" id="xLg-aG-h2S"/>
-                                <constraint firstItem="27J-ZV-2E3" firstAttribute="leading" secondItem="Cyv-Pf-WmG" secondAttribute="leading" constant="5" id="yON-a3-g7x"/>
+                                <constraint firstItem="27J-ZV-2E3" firstAttribute="leading" secondItem="Cyv-Pf-WmG" secondAttribute="leading" constant="12" id="yON-a3-g7x"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">

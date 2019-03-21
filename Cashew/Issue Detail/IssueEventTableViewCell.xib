@@ -18,7 +18,7 @@
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QDr-O3-vz5">
                             <rect key="frame" x="0.0" y="0.0" width="26" height="26"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="dKL-cn-aTi"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="dKL-cn-aTi"/>
                         </imageView>
                     </subviews>
                     <constraints>

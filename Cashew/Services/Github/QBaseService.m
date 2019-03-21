@@ -221,7 +221,6 @@
 - (void)_parseNextPageNumberFromHTTPURLResponse:(NSHTTPURLResponse *)httpResponse forContext:(QServiceResponseContext *)context
 {
     NSParameterAssert(context);
-    
     NSString *link = nil;
     if ([httpResponse respondsToSelector:@selector(allHeaderFields)]) {
         NSDictionary *dictionary = [httpResponse allHeaderFields];

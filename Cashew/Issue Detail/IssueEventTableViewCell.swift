@@ -97,13 +97,13 @@ class IssueEventTableViewCell: BaseView {
                 
                 switch(event.event!) {
                 case "labeled", "unlabeled":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "tag"))!.withTintColor(color)
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "label"))!.withTintColor(color)
                 case "milestoned", "demilestoned":
                     eventImageView.image = NSImage(named: NSImage.Name(rawValue: "milestone"))!.withTintColor(color)
                 case "renamed":
                     eventImageView.image = NSImage(named: NSImage.Name(rawValue: "pencil"))!.withTintColor(color)
                 case "assigned", "unassigned":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "person"))!.withTintColor(color)
+                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "user"))!.withTintColor(color)
                 case "closed":
                     eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))!.withTintColor(NSColor.white)
                     eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
