@@ -57,6 +57,8 @@ class QIssueTableViewCellCircleImageView: NSImageView {
     
 }
 
+// MARK: - 
+
 class QIssueTableViewCell: NSTableRowView {
     
     @IBOutlet weak var closedImageViewLeftConstraint: NSLayoutConstraint!
