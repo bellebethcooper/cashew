@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="72"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView verticalHuggingPriority="500" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T71-0k-0PX" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
+                <customView hidden="YES" verticalHuggingPriority="500" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="T71-0k-0PX" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
                     <rect key="frame" x="12" y="38" width="26" height="26"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="QDr-O3-vz5">
