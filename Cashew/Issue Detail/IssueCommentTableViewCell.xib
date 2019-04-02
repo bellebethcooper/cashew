@@ -57,7 +57,7 @@
                                     </connections>
                                 </button>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="VFi-pT-0mt" customClass="ReactionButton" customModule="Cashew" customModuleProvider="target">
-                                    <rect key="frame" x="547" y="10" width="15" height="15"/>
+                                    <rect key="frame" x="539" y="10" width="15" height="15"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="15" id="evO-1y-pO1"/>
                                         <constraint firstAttribute="height" constant="15" id="utE-1X-kMm"/>
@@ -77,7 +77,7 @@
                                 <constraint firstAttribute="height" constant="34" id="GZf-ps-Y3W"/>
                                 <constraint firstAttribute="trailing" secondItem="pFz-2L-ee4" secondAttribute="trailing" id="YYU-Gq-AOg"/>
                                 <constraint firstItem="VFi-pT-0mt" firstAttribute="centerY" secondItem="Cyv-Pf-WmG" secondAttribute="centerY" id="Z7G-5j-h2y"/>
-                                <constraint firstItem="pFz-2L-ee4" firstAttribute="leading" secondItem="VFi-pT-0mt" secondAttribute="trailing" id="bEf-dL-sxs"/>
+                                <constraint firstItem="pFz-2L-ee4" firstAttribute="leading" secondItem="VFi-pT-0mt" secondAttribute="trailing" constant="8" id="bEf-dL-sxs"/>
                                 <constraint firstItem="Sid-eT-qQn" firstAttribute="leading" secondItem="27J-ZV-2E3" secondAttribute="trailing" constant="5" id="d1b-ud-xyZ"/>
                                 <constraint firstItem="pFz-2L-ee4" firstAttribute="centerY" secondItem="Cyv-Pf-WmG" secondAttribute="centerY" id="ext-sa-w2E"/>
                                 <constraint firstItem="27J-ZV-2E3" firstAttribute="top" secondItem="Cyv-Pf-WmG" secondAttribute="top" constant="5" id="wCZ-8E-87Y"/>
