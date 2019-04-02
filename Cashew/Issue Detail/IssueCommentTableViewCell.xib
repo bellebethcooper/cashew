@@ -33,6 +33,11 @@
                                         <constraint firstAttribute="height" constant="24" id="MCt-S8-NhB"/>
                                         <constraint firstAttribute="width" constant="24" id="mwD-Ir-92l"/>
                                     </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="13"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </customView>
                                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Hg5-RB-iXi">
                                     <rect key="frame" x="88" y="9" width="137" height="16"/>
@@ -113,7 +118,7 @@
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="WzV-rZ-rNK" customClass="CommentMarkdownContainerView" customModule="Cashew" customModuleProvider="target">
                     <rect key="frame" x="32" y="50" width="558" height="100"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="100" placeholder="YES" id="htn-eH-ymi"/>
+                        <constraint firstAttribute="height" priority="750" constant="100" placeholder="YES" id="htn-eH-ymi"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
