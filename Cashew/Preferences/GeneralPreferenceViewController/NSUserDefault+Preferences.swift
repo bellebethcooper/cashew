@@ -236,7 +236,7 @@ extension UserDefaults {
         return UserDefaults.closeIssueWarningPreference() == .enabled
     }
     
-    class func layoutModeKeyPath() -> String {
+    @objc class func layoutModeKeyPath() -> String {
         return UserDefaults.PreferenceConstant.layoutMode
     }
 }
