@@ -370,7 +370,7 @@
 
 - (void)_checkAuth {
     // show add account page if no account available
-    QAccount *currentAccount = nil; // [self _findCurrentSelectedAccount];
+    QAccount *currentAccount = [self _findCurrentSelectedAccount];
     if (currentAccount == nil) {
         [self _showAccountCreationController];
     } else {
