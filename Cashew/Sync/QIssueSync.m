@@ -231,6 +231,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
 
 - (void)runInitialPullSyncher
 {
+    DDLogDebug(@"QIssueSync runInitialPullSyncher");
     NSArray<QAccount *> *accounts = [QAccountStore accounts];
     
     [accounts enumerateObjectsUsingBlock:^(QAccount * _Nonnull account, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -250,6 +251,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
 
 - (void)_runInitialPullSyncherForRepository:(QRepository *)repository
 {
+    DDLogDebug(@"QIssueSync runInitialPullSyncherForRepo");
     self.stopSyncher = NO;
     
     if (repository.initialSyncCompleted) {
@@ -371,7 +373,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                      onCompletion:(SRFetcherCompletion)onCompletion;
 {
     NSParameterAssert(![NSThread isMainThread]);
-    //// DDLogDebug(@"syncing issues for repository = [%@] pageNumber = [%ld] pageSize = [%ld] since = [%@]", repo.fullName, pageNumber, pageSize, since);
+     DDLogDebug(@"QIssueSync _fetchIssues - syncing issues for repository = [%@] pageNumber = [%ld] pageSize = [%ld]", repo.fullName, pageNumber, pageSize);
     
     if (![self _isSynchableRepository:repo]) {
         onCompletion(nil);
@@ -390,7 +392,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     [service issuesForRepository:repo pageNumber:pageNumber pageSize:pageSize sortKey:sortKey ascending:ascending since:dateMarker onCompletion:^(NSArray<QIssue *> *issues, QServiceResponseContext *context, NSError *error) {
         
         if (error) {
-            // DDLogDebug(@"error [%@] synching issues for repository = [%@] final page = [%ld] since = [%@]", error, repo.fullName, pageNumber, dateMarker);
+             DDLogDebug(@"error [%@] synching issues for repository = [%@] final page = [%ld] since = [%@]", error, repo.fullName, pageNumber, dateMarker);
             if (onCompletion) {
                 onCompletion(error);
             }

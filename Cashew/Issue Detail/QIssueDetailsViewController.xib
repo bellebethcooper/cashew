@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,11 +27,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="778" height="580"/>
+            <rect key="frame" x="0.0" y="0.0" width="818" height="580"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Sjp-0r-kES" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="20" y="546" width="738" height="34"/>
+                    <rect key="frame" x="40" y="546" width="738" height="34"/>
                     <subviews>
                         <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="7Oa-hr-PRf">
                             <rect key="frame" x="720" y="11" width="18" height="12"/>
@@ -59,14 +59,14 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tyj-pZ-p5K">
-                    <rect key="frame" x="20" y="366" width="738" height="168"/>
+                <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tyj-pZ-p5K">
+                    <rect key="frame" x="40" y="390" width="738" height="144"/>
                     <subviews>
                         <customView verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="pSU-wr-ypB" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="118" width="738" height="50"/>
+                            <rect key="frame" x="0.0" y="94" width="738" height="50"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="VE2-he-zAw" customClass="SRBaseTextField">
-                                    <rect key="frame" x="10" y="8" width="730" height="34"/>
+                                    <rect key="frame" x="10" y="2" width="730" height="46"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="9do-F8-X6S">
                                         <font key="font" usesAppearanceFont="YES"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -77,12 +77,12 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="VE2-he-zAw" secondAttribute="trailing" id="3H0-os-hFo"/>
                                 <constraint firstItem="VE2-he-zAw" firstAttribute="leading" secondItem="pSU-wr-ypB" secondAttribute="leading" constant="12" id="CXe-gS-7ul"/>
-                                <constraint firstAttribute="bottom" secondItem="VE2-he-zAw" secondAttribute="bottom" constant="8" id="CsD-LQ-JHs"/>
-                                <constraint firstItem="VE2-he-zAw" firstAttribute="top" secondItem="pSU-wr-ypB" secondAttribute="top" constant="8" id="wNa-zV-jfe"/>
+                                <constraint firstAttribute="bottom" secondItem="VE2-he-zAw" secondAttribute="bottom" constant="2" id="CsD-LQ-JHs"/>
+                                <constraint firstItem="VE2-he-zAw" firstAttribute="top" secondItem="pSU-wr-ypB" secondAttribute="top" constant="2" id="wNa-zV-jfe"/>
                             </constraints>
                         </customView>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="9wz-5s-Zvd" userLabel="Assignee Container View" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="62" width="726" height="48"/>
+                            <rect key="frame" x="0.0" y="58" width="726" height="32"/>
                             <subviews>
                                 <button horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="h1V-jf-LjD">
                                     <rect key="frame" x="12" y="8" width="24" height="24"/>
@@ -101,7 +101,7 @@
                             </subviews>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="h1V-jf-LjD" secondAttribute="bottom" constant="8" id="ZY6-7W-MUy"/>
-                                <constraint firstItem="h1V-jf-LjD" firstAttribute="top" secondItem="9wz-5s-Zvd" secondAttribute="top" constant="16" id="bqq-Br-maO"/>
+                                <constraint firstItem="h1V-jf-LjD" firstAttribute="top" secondItem="9wz-5s-Zvd" secondAttribute="top" id="bqq-Br-maO"/>
                                 <constraint firstItem="h1V-jf-LjD" firstAttribute="leading" secondItem="9wz-5s-Zvd" secondAttribute="leading" constant="12" id="xXh-Zi-b9l"/>
                             </constraints>
                         </customView>
@@ -147,13 +147,13 @@
                     </customSpacing>
                 </stackView>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="Fm3-7G-VIc" customClass="SRBaseScrollView">
-                    <rect key="frame" x="20" y="45" width="738" height="281"/>
+                    <rect key="frame" x="40" y="53" width="738" height="297"/>
                     <clipView key="contentView" id="7CJ-vD-296" customClass="SRBaseClipView">
-                        <rect key="frame" x="0.0" y="0.0" width="738" height="281"/>
+                        <rect key="frame" x="0.0" y="0.0" width="738" height="297"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="F0z-tV-Zgo" customClass="SRIssueDetailsTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="738" height="281"/>
+                                <rect key="frame" x="0.0" y="0.0" width="738" height="297"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -215,7 +215,7 @@
                     </scroller>
                 </scrollView>
                 <customView hidden="YES" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Jr0-Ma-Me5" customClass="BaseView" customModule="Cashew" customModuleProvider="target">
-                    <rect key="frame" x="20" y="0.0" width="738" height="45"/>
+                    <rect key="frame" x="40" y="0.0" width="738" height="45"/>
                     <subviews>
                         <customView verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="ORg-ne-KOh" customClass="CommentEditorView" customModule="Cashew" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="738" height="45"/>
@@ -256,16 +256,16 @@
             </subviews>
             <constraints>
                 <constraint firstItem="Fm3-7G-VIc" firstAttribute="top" secondItem="Tyj-pZ-p5K" secondAttribute="bottom" constant="40" id="1La-jX-TUA"/>
-                <constraint firstItem="Fm3-7G-VIc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="2KA-JL-wjX"/>
-                <constraint firstItem="Jr0-Ma-Me5" firstAttribute="top" secondItem="Fm3-7G-VIc" secondAttribute="bottom" priority="499" id="2r0-eD-yLF"/>
+                <constraint firstItem="Fm3-7G-VIc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="2KA-JL-wjX"/>
+                <constraint firstItem="Jr0-Ma-Me5" firstAttribute="top" secondItem="Fm3-7G-VIc" secondAttribute="bottom" priority="499" constant="8" id="2r0-eD-yLF"/>
                 <constraint firstItem="Sjp-0r-kES" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="ITQ-EJ-dHx"/>
-                <constraint firstAttribute="trailing" secondItem="Fm3-7G-VIc" secondAttribute="trailing" constant="20" id="bFc-7B-O4A"/>
+                <constraint firstAttribute="trailing" secondItem="Fm3-7G-VIc" secondAttribute="trailing" constant="40" id="bFc-7B-O4A"/>
                 <constraint firstItem="Tyj-pZ-p5K" firstAttribute="trailing" secondItem="Sjp-0r-kES" secondAttribute="trailing" id="bTJ-vi-I7W"/>
                 <constraint firstItem="Tyj-pZ-p5K" firstAttribute="leading" secondItem="Sjp-0r-kES" secondAttribute="leading" id="cyO-Le-bhg"/>
                 <constraint firstAttribute="bottom" secondItem="Jr0-Ma-Me5" secondAttribute="bottom" id="ewK-OS-gwl"/>
-                <constraint firstItem="Sjp-0r-kES" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="gJE-ia-B2h"/>
+                <constraint firstItem="Sjp-0r-kES" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="gJE-ia-B2h"/>
                 <constraint firstItem="Jr0-Ma-Me5" firstAttribute="trailing" secondItem="Fm3-7G-VIc" secondAttribute="trailing" id="gcz-l3-u7f"/>
-                <constraint firstAttribute="trailing" secondItem="Sjp-0r-kES" secondAttribute="trailing" constant="20" id="hev-lC-yMK"/>
+                <constraint firstAttribute="trailing" secondItem="Sjp-0r-kES" secondAttribute="trailing" constant="40" id="hev-lC-yMK"/>
                 <constraint firstItem="Jr0-Ma-Me5" firstAttribute="leading" secondItem="Fm3-7G-VIc" secondAttribute="leading" id="sTq-9P-bkU"/>
                 <constraint firstItem="Tyj-pZ-p5K" firstAttribute="top" secondItem="Sjp-0r-kES" secondAttribute="bottom" constant="12" id="yrL-wa-SXk"/>
             </constraints>
@@ -281,7 +281,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="5Gc-gZ-3CC">
-                    <rect key="frame" x="168" y="36" width="168" height="25"/>
+                    <rect key="frame" x="171" y="36" width="162" height="25"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="No Issue Selected" id="YGy-LN-nER">
                         <font key="font" metaFont="system" size="21"/>
                         <color key="textColor" red="0.40784313725490196" green="0.40784313725490196" blue="0.40784313725490196" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>

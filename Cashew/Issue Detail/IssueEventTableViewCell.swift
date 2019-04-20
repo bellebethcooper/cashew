@@ -15,7 +15,7 @@ class IssueEventTableViewCell: BaseView {
     fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)]
     
     @IBOutlet weak var eventDetailsLabel: NSTextField!
-    @IBOutlet weak var eventImageView: NSImageView!
+//    @IBOutlet weak var eventImageView: NSImageView!
     @IBOutlet weak var eventImageContainerView: BaseView!
     
     @objc var onHeightChanged: (()->())?
@@ -90,32 +90,39 @@ class IssueEventTableViewCell: BaseView {
         DispatchQueue.main.async { () -> Void in
             CATransaction.begin()
             CATransaction.setDisableActions(true)
-            if let event = self.issueEvent, let eventImageView = self.eventImageView {
-                let color = NSColor.init(calibratedRed: 148/255.0, green: 148/255.0, blue: 148/255.0, alpha: 1)
+            if let event = self.issueEvent {
+//                let color = NSColor.init(calibratedRed: 148/255.0, green: 148/255.0, blue: 148/255.0, alpha: 1)
                 
-                eventImageView.layer?.backgroundColor = NSColor.clear.cgColor
+//                eventImageView.layer?.backgroundColor = NSColor.clear.cgColor
                 
-                switch(event.event!) {
-                case "labeled", "unlabeled":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "tag"))!.withTintColor(color)
-                case "milestoned", "demilestoned":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "milestone"))!.withTintColor(color)
-                case "renamed":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "pencil"))!.withTintColor(color)
-                case "assigned", "unassigned":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "person"))!.withTintColor(color)
-                case "closed":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))!.withTintColor(NSColor.white)
-                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
-                case "reopened":
-                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-reopened"))!.withTintColor(NSColor.white)
-                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
-                default:
-                    eventImageView.image = nil
-                }
+//                if let aUsernameAvatarURL = event.actor.avatarURL {
+                    self.eventImageContainerView.setImageURL(event.actor.avatarURL)
+//                } else {
+//                    self.eventImageContainerView.setImageURL(nil)
+//                }
+                
+//                switch(event.event!) {
+//                case "labeled", "unlabeled":
+//                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "label"))!.withTintColor(color)
+//                case "milestoned", "demilestoned":
+//                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "milestone"))!.withTintColor(color)
+//                case "renamed":
+//                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "pencil"))!.withTintColor(color)
+//                case "assigned", "unassigned":
+//                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "user"))!.withTintColor(color)
+//                case "closed":
+//                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))!.withTintColor(NSColor.white)
+//                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 175/255.0, green: 25/255.0, blue: 0, alpha: 1).cgColor
+//                case "reopened":
+//                    eventImageView.image = NSImage(named: NSImage.Name(rawValue: "issue-reopened"))!.withTintColor(NSColor.white)
+//                    eventImageView.layer?.backgroundColor = NSColor.init(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1).cgColor
+//                default:
+//                    eventImageView.image = nil
+//                }
                 
             } else {
-                self.eventImageView.image = nil
+//                self.eventImageView.image = nil
+                self.eventImageContainerView.setImageURL(nil)
             }
             CATransaction.commit()
         }

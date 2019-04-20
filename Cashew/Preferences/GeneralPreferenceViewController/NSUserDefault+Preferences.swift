@@ -147,7 +147,7 @@ extension UserDefaults {
         static let layoutMode = "layoutModePreference"
     }
 
-    class func layoutModePreference() -> LayoutPreference {
+    @objc class func layoutModePreference() -> LayoutPreference {
         let value = UserDefaults.standard.integer(forKey: UserDefaults.PreferenceConstant.layoutMode)
         return LayoutPreference(rawValue: value) ?? LayoutPreference.standard
     }
@@ -236,7 +236,7 @@ extension UserDefaults {
         return UserDefaults.closeIssueWarningPreference() == .enabled
     }
     
-    class func layoutModeKeyPath() -> String {
+    @objc class func layoutModeKeyPath() -> String {
         return UserDefaults.PreferenceConstant.layoutMode
     }
 }

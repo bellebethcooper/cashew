@@ -169,7 +169,7 @@
     [self.labelsTableViewCell.leftAnchor constraintEqualToAnchor:self.toolbarContainerView.leftAnchor].active = true;
     [self.labelsTableViewCell.rightAnchor constraintEqualToAnchor:self.toolbarContainerView.rightAnchor].active = true;
     [self.labelsTableViewCell.topAnchor constraintEqualToAnchor:self.milestoneContainerView.bottomAnchor constant:6].active = true;
-    [self.labelsTableViewCell.bottomAnchor constraintEqualToAnchor:self.activityScrollView.topAnchor].active = true;
+    [self.labelsTableViewCell.bottomAnchor constraintEqualToAnchor:self.activityScrollView.topAnchor constant:-16].active = true;
     [self.labelsTableViewCell.heightAnchor constraintEqualToConstant:[SRIssueDetailLabelsTableViewCell suggestedHeight]].active = true;
     
 }

@@ -115,7 +115,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
                               QOwner *owner = [QOwner fromJSON:responseObject];
                               owner.account = self.account;
                               
-                              DDLogDebug(@"QUSerService currentUserAuthToken - responseObject %@", responseObject);
+//                              DDLogDebug(@"QUSerService currentUserAuthToken - responseObject %@", responseObject);
                               onCompletion(@{@"owner": owner, @"token": json[@"token"]}, context, nil);
                           }
                       }];

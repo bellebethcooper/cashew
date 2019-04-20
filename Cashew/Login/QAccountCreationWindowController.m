@@ -340,12 +340,7 @@
     
 }
 
-- (void)_checkForExistingRepositoriesForAccount:(QAccount *)account
-{
-    [self.repositoriesCloudKitService syncRepositoriesForAccount:account onCompletion:^(NSArray<QRepository *> *cloudRepositories, NSError *err) {
-        //        [cloudRepositories enumerateObjectsUsingBlock:^(QRepository * _Nonnull repo, NSUInteger idx, BOOL * _Nonnull stop) {
-        //            [QRepositoryStore saveRepository:repo];
-        //        }];
+- (void)_checkForExistingRepositoriesForAccount:(QAccount *)account {
         
         NSArray<QRepository *> *repositories = [QRepositoryStore repositoriesForAccountId:account.identifier];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -356,7 +351,6 @@
                 [self _showRepositoryPickerForAccount:account animated:YES];
             }
         });
-    }];
 }
 
 - (void)_showTwoFactorAuthView

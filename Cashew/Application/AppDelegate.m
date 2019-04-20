@@ -124,8 +124,7 @@
     return (id<CashewAppDelegate>)[[NSApplication sharedApplication] delegate];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [QAccountStore remove:self];
     [QIssueNotificationStore remove:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -133,14 +132,11 @@
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:[NSUserDefaults layoutModeKeyPath]];
 }
 
-
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender;
-{
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender; {
     return false;
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification *)notification
-{
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
     [self.window setMovableByWindowBackground:YES];
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
                                                        andSelector:@selector(handleURLEvent:withReplyEvent:)
@@ -148,8 +144,8 @@
                                                         andEventID:kAEGetURL];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    DDLogDebug(@"Delegate didFinishLaunching");
     [NSUserDefaults fixDefaultsIfNeeded];
     
     // setup loggers
@@ -174,7 +170,6 @@
     // setup code extension runner
     self.codeExtensionRunner = [[SRIssueExtensionsJSContextRunner alloc] initWithEnvironment:[[SRProductionIssueExtensionEnvironment alloc] init]];
     
-    
     self.window.contentView.wantsLayer = YES;
     self.window.allowsConcurrentViewDrawing = true;
     self.layoutMode = [NSUserDefaults layoutModePreference];
@@ -190,22 +185,23 @@
     self.closeOrOpenIssuesMenuItem.target = [AppDelegate sharedCashewAppDelegate];
     
     [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:[NSUserDefaults layoutModeKeyPath] options:NSKeyValueObservingOptionNew context:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_windowDidResize:) name:NSWindowDidResizeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didContextIssueFilterChange:) name:kQContextChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showCreateIssueWindowController:) name:kQShowCreateNewIssueNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_didClickNewIssue:) name:kQCreateIssueNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showAccountCreationController) name:kQForceLoginNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showLabelPickerView) name:kQShowLabelPickerNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showMilestonePickerView) name:kQShowMilestonePickerNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showAssigneePickerView) name:kQShowAssigneePickerNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_windowDidMaximize:) name:NSWindowDidDeminiaturizeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_windowDidMinimize:) name:NSWindowDidMiniaturizeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_windowDidResignKeyWindow:) name:NSWindowDidResignKeyNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_windowDidBecomeKeyWindow:) name:NSWindowDidBecomeKeyNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_addAccountCreationController:) name:kSRShowAddAccountNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_showImageViewer:) name:kSRShowImageViewerNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_windowWillClose:) name:NSWindowWillCloseNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_issueSelectionDidChange:) name:kQContextIssueSelectionChangeNotification object:nil];
+    NSNotificationCenter *centre = [NSNotificationCenter defaultCenter];
+    [centre addObserver:self selector:@selector(_windowDidResize:) name:NSWindowDidResizeNotification object:nil];
+    [centre addObserver:self selector:@selector(_didContextIssueFilterChange:) name:kQContextChangeNotification object:nil];
+    [centre addObserver:self selector:@selector(_showCreateIssueWindowController:) name:kQShowCreateNewIssueNotification object:nil];
+    [centre addObserver:self selector:@selector(_didClickNewIssue:) name:kQCreateIssueNotification object:nil];
+    [centre addObserver:self selector:@selector(_showAccountCreationController) name:kQForceLoginNotification object:nil];
+    [centre addObserver:self selector:@selector(_showLabelPickerView) name:kQShowLabelPickerNotification object:nil];
+    [centre addObserver:self selector:@selector(_showMilestonePickerView) name:kQShowMilestonePickerNotification object:nil];
+    [centre addObserver:self selector:@selector(_showAssigneePickerView) name:kQShowAssigneePickerNotification object:nil];
+    [centre addObserver:self selector:@selector(_windowDidMaximize:) name:NSWindowDidDeminiaturizeNotification object:nil];
+    [centre addObserver:self selector:@selector(_windowDidMinimize:) name:NSWindowDidMiniaturizeNotification object:nil];
+    [centre addObserver:self selector:@selector(_windowDidResignKeyWindow:) name:NSWindowDidResignKeyNotification object:nil];
+    [centre addObserver:self selector:@selector(_windowDidBecomeKeyWindow:) name:NSWindowDidBecomeKeyNotification object:nil];
+    [centre addObserver:self selector:@selector(_addAccountCreationController:) name:kSRShowAddAccountNotification object:nil];
+    [centre addObserver:self selector:@selector(_showImageViewer:) name:kSRShowImageViewerNotification object:nil];
+    [centre addObserver:self selector:@selector(_windowWillClose:) name:NSWindowWillCloseNotification object:nil];
+    [centre addObserver:self selector:@selector(_issueSelectionDidChange:) name:kQContextIssueSelectionChangeNotification object:nil];
     
     //[self.window setMovableByWindowBackground:YES];
     self.window.delegate = self;
@@ -267,52 +263,7 @@
             onSuccessulLogin();
         }
     }
-    
     [self _checkAuth];
-    
-    
-    //    let picker = NSOpenPanel()
-    //    picker.canChooseFiles = true
-    //    picker.canChooseDirectories = false
-    //    picker.allowsMultipleSelection = true
-    //    if picker.runModal() == NSFileHandlingPanelOKButton {
-    //        let paths: [String] = picker.URLs.flatMap({ $0.path })
-    //        uploadFilePaths(paths)
-    //    }
-    
-    //    NSOpenPanel *picker = [[NSOpenPanel alloc] init];
-    //    picker.canChooseFiles = false;
-    //    picker.canChooseDirectories = true;
-    //    picker.allowsMultipleSelection = false;
-    //
-    //    NSURL *appDocDir = [self applicationDocumentsDirectory];
-    //    NSURL *file = [appDocDir URLByAppendingPathComponent:@"repo.data"];
-    //
-    //  // if ([picker runModal] == NSFileHandlingPanelOKButton) {
-    //        NSError *repositoryError = nil;
-    //       //NSURL *url = [[picker URLs] firstObject]; //[NSURL fileURLWithPath:@"/Users/hicham/Code/Cashew"];
-    //       NSError *errRead = nil;
-    //    NSData *data = [NSData dataWithContentsOfURL:file];
-    //       NSURL *url = [NSURL URLByResolvingBookmarkData:data options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:&errRead];
-    //    [url startAccessingSecurityScopedResource];
-    ////       NSURL *appDocDir = [self applicationDocumentsDirectory];
-    ////       NSURL *file = [appDocDir URLByAppendingPathComponent:@"repo.data"];
-    //        GTRepository *repository = [GTRepository repositoryWithURL:url error:&repositoryError];
-    //        if (repositoryError != nil) {
-    //            NSLog(@"An error occurred: %@", repositoryError);
-    //            return;
-    //        } else {
-    //            NSLog(@"repository = %@ - %@", repository, [url absoluteString]);
-    //           // NSError *err;
-    //           // NSData *data = [url bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:&err];
-    //           // [data writeToURL:file atomically:YES];
-    ////            if (err) {
-    ////                NSLog(@"bookmark err = %@", err);
-    ////            }
-    //        }
-    //   // }
-    //
-    
 }
 
 - (void)setLayoutMode:(SRLayoutPreference)layoutMode
@@ -417,10 +368,9 @@
     return currentAccount;
 }
 
-- (void)_checkAuth
-{
+- (void)_checkAuth {
     // show add account page if no account available
-    QAccount *currentAccount = [self _findCurrentSelectedAccount];
+    QAccount *currentAccount = nil; // [self _findCurrentSelectedAccount];
     if (currentAccount == nil) {
         [self _showAccountCreationController];
     } else {
@@ -436,17 +386,17 @@
                 return;
             }
             
-            dispatch_block_t onSuccessulLogin = [self _onSuccessfulLoginBlockForAccount:currentAccount];
+            dispatch_block_t onSuccessfulLogin = [self _onSuccessfulLoginBlockForAccount:currentAccount];
             QUserService *userService = [QUserService serviceForAccount:currentAccount];
             [userService currentUserOnCompletion:^(QOwner *owner, QServiceResponseContext * _Nonnull context, NSError * _Nullable error) {
                 if (error || !owner) {
                     if (error && error.code == NSURLErrorNotConnectedToInternet) { // allow offline access
-                        onSuccessulLogin();
+                        onSuccessfulLogin();
                     } else {
                         [self _showAccountCreationController];
                     }
                 } else {
-                    onSuccessulLogin();
+                    onSuccessfulLogin();
                 }
             }];
         }];
