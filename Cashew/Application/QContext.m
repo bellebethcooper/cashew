@@ -150,7 +150,6 @@ NSString * const kQContextIssueSelectionChangeNotification = @"kQContextIssueSel
 #pragma mark - Keychain
 
 - (void)_storeValue:(id)value inKeychainForKey:(NSString *)key {
-    NSLog(@"QContext storeValue - value: %@ key: %@ keychain: %@", value, key, _keychain);
     [_keychain setObject:value forKey:key];
 }
 

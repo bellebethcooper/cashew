@@ -132,7 +132,6 @@
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:[NSUserDefaults layoutModeKeyPath]];
 }
 
-
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender; {
     return false;
 }
@@ -146,6 +145,7 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    DDLogDebug(@"Delegate didFinishLaunching");
     [NSUserDefaults fixDefaultsIfNeeded];
     
     // setup loggers
@@ -263,52 +263,7 @@
             onSuccessulLogin();
         }
     }
-    
     [self _checkAuth];
-    
-    
-    //    let picker = NSOpenPanel()
-    //    picker.canChooseFiles = true
-    //    picker.canChooseDirectories = false
-    //    picker.allowsMultipleSelection = true
-    //    if picker.runModal() == NSFileHandlingPanelOKButton {
-    //        let paths: [String] = picker.URLs.flatMap({ $0.path })
-    //        uploadFilePaths(paths)
-    //    }
-    
-    //    NSOpenPanel *picker = [[NSOpenPanel alloc] init];
-    //    picker.canChooseFiles = false;
-    //    picker.canChooseDirectories = true;
-    //    picker.allowsMultipleSelection = false;
-    //
-    //    NSURL *appDocDir = [self applicationDocumentsDirectory];
-    //    NSURL *file = [appDocDir URLByAppendingPathComponent:@"repo.data"];
-    //
-    //  // if ([picker runModal] == NSFileHandlingPanelOKButton) {
-    //        NSError *repositoryError = nil;
-    //       //NSURL *url = [[picker URLs] firstObject]; //[NSURL fileURLWithPath:@"/Users/hicham/Code/Cashew"];
-    //       NSError *errRead = nil;
-    //    NSData *data = [NSData dataWithContentsOfURL:file];
-    //       NSURL *url = [NSURL URLByResolvingBookmarkData:data options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:&errRead];
-    //    [url startAccessingSecurityScopedResource];
-    ////       NSURL *appDocDir = [self applicationDocumentsDirectory];
-    ////       NSURL *file = [appDocDir URLByAppendingPathComponent:@"repo.data"];
-    //        GTRepository *repository = [GTRepository repositoryWithURL:url error:&repositoryError];
-    //        if (repositoryError != nil) {
-    //            NSLog(@"An error occurred: %@", repositoryError);
-    //            return;
-    //        } else {
-    //            NSLog(@"repository = %@ - %@", repository, [url absoluteString]);
-    //           // NSError *err;
-    //           // NSData *data = [url bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:&err];
-    //           // [data writeToURL:file atomically:YES];
-    ////            if (err) {
-    ////                NSLog(@"bookmark err = %@", err);
-    ////            }
-    //        }
-    //   // }
-    //
-    
 }
 
 - (void)setLayoutMode:(SRLayoutPreference)layoutMode
@@ -413,10 +368,9 @@
     return currentAccount;
 }
 
-- (void)_checkAuth
-{
+- (void)_checkAuth {
     // show add account page if no account available
-    QAccount *currentAccount = [self _findCurrentSelectedAccount];
+    QAccount *currentAccount = nil; // [self _findCurrentSelectedAccount];
     if (currentAccount == nil) {
         [self _showAccountCreationController];
     } else {
@@ -432,17 +386,17 @@
                 return;
             }
             
-            dispatch_block_t onSuccessulLogin = [self _onSuccessfulLoginBlockForAccount:currentAccount];
+            dispatch_block_t onSuccessfulLogin = [self _onSuccessfulLoginBlockForAccount:currentAccount];
             QUserService *userService = [QUserService serviceForAccount:currentAccount];
             [userService currentUserOnCompletion:^(QOwner *owner, QServiceResponseContext * _Nonnull context, NSError * _Nullable error) {
                 if (error || !owner) {
                     if (error && error.code == NSURLErrorNotConnectedToInternet) { // allow offline access
-                        onSuccessulLogin();
+                        onSuccessfulLogin();
                     } else {
                         [self _showAccountCreationController];
                     }
                 } else {
-                    onSuccessulLogin();
+                    onSuccessfulLogin();
                 }
             }];
         }];
