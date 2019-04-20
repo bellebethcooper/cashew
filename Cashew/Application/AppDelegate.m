@@ -124,8 +124,7 @@
     return (id<CashewAppDelegate>)[[NSApplication sharedApplication] delegate];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [QAccountStore remove:self];
     [QIssueNotificationStore remove:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -134,13 +133,11 @@
 }
 
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender;
-{
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender; {
     return false;
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification *)notification
-{
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
     [self.window setMovableByWindowBackground:YES];
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
                                                        andSelector:@selector(handleURLEvent:withReplyEvent:)
@@ -148,8 +145,7 @@
                                                         andEventID:kAEGetURL];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [NSUserDefaults fixDefaultsIfNeeded];
     
     // setup loggers
@@ -173,7 +169,6 @@
     
     // setup code extension runner
     self.codeExtensionRunner = [[SRIssueExtensionsJSContextRunner alloc] initWithEnvironment:[[SRProductionIssueExtensionEnvironment alloc] init]];
-    
     
     self.window.contentView.wantsLayer = YES;
     self.window.allowsConcurrentViewDrawing = true;
