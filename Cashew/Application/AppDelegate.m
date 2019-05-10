@@ -137,7 +137,6 @@
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
-    [self.window setMovableByWindowBackground:YES];
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self
                                                        andSelector:@selector(handleURLEvent:withReplyEvent:)
                                                      forEventClass:kInternetEventClass
