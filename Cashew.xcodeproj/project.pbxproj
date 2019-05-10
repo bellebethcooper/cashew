@@ -17,14 +17,14 @@
 		907C5D952284F74F004091C5 /* html.c in Sources */ = {isa = PBXBuildFile; fileRef = 907C5D8A2284F70A004091C5 /* html.c */; };
 		907C5D962284F74F004091C5 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = 907C5D8B2284F70A004091C5 /* version.c */; };
 		907C5D972284F74F004091C5 /* html_blocks.c in Sources */ = {isa = PBXBuildFile; fileRef = 907C5D8C2284F70A004091C5 /* html_blocks.c */; };
-		907C5DB22284F795004091C5 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DB02284F788004091C5 /* AFNetworking.framework */; };
-		907C5DB42284F795004091C5 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA62284F788004091C5 /* FMDB.framework */; };
-		907C5DB52284F795004091C5 /* FXKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA72284F788004091C5 /* FXKeychain.framework */; };
-		907C5DB62284F795004091C5 /* HotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DAC2284F788004091C5 /* HotKey.framework */; };
-		907C5DB72284F798004091C5 /* AFNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DB02284F788004091C5 /* AFNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		907C5DB92284F798004091C5 /* FMDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA62284F788004091C5 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		907C5DBA2284F798004091C5 /* FXKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA72284F788004091C5 /* FXKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		907C5DBB2284F798004091C5 /* HotKey.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DAC2284F788004091C5 /* HotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		907C5E0822850D63004091C5 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DD222850D3E004091C5 /* AFNetworking.framework */; };
+		907C5E0922850D63004091C5 /* AFNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DD222850D3E004091C5 /* AFNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		907C5E0C22850D63004091C5 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5E0522850D51004091C5 /* FMDB.framework */; };
+		907C5E0D22850D63004091C5 /* FMDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5E0522850D51004091C5 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		907C5E1022850D63004091C5 /* FXKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DED22850D4D004091C5 /* FXKeychain.framework */; };
+		907C5E1122850D63004091C5 /* FXKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DED22850D4D004091C5 /* FXKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		907C5E1422850D63004091C5 /* HotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DE222850D49004091C5 /* HotKey.framework */; };
+		907C5E1522850D63004091C5 /* HotKey.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DE222850D49004091C5 /* HotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9500A1611D33415000D894A0 /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9500A1601D33415000D894A0 /* BaseTextField.swift */; };
 		950973581C96FF17004F5CA1 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950973571C96FF17004F5CA1 /* NotificationManager.swift */; };
 		950C5F7F1C45D2430070D21C /* QImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 950C5F7E1C45D2430070D21C /* QImageManager.m */; };
@@ -319,6 +319,167 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		907C5DCD22850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 299522391BBF104D00859F49;
+			remoteInfo = "AFNetworking iOS";
+		};
+		907C5DCF22850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 299522651BBF129200859F49;
+			remoteInfo = "AFNetworking watchOS";
+		};
+		907C5DD122850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 299522771BBF136400859F49;
+			remoteInfo = "AFNetworking macOS";
+		};
+		907C5DD322850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2987B0A51BC408A200179A4C;
+			remoteInfo = "AFNetworking tvOS";
+		};
+		907C5DD522850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 298D7C3B1BC2C79500FD3B3E;
+			remoteInfo = "AFNetworking iOS Tests";
+		};
+		907C5DD722850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 298D7C4A1BC2C7B200FD3B3E;
+			remoteInfo = "AFNetworking macOS Tests";
+		};
+		907C5DD922850D3E004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2987B0AE1BC408A200179A4C;
+			remoteInfo = "AFNetworking tvOS Tests";
+		};
+		907C5DE122850D49004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DDB22850D49004091C5 /* HotKey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21887E361F2209DE00A05579;
+			remoteInfo = HotKey;
+		};
+		907C5DE322850D49004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DDB22850D49004091C5 /* HotKey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21887E3F1F2209DE00A05579;
+			remoteInfo = HotKeyTests;
+		};
+		907C5DE522850D49004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DDB22850D49004091C5 /* HotKey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21887E661F22154600A05579;
+			remoteInfo = Example;
+		};
+		907C5DEC22850D4D004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DE722850D4D004091C5 /* FXKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 72C6171B1AA3949C0085F425;
+			remoteInfo = "FXKeychain-Mac";
+		};
+		907C5DEE22850D4D004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DE722850D4D004091C5 /* FXKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 72C6173E1AA3951C0085F425;
+			remoteInfo = "FXKeychain-iOS";
+		};
+		907C5DFA22850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
+			remoteInfo = fmdb;
+		};
+		907C5DFC22850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EE4290EF12B42F870088BD94;
+			remoteInfo = FMDB;
+		};
+		907C5DFE22850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF5D041618416BB2008C5AA9;
+			remoteInfo = Tests;
+		};
+		907C5E0022850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6290CBB5188FE836009790F8;
+			remoteInfo = "FMDB-IOS";
+		};
+		907C5E0222850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83C73EFE1C326AB000FFC730;
+			remoteInfo = "FMDB iOS";
+		};
+		907C5E0422850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83C73F0B1C326ADA00FFC730;
+			remoteInfo = "FMDB MacOS";
+		};
+		907C5E0622850D51004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2CD2426D1FCC09CA00479FDE;
+			remoteInfo = "FMDB watchOS";
+		};
+		907C5E0A22850D63004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 299522761BBF136400859F49;
+			remoteInfo = "AFNetworking macOS";
+		};
+		907C5E0E22850D63004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83C73F0A1C326ADA00FFC730;
+			remoteInfo = "FMDB MacOS";
+		};
+		907C5E1222850D63004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DE722850D4D004091C5 /* FXKeychain.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 72C6171A1AA3949C0085F425;
+			remoteInfo = "FXKeychain-Mac";
+		};
+		907C5E1622850D63004091C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 907C5DDB22850D49004091C5 /* HotKey.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 21887E351F2209DE00A05579;
+			remoteInfo = HotKey;
+		};
 		95C753021C40643800A0FD51 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 95C752E31C40643800A0FD51 /* Project object */;
@@ -342,10 +503,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				907C5DB72284F798004091C5 /* AFNetworking.framework in Embed Frameworks */,
-				907C5DB92284F798004091C5 /* FMDB.framework in Embed Frameworks */,
-				907C5DBA2284F798004091C5 /* FXKeychain.framework in Embed Frameworks */,
-				907C5DBB2284F798004091C5 /* HotKey.framework in Embed Frameworks */,
+				907C5E1522850D63004091C5 /* HotKey.framework in Embed Frameworks */,
+				907C5E0922850D63004091C5 /* AFNetworking.framework in Embed Frameworks */,
+				907C5E1122850D63004091C5 /* FXKeychain.framework in Embed Frameworks */,
+				907C5E0D22850D63004091C5 /* FMDB.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,14 +603,10 @@
 		907C5D8A2284F70A004091C5 /* html.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = html.c; sourceTree = "<group>"; };
 		907C5D8B2284F70A004091C5 /* version.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = version.c; sourceTree = "<group>"; };
 		907C5D8C2284F70A004091C5 /* html_blocks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = html_blocks.c; sourceTree = "<group>"; };
-		907C5DA52284F788004091C5 /* FMDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FMDB.framework.dSYM; path = Carthage/Build/Mac/FMDB.framework.dSYM; sourceTree = "<group>"; };
-		907C5DA62284F788004091C5 /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = Carthage/Build/Mac/FMDB.framework; sourceTree = "<group>"; };
-		907C5DA72284F788004091C5 /* FXKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FXKeychain.framework; path = Carthage/Build/Mac/FXKeychain.framework; sourceTree = "<group>"; };
-		907C5DAB2284F788004091C5 /* FXKeychain.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FXKeychain.framework.dSYM; path = Carthage/Build/Mac/FXKeychain.framework.dSYM; sourceTree = "<group>"; };
-		907C5DAC2284F788004091C5 /* HotKey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HotKey.framework; path = Carthage/Build/Mac/HotKey.framework; sourceTree = "<group>"; };
-		907C5DAE2284F788004091C5 /* AFNetworking.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = AFNetworking.framework.dSYM; path = Carthage/Build/Mac/AFNetworking.framework.dSYM; sourceTree = "<group>"; };
-		907C5DAF2284F788004091C5 /* HotKey.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HotKey.framework.dSYM; path = Carthage/Build/Mac/HotKey.framework.dSYM; sourceTree = "<group>"; };
-		907C5DB02284F788004091C5 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/Mac/AFNetworking.framework; sourceTree = "<group>"; };
+		907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AFNetworking.xcodeproj; path = Carthage/Checkouts/AFNetworking/AFNetworking.xcodeproj; sourceTree = "<group>"; };
+		907C5DDB22850D49004091C5 /* HotKey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HotKey.xcodeproj; path = Carthage/Checkouts/HotKey/HotKey.xcodeproj; sourceTree = "<group>"; };
+		907C5DE722850D4D004091C5 /* FXKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = FXKeychain.xcodeproj; path = Carthage/Checkouts/FXKeychain/FXKeychain.xcodeproj; sourceTree = "<group>"; };
+		907C5DF022850D51004091C5 /* fmdb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fmdb.xcodeproj; path = Carthage/Checkouts/fmdb/fmdb.xcodeproj; sourceTree = "<group>"; };
 		9500A1601D33415000D894A0 /* BaseTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 		950973571C96FF17004F5CA1 /* NotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		950C5F7D1C45D2430070D21C /* QImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QImageManager.h; sourceTree = "<group>"; };
@@ -821,10 +978,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				907C5DB22284F795004091C5 /* AFNetworking.framework in Frameworks */,
-				907C5DB42284F795004091C5 /* FMDB.framework in Frameworks */,
-				907C5DB52284F795004091C5 /* FXKeychain.framework in Frameworks */,
-				907C5DB62284F795004091C5 /* HotKey.framework in Frameworks */,
+				907C5E1422850D63004091C5 /* HotKey.framework in Frameworks */,
+				907C5E0822850D63004091C5 /* AFNetworking.framework in Frameworks */,
+				907C5E1022850D63004091C5 /* FXKeychain.framework in Frameworks */,
+				907C5E0C22850D63004091C5 /* FMDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -998,14 +1155,10 @@
 		907C5D982284F76B004091C5 /* Carthage */ = {
 			isa = PBXGroup;
 			children = (
-				907C5DB02284F788004091C5 /* AFNetworking.framework */,
-				907C5DAE2284F788004091C5 /* AFNetworking.framework.dSYM */,
-				907C5DA62284F788004091C5 /* FMDB.framework */,
-				907C5DA52284F788004091C5 /* FMDB.framework.dSYM */,
-				907C5DA72284F788004091C5 /* FXKeychain.framework */,
-				907C5DAB2284F788004091C5 /* FXKeychain.framework.dSYM */,
-				907C5DAC2284F788004091C5 /* HotKey.framework */,
-				907C5DAF2284F788004091C5 /* HotKey.framework.dSYM */,
+				907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */,
+				907C5DF022850D51004091C5 /* fmdb.xcodeproj */,
+				907C5DE722850D4D004091C5 /* FXKeychain.xcodeproj */,
+				907C5DDB22850D49004091C5 /* HotKey.xcodeproj */,
 			);
 			name = Carthage;
 			sourceTree = "<group>";
@@ -1015,6 +1168,53 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		907C5DC422850D3E004091C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				907C5DCE22850D3E004091C5 /* AFNetworking.framework */,
+				907C5DD022850D3E004091C5 /* AFNetworking.framework */,
+				907C5DD222850D3E004091C5 /* AFNetworking.framework */,
+				907C5DD422850D3E004091C5 /* AFNetworking.framework */,
+				907C5DD622850D3E004091C5 /* AFNetworking iOS Tests.xctest */,
+				907C5DD822850D3E004091C5 /* AFNetworking macOS Tests.xctest */,
+				907C5DDA22850D3E004091C5 /* AFNetworking tvOS Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		907C5DDC22850D49004091C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				907C5DE222850D49004091C5 /* HotKey.framework */,
+				907C5DE422850D49004091C5 /* HotKeyTests.xctest */,
+				907C5DE622850D49004091C5 /* Example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		907C5DE822850D4D004091C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				907C5DED22850D4D004091C5 /* FXKeychain.framework */,
+				907C5DEF22850D4D004091C5 /* FXKeychain.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		907C5DF122850D51004091C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				907C5DFB22850D51004091C5 /* fmdb */,
+				907C5DFD22850D51004091C5 /* libFMDB.a */,
+				907C5DFF22850D51004091C5 /* Tests.xctest */,
+				907C5E0122850D51004091C5 /* libFMDB-IOS.a */,
+				907C5E0322850D51004091C5 /* FMDB.framework */,
+				907C5E0522850D51004091C5 /* FMDB.framework */,
+				907C5E0722850D51004091C5 /* FMDB.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		950C5F7C1C45D2230070D21C /* Image Manager */ = {
@@ -1833,6 +2033,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				907C5E0B22850D63004091C5 /* PBXTargetDependency */,
+				907C5E0F22850D63004091C5 /* PBXTargetDependency */,
+				907C5E1322850D63004091C5 /* PBXTargetDependency */,
+				907C5E1722850D63004091C5 /* PBXTargetDependency */,
 			);
 			name = Cashew;
 			productName = Queues;
@@ -1928,6 +2132,24 @@
 			mainGroup = 95C752E21C40643800A0FD51;
 			productRefGroup = 95C752EC1C40643800A0FD51 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 907C5DC422850D3E004091C5 /* Products */;
+					ProjectRef = 907C5DC322850D3E004091C5 /* AFNetworking.xcodeproj */;
+				},
+				{
+					ProductGroup = 907C5DF122850D51004091C5 /* Products */;
+					ProjectRef = 907C5DF022850D51004091C5 /* fmdb.xcodeproj */;
+				},
+				{
+					ProductGroup = 907C5DE822850D4D004091C5 /* Products */;
+					ProjectRef = 907C5DE722850D4D004091C5 /* FXKeychain.xcodeproj */;
+				},
+				{
+					ProductGroup = 907C5DDC22850D49004091C5 /* Products */;
+					ProjectRef = 907C5DDB22850D49004091C5 /* HotKey.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				95C752EA1C40643800A0FD51 /* Cashew */,
@@ -1936,6 +2158,142 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		907C5DCE22850D3E004091C5 /* AFNetworking.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AFNetworking.framework;
+			remoteRef = 907C5DCD22850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DD022850D3E004091C5 /* AFNetworking.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AFNetworking.framework;
+			remoteRef = 907C5DCF22850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DD222850D3E004091C5 /* AFNetworking.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AFNetworking.framework;
+			remoteRef = 907C5DD122850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DD422850D3E004091C5 /* AFNetworking.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AFNetworking.framework;
+			remoteRef = 907C5DD322850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DD622850D3E004091C5 /* AFNetworking iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "AFNetworking iOS Tests.xctest";
+			remoteRef = 907C5DD522850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DD822850D3E004091C5 /* AFNetworking macOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "AFNetworking macOS Tests.xctest";
+			remoteRef = 907C5DD722850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DDA22850D3E004091C5 /* AFNetworking tvOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "AFNetworking tvOS Tests.xctest";
+			remoteRef = 907C5DD922850D3E004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DE222850D49004091C5 /* HotKey.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HotKey.framework;
+			remoteRef = 907C5DE122850D49004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DE422850D49004091C5 /* HotKeyTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HotKeyTests.xctest;
+			remoteRef = 907C5DE322850D49004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DE622850D49004091C5 /* Example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Example.app;
+			remoteRef = 907C5DE522850D49004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DED22850D4D004091C5 /* FXKeychain.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = FXKeychain.framework;
+			remoteRef = 907C5DEC22850D4D004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DEF22850D4D004091C5 /* FXKeychain.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = FXKeychain.framework;
+			remoteRef = 907C5DEE22850D4D004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DFB22850D51004091C5 /* fmdb */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fmdb;
+			remoteRef = 907C5DFA22850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DFD22850D51004091C5 /* libFMDB.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFMDB.a;
+			remoteRef = 907C5DFC22850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5DFF22850D51004091C5 /* Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.xctest;
+			remoteRef = 907C5DFE22850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5E0122850D51004091C5 /* libFMDB-IOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libFMDB-IOS.a";
+			remoteRef = 907C5E0022850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5E0322850D51004091C5 /* FMDB.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = FMDB.framework;
+			remoteRef = 907C5E0222850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5E0522850D51004091C5 /* FMDB.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = FMDB.framework;
+			remoteRef = 907C5E0422850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		907C5E0722850D51004091C5 /* FMDB.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = FMDB.framework;
+			remoteRef = 907C5E0622850D51004091C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		95C752E91C40643800A0FD51 /* Resources */ = {
@@ -2326,6 +2684,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		907C5E0B22850D63004091C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AFNetworking macOS";
+			targetProxy = 907C5E0A22850D63004091C5 /* PBXContainerItemProxy */;
+		};
+		907C5E0F22850D63004091C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "FMDB MacOS";
+			targetProxy = 907C5E0E22850D63004091C5 /* PBXContainerItemProxy */;
+		};
+		907C5E1322850D63004091C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "FXKeychain-Mac";
+			targetProxy = 907C5E1222850D63004091C5 /* PBXContainerItemProxy */;
+		};
+		907C5E1722850D63004091C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HotKey;
+			targetProxy = 907C5E1622850D63004091C5 /* PBXContainerItemProxy */;
+		};
 		95C753031C40643800A0FD51 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 95C752EA1C40643800A0FD51 /* Cashew */;
