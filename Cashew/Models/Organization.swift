@@ -7,6 +7,7 @@
 //
 
 //(SROrganization)
+@objc
 class Organization: NSObject {
     
     let login: String
@@ -24,6 +25,7 @@ class Organization: NSObject {
         super.init()
     }
 
+    @objc
     class func fromJSON(_ dict: NSDictionary, account: QAccount) -> Organization? {
         guard let login = dict["login"] as? String, let identifier = dict["id"] as? NSNumber else {
             return nil

@@ -30,7 +30,7 @@ class RepositorySearchablePickerViewController: BaseViewController {
     
     fileprivate func reloadPicker() {
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil;
         }
@@ -70,7 +70,7 @@ class RepositorySearchablePickerViewController: BaseViewController {
         
         self.searchablePickerController = searchablePickerController
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()

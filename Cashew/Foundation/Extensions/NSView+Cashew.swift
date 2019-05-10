@@ -26,7 +26,7 @@ extension NSView {
         
         let mouseLocationInWindow = window.mouseLocationOutsideOfEventStream
         let mouseLocationInView = convert(mouseLocationInWindow, from: nil)
-        let isMouseOverCurrentView = mouse(mouseLocationInView, in: bounds)
+        let isMouseOverCurrentView = isMousePoint(mouseLocationInView, in: bounds)
         
         return isMouseOverCurrentView;
     }

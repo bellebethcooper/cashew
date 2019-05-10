@@ -48,7 +48,7 @@ extension NewIssueAssigneeTokenFieldDelegate: NSTokenFieldDelegate {
     }
     
     
-    override func controlTextDidEndEditing(_ notification: Notification) {
+    func controlTextDidEndEditing(_ notification: Notification) {
         if let tokenField = notification.object as? NSTokenField {
             var exists: Bool = false
             if let tokens = tokenField.objectValue as? [String], let token = tokens.last {

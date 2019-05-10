@@ -37,7 +37,8 @@ class IssueSyncWatcher: NSObject {
         }
         return result
     }
-    
+
+    @objc
     func isPartiallySynchingRepository(_ repo: QRepository) -> Bool {
         var result = false
         (accessQueue).sync {
@@ -45,7 +46,8 @@ class IssueSyncWatcher: NSObject {
         }
         return result
     }
-    
+
+    @objc
     func isFullySynchingRepository(_ repo: QRepository) -> Bool {
         var result = false
         (accessQueue).sync {

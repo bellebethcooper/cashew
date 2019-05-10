@@ -175,14 +175,16 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
             addIssueCommentDraft(draft)
         }
     }
-    
+
+    @objc
     func addIssueCommentDraft(_ draft: IssueCommentDraft) {
         draftsAccessQueue.async(flags: .barrier, execute: {
             let key = self.draftKeyWith(draft.issueCommentId, accountId: draft.account.identifier, repositoryId: draft.repository.identifier, type: draft.type)
             self.drafts[key] = draft
         }) 
     }
-    
+
+    @objc
     func removeIssueCommentDraft(_ draft: IssueCommentDraft) {
         draftsAccessQueue.async(flags: .barrier, execute: {
             let key = self.draftKeyWith(draft.issueCommentId, accountId: draft.account.identifier, repositoryId: draft.repository.identifier, type: draft.type)

@@ -61,7 +61,7 @@ class DarkModeColor: NSObject, ThemeColor {
         return DarkModeColor.separatorLineColor
     }
     
-    func popoverBackgroundColor() -> NSColor {
+    @objc func popoverBackgroundColor() -> NSColor {
         return DarkModeColor.popoverBgColor
     }
     

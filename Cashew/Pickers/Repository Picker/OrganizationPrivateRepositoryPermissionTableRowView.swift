@@ -15,7 +15,7 @@ class OrganizationPrivateRepositoryPermissionTableRowView: NSTableRowView {
 
     fileprivate static let padding: CGFloat = 6.0
     fileprivate static let orgIcon: NSImage = {
-        return NSImage(named:NSImage.Name(rawValue: "organization"))!.withTintColor(NSColor(calibratedWhite: 111/255.0, alpha: 1))
+        return NSImage(named:"organization")!.withTintColor(NSColor(calibratedWhite: 111/255.0, alpha: 1))
     }()
     
     fileprivate let label = BaseLabel()

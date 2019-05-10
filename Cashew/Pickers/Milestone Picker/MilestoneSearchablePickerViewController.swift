@@ -15,8 +15,8 @@ class MilestoneSearchablePickerViewController: BaseViewController {
     fileprivate var dataSource: MilestoneSearchablePickerDataSource?
     fileprivate var searchablePickerController: SearchablePickerViewController?
     
-    weak var popover: NSPopover?
-    var sourceIssue: QIssue? {
+    @objc weak var popover: NSPopover?
+    @objc var sourceIssue: QIssue? {
         didSet {
             if let dataSource = dataSource {
                 dataSource.sourceIssue = sourceIssue
@@ -40,7 +40,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    var popoverBackgroundColorFixEnabed = true {
+    @objc var popoverBackgroundColorFixEnabed = true {
         didSet {
             self.searchablePickerController?.popoverBackgroundColorFixEnabed = popoverBackgroundColorFixEnabed
         }
@@ -52,7 +52,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         }
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil;
         }
@@ -84,7 +84,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                 cell.checked = true
             } else {
                 cell.accessoryView = GreenCheckboxView()
-                cell.checked = dataSource.isSelectedItem(item) ?? false
+                cell.checked = dataSource.isSelectedItem(item)
             }
             
             cell.accessoryView?.disableThemeObserver = true
@@ -106,7 +106,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         
         self.searchablePickerController = searchablePickerController
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()
@@ -139,7 +139,6 @@ class MilestoneSearchablePickerViewController: BaseViewController {
             
             operationQueue.addOperation {
                 let semaphore = DispatchSemaphore(value: 0)
-                let fullRepoName = issue.repository.fullName
                 let sinceDate = issue.updatedAt
                 let issueService = QIssuesService(for: issue.account)
                 
@@ -150,12 +149,6 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                             QIssueStore.save(issue)
                         }
                     } else {
-                        let errorString: String
-                        if let error = error {
-                            errorString = error.localizedDescription
-                        } else {
-                            errorString = ""
-                        }
                         os_log("Error updating milestone for %@ because %@ error %@", log: .default, type: .debug, issue as? QIssue ?? "nil", error?.localizedDescription ?? "")
                     }
                     semaphore.signal()

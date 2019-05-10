@@ -16,13 +16,13 @@ class SearchSuggestionViewController: NSViewController {
     fileprivate let dataSource = SearchSuggestionDataSource()
     fileprivate let valueTableViewAdapter = SuggestionValueTableViewAdaptor()
     
-    var searchQuery: String? {
+    @objc var searchQuery: String? {
         didSet {
             didSetSearchQuery()
         }
     }
-    var onSuggestionClick: (()->())?
-    var onDataReload: (()->())?
+    @objc var onSuggestionClick: (()->())?
+    @objc var onDataReload: (()->())?
     
     deinit {
         ThemeObserverController.sharedInstance.removeThemeObserver(self)
@@ -71,7 +71,7 @@ class SearchSuggestionViewController: NSViewController {
         }
     }
     
-    var calculatedHeight: CGFloat {
+    @objc var calculatedHeight: CGFloat {
         get {
             var windowHeight: CGFloat = 0
             for i in 0 ..< dataSource.resultCount {
@@ -98,6 +98,7 @@ class SearchSuggestionViewController: NSViewController {
     }
     
     // MARK: Control keyboard selection
+    @objc
     func moveUp() {
         if tableView.selectedRow == -1 {
             tableView.selectRowIndexes(IndexSet(integer:self.dataSource.resultCount-2), byExtendingSelection: false)
@@ -112,6 +113,7 @@ class SearchSuggestionViewController: NSViewController {
         }
     }
     
+    @objc
     func moveDown() {
         if tableView.selectedRow == -1 {
             tableView.selectRowIndexes(IndexSet(integer:2), byExtendingSelection: false)
@@ -125,7 +127,8 @@ class SearchSuggestionViewController: NSViewController {
             }
         }
     }
-    
+
+    @objc
     func currentSearchResultSelection() -> SearchSuggestionResultItemValue? {
         let selectedRow = tableView.selectedRow
         if selectedRow > 0 && selectedRow < self.dataSource.resultCount {

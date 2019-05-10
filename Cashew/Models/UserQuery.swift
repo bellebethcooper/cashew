@@ -11,12 +11,12 @@ import Cocoa
 @objc(QUserQuery)
 class UserQuery: NSObject {
     
-    var identifier: NSNumber?
-    var account: QAccount
+    @objc var identifier: NSNumber?
+    @objc var account: QAccount
     @objc var displayName: String
     @objc var query: String
-    var externalId: String?
-    var updatedAt: Date?
+    @objc var externalId: String?
+    @objc var updatedAt: Date?
     
     @objc required init(identifier: NSNumber?, account: QAccount, displayName: String, query: String) {
         self.identifier = identifier
@@ -27,7 +27,7 @@ class UserQuery: NSObject {
     }
     
     override var description: String {
-        return "identifier=\(identifier), displayName=\(displayName), query=\(query), accountId=\(account.identifier)"
+        return "identifier=\(identifier ?? -1), displayName=\(displayName), query=\(query), accountId=\(account.identifier ?? -1)"
         
     }
     

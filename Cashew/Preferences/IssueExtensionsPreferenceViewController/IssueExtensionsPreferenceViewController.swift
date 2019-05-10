@@ -163,9 +163,9 @@ class IssueExtensionsPreferenceViewController: NSViewController {
         }
         
         
-        let viewController = IssueExtensionCodeEditorViewController(nibName: NSNib.Name(rawValue: "IssueExtensionCodeEditorViewController"), bundle: nil)
+        let viewController = IssueExtensionCodeEditorViewController(nibName: "IssueExtensionCodeEditorViewController", bundle: nil)
         //guard let  else { return }
-        let windowController = BaseModalWindowController(windowNibName: NSNib.Name(rawValue: "BaseModalWindowController"))
+        let windowController = BaseModalWindowController(windowNibName: "BaseModalWindowController")
         windowController.forceAlwaysDarkmode = true
         windowController.windowTitle = "Issue Extension Code Editor"
         windowController.viewController = viewController

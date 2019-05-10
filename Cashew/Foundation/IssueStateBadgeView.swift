@@ -63,16 +63,16 @@ class IssueStateBadgeView: BaseView {
         
         let text: NSAttributedString
         if open {
-            text = NSAttributedString(string: "Open", attributes: [NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font])
+            text = NSAttributedString(string: "Open", attributes: [NSAttributedString.Key.foregroundColor: textColor, NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.font: font])
             
-            let image = NSImage(named: NSImage.Name(rawValue: "issue-opened"))
+            let image = NSImage(named: "issue-opened")
             image?.size = CGSize(width: 12.2, height: 14)
             imageView.image = image?.withTintColor(NSColor.white)
             contentContainerView.backgroundColor = NSColor(calibratedRed: 90/255.0, green: 193/255.0, blue: 44/255.0, alpha: 1);
         } else {
-            text = NSAttributedString(string: "Closed", attributes: [NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font])
+            text = NSAttributedString(string: "Closed", attributes: [NSAttributedString.Key.foregroundColor: textColor, NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.font: font])
             
-            let image = NSImage(named: NSImage.Name(rawValue: "issue-closed"))
+            let image = NSImage(named: "issue-closed")
             image?.size = CGSize(width: 14, height: 14)
             imageView.image = image?.withTintColor(NSColor.white)
             contentContainerView.backgroundColor = NSColor(calibratedRed: 175/255.0, green: 25/255.0, blue: 0/255.0, alpha: 1)

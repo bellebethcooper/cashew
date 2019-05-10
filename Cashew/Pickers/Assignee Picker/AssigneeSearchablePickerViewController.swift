@@ -14,8 +14,8 @@ class AssigneeSearchablePickerViewController: BaseViewController {
     fileprivate var dataSource: AssigneeSearchablePickerDataSource?
     fileprivate var searchablePickerController: SearchablePickerViewController?
     
-    weak var popover: NSPopover?
-    var sourceIssue: QIssue? {
+    @objc weak var popover: NSPopover?
+    @objc var sourceIssue: QIssue? {
         didSet {
             if let dataSource = dataSource {
                 dataSource.sourceIssue = sourceIssue
@@ -35,7 +35,7 @@ class AssigneeSearchablePickerViewController: BaseViewController {
         })
     }
     
-    var popoverBackgroundColorFixEnabed = true {
+    @objc var popoverBackgroundColorFixEnabed = true {
         didSet {
             self.searchablePickerController?.popoverBackgroundColorFixEnabed = popoverBackgroundColorFixEnabed
         }
@@ -51,7 +51,7 @@ class AssigneeSearchablePickerViewController: BaseViewController {
         }
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil;
         }
@@ -106,7 +106,7 @@ class AssigneeSearchablePickerViewController: BaseViewController {
         
         self.searchablePickerController = searchablePickerController
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()

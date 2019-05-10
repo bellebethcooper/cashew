@@ -43,7 +43,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
     }
     
     var selectedIndexes: IndexSet {
-        if let selectedassignee = selectedAssignee, let index = results.index(of: selectedassignee) {
+        if let selectedassignee = selectedAssignee, let index = results.firstIndex(of: selectedassignee) {
             let indexSet = NSMutableIndexSet()
             indexSet.add(index)
             return indexSet as IndexSet
@@ -62,7 +62,7 @@ class AssigneeSearchablePickerDataSource: NSObject, SearchablePickerDataSource {
             return [QRepository]()
         }
         let issues = Array(selectionMap.keys)
-        let repos = Array(Set(issues.flatMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
+        let repos = Array(Set(issues.compactMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
         return repos
     }
     

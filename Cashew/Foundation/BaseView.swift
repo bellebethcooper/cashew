@@ -26,7 +26,8 @@ private class PopoverFixBackgroundView: NSView {
 }
 
 
-@IBDesignable class BaseView: NSView {
+@IBDesignable
+@objc class BaseView: NSView {
     
     fileprivate let popoverFixBgView = PopoverFixBackgroundView()
     fileprivate var roundedCornerMask: CAShapeLayer?
@@ -43,7 +44,7 @@ private class PopoverFixBackgroundView: NSView {
     
     @IBInspectable var shouldAllowVibrancy: Bool = true
     
-    var popoverBackgroundColorFixEnabed: Bool = false
+    @objc var popoverBackgroundColorFixEnabed: Bool = false
     
     override var allowsVibrancy: Bool {
         get {
@@ -110,7 +111,7 @@ private class PopoverFixBackgroundView: NSView {
         
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
+        Bundle.main.loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == viewType {
@@ -120,7 +121,8 @@ private class PopoverFixBackgroundView: NSView {
         
         return nil //viewArray!.objectAtIndex(1) as! T
     }
-    
+
+    @objc
     static func instantiateFromNib() -> Self {
         return instantiateFromNib(self)!
     }

@@ -17,7 +17,9 @@ class BaseModalWindowView: BaseView {
     func willCloseBaseModalWindowController(_ baseModalWindowController: BaseModalWindowController);
 }
 
-@IBDesignable class BaseModalWindowController: NSWindowController {
+@IBDesignable
+@objc
+class BaseModalWindowController: NSWindowController {
     
     @IBOutlet weak var windowContentView: BaseModalWindowView!
     @IBInspectable var transparentTitleBar: Bool = false
@@ -25,14 +27,14 @@ class BaseModalWindowView: BaseView {
     
     var forceAlwaysDarkmode = false
     
-    var darkModeOverrideBackgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
+    @objc var darkModeOverrideBackgroundColor = DarkModeColor.sharedInstance.popoverBackgroundColor()
     
-    var viewController: NSViewController?
-    var windowTitle: String?
+    @objc var viewController: NSViewController?
+    @objc var windowTitle: String?
     var modalSession: NSApplication.ModalSession?
-    weak var baseModalWindowControllerDelegate: BaseModalWindowControllerDelegate?
+    @objc weak var baseModalWindowControllerDelegate: BaseModalWindowControllerDelegate?
     
-    var showZoomButton: Bool = false {
+    @objc var showZoomButton: Bool = false {
         didSet {
             let zoomButton = self.window?.standardWindowButton(.zoomButton)
             zoomButton?.isHidden = !showZoomButton
@@ -45,7 +47,7 @@ class BaseModalWindowView: BaseView {
             }
         }
     }
-    var showMiniaturizeButton = false {
+    @objc var showMiniaturizeButton = false {
         didSet {
             let miniaturizeButton = self.window?.standardWindowButton(.miniaturizeButton)
             miniaturizeButton?.isHidden = !showMiniaturizeButton
@@ -69,7 +71,7 @@ class BaseModalWindowView: BaseView {
         
         if let aViewController = self.viewController {
             
-            self.contentViewController?.addChildViewController(aViewController)
+            self.contentViewController?.addChild(aViewController)
 
             self.windowContentView.addSubview(aViewController.view)
             aViewController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -114,7 +116,8 @@ class BaseModalWindowView: BaseView {
             }
         }
     }
-    
+
+    @objc
     func presentModalWindow() {
 //        self.window!.center()
         if let window = self.window {

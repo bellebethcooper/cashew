@@ -59,7 +59,7 @@ class QIssuesViewDataSource: NSObject {
     func indexOfIssue(_ issue: QIssue) -> Int {
         var index: Int?
         (self.serialQueue).sync { () -> Void in
-            index = self.issues.index(of: issue)
+            index = self.issues.firstIndex(of: issue)
         }
         
         return index == nil ? NSNotFound : index!
@@ -92,7 +92,8 @@ class QIssuesViewDataSource: NSObject {
         };
         return total
     }
-    
+
+    @objc
     func nextPage() {
         self.serialQueue.async(flags: .barrier, execute: { () -> Void in
             guard self.loadedAll == false else { return }
@@ -120,7 +121,7 @@ class QIssuesViewDataSource: NSObject {
         
         let multableIndexSet = NSMutableIndexSet()
         issues.forEach { (issue) in
-            if let index = self.issues.index(of: issue) {
+            if let index = self.issues.firstIndex(of: issue) {
                 multableIndexSet.add(index)
             }
         }
@@ -301,7 +302,7 @@ extension QIssuesViewDataSource: QStoreObserver {
     func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
         self.serialQueue.async(flags: .barrier, execute: { () -> Void in
             
-            if let updatedIssue = record as? QIssue, let index = self.issues.index(of: updatedIssue) {
+            if let updatedIssue = record as? QIssue, let index = self.issues.firstIndex(of: updatedIssue) {
                 self.issues[index] = updatedIssue
             }
             
@@ -311,7 +312,7 @@ extension QIssuesViewDataSource: QStoreObserver {
     func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
         self.serialQueue.async(flags: .barrier, execute: { () -> Void in
             if let repository = record as? QRepository {
-                let removalIndexes = self.issues.enumerated().flatMap({ (index: Int, issue: QIssue) -> (index: Int, issue: QIssue)? in
+                let removalIndexes = self.issues.enumerated().compactMap({ (index: Int, issue: QIssue) -> (index: Int, issue: QIssue)? in
                     if issue.repository.isEqual(repository) {
                         return (index: index, issue: issue)
                     }
@@ -323,7 +324,7 @@ extension QIssuesViewDataSource: QStoreObserver {
                 let indexSet = NSMutableIndexSet()
                 for removal in removalIndexes {
                     indexSet.add(removal.index)
-                    if let index = self.issues.index(of: removal.issue) {
+                    if let index = self.issues.firstIndex(of: removal.issue) {
                         self.issues.remove(at: index)
                     }
                 }

@@ -41,7 +41,7 @@ class LabelSearchablePickerViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    var popoverBackgroundColorFixEnabed = true {
+    @objc var popoverBackgroundColorFixEnabed = true {
         didSet {
             self.searchablePickerController?.popoverBackgroundColorFixEnabed = popoverBackgroundColorFixEnabed
         }
@@ -102,13 +102,13 @@ class LabelSearchablePickerViewController: BaseViewController {
             })
         }
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil
         }

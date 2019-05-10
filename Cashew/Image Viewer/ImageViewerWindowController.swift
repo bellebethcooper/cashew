@@ -14,14 +14,14 @@ class ImageViewerWindowController: NSWindowController {
     @IBOutlet weak var windowContainerView: NSView!
     @IBOutlet weak var titleLabel: NSTextField!
     
-    let imageViewerViewController = ImageViewerViewController(nibName: NSNib.Name(rawValue: "ImageViewerViewController"), bundle: nil)
-    var imageURLs = [URL]() {
+    let imageViewerViewController = ImageViewerViewController(nibName: "ImageViewerViewController", bundle: nil)
+    @objc var imageURLs = [URL]() {
         didSet {
             imageViewerViewController.imageURLs = imageURLs
         }
     }
     
-    var issue: QIssue?
+    @objc var issue: QIssue?
     
     override func windowDidLoad() {
         super.windowDidLoad()

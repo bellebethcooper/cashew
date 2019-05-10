@@ -12,7 +12,7 @@ class SearchSuggestionWindowController: NSWindowController {
     
     @IBOutlet weak var contentContainerView: BaseView!
     
-    let suggestionViewController = SearchSuggestionViewController(nibName: NSNib.Name(rawValue: "SearchSuggestionViewController"), bundle:nil)
+    @objc let suggestionViewController = SearchSuggestionViewController(nibName: "SearchSuggestionViewController", bundle:nil)
     
     override func windowDidLoad() {
         super.windowDidLoad()
