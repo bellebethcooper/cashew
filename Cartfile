@@ -1,0 +1,5 @@
+github "nicklockwood/FXKeychain"
+github "AFNetworking/AFNetworking"
+github "ccgus/fmdb"
+github "CocoaLumberjack/CocoaLumberjack"
+github "tonyarnold/HotKey"

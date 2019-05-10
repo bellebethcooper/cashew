@@ -35,8 +35,8 @@
 #import "QIssueCommentStore.h"
 #import "NSColor+Hex.h"
 #import <limits.h>
-#import <hoedown/html.h>
-#import <hoedown/document.h>
+#import "html.h"
+#import "document.h"
 #import "MarkdownParser.h"
 #import "AppDelegate.h"
 #import "QIssueSync.h"
