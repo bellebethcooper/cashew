@@ -255,17 +255,9 @@
 		95C752F31C40643800A0FD51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C752F21C40643800A0FD51 /* main.m */; };
 		95C752F81C40643800A0FD51 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95C752F71C40643800A0FD51 /* Assets.xcassets */; };
 		95C752FB1C40643800A0FD51 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95C752F91C40643800A0FD51 /* MainMenu.xib */; };
-		95C753061C40643800A0FD51 /* QueuesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753051C40643800A0FD51 /* QueuesTests.m */; };
-		95C753111C40643800A0FD51 /* QueuesUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753101C40643800A0FD51 /* QueuesUITests.m */; };
 		95C753211C40653400A0FD51 /* QView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753201C40653400A0FD51 /* QView.m */; };
-		95C753221C40653400A0FD51 /* QView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753201C40653400A0FD51 /* QView.m */; };
-		95C753231C40653400A0FD51 /* QView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753201C40653400A0FD51 /* QView.m */; };
 		95C7532D1C406C3600A0FD51 /* QRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C7532C1C406C3600A0FD51 /* QRepository.m */; };
-		95C7532E1C406C3600A0FD51 /* QRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C7532C1C406C3600A0FD51 /* QRepository.m */; };
-		95C7532F1C406C3600A0FD51 /* QRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C7532C1C406C3600A0FD51 /* QRepository.m */; };
 		95C753321C406CB800A0FD51 /* QOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753311C406CB800A0FD51 /* QOwner.m */; };
-		95C753331C406CB800A0FD51 /* QOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753311C406CB800A0FD51 /* QOwner.m */; };
-		95C753341C406CB800A0FD51 /* QOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C753311C406CB800A0FD51 /* QOwner.m */; };
 		95CCF3AA1CD9A07E0054F981 /* ConcurrencyUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCF3A91CD9A07E0054F981 /* ConcurrencyUtilities.swift */; };
 		95CCF3AC1CD9A5380054F981 /* GeometryUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCF3AB1CD9A5380054F981 /* GeometryUtilities.swift */; };
 		95CCF3AE1CDC36DA0054F981 /* QIssueLabelContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCF3AD1CDC36DA0054F981 /* QIssueLabelContainerView.swift */; };
@@ -479,20 +471,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 21887E351F2209DE00A05579;
 			remoteInfo = HotKey;
-		};
-		95C753021C40643800A0FD51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95C752E31C40643800A0FD51 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 95C752EA1C40643800A0FD51;
-			remoteInfo = Queues;
-		};
-		95C7530D1C40643800A0FD51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 95C752E31C40643800A0FD51 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 95C752EA1C40643800A0FD51;
-			remoteInfo = Queues;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -887,12 +865,6 @@
 		95C752F71C40643800A0FD51 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		95C752FA1C40643800A0FD51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		95C752FC1C40643800A0FD51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95C753011C40643800A0FD51 /* Cashew.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Cashew.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		95C753051C40643800A0FD51 /* QueuesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QueuesTests.m; sourceTree = "<group>"; };
-		95C753071C40643800A0FD51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95C7530C1C40643800A0FD51 /* Cashew.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Cashew.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		95C753101C40643800A0FD51 /* QueuesUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QueuesUITests.m; sourceTree = "<group>"; };
-		95C753121C40643800A0FD51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95C7531F1C40653400A0FD51 /* QView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QView.h; sourceTree = "<group>"; };
 		95C753201C40653400A0FD51 /* QView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QView.m; sourceTree = "<group>"; };
 		95C753251C406B5200A0FD51 /* QRepositoriesService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = QRepositoriesService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -982,20 +954,6 @@
 				907C5E0822850D63004091C5 /* AFNetworking.framework in Frameworks */,
 				907C5E1022850D63004091C5 /* FXKeychain.framework in Frameworks */,
 				907C5E0C22850D63004091C5 /* FMDB.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		95C752FE1C40643800A0FD51 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		95C753091C40643800A0FD51 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1701,8 +1659,6 @@
 			isa = PBXGroup;
 			children = (
 				95C752ED1C40643800A0FD51 /* Cashew */,
-				95C753041C40643800A0FD51 /* QueuesTests */,
-				95C7530F1C40643800A0FD51 /* QueuesUITests */,
 				95C752EC1C40643800A0FD51 /* Products */,
 				907C5D982284F76B004091C5 /* Carthage */,
 				907C5D2E2284F70A004091C5 /* Vendor */,
@@ -1716,8 +1672,6 @@
 			isa = PBXGroup;
 			children = (
 				95C752EB1C40643800A0FD51 /* Cashew.app */,
-				95C753011C40643800A0FD51 /* Cashew.xctest */,
-				95C7530C1C40643800A0FD51 /* Cashew.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1764,24 +1718,6 @@
 				951168F91C4F4588001309CF /* vanilla_database.db */,
 			);
 			path = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		95C753041C40643800A0FD51 /* QueuesTests */ = {
-			isa = PBXGroup;
-			children = (
-				95C753071C40643800A0FD51 /* Info.plist */,
-				95C753051C40643800A0FD51 /* QueuesTests.m */,
-			);
-			path = QueuesTests;
-			sourceTree = "<group>";
-		};
-		95C7530F1C40643800A0FD51 /* QueuesUITests */ = {
-			isa = PBXGroup;
-			children = (
-				95C753121C40643800A0FD51 /* Info.plist */,
-				95C753101C40643800A0FD51 /* QueuesUITests.m */,
-			);
-			path = QueuesUITests;
 			sourceTree = "<group>";
 		};
 		95C7531E1C4064D000A0FD51 /* Legacy Common */ = {
@@ -2043,44 +1979,6 @@
 			productReference = 95C752EB1C40643800A0FD51 /* Cashew.app */;
 			productType = "com.apple.product-type.application";
 		};
-		95C753001C40643800A0FD51 /* CashewTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 95C753181C40643800A0FD51 /* Build configuration list for PBXNativeTarget "CashewTests" */;
-			buildPhases = (
-				9C0EF43BEA37F4E675E410F7 /* [CP] Check Pods Manifest.lock */,
-				95C752FD1C40643800A0FD51 /* Sources */,
-				95C752FE1C40643800A0FD51 /* Frameworks */,
-				95C752FF1C40643800A0FD51 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				95C753031C40643800A0FD51 /* PBXTargetDependency */,
-			);
-			name = CashewTests;
-			productName = QueuesTests;
-			productReference = 95C753011C40643800A0FD51 /* Cashew.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		95C7530B1C40643800A0FD51 /* CashewUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 95C7531B1C40643800A0FD51 /* Build configuration list for PBXNativeTarget "CashewUITests" */;
-			buildPhases = (
-				8F0763ECF7F4E91515351707 /* [CP] Check Pods Manifest.lock */,
-				95C753081C40643800A0FD51 /* Sources */,
-				95C753091C40643800A0FD51 /* Frameworks */,
-				95C7530A1C40643800A0FD51 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				95C7530E1C40643800A0FD51 /* PBXTargetDependency */,
-			);
-			name = CashewUITests;
-			productName = QueuesUITests;
-			productReference = 95C7530C1C40643800A0FD51 /* Cashew.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2108,14 +2006,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					95C753001C40643800A0FD51 = {
-						CreatedOnToolsVersion = 7.2;
-						TestTargetID = 95C752EA1C40643800A0FD51;
-					};
-					95C7530B1C40643800A0FD51 = {
-						CreatedOnToolsVersion = 7.2;
-						TestTargetID = 95C752EA1C40643800A0FD51;
 					};
 				};
 			};
@@ -2152,8 +2042,6 @@
 			projectRoot = "";
 			targets = (
 				95C752EA1C40643800A0FD51 /* Cashew */,
-				95C753001C40643800A0FD51 /* CashewTests */,
-				95C7530B1C40643800A0FD51 /* CashewUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -2348,60 +2236,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		95C752FF1C40643800A0FD51 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		95C7530A1C40643800A0FD51 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		8F0763ECF7F4E91515351707 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CashewUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9C0EF43BEA37F4E675E410F7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CashewTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		95C752E71C40643800A0FD51 /* Sources */ = {
@@ -2658,28 +2493,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		95C752FD1C40643800A0FD51 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				95C753221C40653400A0FD51 /* QView.m in Sources */,
-				95C753331C406CB800A0FD51 /* QOwner.m in Sources */,
-				95C7532E1C406C3600A0FD51 /* QRepository.m in Sources */,
-				95C753061C40643800A0FD51 /* QueuesTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		95C753081C40643800A0FD51 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				95C753231C40653400A0FD51 /* QView.m in Sources */,
-				95C753341C406CB800A0FD51 /* QOwner.m in Sources */,
-				95C7532F1C406C3600A0FD51 /* QRepository.m in Sources */,
-				95C753111C40643800A0FD51 /* QueuesUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2702,16 +2515,6 @@
 			isa = PBXTargetDependency;
 			name = HotKey;
 			targetProxy = 907C5E1622850D63004091C5 /* PBXContainerItemProxy */;
-		};
-		95C753031C40643800A0FD51 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 95C752EA1C40643800A0FD51 /* Cashew */;
-			targetProxy = 95C753021C40643800A0FD51 /* PBXContainerItemProxy */;
-		};
-		95C7530E1C40643800A0FD51 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 95C752EA1C40643800A0FD51 /* Cashew */;
-			targetProxy = 95C7530D1C40643800A0FD51 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2881,70 +2684,6 @@
 			};
 			name = Release;
 		};
-		95C753191C40643800A0FD51 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = QueuesTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewTests;
-				PRODUCT_NAME = Cashew;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cashew.app/Contents/MacOS/Cashew";
-			};
-			name = Debug;
-		};
-		95C7531A1C40643800A0FD51 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = QueuesTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewTests;
-				PRODUCT_NAME = Cashew;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cashew.app/Contents/MacOS/Cashew";
-			};
-			name = Release;
-		};
-		95C7531C1C40643800A0FD51 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = QueuesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewUITests;
-				PRODUCT_NAME = Cashew;
-				TEST_TARGET_NAME = Queues;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		95C7531D1C40643800A0FD51 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = QueuesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.hellocode.CashewUITests;
-				PRODUCT_NAME = Cashew;
-				TEST_TARGET_NAME = Queues;
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2962,24 +2701,6 @@
 			buildConfigurations = (
 				95C753161C40643800A0FD51 /* Debug */,
 				95C753171C40643800A0FD51 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		95C753181C40643800A0FD51 /* Build configuration list for PBXNativeTarget "CashewTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				95C753191C40643800A0FD51 /* Debug */,
-				95C7531A1C40643800A0FD51 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		95C7531B1C40643800A0FD51 /* Build configuration list for PBXNativeTarget "CashewUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				95C7531C1C40643800A0FD51 /* Debug */,
-				95C7531D1C40643800A0FD51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
