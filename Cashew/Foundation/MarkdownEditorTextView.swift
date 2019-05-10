@@ -397,9 +397,7 @@ class MarkdownEditorTextView: BaseView {
         } else {
             internalTextView.isHidden = true
             toolbarView.disableAllButton()
-            let previewWebView = QIssueMarkdownWebView(htmlString: MarkdownParser().parse(internalTextView.string, for: nil), onFrameLoadCompletion: { (rect) in
-                //rect
-                }, scrollingEnabled: true, forceLightMode: forceLightModeForMarkdownPreview)
+            let previewWebView = QIssueMarkdownWebView(htmlString: MarkdownParser().parse(internalTextView.string, for: nil), onFrameLoadCompletion: nil, forceLightMode: forceLightModeForMarkdownPreview)
             
             addSubview(previewWebView!)
             previewWebView!.translatesAutoresizingMaskIntoConstraints = false
