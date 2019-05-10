@@ -8,9 +8,9 @@
 
 #import "MarkdownParser.h"
 #import <limits.h>
-#import <hoedown/html.h>
-#import <hoedown/document.h>
-#import <hoedown/escape.h>
+#import "html.h"
+#import "document.h"
+#import "escape.h"
 #import "Cashew-Swift.h"
 
 static unsigned int HOEDOWN_HTML_USE_TASK_LIST = (1 << 4);
