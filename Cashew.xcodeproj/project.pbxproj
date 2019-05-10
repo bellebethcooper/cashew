@@ -18,12 +18,10 @@
 		907C5D962284F74F004091C5 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = 907C5D8B2284F70A004091C5 /* version.c */; };
 		907C5D972284F74F004091C5 /* html_blocks.c in Sources */ = {isa = PBXBuildFile; fileRef = 907C5D8C2284F70A004091C5 /* html_blocks.c */; };
 		907C5DB22284F795004091C5 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DB02284F788004091C5 /* AFNetworking.framework */; };
-		907C5DB32284F795004091C5 /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA82284F788004091C5 /* CocoaLumberjackSwift.framework */; };
 		907C5DB42284F795004091C5 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA62284F788004091C5 /* FMDB.framework */; };
 		907C5DB52284F795004091C5 /* FXKeychain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA72284F788004091C5 /* FXKeychain.framework */; };
 		907C5DB62284F795004091C5 /* HotKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DAC2284F788004091C5 /* HotKey.framework */; };
 		907C5DB72284F798004091C5 /* AFNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DB02284F788004091C5 /* AFNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		907C5DB82284F798004091C5 /* CocoaLumberjackSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA82284F788004091C5 /* CocoaLumberjackSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		907C5DB92284F798004091C5 /* FMDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA62284F788004091C5 /* FMDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		907C5DBA2284F798004091C5 /* FXKeychain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DA72284F788004091C5 /* FXKeychain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		907C5DBB2284F798004091C5 /* HotKey.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 907C5DAC2284F788004091C5 /* HotKey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -345,7 +343,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				907C5DB72284F798004091C5 /* AFNetworking.framework in Embed Frameworks */,
-				907C5DB82284F798004091C5 /* CocoaLumberjackSwift.framework in Embed Frameworks */,
 				907C5DB92284F798004091C5 /* FMDB.framework in Embed Frameworks */,
 				907C5DBA2284F798004091C5 /* FXKeychain.framework in Embed Frameworks */,
 				907C5DBB2284F798004091C5 /* HotKey.framework in Embed Frameworks */,
@@ -448,12 +445,8 @@
 		907C5DA52284F788004091C5 /* FMDB.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FMDB.framework.dSYM; path = Carthage/Build/Mac/FMDB.framework.dSYM; sourceTree = "<group>"; };
 		907C5DA62284F788004091C5 /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = Carthage/Build/Mac/FMDB.framework; sourceTree = "<group>"; };
 		907C5DA72284F788004091C5 /* FXKeychain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FXKeychain.framework; path = Carthage/Build/Mac/FXKeychain.framework; sourceTree = "<group>"; };
-		907C5DA82284F788004091C5 /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/Mac/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
-		907C5DA92284F788004091C5 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/Mac/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		907C5DAA2284F788004091C5 /* CocoaLumberjackSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = CocoaLumberjackSwift.framework.dSYM; path = Carthage/Build/Mac/CocoaLumberjackSwift.framework.dSYM; sourceTree = "<group>"; };
 		907C5DAB2284F788004091C5 /* FXKeychain.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = FXKeychain.framework.dSYM; path = Carthage/Build/Mac/FXKeychain.framework.dSYM; sourceTree = "<group>"; };
 		907C5DAC2284F788004091C5 /* HotKey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HotKey.framework; path = Carthage/Build/Mac/HotKey.framework; sourceTree = "<group>"; };
-		907C5DAD2284F788004091C5 /* CocoaLumberjack.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = CocoaLumberjack.framework.dSYM; path = Carthage/Build/Mac/CocoaLumberjack.framework.dSYM; sourceTree = "<group>"; };
 		907C5DAE2284F788004091C5 /* AFNetworking.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = AFNetworking.framework.dSYM; path = Carthage/Build/Mac/AFNetworking.framework.dSYM; sourceTree = "<group>"; };
 		907C5DAF2284F788004091C5 /* HotKey.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = HotKey.framework.dSYM; path = Carthage/Build/Mac/HotKey.framework.dSYM; sourceTree = "<group>"; };
 		907C5DB02284F788004091C5 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/Mac/AFNetworking.framework; sourceTree = "<group>"; };
@@ -829,7 +822,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				907C5DB22284F795004091C5 /* AFNetworking.framework in Frameworks */,
-				907C5DB32284F795004091C5 /* CocoaLumberjackSwift.framework in Frameworks */,
 				907C5DB42284F795004091C5 /* FMDB.framework in Frameworks */,
 				907C5DB52284F795004091C5 /* FXKeychain.framework in Frameworks */,
 				907C5DB62284F795004091C5 /* HotKey.framework in Frameworks */,
@@ -1008,10 +1000,6 @@
 			children = (
 				907C5DB02284F788004091C5 /* AFNetworking.framework */,
 				907C5DAE2284F788004091C5 /* AFNetworking.framework.dSYM */,
-				907C5DA92284F788004091C5 /* CocoaLumberjack.framework */,
-				907C5DAD2284F788004091C5 /* CocoaLumberjack.framework.dSYM */,
-				907C5DA82284F788004091C5 /* CocoaLumberjackSwift.framework */,
-				907C5DAA2284F788004091C5 /* CocoaLumberjackSwift.framework.dSYM */,
 				907C5DA62284F788004091C5 /* FMDB.framework */,
 				907C5DA52284F788004091C5 /* FMDB.framework.dSYM */,
 				907C5DA72284F788004091C5 /* FXKeychain.framework */,

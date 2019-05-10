@@ -52,14 +52,7 @@
 #import "QIssueFavoriteStore.h"
 #import "SRExtension.h"
 #import "SRExtensionStore.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "SRIssueReaction.h"
 #import "SRIssueCommentReaction.h"
 #import "SRIssueReactionStore.h"
 #import "SRIssueCommentReactionStore.h"
-
-#ifdef DEBUG
-static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
-#else
-static const DDLogLevel ddLogLevel = DDLogLevelWarning;
-#endif
