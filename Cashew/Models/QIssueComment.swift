@@ -62,7 +62,7 @@ class QIssueComment: NSObject, QIssueCommentInfo, SRIssueDetailItem {
         return issueNumber
     }
     
-    override var hashValue: Int {
+    override var hash: Int {
         get {
             return (account?.hashValue ?? 0) ^ (repository?.hashValue ?? 0) ^ issueNumber.hashValue ^ identifier.hashValue
         }

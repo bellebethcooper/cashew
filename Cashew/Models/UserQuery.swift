@@ -31,7 +31,7 @@ class UserQuery: NSObject {
         
     }
     
-    override var hashValue: Int {
+  override var hash: Int {
         if let identifier = identifier {
             return account.identifier.hashValue ^ identifier.hashValue
         }
