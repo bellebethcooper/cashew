@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRReactionsViewController)
 class ReactionsViewController: NSViewController {
@@ -27,8 +28,8 @@ class ReactionsViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        DDLogDebug("ReactionsVC VDL - thumbs up: \(thumbsUpCountView) icon: \(thumbsUpCountView.icon)")
+
+        os_log("ReactionsVC VDL - thumbs up: %@ icon: %@", log: .default, type: .debug, thumbsUpCountView, thumbsUpCountView.icon)
         reactionsStackView.wantsLayer = true
         reactionsStackView.layer?.borderColor = CashewColor.separatorColor().cgColor
         reactionsStackView.layer?.borderWidth = 1

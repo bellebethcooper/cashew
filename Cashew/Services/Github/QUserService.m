@@ -9,6 +9,7 @@
 #import "QUserService.h"
 #import "QOwner.h"
 #import "Cashew-Swift.h"
+@import os.log;
 
 static NSString * const kGithubClientSecret = @"83352b2a1a5e3c33d234d4c92f225cb9d3d6d7f3";
 static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
@@ -22,7 +23,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
     
     if (self.account) {
         NSString *password = [[QContext sharedContext] passwordForLogin:self.account.username];
-        DDLogDebug(@"QUserService loginUserOnCompl - password: %@", password);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QUserService loginUserOnCompl - password: %{private}@", password);
         [manager.requestSerializer setAuthorizationHeaderFieldWithUsername:self.account.username password:password];
     }
     
@@ -77,7 +78,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
 
 //PUT /authorizations/clients/:client_id
 - (void)currentUserAuthTokenWithTwoFactorAuthCode:(NSString *)twoFactorAuthCode onCompletion:(QServiceOnCompletion)onCompletion {
-    DDLogDebug(@"QUserService currentUserAuthTokenWithTwoFactor");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QUserService currentUserAuthTokenWithTwoFactor");
     QAFHTTPSessionManager *manager = [self httpSessionManagerForRequestSerializer:[AFJSONRequestSerializer serializer] skipAuthToken: true];
     
     if (self.account) {
@@ -99,9 +100,9 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
     
     [manager POST:@"authorizations" //[NSString stringWithFormat:@"/authorizations/clients/%@", kGithubClientId]
        parameters:params progress:nil onCompletion:^(NSDictionary *json, QServiceResponseContext * _Nonnull context, NSError *error) {
-           DDLogDebug(@"QUserService currentUserAuthToken - POST completion");
+           os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QUserService currentUserAuthToken - POST completion");
            if (error) {
-               DDLogDebug(@"json %@", error ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : json);
+               os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "json %@", error ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : json);
                onCompletion(nil, context, error);
            } else {
                
@@ -127,7 +128,7 @@ static NSString * const kGithubClientId = @"93db7ca9566294386a8c";
 - (void)sendSMSIfNeeded;
 {
     [self currentUserAuthTokenWithTwoFactorAuthCode:nil onCompletion:^(id  _Nullable obj, QServiceResponseContext * _Nonnull context, NSError * _Nullable error) {
-        DDLogDebug(@"error_json %@", error ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : obj);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "error_json %@", error ? [[NSString alloc] initWithData:error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding] : obj);
     }];
 }
 

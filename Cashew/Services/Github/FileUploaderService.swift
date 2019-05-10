@@ -9,6 +9,7 @@
 import Cocoa
 import AFNetworking
 import Foundation
+import os.log
 
 class FileUploaderService: NSObject {
     
@@ -92,7 +93,7 @@ class FileUploaderService: NSObject {
         let task = manager.uploadTask(with: request as URLRequest, from: data, progress: nil) { (response, obj, err) in
             if let err = err as? NSError {
                 if let errData = err.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] as? Data, let errorString = NSString(data: errData, encoding:String.Encoding.utf8.rawValue) {
-                    DDLogDebug("error_json \(errorString)")
+                    os_log("error_json %@", log: .default, type: .debug, errorString)
                 }
                 onCompletion(nil, QServiceResponseContext(), err)
             } else {

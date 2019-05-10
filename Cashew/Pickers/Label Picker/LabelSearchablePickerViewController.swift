@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRLabelSearchablePickerViewController)
 class LabelSearchablePickerViewController: BaseViewController {
@@ -158,7 +159,7 @@ class LabelSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        DDLogError("LabelSearchablePickerVC doSave - error: \(errorString)")
+                        os_log("LabelSearchablePickerVC doSave - error: %@", log: .default, type: .error, errorString)
                     }
                     semaphore.signal()
                     })

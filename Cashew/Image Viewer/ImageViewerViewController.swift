@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRImageViewerItemViewController)
 class ImageViewerItemViewController: BaseViewController { }
@@ -192,7 +193,7 @@ extension ImageViewerViewController: NSPageControllerDelegate {
             progressIndicator.startAnimation(nil)
             QImageManager.shared().downloadImageURL(url, onCompletion: { [weak self] (image, downloadURL, err) in
                 guard let strongSelf = self , downloadURL == url && err == nil else {
-                    DDLogDebug("error downloading \(err)")
+                    os_log("Error downloading: %@", log: .default, type: .debug, err!.localizedDescription)
                     DispatchQueue.main.async {
                         progressIndicator.stopAnimation(nil)
                         progressIndicator.removeFromSuperview()

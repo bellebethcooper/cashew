@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRMarkdownEditorTextView)
 class MarkdownEditorTextView: BaseView {
@@ -634,7 +635,7 @@ class MarkdownEditorTextView: BaseView {
                 break;
             }
         } catch {
-            DDLogDebug("error regex -> \(error)")
+            os_log("error regex -> %@", log: .default, type: .debug, error.localizedDescription)
         }
         
         if let matchedContent = matchedContent {
@@ -724,7 +725,7 @@ class MarkdownEditorTextView: BaseView {
                 break;
             }
         } catch {
-            DDLogDebug("error regex -> \(error)")
+            os_log("error regex -> %@", log: .default, type: .debug, error.localizedDescription)
         }
         
         if let matchedContent = matchedContent {
@@ -979,7 +980,7 @@ class InternalMarkdownEditorTextView: NSTextView {
     
     override func validateUserInterfaceItem(_ anItem: NSValidatedUserInterfaceItem) -> Bool {
         let action = anItem.action
-        DDLogDebug("NSTextView.action => \(action)")
+        os_log("NSTextView.action => %@", log: .default, type: .debug, String(describing: action))
         return true
     }
     

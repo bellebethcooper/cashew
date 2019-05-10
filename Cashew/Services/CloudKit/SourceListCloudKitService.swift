@@ -7,7 +7,7 @@
 //
 
 import CloudKit
-
+import os.log
 
 @objc(SRSourceListCloudKitService)
 class SourceListCloudKitService: BaseCloudKitService {
@@ -192,7 +192,7 @@ extension SourceListCloudKitService {
         
         privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
             guard err == nil else {
-                DDLogDebug("error fetching records for repository -> \(err)")
+                os_log("error fetching records for repository -> %@", log: .default, type: .debug, err!.localizedDescription)
                 onCompletion(nil, err as! NSError)
                 return
             }

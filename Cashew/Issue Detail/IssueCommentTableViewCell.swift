@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 class CommentMarkdownContainerView: BaseView { }
 
@@ -723,7 +724,7 @@ class ReactionButton: NSButton {
             QIssuesService(for: account).delete(comment, onCompletion: { (responseObject, context, error) in
                 if let error = error as? NSError, let data = error.userInfo["com.alamofire.serialization.response.error.data"] as? NSData {
                     let dataString = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)
-                    DDLogDebug("deletedComment=> \(dataString)");
+                    os_log("deletedComment=> %@", log: .default, type: .debug, dataString ?? "")
                 } else {
                     QIssueCommentStore.deleteIssueCommentId(comment.identifier, accountId:account.identifier, repositoryId:repository.identifier)
                 }

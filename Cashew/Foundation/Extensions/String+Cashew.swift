@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import os.log
 
 extension String {
     
@@ -17,7 +17,7 @@ extension String {
             let matches = regex.matches(in: self, options: .reportCompletion, range: NSMakeRange(0, self.characters.count))
             return matches.count > 0
         } catch {
-            DDLogDebug("error hasPrefixMatchingRegex.pattern -> \(pattern) error -> \(error)")
+            os_log("error hasPrefixMatchingRegex.pattern -> %@ error -> %@", log: .default, type: .debug, pattern, error.localizedDescription)
         }
         
         return false
@@ -30,7 +30,7 @@ extension String {
             return regex.stringByReplacingMatches(in: self, options: .reportCompletion, range: NSMakeRange(0, self.characters.count), withTemplate: template)
             
         } catch {
-            DDLogDebug("error hasPrefixMatchingRegex.pattern -> \(pattern) error -> \(error)")
+            os_log("error hasPrefixMatchingRegex.pattern -> %@ error -> %@", log: .default, type: .debug, pattern, error.localizedDescription)
         }
         return self
     }

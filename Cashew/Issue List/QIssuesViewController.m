@@ -17,6 +17,7 @@
 #import "Cashew-Swift.h"
 #import "SRMenuUtilities.h"
 #import "SRNotificationService.h"
+@import os.log;
 //Here's how I did it in Xcode 4.6...
 //
 //In IB, select the table view and go to the Attributes Inspector. Choose 'Uniform' for 'Column Sizing'. Then, select the table column and choose 'Autoresizes with Table' for 'Resizing'.
@@ -319,7 +320,7 @@ static NSString *kQTitleKey = @"Title";
         [self.nextPageCoalescer executeBlock:^{
             if (CGRectGetMaxY([_scrollView documentVisibleRect]) >= CGRectGetMaxY([_tableView frame]) *.99) {
                 [_dataSource nextPage];
-                DDLogDebug(@"Total issues => %@", @([_dataSource numberOfIssues]));
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Total issues => %@", @([_dataSource numberOfIssues]));
             }
         }];
     }
@@ -832,7 +833,7 @@ static NSString *kQTitleKey = @"Title";
 
 - (void)_sortAscending
 {
-    DDLogDebug(@"sort ascending");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "sort ascending");
     if (_filter.ascending == NO) {
         QIssueFilter *newFilter = [_filter copy];
         newFilter.ascending = YES;
@@ -842,7 +843,7 @@ static NSString *kQTitleKey = @"Title";
 
 - (void)_sortDescending
 {
-    // DDLogDebug(@"sort descending");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "sort descending");
     if (_filter.ascending == YES) {
         QIssueFilter *newFilter = [_filter copy];
         newFilter.ascending = NO;

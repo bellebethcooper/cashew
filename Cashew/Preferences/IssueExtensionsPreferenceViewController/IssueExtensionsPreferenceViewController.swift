@@ -8,6 +8,7 @@
 
 import Cocoa
 //import MASShortcut
+import os.log
 
 
 class IssueExtensionsPreferenceViewController: NSViewController {
@@ -141,7 +142,7 @@ class IssueExtensionsPreferenceViewController: NSViewController {
         let codeExtension = self.dataSource.itemAtIndex(selectedRow)
         NSAlert.showWarningMessage("Are you sure you want to delete \"\(codeExtension.name)\" extension?") {
             self.extensionCloudKitService.deleteCodeExtension(codeExtension) { (result, err) in
-                DDLogDebug("Delete result \(result) error \(err)")
+                os_log("Delete result %@ error %@", log: .default, type: .debug, String(describing: result), String(describing: err))
             }
         }
     }

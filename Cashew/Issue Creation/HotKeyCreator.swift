@@ -8,16 +8,16 @@
 
 import Foundation
 import HotKey
-
+import os.log
 
 @objc class HotKeyCreator: NSObject {
     
     private var hotKey: HotKey? {
         didSet {
             hotKey?.keyDownHandler = {
-                DDLogDebug("HotKeyCreator key down")
+                os_log("HotKeyCreator key down", log: .default, type: .debug)
                 if let delegate = NSApplication.shared.delegate as? AppDelegate {
-                    DDLogDebug("HotKeyCreator got delegate")
+                    os_log("HotKeyCreator got delegate", log: .default, type: .debug)
                     delegate.didUseNewIssueHotKey()
                 }
             }

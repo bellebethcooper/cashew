@@ -28,6 +28,7 @@
 #import "QIssueFavoriteStore.h"
 #import "QIssueNotificationStore.h"
 #import "SRStatusImageView.h"
+@import os.log;
 
 @interface _QTitlebarView : QView
 
@@ -144,13 +145,10 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    DDLogDebug(@"Delegate didFinishLaunching");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Delegate didFinishLaunching");
+
     [NSUserDefaults fixDefaultsIfNeeded];
-    
-    // setup loggers
-    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
-    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
-    
+
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
     
     self.hotKey = [HotKeyCreator new];
@@ -404,7 +402,7 @@
 
 - (dispatch_block_t)_onSuccessfulLoginBlockForAccount:(QAccount *)currentAccount
 {
-    DDLogDebug(@"AppDelegate onSuccessfulLogin");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "AppDelegate onSuccessfulLogin");
     return ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -436,8 +434,8 @@
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification;
 {
-    DDLogDebug(@"Did deliver notification = %@", notification);
-    
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Did deliver notification = %@", notification);
+
     //[[[NSApplication sharedApplication] dockTile] setBadgeLabel:@"2234"];
     
     //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -447,7 +445,8 @@
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification;
 {
-    DDLogDebug(@"Did activate notification = %@", notification);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Did activate notification = %@", notification);
+
     if (notification.userInfo[@"issueNumber"]  && notification.userInfo[@"accountId"] && notification.userInfo[@"repositoryId"] ) {
         QRepository *repository = [QRepositoryStore repositoryForAccountId:notification.userInfo[@"accountId"] identifier:notification.userInfo[@"repositoryId"]];
         QIssue *issue = [QIssueStore issueWithNumber:notification.userInfo[@"issueNumber"] forRepository:repository];
@@ -521,7 +520,7 @@
 
 - (IBAction)didClickBetaFeedbackLabel:(id)sender
 {
-    DDLogDebug(@"Add Label");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Add Label");
     SRUserFeebackViewController *userFeedbackViewController = [[SRUserFeebackViewController alloc] init];
     
     
@@ -755,13 +754,12 @@
 
 - (void)_windowDidMaximize:(NSNotification *)notification
 {
-    DDLogDebug(@"window did maximize -> %@", notification.object);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "window did maximize -> %@", notification.object);
 }
 
 - (void)_windowDidMinimize:(NSNotification *)notification
 {
-    DDLogDebug(@"window did minimize -> %@", notification.object);
-    
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "window did minimize -> %@", notification.object);
 }
 
 - (void)_windowDidResize:(NSNotification *)notification
@@ -1013,11 +1011,10 @@
 }
 
 - (void)_showLabelPickerView {
-    
-    DDLogDebug(@"AppDelegate showLabelPickerView");
-    
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "AppDelegate showLabelPickerView");
+
     if ([self _currentIssues].count == 0) {
-        DDLogDebug(@"AppDelegate showLabelPickerView - returning");
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "AppDelegate showLabelPickerView - returning");
         return;
     }
     SRLabelSearchablePickerViewController *labelsPickerController = [[SRLabelSearchablePickerViewController alloc] init];
@@ -1026,7 +1023,7 @@
     
     
     if (self.labelsPickerWindowController) {
-        DDLogDebug(@"AppDelegate showLabelPickerView - returning 1");
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "AppDelegate showLabelPickerView - returning 1");
         return;
     }
     [self.issuesViewController reloadContextIssueSelection];
@@ -1338,7 +1335,7 @@
 - (void)windowDidChangeScreen:(NSNotification *)notification;
 {
     if (notification.object == self.window) {
-        DDLogDebug(@"Window did change screen");
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Window did change screen");
         [self.window.contentView setNeedsDisplay:YES];
         [self.window.contentView setNeedsLayout:YES];
         [self.window.contentView layoutSubtreeIfNeeded];
@@ -1649,7 +1646,7 @@
 }
 
 - (void)didUseNewIssueHotKey {
-    DDLogDebug(@"Delegate didUseNewIssueHotKey");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Delegate didUseNewIssueHotKey");
     [self _showCreateIssueWindowController:nil];
 }
 
@@ -1659,7 +1656,7 @@
 
 - (void)_didClickCreateMilestoneStatusItemMenuItem:(id)sender
 {
-    DDLogDebug(@"Did click create milestone");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Did click create milestone");
 }
 
 - (void)_didClickNotificationsStatusItemMenuItem:(id)sender
@@ -1682,7 +1679,7 @@
     if (!self.createIssueWindowController.window.isVisible) {
         NewIssueWindowController *controller = [[NewIssueWindowController alloc] initWithWindowNibName:@"NewIssueWindowController"];
         self.createIssueWindowController = controller;
-        DDLogDebug(@"Did show click new issue");
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Did show click new issue");
     }
     NSWindow *window = [self.createIssueWindowController window];
     
@@ -1928,22 +1925,7 @@
 
 - (void)sr_viewExtensionLogs:(id)sender
 {
-    NSURL *url = [sender representedObject];
-    NSParameterAssert(url);
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-        NSString *name = [NSString stringWithFormat:@"%@-CodeExtensions.log", appName];
-        NSString *urlString = [[[DDLogFileManagerDefault new] logsDirectory] stringByAppendingPathComponent:name];
-        NSURL *url = [NSURL fileURLWithPath:urlString];
-        [[NSWorkspace sharedWorkspace] openURL:url];
-        //        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[ url ]];
-        
-        
-        //        let appName = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleIdentifier");
-        //        //let timestamp = timestampFormatter.stringFromDate(NSDate())
-        //        return "\(appName!)-CodeExtensions.log"
-    });
+    NSBeep();
 }
 
 - (void)sr_manageExtensions:(id)sender
@@ -2137,7 +2119,7 @@
 - (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent
 {
     NSString *url = [[[event paramDescriptorForKeyword:keyDirectObject] stringValue] trimmedString];
-    DDLogDebug(@"route URL %@", url);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "route URL %@", url);
     
     if ([self _routeToIssueWithURLString:url]) {
         return;

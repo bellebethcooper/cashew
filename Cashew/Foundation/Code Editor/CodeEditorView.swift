@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 import WebKit
 
 @objc(SRCodeEditorView)
@@ -39,7 +40,7 @@ class CodeEditorView: NSView {
                 
                 webView.mainFrame.loadHTMLString(editorHtmlContent as String, baseURL: baseURL)
             } catch {
-                DDLogDebug("CodeEditorView.error \(error)")
+                os_log("CodeEditorView.error %@", log: .default, type: .debug, error.localizedDescription)
             }
         }
         
@@ -101,7 +102,7 @@ extension CodeEditorView: WebFrameLoadDelegate {
     
     func webView(_ webView: WebView!, didCreateJavaScriptContext context: JSContext!, for frame: WebFrame!) {
         context.exceptionHandler =  { (context, value) in
-            DDLogDebug("web error: \(value)")
+            os_log("web error %@", log: .default, type: .debug, String(describing: value))
         }
     }
     

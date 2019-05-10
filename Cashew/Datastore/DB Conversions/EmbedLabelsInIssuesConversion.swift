@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 private struct MissingLabelsConversionIssue {
     let accountId: NSNumber
@@ -19,7 +20,7 @@ private struct MissingLabelsConversionIssue {
 class EmbedLabelsInIssuesConversion: NSObject {
     
     @objc func runConversion() {
-        DDLogDebug("Start EmbedLabelsInIssuesConversion")
+        os_log("Start EmbedLabelsInIssuesConversion", log: .default, type: .debug)
         var issues = issuesWithNoEmbededLabel()
         while issues.count > 0 {
             
@@ -29,7 +30,7 @@ class EmbedLabelsInIssuesConversion: NSObject {
             
             issues = issuesWithNoEmbededLabel()
         }
-        DDLogDebug("END EmbedLabelsInIssuesConversion")
+        os_log("END EmbedLabelsInIssuesConversion", log: .default, type: .debug)
     }
     
     fileprivate func updateLabelsOnIssue(_ issue: MissingLabelsConversionIssue) {

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRIssueSyncWatcher)
 class IssueSyncWatcher: NSObject {
@@ -61,7 +62,7 @@ class IssueSyncWatcher: NSObject {
                 self.deltaSyncRepos.insert(repo)
                 if emptySet && self.deltaSyncRepos.count == 1 {
                     self.executionQueue.async {
-                        DDLogDebug("Start Delta Issue Syncher = \(Date())");
+                        os_log("Start Delta Issue Syncher = %@", log: .default, type: .debug, Date().toFullDateString())
                         NotificationCenter.default.post(name: NSNotification.Name.willStartDeltaIssueSynching, object: nil)
                     }
                 }
@@ -70,7 +71,7 @@ class IssueSyncWatcher: NSObject {
                 self.fullSyncRepos.insert(repo)
                 if emptySet && self.fullSyncRepos.count == 1 {
                     self.executionQueue.async {
-                        DDLogDebug("Start Full Issue Syncher = \(Date())");
+                        os_log("Start Full Issue Syncher = %@", log: .default, type: .debug, Date().toFullDateString())
                         NotificationCenter.default.post(name: NSNotification.Name.willStartFullIssueSynching, object: nil)
                     }
                 }
@@ -86,7 +87,7 @@ class IssueSyncWatcher: NSObject {
                 self.deltaSyncRepos.remove(repo)
                 if notEmptySet && self.deltaSyncRepos.count == 0 {
                     self.executionQueue.async {
-//                        DDLogDebug("End Delta Issue Syncher = \(Date())");
+                        os_log("End Delta Issue Syncher = %@", log: .default, type: .debug, Date().toFullDateString())
                         NotificationCenter.default.post(name: NSNotification.Name.didFinishDeltaIssueSynching, object: nil)
                     }
                 }
@@ -95,7 +96,7 @@ class IssueSyncWatcher: NSObject {
                 self.fullSyncRepos.remove(repo)
                 if notEmptySet && self.fullSyncRepos.count == 0 {
                     self.executionQueue.async {
-                        DDLogDebug("End Full Issue Syncher = \(Date())");
+                        os_log("End Full Issue Syncher = %@", log: .default, type: .debug, Date().toFullDateString())
                         NotificationCenter.default.post(name: NSNotification.Name.didFinishFullIssueSynching, object: nil)
                     }
                 }

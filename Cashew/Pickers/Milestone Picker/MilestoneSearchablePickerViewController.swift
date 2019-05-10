@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRMilestoneSearchablePickerViewController)
 class MilestoneSearchablePickerViewController: BaseViewController {
@@ -132,7 +133,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
         for (issue, milestoneSet) in selectionMap {
             let milestone =  milestoneSet.first
             guard issue.milestone != milestone else {
-                DDLogDebug("Skipping milestone batch update for \(issue) because milestone \(milestone) matches issue milestone \(issue.milestone)")
+                os_log("Skipping milestone batch update for %@ because milestone %@ matches issue milestone %@", log: .default, type: .debug, issue, milestone ?? "nil", issue.milestone ?? "nil")
                 continue
             }
             
@@ -155,7 +156,7 @@ class MilestoneSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        DDLogDebug("Error updating milestone for \(issue) because \(error?.localizedDescription) error \(error)")
+                        os_log("Error updating milestone for %@ because %@ error %@", log: .default, type: .debug, issue as? QIssue ?? "nil", error?.localizedDescription ?? "")
                     }
                     semaphore.signal()
                     })
