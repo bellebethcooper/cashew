@@ -1520,7 +1520,9 @@
 				907C5D2E2284F70A004091C5 /* Vendor */,
 				907C5DB12284F795004091C5 /* Frameworks */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		95C752EC1C40643800A0FD51 /* Products */ = {
 			isa = PBXGroup;
