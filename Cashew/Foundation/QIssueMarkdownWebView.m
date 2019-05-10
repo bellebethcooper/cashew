@@ -244,7 +244,7 @@
 }
 
 - (void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInformation modifierFlags:(NSUInteger) modifierFlags {
-    if ([NSApp currentEvent].type == NSLeftMouseUp && [NSApp currentEvent].clickCount == 2) {
+    if ([NSApp currentEvent].type == NSEventTypeLeftMouseUp && [NSApp currentEvent].clickCount == 2) {
         dispatch_block_t didDoubleClick = self.didDoubleClick;
         if (didDoubleClick) {
             didDoubleClick();

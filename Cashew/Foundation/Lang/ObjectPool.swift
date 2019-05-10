@@ -51,9 +51,8 @@ class ObjectPool<T>: NSObject {
             if let preReturn = self.willReturnObject {
                 preReturn(object)
             }
-            if let object = object as? AnyObject {
-                self.data.add(object)
-            }
+
+            self.data.add(object)
         }
     }
 }

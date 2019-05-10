@@ -15,7 +15,7 @@ class NewIssueWindowController: NSWindowController {
         return NewIssueViewController()
     }()
     
-    var request: CreateIssueRequest? {
+    @objc var request: CreateIssueRequest? {
         didSet {
             self.newIssueViewController.request = request
         }

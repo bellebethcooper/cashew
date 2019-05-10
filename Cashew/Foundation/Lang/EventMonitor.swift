@@ -14,7 +14,8 @@ class EventMonitor: NSObject {
     fileprivate var monitor: AnyObject?
     fileprivate let mask: NSEvent.EventTypeMask
     fileprivate let handler: (NSEvent?) -> ()
-    
+
+    @objc
     init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent?) -> ()) {
         self.mask = mask
         self.handler = handler
@@ -23,11 +24,13 @@ class EventMonitor: NSObject {
     deinit {
         stop()
     }
-    
+
+    @objc
     func start() {
         monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject?
     }
-    
+
+    @objc
     func stop() {
         if monitor != nil {
             NSEvent.removeMonitor(monitor!)

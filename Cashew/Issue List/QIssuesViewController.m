@@ -17,6 +17,7 @@
 #import "Cashew-Swift.h"
 #import "SRMenuUtilities.h"
 #import "SRNotificationService.h"
+@import os.log;
 //Here's how I did it in Xcode 4.6...
 //
 //In IB, select the table view and go to the Attributes Inspector. Choose 'Uniform' for 'Column Sizing'. Then, select the table column and choose 'Autoresizes with Table' for 'Resizing'.
@@ -178,7 +179,7 @@ static NSString *kQTitleKey = @"Title";
             NSTableColumn *column = [[NSTableColumn alloc] init];
             column.headerCell = [SRIssuesTableHeaderCell new];
             if ([columnId isEqualToString:@"#"] || [columnId isEqualToString:@"•"]) {
-                column.headerCell.alignment = NSCenterTextAlignment;
+                column.headerCell.alignment = NSTextAlignmentCenter;
             }
 //            column.headerCell.drawsBackground = true;
 //            column.headerCell.backgroundColor = [NSColor yellowColor];
@@ -224,7 +225,7 @@ static NSString *kQTitleKey = @"Title";
     if (self.tableView.headerView.menu == menu) {
         for (NSMenuItem *mi in menu.itemArray) {
             NSTableColumn *col = [mi representedObject];
-            [mi setState:col.isHidden ? NSOffState : NSOnState];
+            [mi setState:col.isHidden ? NSControlStateValueOff : NSControlStateValueOn];
         }
     }
 }
@@ -319,7 +320,7 @@ static NSString *kQTitleKey = @"Title";
         [self.nextPageCoalescer executeBlock:^{
             if (CGRectGetMaxY([_scrollView documentVisibleRect]) >= CGRectGetMaxY([_tableView frame]) *.99) {
                 [_dataSource nextPage];
-                DDLogDebug(@"Total issues => %@", @([_dataSource numberOfIssues]));
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Total issues => %@", @([_dataSource numberOfIssues]));
             }
         }];
     }
@@ -811,13 +812,13 @@ static NSString *kQTitleKey = @"Title";
             
             [menu addObject:[NSMenuItem separatorItem]];
             NSMenuItem *ascending = [[NSMenuItem alloc] initWithTitle:@"Ascending" action:@selector(_sortAscending) keyEquivalent:@""];
-            [ascending setState:_filter.ascending?NSOnState:NSOffState];
+            [ascending setState:_filter.ascending?NSControlStateValueOn:NSControlStateValueOff];
             [ascending setEnabled:YES];
             [ascending setTarget:self];
             [menu addObject:ascending];
             
             NSMenuItem *descending = [[NSMenuItem alloc] initWithTitle:@"Descending" action:@selector(_sortDescending) keyEquivalent:@""];
-            [descending setState:_filter.ascending?NSOffState:NSOnState];
+            [descending setState:_filter.ascending?NSControlStateValueOff:NSControlStateValueOn];
             [descending setEnabled:YES];
             [descending setTarget:self];
             
@@ -832,7 +833,7 @@ static NSString *kQTitleKey = @"Title";
 
 - (void)_sortAscending
 {
-    DDLogDebug(@"sort ascending");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "sort ascending");
     if (_filter.ascending == NO) {
         QIssueFilter *newFilter = [_filter copy];
         newFilter.ascending = YES;
@@ -842,7 +843,7 @@ static NSString *kQTitleKey = @"Title";
 
 - (void)_sortDescending
 {
-    // DDLogDebug(@"sort descending");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "sort descending");
     if (_filter.ascending == YES) {
         QIssueFilter *newFilter = [_filter copy];
         newFilter.ascending = NO;

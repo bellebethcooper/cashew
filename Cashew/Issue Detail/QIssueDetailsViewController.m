@@ -738,7 +738,7 @@
 
         NSPoint pointInWindow = [self.menuButton convertPoint:CGPointZero toView:nil];
         NSPoint point = NSMakePoint(pointInWindow.x + self.menuButton.frame.size.width, pointInWindow.y - self.menuButton.frame.size.height);
-        NSEvent *popupEvent = [NSEvent mouseEventWithType:NSLeftMouseUp location:point modifierFlags:[NSApp currentEvent].modifierFlags timestamp:0 windowNumber:self.view.window.windowNumber context:nil eventNumber:0 clickCount:0 pressure:0];
+        NSEvent *popupEvent = [NSEvent mouseEventWithType:NSEventTypeLeftMouseUp location:point modifierFlags:[NSApp currentEvent].modifierFlags timestamp:0 windowNumber:self.view.window.windowNumber context:nil eventNumber:0 clickCount:0 pressure:0];
         
 
         [SRMenu popUpContextMenu:menu withEvent:popupEvent forView:self.menuButton];
@@ -772,8 +772,8 @@
 
 - (BOOL)_writeToPasteBoard:(NSString *)stringToWrite
 {
-    [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-    return [[NSPasteboard generalPasteboard] setString:stringToWrite forType:NSStringPboardType];
+    [[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject:NSPasteboardTypeString] owner:nil];
+    return [[NSPasteboard generalPasteboard] setString:stringToWrite forType:NSPasteboardTypeString];
 }
 
 - (void)_windowDidEndLiveResizeNotification:(NSNotification *)notification

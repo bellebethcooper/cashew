@@ -28,7 +28,7 @@ class SearchablePickerViewController: BaseViewController {
     fileprivate static let buttonVerticalPadding: CGFloat = 3.0
     
     let repositoryPopupButton = RepositoriesMenuButton()
-    let pickerSearchField: PickerSearchField
+    @objc let pickerSearchField: PickerSearchField
     // private let pickerToolbarView: PickerToolbarView
     fileprivate let bottomDividerView = BaseSeparatorView()
     fileprivate let topDividerView = BaseSeparatorView()
@@ -44,7 +44,7 @@ class SearchablePickerViewController: BaseViewController {
     
     var allowMultiSelection: Bool = true
     var disableButtonIfNoSelection = true
-    var onDoneButtonClick: (()->())? {
+    @objc var onDoneButtonClick: (()->())? {
         didSet {
             if let onDoneButtonClick = onDoneButtonClick {
                 doneButton.onClick = onDoneButtonClick                
@@ -54,14 +54,14 @@ class SearchablePickerViewController: BaseViewController {
     
     var onTappedItemBlock: ((_ cell: AnyObject, _ item: AnyObject) -> ())?
     
-    var showNumberOfSelections: Bool = false {
+    @objc var showNumberOfSelections: Bool = false {
         didSet {
             view.needsLayout = true
             view.layoutSubtreeIfNeeded()
         }
     }
     
-    var loading: Bool = false {
+    @objc var loading: Bool = false {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 guard let strongSelf = self else { return }
@@ -121,7 +121,7 @@ class SearchablePickerViewController: BaseViewController {
     var dataSource: SearchablePickerDataSource
     
     
-    var popoverBackgroundColorFixEnabed = true {
+    @objc var popoverBackgroundColorFixEnabed = true {
         didSet {
             if let view = self.view as? BaseView {
                 view.popoverBackgroundColorFixEnabed = popoverBackgroundColorFixEnabed
@@ -136,7 +136,7 @@ class SearchablePickerViewController: BaseViewController {
         
         pickerSearchField = PickerSearchField(viewModel: viewModel.pickerSearchFieldViewModel)
         
-        selectionCountButton = BaseImageLabelButton(viewModel: BaseImageLabelButtonViewModel(image: NSImage(named:NSImage.Name(rawValue: "chevron-down"))!.withTintColor(BaseImageLabelButton.foregroundColor), label: "0 SELECTED", buttonType: .rightImage));
+        selectionCountButton = BaseImageLabelButton(viewModel: BaseImageLabelButtonViewModel(image: NSImage(named:"chevron-down")!.withTintColor(BaseImageLabelButton.foregroundColor), label: "0 SELECTED", buttonType: .rightImage));
         
         super.init(nibName: nil, bundle: nil)
         view.addSubview(selectionCountButton)
@@ -592,9 +592,10 @@ private class SearchablePickerTableView: BaseTableView {
 
 @objc(SRSearchablePickerViewModel)
 class SearchablePickerViewModel: NSObject {
-    let pickerSearchFieldViewModel: PickerSearchFieldViewModel
+    @objc let pickerSearchFieldViewModel: PickerSearchFieldViewModel
     //  let pickerToolbarViewModel: PickerToolbarViewModel
     
+    @objc
     required init(pickerSearchFieldViewModel: PickerSearchFieldViewModel) {//, pickerToolbarViewModel: PickerToolbarViewModel) {
         // self.pickerToolbarViewModel = pickerToolbarViewModel
         self.pickerSearchFieldViewModel = pickerSearchFieldViewModel

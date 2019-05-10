@@ -214,7 +214,7 @@ class RepositoriesCloudKitService: BaseCloudKitService {
 //                        }
 //                    })
 //                    
-//                    group.wait(timeout: DispatchTime.distantFuture)
+//                    group.wait(timeout: .distantFuture)
 //                    onCompletion(repositories as AnyObject, nil)
 //                })
 //            }

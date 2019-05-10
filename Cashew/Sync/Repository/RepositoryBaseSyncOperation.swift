@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 class RepositoryBaseSyncOperation: Operation {
 
@@ -16,7 +17,7 @@ class RepositoryBaseSyncOperation: Operation {
     
     func sleepIfNeededWithContext(_ context: QServiceResponseContext) {
         if let sleepSeconds = context.nextRateLimitResetDate?.timeIntervalSinceNow, let rateLimitRemaining = context.rateLimitRemaining?.intValue , rateLimitRemaining < RepositoryBaseSyncOperation.maxRateLimit && sleepSeconds > 0 {
-            DDLogDebug("Sleeping for \(sleepSeconds) due to rate limit")
+            os_log("Sleeping for %{public}g seconds due to rate limit", log: .default, type: .debug, sleepSeconds)
             Thread.sleep(forTimeInterval: sleepSeconds)
         }
     }

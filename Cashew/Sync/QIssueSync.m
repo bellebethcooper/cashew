@@ -17,6 +17,7 @@
 #import "Cashew-Swift.h"
 #import "SRNotificationService.h"
 #import "QIssueNotificationStore.h"
+@import os.log;
 
 typedef NS_ENUM(NSInteger, SRIssueSyncherType)
 {
@@ -114,7 +115,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
 }
 
 - (void)start {
-    DDLogDebug(@"QIssueSync start");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QIssueSync start");
     self.stopSyncher = NO;
     
     NSArray<QAccount *> *accounts = [QAccountStore accounts];
@@ -134,12 +135,12 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 
                 
                 if ([[SRIssueSyncWatcher sharedWatcher] isPartiallySynchingRepository:repository]) {
-                    DDLogDebug(@"Already running delta syncher for repo -> %@", repository.name);
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Already running delta syncher for repo -> %@", repository.name);
                     return;
                 }
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:kWillStartSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @NO}];
-                   DDLogDebug(@"Starting Sync Issues Job For Repository = [%@]", [repository fullName]);
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Starting Sync Issues Job For Repository = [%@]", [repository fullName]);
                 
                 // fetch milestones
                 __block NSError *error = nil;
@@ -160,7 +161,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 // fetch labels
                 semaphore = dispatch_semaphore_create(0);
                 NSMutableSet<QLabel *> *currentLabels = [[NSMutableSet alloc] initWithArray:[QLabelStore labelsForAccountId:repository.account.identifier repositoryId:repository.identifier includeHidden:YES]];
-                 DDLogDebug(@"QIssueSync start - currentLabels => %@", currentLabels);
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QIssueSync start - currentLabels => %@", currentLabels);
                 [self _fetchLabelsForRepository:repository pageNumber:1 pageSize:100 currentLabels:currentLabels onCompletion:^(NSError *err) {
                     error = err;
                     dispatch_semaphore_signal(semaphore);
@@ -210,7 +211,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:kDidFinishSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @NO}];
-                 DDLogDebug(@"Finishing Sync Issues Job For Repository = [%@]", [repository fullName]);
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Finishing Sync Issues Job For Repository = [%@]", [repository fullName]);
                 
                 // make sure all repo data are deleted if repo is not synchable
                 __block BOOL deletedRepository = NO;
@@ -231,7 +232,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
 
 - (void)runInitialPullSyncher
 {
-    DDLogDebug(@"QIssueSync runInitialPullSyncher");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QIssueSync runInitialPullSyncher");
     NSArray<QAccount *> *accounts = [QAccountStore accounts];
     
     [accounts enumerateObjectsUsingBlock:^(QAccount * _Nonnull account, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -251,7 +252,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
 
 - (void)_runInitialPullSyncherForRepository:(QRepository *)repository
 {
-    DDLogDebug(@"QIssueSync runInitialPullSyncherForRepo");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QIssueSync runInitialPullSyncherForRepo");
     self.stopSyncher = NO;
     
     if (repository.initialSyncCompleted) {
@@ -268,12 +269,12 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     }
     
     if ([[SRIssueSyncWatcher sharedWatcher] isFullySynchingRepository:repository]) {
-        DDLogDebug(@"Already running full syncher for repo -> %@", repository.name);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Already running full syncher for repo -> %@", repository.name);
         return;
     }
     [self.repositorySyncherOperationQueue addOperationWithBlock:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kWillStartSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @YES}];
-          DDLogDebug(@"Starting [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Starting [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
         
         // fetch milestones
         __block NSError *error = nil;
@@ -294,7 +295,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
         // fetch labels
         semaphore = dispatch_semaphore_create(0);
         NSMutableSet<QLabel *> *currentLabels = [[NSMutableSet alloc] initWithArray:[QLabelStore labelsForAccountId:repository.account.identifier repositoryId:repository.identifier includeHidden:YES]];
-         DDLogDebug(@"currentLabel => %@", currentLabels);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "currentLabel => %@", currentLabels);
         [self _fetchLabelsForRepository:repository pageNumber:1 pageSize:100 currentLabels:currentLabels onCompletion:^(NSError *err) {
             error = err;
             dispatch_semaphore_signal(semaphore);
@@ -337,7 +338,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kDidFinishSynchingRepositoryNotification object:repository userInfo:@{@"isFullSync": @YES}];
-         DDLogDebug(@"Finishing [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Finishing [Initial Pull] Sync Issues Job For Repository = [%@]", [repository fullName]);
         
         // make sure all repo data are deleted if repo is not synchable
         __block BOOL deletedRepository = NO;
@@ -373,7 +374,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
                      onCompletion:(SRFetcherCompletion)onCompletion;
 {
     NSParameterAssert(![NSThread isMainThread]);
-     DDLogDebug(@"QIssueSync _fetchIssues - syncing issues for repository = [%@] pageNumber = [%ld] pageSize = [%ld]", repo.fullName, pageNumber, pageSize);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QIssueSync _fetchIssues - syncing issues for repository = [%@] pageNumber = [%ld] pageSize = [%ld]", repo.fullName, pageNumber, pageSize);
     
     if (![self _isSynchableRepository:repo]) {
         onCompletion(nil);
@@ -392,7 +393,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
     [service issuesForRepository:repo pageNumber:pageNumber pageSize:pageSize sortKey:sortKey ascending:ascending since:dateMarker onCompletion:^(NSArray<QIssue *> *issues, QServiceResponseContext *context, NSError *error) {
         
         if (error) {
-             DDLogDebug(@"error [%@] synching issues for repository = [%@] final page = [%ld] since = [%@]", error, repo.fullName, pageNumber, dateMarker);
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "error [%@] synching issues for repository = [%@] final page = [%ld] since = [%@]", error, repo.fullName, pageNumber, dateMarker);
             if (onCompletion) {
                 onCompletion(error);
             }
@@ -470,7 +471,7 @@ typedef void(^_QIssueSyncOnIssueSaveCompletion)(QIssue *issue);
         //// DDLogDebug(@"Next Rate Limit (%@) Reset on %@ seconds = %@", context.rateLimitRemaining, context.nextRateLimitResetDate, @([context.nextRateLimitResetDate timeIntervalSinceDate:[NSDate new]]) );
         
         if (context.rateLimitRemaining.integerValue < (syncType == SRIssueSyncherTypeFull ? 2000 : 1000) && sleepSeconds > 0) {
-            DDLogDebug(@"Sleeping for %@ due to rate limit", @(sleepSeconds));
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "Sleeping for %@ due to rate limit", @(sleepSeconds));
             [NSThread sleepForTimeInterval:sleepSeconds];
         }
     }

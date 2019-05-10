@@ -760,7 +760,7 @@
     [menu addItemWithTitle:@"Save Current Search" action:@selector(_didClickSaveCurrentSearch:) keyEquivalent:@""];
     
     NSWindow *window = self.view.window;
-    [SRMenu popUpContextMenu:menu withEvent:[NSEvent mouseEventWithType:NSLeftMouseUp
+    [SRMenu popUpContextMenu:menu withEvent:[NSEvent mouseEventWithType:NSEventTypeLeftMouseUp
                                                                location:NSMakePoint(self.addButton.frame.origin.x, self.addButton.frame.origin.y+menu.size.height+ _addButton.frame.size.height)
                                                           modifierFlags:0
                                                               timestamp:0

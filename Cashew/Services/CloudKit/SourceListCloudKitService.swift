@@ -7,7 +7,7 @@
 //
 
 import CloudKit
-
+import os.log
 
 @objc(SRSourceListCloudKitService)
 class SourceListCloudKitService: BaseCloudKitService {
@@ -33,7 +33,7 @@ class SourceListCloudKitService: BaseCloudKitService {
 //                        group.leave()
 //                    })
 //                }
-//                group.wait(timeout: DispatchTime.distantFuture);
+//                group.wait(timeout: .distantFuture);
 //
 //                onCompletion(deleteRecords as AnyObject?, error)
 //            })
@@ -143,7 +143,7 @@ extension SourceListCloudKitService {
             }
         }
         
-        group.wait(timeout: DispatchTime.distantFuture); // FIXME: probably a bad idea
+        group.wait(timeout: .distantFuture); // FIXME: probably a bad idea
         onCompletion(repositories as AnyObject, nil)
     }
     
@@ -192,7 +192,7 @@ extension SourceListCloudKitService {
         
         privateDatabase.perform(query, inZoneWith: nil) { (foundRecords, err) in
             guard err == nil else {
-                DDLogDebug("error fetching records for repository -> \(err)")
+                os_log("error fetching records for repository -> %@", log: .default, type: .debug, err!.localizedDescription)
                 onCompletion(nil, err as! NSError)
                 return
             }

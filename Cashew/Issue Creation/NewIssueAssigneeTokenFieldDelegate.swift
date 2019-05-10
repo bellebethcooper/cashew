@@ -29,7 +29,7 @@ class NewIssueAssigneeTokenFieldDelegate: NSObject {
 
 extension NewIssueAssigneeTokenFieldDelegate: NSTokenFieldDelegate {
     
-    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
+    private func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
         //print("completionsForSubstring = \(substring) selectedIndex = \(selectedIndex)")
         
         let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -48,7 +48,7 @@ extension NewIssueAssigneeTokenFieldDelegate: NSTokenFieldDelegate {
     }
     
     
-    override func controlTextDidEndEditing(_ notification: Notification) {
+    func controlTextDidEndEditing(_ notification: Notification) {
         if let tokenField = notification.object as? NSTokenField {
             var exists: Bool = false
             if let tokens = tokenField.objectValue as? [String], let token = tokens.last {

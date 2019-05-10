@@ -20,6 +20,7 @@
 #import "NSUserDefaults+Application.h"
 #import <QuartzCore/CAAnimation.h>
 #import "QRepositoryStore.h"
+@import os.log;
 
 @interface QAccountCreationWindowController () <NSTextFieldDelegate>
 
@@ -66,7 +67,7 @@
 @implementation QAccountCreationWindowController
 
 - (void)windowDidLoad {
-    DDLogDebug(@"QAccountCreation windowDidLoad");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation windowDidLoad");
     [super windowDidLoad];
     
     self.signinToCashewsLabel.font = [NSFont systemFontOfSize:20];
@@ -219,9 +220,10 @@
         
         __block QAccount *account = [self _createAccountFromFields];
         QUserService *service = [QUserService serviceForAccount:account];
-        DDLogDebug(@"QAccountCreation fetchCurrentUserAuth - service: %@", service);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuth - service: %@", service);
+
         [service currentUserAuthTokenWithTwoFactorAuthCode:twoFactorAuthCode onCompletion:^(NSDictionary *json, QServiceResponseContext * _Nonnull context, NSError * _Nullable error) {
-            DDLogDebug(@"QAccountCreation fetchCurrentUserAuth - completion");
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuth - completion");
             dispatch_async(dispatch_get_main_queue(), ^{
                 //                if (isTwoFactorAuthRequest) {
                 //                    self.verifyTwoFactorAuthButton.enabled = true;
@@ -229,7 +231,7 @@
                 //                }
                 
                 if (error) {
-                    NSLog(@"QAccountCreation fetchCurrentUserAuthToken - error: %@", error);
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuthToken - error: %@", error);
                     if (isTwoFactorAuthRequest) {
                         [self _flashTwoFactorAuthCodeError];
                     } else {
@@ -238,22 +240,22 @@
                     [self _transitionTwoAuthButtonToNormalState];
                     return;
                 }
-                DDLogDebug(@"QAccountCreation fetchCurrentUserAuthToken - no error");
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuthToken - no error");
                 NSString *token = json[@"token"];
                 QOwner *owner = json[@"owner"];
                 NSParameterAssert(token && token.length > 0);
                 NSParameterAssert(owner);
-                DDLogDebug(@"QAccountCreation fetchCurrentUserAuthToken - no error, about to set account stuff");
-                
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuthToken - no error, about to set account stuff");
+
                 account.username = owner.login;
                 account.authToken = token;
                 account.userId = owner.identifier;
                 account.accountName = account.username;
-                
-                DDLogDebug(@"QAccountCreation fetchCurrentUserAuthToken - about to add account");
-                
+
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuthToken - about to add account");
+
                 [[QContext sharedContext] addAccount:account withPassword:self.passwordTextField.stringValue];
-                DDLogDebug(@"QAccountCreation fetchCurrentUserAuthToken - just added account");
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fetchCurrentUserAuthToken - just added account");
                 [QAccountStore saveAccount:account];
                 account = [QAccountStore accountForUserId:account.userId baseURL:account.baseURL];
                 
@@ -507,21 +509,21 @@
         [self _transitionSignInButtonToLoggingInState];
         
         QAccount *account = [self _createAccountFromFields];
-        DDLogDebug(@"QAccountCreation fireLogin - password field: %@", self.passwordTextField.stringValue);
+        os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreation fireLogin - password field: %{private}@", self.passwordTextField.stringValue);
         [[QContext sharedContext] addAccount:account withPassword:self.passwordTextField.stringValue];
         QUserService *service = [QUserService serviceForAccount:account];
         
         [service loginUserOnCompletion:^(QOwner *currentUser, QServiceResponseContext *context, NSError *error) {
-            DDLogDebug(@"QAccountCreationWindowCont fireLogin - loginUserOnCompletion");
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreationWindowCont fireLogin - loginUserOnCompletion");
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 if (context.needTwoFactorAuth) {// && statusCode != 401 && statusCode != 403) {
-                    DDLogDebug(@"QAccountCreationWindow fireLogin - needs 2FA");
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreationWindow fireLogin - needs 2FA");
                     [service sendSMSIfNeeded];
                     [self _showTwoFactorAuthView];
                     return;
                 } else if (error) {
-                    DDLogDebug(@"QAccountCreationWindow fireLogin - error: %@", error);
+                    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QAccountCreationWindow fireLogin - error: %@", error);
                     [self _flashLoginError];
                     [self _transitionSignInButtonToNormalState];
                     return;

@@ -10,6 +10,7 @@
 #import <Cocoa/Cocoa.h>
 #import "AppDelegate.h"
 #import "Cashew-Swift.h"
+@import os.log;
 #import <sqlite3.h>
 
 @interface QBaseStoreFMDatabasePoolDelegate: NSObject
@@ -177,7 +178,7 @@
 #pragma mark - Database
 
 void traceFunc(void *uData, const char *statement) {
-    DDLogDebug(@"%s", statement);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "%s", statement);
 }
 
 + (void)doReadInTransaction:(void (^)(FMDatabase *db))block;

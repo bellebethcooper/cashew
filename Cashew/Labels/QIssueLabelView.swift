@@ -76,7 +76,7 @@ class QIssueLabelView: BaseView {
         
         let otherColor: NSColor
         
-        if let viewModelColor = viewModel.color.usingColorSpaceName(NSColorSpaceName.calibratedRGB) {
+        if let viewModelColor = viewModel.color.usingColorSpace(.deviceRGB) {
             let red = viewModelColor.redComponent * 255
             let green = viewModelColor.greenComponent * 255
             let blue = viewModelColor.blueComponent * 255
@@ -139,8 +139,8 @@ class QIssueLabelView: BaseView {
         let textStorage = NSTextStorage(string: labelTextField.stringValue)
         let textContainer = NSTextContainer(containerSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: QIssueLabelView.labelHeight))
         let layoutManager = NSLayoutManager()
-        let attributes = [ NSAttributedStringKey.font.rawValue: font ]
-        
+//        let attributes = [ NSAttributedString.Key.font.rawValue: font ]
+
         layoutManager.addTextContainer(textContainer)
         textStorage.addLayoutManager(layoutManager)
 //        textStorage.addAttributes(attributes, range: NSMakeRange(0, (labelTextField.stringValue as NSString).length))

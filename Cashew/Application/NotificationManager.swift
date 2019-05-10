@@ -38,7 +38,7 @@ class NotificationManager: NSObject {
             notification.title =  "Issue Updated" //"\(issueNotification.reason) - \(issue.number) - \(issue.user.login)" //"\(issue.user.login) assigned #\(issue.number) to you."
             notification.informativeText = "#\(issue.number) \(issue.title)"
             notification.soundName = NSUserNotificationDefaultSoundName
-            notification.userInfo = ["issueNumber": issue.number, "accountId": issue.account.identifier, "repositoryId": issue.repo().identifier]
+            notification.userInfo = ["issueNumber": issue.number, "accountId": issue.account.identifier ?? -1, "repositoryId": issue.repo().identifier ?? -1]
             NSUserNotificationCenter.default.deliver(notification)
         } else if listOfIssues.count > 0 {
             let notification = NSUserNotification()

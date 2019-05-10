@@ -10,6 +10,7 @@
 #import "Cashew-Swift.h"
 #import "QUserQueryStore.h"
 #import "QContext.h"
+@import os.log;
 
 @interface _SRUserQueryTextField : NSTextField
 
@@ -61,7 +62,7 @@
         self.account = account;
         self.query = query;
     }
-    DDLogDebug(@"query-> %@", query);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "query-> %@", query);
     return self;
 }
 

@@ -36,8 +36,8 @@ extension BaseSpacerTableRowViewItem: SearchSuggestionResultItem  { }
 
 @objc(SRSearchSuggestionResultItemValue)
 class SearchSuggestionResultItemValue: NSObject, SearchSuggestionResultItem {
-    let type: SearchSuggestionResultType
-    let title: String
+    @objc let type: SearchSuggestionResultType
+    @objc let title: String
     
     init(type: SearchSuggestionResultType, title: String) {
         self.type = type

@@ -8,6 +8,7 @@
 
 import Cocoa
 
+@objc
 class BaseButton: BaseView {
     
     fileprivate let textLabel = BaseLabel()
@@ -30,7 +31,7 @@ class BaseButton: BaseView {
         }
     }
     
-    var onClick: (()->())?
+    @objc var onClick: (()->())?
     
     var enabled: Bool = true {
         didSet {
@@ -44,12 +45,13 @@ class BaseButton: BaseView {
         }
     }
     
-    var text: String = "" {
+    @objc var text: String = "" {
         didSet {
             textLabel.stringValue = text
         }
     }
     
+    @objc
     class func greenButton() -> BaseButton {
         let button = BaseButton()
         
@@ -156,7 +158,7 @@ class BaseButton: BaseView {
     }
     
     override func layout() {
-        let textLabelSize = (text as NSString).textSizeForWithAttributes([kCTFontAttributeName as NSAttributedStringKey: textLabel.font!])
+        let textLabelSize = (text as NSString).textSizeForWithAttributes([kCTFontAttributeName as NSAttributedString.Key: textLabel.font!])
         let textLabelLeft = bounds.width / 2.0 - textLabelSize.width / 2.0
         let textLabeltop = bounds.height / 2.0 - textLabelSize.height / 2.0
         

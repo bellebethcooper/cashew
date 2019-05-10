@@ -12,7 +12,7 @@ class IssueEventTableViewCell: BaseView {
     
     fileprivate static let verticalPadding: CGFloat = 10.0
     fileprivate static let spacingOccupiedByHorizontalPaddingAndImageView: CGFloat = 47.0
-    fileprivate static let eventNameBoldedAttribute: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)]
+    fileprivate static let eventNameBoldedAttribute: [NSAttributedString.Key : Any] = [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold)]
     
     @IBOutlet weak var eventDetailsLabel: NSTextField!
 //    @IBOutlet weak var eventImageView: NSImageView!
@@ -66,7 +66,7 @@ class IssueEventTableViewCell: BaseView {
         }
     }
     
-    fileprivate class func boldedAttribute() -> [NSAttributedStringKey : NSObject]  {
+    fileprivate class func boldedAttribute() -> [NSAttributedString.Key : NSObject]  {
         
         let themeMode = UserDefaults.themeMode()
         
@@ -77,8 +77,8 @@ class IssueEventTableViewCell: BaseView {
             color = DarkModeColor.sharedInstance.foregroundSecondaryColor()
         }
         
-        let attr = [NSAttributedStringKey.font.rawValue: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold), NSAttributedStringKey.foregroundColor: color] as [AnyHashable : NSObject]
-        return attr as! [NSAttributedStringKey : NSObject]
+        let attr = [NSAttributedString.Key.font.rawValue: NSFont.systemFont(ofSize: 13, weight: NSFont.Weight.semibold), NSAttributedString.Key.foregroundColor: color] as [AnyHashable : NSObject]
+        return attr as! [NSAttributedString.Key : NSObject]
     }
     
     deinit {

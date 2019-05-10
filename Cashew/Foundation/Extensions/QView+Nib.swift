@@ -11,13 +11,13 @@ import Foundation
 
 public extension QView {
     
-    public class func instantiateFromNib<T: QView>(_ viewType: T.Type) -> T? {
+    class func instantiateFromNib<T: QView>(_ viewType: T.Type) -> T? {
         var viewArray: NSArray?
         let className = NSStringFromClass(viewType).components(separatedBy: ".").last! as String
 
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
+        Bundle.main.loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == viewType {
@@ -28,7 +28,7 @@ public extension QView {
         return nil //viewArray!.objectAtIndex(1) as! T
     }
     
-    public class func instantiateFromNib() -> Self? {
+    class func instantiateFromNib() -> Self? {
         return instantiateFromNib(self)
     }
     

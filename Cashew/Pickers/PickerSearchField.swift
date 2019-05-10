@@ -11,8 +11,9 @@ import Cocoa
 
 @objc(SRPickerSearchFieldViewModel)
 class PickerSearchFieldViewModel: NSObject {
-    let placeHolderText: String
+    @objc let placeHolderText: String
     
+    @objc
     init(placeHolderText: String) {
         self.placeHolderText = placeHolderText
         super.init()
@@ -107,7 +108,7 @@ class PickerSearchField: BaseView {
     
     
     fileprivate func didSetViewModel() {
-        textField.placeholderAttributedString = NSAttributedString(string: viewModel.placeHolderText, attributes:  [NSAttributedStringKey.font: NSFont.systemFont(ofSize: 14) , NSAttributedStringKey.foregroundColor: CashewColor.foregroundSecondaryColor()])
+        textField.placeholderAttributedString = NSAttributedString(string: viewModel.placeHolderText, attributes:  [NSAttributedString.Key.font: NSFont.systemFont(ofSize: 14) , NSAttributedString.Key.foregroundColor: CashewColor.foregroundSecondaryColor()])
     }
     
     fileprivate func setupTextFieldContainerView() {
@@ -118,14 +119,14 @@ class PickerSearchField: BaseView {
     fileprivate func setupSearchImageView() {
         guard searchImageView.superview == nil else { return }
         textFieldContainerView.addSubview(searchImageView)
-        searchImageView.image = NSImage(named:NSImage.Name(rawValue: "search"))?.withTintColor(PickerSearchField.placeholderColor)
+        searchImageView.image = NSImage(named:"search")?.withTintColor(PickerSearchField.placeholderColor)
     }
     
     // MARK: Layouts 
     
     override func layout() {
 
-        guard let image = NSImage(named:NSImage.Name(rawValue: "search"))?.withTintColor(PickerSearchField.placeholderColor) else { return }
+        guard let image = NSImage(named:"search")?.withTintColor(PickerSearchField.placeholderColor) else { return }
         
         var searchImageSize = image.size
         image.size = CGSize(width: searchImageSize.width * 0.9, height: searchImageSize.height * 0.9)
@@ -155,7 +156,7 @@ class PickerSearchField: BaseView {
 
 extension PickerSearchField: NSTextFieldDelegate {
     
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         if let onTextChange = onTextChange {
             //if (textField.stringValue as NSString).trimmedString()
             onTextChange()

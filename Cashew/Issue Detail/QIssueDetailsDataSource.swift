@@ -165,24 +165,26 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
             self.drafts = [String: IssueCommentDraft]()
         }) 
         
-        guard let issue = issue else { return }
-        return
+        guard issue != nil else { return }
+
             // temporarily just commenting this out and returning here, because the method isn't recognised and I don't know why
 //        let drafts = QIssueCommentDraftStore.issueCommentDraftsForAccountId(issue.account.identifier, repositoryId: issue.repository.identifier, issueNumber: issue.number)
         
-        drafts.forEach { (draft) in
-            guard let draft = draft as? IssueCommentDraft else { return }
-            addIssueCommentDraft(draft)
-        }
+//        drafts.forEach { (draft) in
+//            guard let draft = draft as? IssueCommentDraft else { return }
+//            addIssueCommentDraft(draft)
+//        }
     }
-    
+
+    @objc
     func addIssueCommentDraft(_ draft: IssueCommentDraft) {
         draftsAccessQueue.async(flags: .barrier, execute: {
             let key = self.draftKeyWith(draft.issueCommentId, accountId: draft.account.identifier, repositoryId: draft.repository.identifier, type: draft.type)
             self.drafts[key] = draft
         }) 
     }
-    
+
+    @objc
     func removeIssueCommentDraft(_ draft: IssueCommentDraft) {
         draftsAccessQueue.async(flags: .barrier, execute: {
             let key = self.draftKeyWith(draft.issueCommentId, accountId: draft.account.identifier, repositoryId: draft.repository.identifier, type: draft.type)
@@ -284,7 +286,7 @@ class QIssueDetailsDataSource: NSObject, QStoreObserver {
             }
             break
         case let issueEvent as QIssueEvent:
-            guard let eventName = issueEvent.event as? String , QIssueDetailsDataSource.skippedEvents.contains(eventName) == false else {
+            guard let eventName = issueEvent.event, QIssueDetailsDataSource.skippedEvents.contains(eventName as String) == false else {
                 return
             }
             

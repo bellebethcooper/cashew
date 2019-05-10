@@ -74,10 +74,10 @@ class StatusBarViewController: NSViewController {
     
     fileprivate let dataSource = QIssuesViewDataSource()
     
-    var didClickCreateIssueAction: (()->())?
-    var didClickQuitAction: (()->())?
-    var didClickPreferencesAction: (()->())?
-    var didClickShowAppAction: (()->())?
+    @objc var didClickCreateIssueAction: (()->())?
+    @objc var didClickQuitAction: (()->())?
+    @objc var didClickPreferencesAction: (()->())?
+    @objc var didClickShowAppAction: (()->())?
     
     deinit {
         tableView.delegate = nil
@@ -140,7 +140,7 @@ class StatusBarViewController: NSViewController {
                 view?.shouldAllowVibrancy = false
             }
             
-            strongSelf.settingsButton.image = NSImage(named: NSImage.Name(rawValue: "gear"))?.withTintColor(CashewColor.foregroundColor())
+            strongSelf.settingsButton.image = NSImage(named: "gear")?.withTintColor(CashewColor.foregroundColor())
             
             if let view = strongSelf.view as? StatusBarView {
                 view.backgroundColor = headerBgColor
@@ -184,7 +184,7 @@ class StatusBarViewController: NSViewController {
             filter.states = NSOrderedSet(object: NSNumber(value: IssueStoreIssueState_Open))
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
+        DispatchQueue.global(qos: .userInitiated).async(execute: {
             self.dataSource.fetchIssuesWithFilter(filter)
             DispatchQueue.main.async {
                 // self.tableView.sizeToFit()

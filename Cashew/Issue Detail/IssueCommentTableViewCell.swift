@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 class CommentMarkdownContainerView: BaseView { }
 
@@ -92,7 +93,7 @@ class ReactionButton: NSButton {
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     
     fileprivate var editableMarkdownViewBottomConstraint: NSLayoutConstraint?
-    fileprivate let reactionsViewController: ReactionsViewController = ReactionsViewController(nibName: NSNib.Name(rawValue: "ReactionsViewController"), bundle: nil)
+    fileprivate let reactionsViewController: ReactionsViewController = ReactionsViewController(nibName: "ReactionsViewController", bundle: nil)
     fileprivate var reactionPickerPopover: NSPopover?
     
     @objc var text: String? {
@@ -268,17 +269,17 @@ class ReactionButton: NSButton {
                 strongSelf.backgroundColor = LightModeColor.sharedInstance.backgroundColor()
                 strongSelf.usernameLabel.textColor = LightModeColor.sharedInstance.foregroundSecondaryColor()
                 strongSelf.dateLabel.textColor = LightModeColor.sharedInstance.foregroundTertiaryColor()
-                strongSelf.menuButton.image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
+                strongSelf.menuButton.image = NSImage(named: "chevron-down")?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
                 strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantLight)
             } else if mode == .dark {
                 strongSelf.backgroundColor = DarkModeColor.sharedInstance.backgroundColor()
                 strongSelf.usernameLabel.textColor = DarkModeColor.sharedInstance.foregroundSecondaryColor()
                 strongSelf.dateLabel.textColor = DarkModeColor.sharedInstance.foregroundTertiaryColor()
-                strongSelf.menuButton.image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
+                strongSelf.menuButton.image = NSImage(named: "chevron-down")?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
                 strongSelf.progressIndicator.appearance = NSAppearance(named: NSAppearance.Name.vibrantDark)
             }
             
-            strongSelf.likeButton.image = NSImage(named: NSImage.Name(rawValue: "reactions"))?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
+            strongSelf.likeButton.image = NSImage(named: "reactions")?.withTintColor(IssueCommentTableViewCell.menuButtonsColor)
         }
         
         likeButton.onMouseOver = { [weak self] in
@@ -346,13 +347,6 @@ class ReactionButton: NSButton {
                     }
                     
                     QIssueStore.save(updatedIssue)
-                } else {
-                    let errorString: String
-                    if let error = error {
-                        errorString = error.localizedDescription
-                    } else {
-                        errorString = ""
-                    }
                 }
                 
                 DispatchQueue.main.async {
@@ -373,13 +367,6 @@ class ReactionButton: NSButton {
                         onCommentDiscard()
                     }
                     QIssueCommentStore.save(updatedIssueComment)
-                } else {
-                    let errorString: String
-                    if let error = error {
-                        errorString = error.localizedDescription
-                    } else {
-                        errorString = ""
-                    }
                 }
                 DispatchQueue.main.async {
                     
@@ -608,7 +595,7 @@ class ReactionButton: NSButton {
         shareService.perform(withItems: itemsForShareService())
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         
         if menuItem.action == #selector(IssueCommentTableViewCell.didClickEditComment) || menuItem.action == #selector(IssueCommentTableViewCell.didClickDeleteComment) {
             return isCurrentUserACollaborator()
@@ -649,7 +636,7 @@ class ReactionButton: NSButton {
         
         let size = NSMakeSize(288.0, 48.0)
         
-        let reactionsPickerViewController = ReactionsPickerViewController(nibName: NSNib.Name(rawValue: "ReactionsPickerViewController"), bundle: nil)
+        let reactionsPickerViewController = ReactionsPickerViewController(nibName: "ReactionsPickerViewController", bundle: nil)
         reactionsPickerViewController.view.frame = NSMakeRect(0, 0, size.width, size.height);
         reactionsPickerViewController.commentInfo = commentInfo
         
@@ -723,7 +710,7 @@ class ReactionButton: NSButton {
             QIssuesService(for: account).delete(comment, onCompletion: { (responseObject, context, error) in
                 if let error = error as? NSError, let data = error.userInfo["com.alamofire.serialization.response.error.data"] as? NSData {
                     let dataString = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)
-                    DDLogDebug("deletedComment=> \(dataString)");
+                    os_log("deletedComment=> %@", log: .default, type: .debug, dataString ?? "")
                 } else {
                     QIssueCommentStore.deleteIssueCommentId(comment.identifier, accountId:account.identifier, repositoryId:repository.identifier)
                 }

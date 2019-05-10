@@ -89,7 +89,7 @@ class RepositoriesMenuButton: BaseMenuButton {
 //            selectItem(sender)
             
 //
-            let index = repositories.index(of: repo)
+            let index = repositories.firstIndex(of: repo)
             
             if let index = index {
                 selectItem(at: index)

@@ -52,7 +52,7 @@ class RepositoryIssueSyncOperation: RepositoryBaseSyncOperation {
             }
         }
         
-        semaphore.wait(timeout: DispatchTime.distantFuture)
+        semaphore.wait(timeout: .distantFuture)
         
     }
     
@@ -92,7 +92,7 @@ class RepositoryIssueSyncOperation: RepositoryBaseSyncOperation {
                 
                 if shouldSave {
                     QIssueStore.save(issue)
-                    let syncDate = issue.updatedAt ?? issue.createdAt
+                    let syncDate = issue.updatedAt
                     QRepositoryStore.saveDeltaSyncDate(syncDate, for: strongSelf.repository)
                 }
             }

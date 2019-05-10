@@ -76,7 +76,7 @@ extension IssueExtensionsDataSource: QStoreObserver {
     func store(_ store: AnyClass!, didRemoveRecord record: Any!) {
         guard let record = record as? SRExtension , store == SRExtensionStore.self else { return }
         self.accessQueue.sync(flags: .barrier, execute: {
-            if let index = self.extensions.index(of: record) {
+            if let index = self.extensions.firstIndex(of: record) {
                 self.extensions.remove(at: index)
                 if let onRecordDeletion = self.onRecordDeletion {
                     onRecordDeletion(record, index)
@@ -88,7 +88,7 @@ extension IssueExtensionsDataSource: QStoreObserver {
     func store(_ store: AnyClass!, didUpdateRecord record: Any!) {
         guard let record = record as? SRExtension , store == SRExtensionStore.self else { return }
         self.accessQueue.sync(flags: .barrier, execute: {
-            if let index = self.extensions.index(of: record) {
+            if let index = self.extensions.firstIndex(of: record) {
                 self.extensions[index] = record
                 if let onRecordUpdate = self.onRecordUpdate {
                     onRecordUpdate(record, index)

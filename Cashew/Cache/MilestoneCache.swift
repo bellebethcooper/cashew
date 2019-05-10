@@ -25,7 +25,7 @@ class MilestoneCache: NSObject {
         return _sharedCache!
     }
     
-    func removeObjectForKey(_ key: String) {
+    @objc func removeObjectForKey(_ key: String) {
         cache.removeObjectForKey(key)
     }
     

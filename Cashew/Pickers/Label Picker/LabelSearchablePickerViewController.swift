@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRLabelSearchablePickerViewController)
 class LabelSearchablePickerViewController: BaseViewController {
@@ -40,7 +41,7 @@ class LabelSearchablePickerViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    var popoverBackgroundColorFixEnabed = true {
+    @objc var popoverBackgroundColorFixEnabed = true {
         didSet {
             self.searchablePickerController?.popoverBackgroundColorFixEnabed = popoverBackgroundColorFixEnabed
         }
@@ -81,7 +82,7 @@ class LabelSearchablePickerViewController: BaseViewController {
                 cell.checked = true
             } else {
                 cell.accessoryView = GreenCheckboxView()
-                cell.checked = dataSource.isSelectedItem(item) ?? false
+                cell.checked = dataSource.isSelectedItem(item)
             }
             cell.accessoryView?.disableThemeObserver = true
             cell.accessoryView?.backgroundColor = NSColor.clear
@@ -101,13 +102,13 @@ class LabelSearchablePickerViewController: BaseViewController {
             })
         }
         
-        addChildViewController(searchablePickerController);
+        addChild(searchablePickerController);
         
         view.addSubview(searchablePickerController.view)
         searchablePickerController.view.pinAnchorsToSuperview()
         
         if let searchablePickerController = self.searchablePickerController {
-            searchablePickerController.removeFromParentViewController()
+            searchablePickerController.removeFromParent()
             searchablePickerController.view.removeFromSuperview()
             self.searchablePickerController = nil
         }
@@ -158,7 +159,7 @@ class LabelSearchablePickerViewController: BaseViewController {
                         } else {
                             errorString = ""
                         }
-                        DDLogError("LabelSearchablePickerVC doSave - error: \(errorString)")
+                        os_log("LabelSearchablePickerVC doSave - error: %@", log: .default, type: .error, errorString)
                     }
                     semaphore.signal()
                     })

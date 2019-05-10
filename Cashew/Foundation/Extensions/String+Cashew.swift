@@ -7,17 +7,17 @@
 //
 
 import Foundation
-
+import os.log
 
 extension String {
     
     func hasPrefixMatchingRegex(_ pattern: String) -> Bool {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive, .dotMatchesLineSeparators])
-            let matches = regex.matches(in: self, options: .reportCompletion, range: NSMakeRange(0, self.characters.count))
+            let matches = regex.matches(in: self, options: .reportCompletion, range: NSMakeRange(0, self.count))
             return matches.count > 0
         } catch {
-            DDLogDebug("error hasPrefixMatchingRegex.pattern -> \(pattern) error -> \(error)")
+            os_log("error hasPrefixMatchingRegex.pattern -> %@ error -> %@", log: .default, type: .debug, pattern, error.localizedDescription)
         }
         
         return false
@@ -27,10 +27,10 @@ extension String {
     func stringByReplaceOccurrencesOfRegex(_ pattern: String, withTemplate template: String) -> String? {
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive, .dotMatchesLineSeparators])
-            return regex.stringByReplacingMatches(in: self, options: .reportCompletion, range: NSMakeRange(0, self.characters.count), withTemplate: template)
+            return regex.stringByReplacingMatches(in: self, options: .reportCompletion, range: NSMakeRange(0, self.count), withTemplate: template)
             
         } catch {
-            DDLogDebug("error hasPrefixMatchingRegex.pattern -> \(pattern) error -> \(error)")
+            os_log("error hasPrefixMatchingRegex.pattern -> %@ error -> %@", log: .default, type: .debug, pattern, error.localizedDescription)
         }
         return self
     }

@@ -18,7 +18,7 @@
 #import "QUserQueryStore.h"
 #import "SRUserQueryNameViewController.h"
 #import "Cashew-Swift.h"
-
+@import os.log;
 
 @interface QIssuesSearchViewController () <NSTokenFieldDelegate, SRUserQueryNameViewControllerDelegate, NSPopoverDelegate, NSWindowDelegate>
 
@@ -508,7 +508,7 @@
 }
 
 - (void)dismissSuggestionWindowController {
-    DDLogDebug(@"QIssuesSearchVC dismissSuggestionWindowController");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "QIssuesSearchVC dismissSuggestionWindowController");
     [self.suggestionWindowController close];
     self.suggestionWindowController = nil;
 }

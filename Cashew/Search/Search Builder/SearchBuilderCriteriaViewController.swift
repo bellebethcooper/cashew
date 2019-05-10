@@ -13,7 +13,7 @@ class SearchBuilderValueComboBox: NSComboBox {
 }
 
 @objc(SRSearchBuilderCriteriaViewControllerDataSource)
-protocol SearchBuilderCriteriaViewControllerDataSource: NSObjectProtocol, NSComboBoxDataSource {
+protocol SearchBuilderCriteriaViewControllerDataSource: NSComboBoxDataSource {
     func criteriaFields() -> [String]
     func partsOfSpeechForCriteriaField(_ field: String) -> [String]
     func valuesForCriteriaField(_ field: String) -> [String]

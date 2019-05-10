@@ -33,7 +33,7 @@
             [smallImage lockFocus];
             [image setSize: self.bounds.size];
             [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-            [image drawAtPoint:NSZeroPoint fromRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) operation:NSCompositeCopy fraction:1.0];
+            [image drawAtPoint:NSZeroPoint fromRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) operation:NSCompositingOperationCopy fraction:1.0];
             [smallImage unlockFocus];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [CATransaction begin];
