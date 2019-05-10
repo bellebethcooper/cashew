@@ -179,7 +179,7 @@ static NSString *kQTitleKey = @"Title";
             NSTableColumn *column = [[NSTableColumn alloc] init];
             column.headerCell = [SRIssuesTableHeaderCell new];
             if ([columnId isEqualToString:@"#"] || [columnId isEqualToString:@"•"]) {
-                column.headerCell.alignment = NSCenterTextAlignment;
+                column.headerCell.alignment = NSTextAlignmentCenter;
             }
 //            column.headerCell.drawsBackground = true;
 //            column.headerCell.backgroundColor = [NSColor yellowColor];
@@ -225,7 +225,7 @@ static NSString *kQTitleKey = @"Title";
     if (self.tableView.headerView.menu == menu) {
         for (NSMenuItem *mi in menu.itemArray) {
             NSTableColumn *col = [mi representedObject];
-            [mi setState:col.isHidden ? NSOffState : NSOnState];
+            [mi setState:col.isHidden ? NSControlStateValueOff : NSControlStateValueOn];
         }
     }
 }
@@ -812,13 +812,13 @@ static NSString *kQTitleKey = @"Title";
             
             [menu addObject:[NSMenuItem separatorItem]];
             NSMenuItem *ascending = [[NSMenuItem alloc] initWithTitle:@"Ascending" action:@selector(_sortAscending) keyEquivalent:@""];
-            [ascending setState:_filter.ascending?NSOnState:NSOffState];
+            [ascending setState:_filter.ascending?NSControlStateValueOn:NSControlStateValueOff];
             [ascending setEnabled:YES];
             [ascending setTarget:self];
             [menu addObject:ascending];
             
             NSMenuItem *descending = [[NSMenuItem alloc] initWithTitle:@"Descending" action:@selector(_sortDescending) keyEquivalent:@""];
-            [descending setState:_filter.ascending?NSOffState:NSOnState];
+            [descending setState:_filter.ascending?NSControlStateValueOff:NSControlStateValueOn];
             [descending setEnabled:YES];
             [descending setTarget:self];
             

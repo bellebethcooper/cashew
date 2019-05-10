@@ -26,7 +26,7 @@ class NewIssueLabelsTokenFieldDelegate: NSObject {
 
 extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     
-    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
+    private func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
         os_log("NewIssueLabelsTokenFieldDelegate completionsForSubstring - %@ selectedIndex = %d", log: .default, type: .debug, substring, selectedIndex?.pointee.pointee ?? "")
         let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if let repo = self.repository,
@@ -50,8 +50,7 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
         if let tokenField = notification.object as? NSTokenField {
             var finalTokenList = [String]()
             
-            if let tokens = tokenField.objectValue as? [String],
-                let repo = self.repository {
+            if let tokens = tokenField.objectValue as? [String] { //, let repo = self.repository {
                 tokens.forEach({ (token) in
 //                    let labels = QLabelStore.searchLabels(withQuery: token,
 //                                                          forAccountId: repo.account.identifier,

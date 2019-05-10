@@ -35,7 +35,7 @@ class RepositoryAssigneeSyncOperation: RepositoryBaseSyncOperation {
             guard let strongSelf = self else { return }
             successful = (err == nil && !strongSelf.isCancelled)
         }
-        semaphore.wait(timeout: DispatchTime.distantFuture)
+        semaphore.wait(timeout: .distantFuture)
         
         if successful {
             ownersSet.forEach { (owner) in
@@ -56,7 +56,7 @@ class RepositoryAssigneeSyncOperation: RepositoryBaseSyncOperation {
         
         repositoriesService.assignees(for: repository, pageNumber: pageNumber, pageSize: RepositoryAssigneeSyncOperation.pageSize) { [weak self] (owners, context, err) in
             guard let owners = owners as? [QOwner], let strongSelf = self , err == nil else {
-                onCompletion(err as! NSError)
+                onCompletion(err as? NSError)
                 return
             }
             

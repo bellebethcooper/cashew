@@ -79,7 +79,6 @@ private class PopoverFixBackgroundView: NSView {
             self.layer?.borderColor = borderColor?.cgColor
             self.layer?.borderWidth = 1
             CATransaction.commit()
-            self.window?.contentView
         }
     }
     

@@ -35,7 +35,7 @@ class RepositoryMilestoneSyncOperation: RepositoryBaseSyncOperation {
             guard let strongSelf = self else { return }
             successful = (err == nil && !strongSelf.isCancelled)
         }
-        semaphore.wait(timeout: DispatchTime.distantFuture)
+        semaphore.wait(timeout: .distantFuture)
         
         if successful {
             // hide milestones that don't exist on server

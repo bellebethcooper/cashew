@@ -34,9 +34,8 @@ extension Sequence {
         let orderedSet = NSMutableOrderedSet()
         forEach { (element) in
             do {
-                if let transformed = try transform(element) as? AnyObject {
-                    orderedSet.add(transformed)
-                }
+                let transformed = try transform(element)
+                orderedSet.add(transformed)
             } catch {
                 //throw e
             }

@@ -33,7 +33,7 @@ class SourceListCloudKitService: BaseCloudKitService {
 //                        group.leave()
 //                    })
 //                }
-//                group.wait(timeout: DispatchTime.distantFuture);
+//                group.wait(timeout: .distantFuture);
 //
 //                onCompletion(deleteRecords as AnyObject?, error)
 //            })
@@ -143,7 +143,7 @@ extension SourceListCloudKitService {
             }
         }
         
-        group.wait(timeout: DispatchTime.distantFuture); // FIXME: probably a bad idea
+        group.wait(timeout: .distantFuture); // FIXME: probably a bad idea
         onCompletion(repositories as AnyObject, nil)
     }
     

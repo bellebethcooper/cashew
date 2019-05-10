@@ -955,7 +955,7 @@ class InternalMarkdownEditorTextView: NSTextView {
                 }
             } else if let types = pasteboard.types , types.contains(.string) {
                 if let types = pasteboard.types , types.contains(.string) {
-                    if let text = sender.draggingPasteboard.string(forType: .string) as? String {
+                    if let text = sender.draggingPasteboard.string(forType: .string) {
                         self.insertText(text, replacementRange: self.selectedRange())
                     }
                 }
@@ -1077,7 +1077,7 @@ class InternalMarkdownEditorTextView: NSTextView {
                 }
             }
             
-            group.wait(timeout: DispatchTime.distantFuture)
+            group.wait(timeout: .distantFuture)
             
             DispatchOnMainQueue {
                 if images.count > 0 {

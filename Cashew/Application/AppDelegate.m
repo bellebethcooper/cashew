@@ -642,7 +642,7 @@
         }
         
         __weak AppDelegate *weakSelf = self;
-        self.popoverEventMonitor = [[SREventMonitor alloc] initWithMask:NSLeftMouseDownMask|NSRightMouseDownMask handler:^(NSEvent * event) {
+        self.popoverEventMonitor = [[SREventMonitor alloc] initWithMask:NSEventMaskLeftMouseDown|NSEventMaskRightMouseDown handler:^(NSEvent * event) {
             NSView *contentView = weakSelf.statusBarPopover.contentViewController.view;
             NSRect screenRect = [contentView.window convertRectToScreen:contentView.frame];
             NSPoint locationInWindow = [event locationInWindow];
@@ -1913,7 +1913,7 @@
         [alert addButtonWithTitle:@"OK"];
         [alert addButtonWithTitle:@"Cancel"];
         [alert setMessageText:message];
-        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setAlertStyle:NSAlertStyleWarning];
         
         if ([alert runModal] == NSAlertFirstButtonReturn) {
             block();
@@ -1955,7 +1955,7 @@
     [alert addButtonWithTitle:@"OK"];
     [alert addButtonWithTitle:@"Cancel"];
     [alert setMessageText:message];
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
     
     if ([alert runModal] == NSAlertFirstButtonReturn) {
         NSOperationQueue *operationQueue = [NSOperationQueue new];

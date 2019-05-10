@@ -140,7 +140,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
 
     }
@@ -175,7 +175,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -213,7 +213,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
         
     }
@@ -251,7 +251,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -295,7 +295,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -331,7 +331,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -367,7 +367,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -403,7 +403,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     

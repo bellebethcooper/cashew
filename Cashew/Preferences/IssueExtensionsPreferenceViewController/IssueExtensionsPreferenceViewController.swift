@@ -199,7 +199,7 @@ extension IssueExtensionsPreferenceViewController: NSWindowDelegate {
         
         var aWindowController: BaseModalWindowController?
         for controller in windowControllers {
-            if let sender = sender as? NSWindow , controller.window == sender {
+            if controller.window == sender {
                 aWindowController = controller
                 break
             }

@@ -123,7 +123,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
     }
     
     var code: String {
-        return codeEditorView.code ?? ""
+        return codeEditorView.code
     }
     
     fileprivate func setupConsoleTextView() {
@@ -335,7 +335,7 @@ class IssueExtensionCodeEditorViewController: NSViewController {
             expandDebugConsole()
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+        DispatchQueue.global(qos: .background).async {
             let issues = QIssueStore.issues(with: filter, pagination: pagination).map({ $0.toExtensionModel() })
             IssueExtensionsJSContextRunner(environment: self).runWithIssues(issues as [NSDictionary], sourceCode: self.codeEditorView.code)
         }

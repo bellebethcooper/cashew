@@ -184,7 +184,7 @@ class StatusBarViewController: NSViewController {
             filter.states = NSOrderedSet(object: NSNumber(value: IssueStoreIssueState_Open))
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
+        DispatchQueue.global(qos: .userInitiated).async(execute: {
             self.dataSource.fetchIssuesWithFilter(filter)
             DispatchQueue.main.async {
                 // self.tableView.sizeToFit()

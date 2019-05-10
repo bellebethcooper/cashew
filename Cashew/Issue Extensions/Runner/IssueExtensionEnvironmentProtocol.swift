@@ -46,7 +46,7 @@ protocol IssueServiceExtensionEnvironmentProtocol: NSObjectProtocol {
 }
 
 @objc(SRCodeExtensionEnvironmentProtocol)
-protocol CodeExtensionEnvironmentProtocol: NSObjectProtocol, IssueServiceExtensionEnvironmentProtocol, MilestoneServiceExtensionEnvironmentProtocol, OwnerServiceExtensionEnvironmentProtocol, LabelServiceExtensionEnvironmentProtocol {
+protocol CodeExtensionEnvironmentProtocol: IssueServiceExtensionEnvironmentProtocol, MilestoneServiceExtensionEnvironmentProtocol, OwnerServiceExtensionEnvironmentProtocol, LabelServiceExtensionEnvironmentProtocol {
     
     func consoleLog(_ arguments: [AnyObject], logLevel: LogLevel);
     func exceptionLog(_ line: String, column: String, stacktrace: String, exception: String);

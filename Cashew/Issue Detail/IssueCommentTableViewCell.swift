@@ -347,13 +347,6 @@ class ReactionButton: NSButton {
                     }
                     
                     QIssueStore.save(updatedIssue)
-                } else {
-                    let errorString: String
-                    if let error = error {
-                        errorString = error.localizedDescription
-                    } else {
-                        errorString = ""
-                    }
                 }
                 
                 DispatchQueue.main.async {
@@ -374,13 +367,6 @@ class ReactionButton: NSButton {
                         onCommentDiscard()
                     }
                     QIssueCommentStore.save(updatedIssueComment)
-                } else {
-                    let errorString: String
-                    if let error = error {
-                        errorString = error.localizedDescription
-                    } else {
-                        errorString = ""
-                    }
                 }
                 DispatchQueue.main.async {
                     

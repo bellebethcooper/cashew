@@ -15,7 +15,7 @@ public extension Date {
     fileprivate static var fullDateFormatterToken: Int = 0
     fileprivate static var fullDateFormatterInstance: DateFormatter?
     
-    public static var fullDateFormatter: DateFormatter = {
+    static var fullDateFormatter: DateFormatter = {
         fullDateFormatterInstance = DateFormatter()
         fullDateFormatterInstance?.dateFormat = "M/d/yy"
         return fullDateFormatterInstance!
@@ -30,7 +30,7 @@ public extension Date {
     fileprivate static var githubDateFormatterToken: Int = 0
     fileprivate static var githubDateFormatterInstance: DateFormatter?
     
-    public static var githubDateFormatter: DateFormatter = {
+    static var githubDateFormatter: DateFormatter = {
         githubDateFormatterInstance = DateFormatter()
         githubDateFormatterInstance?.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return githubDateFormatterInstance!
