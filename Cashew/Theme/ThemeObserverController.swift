@@ -144,6 +144,7 @@ extension UserDefaults {
         UserDefaults.standard.removeObserver(observer, forKeyPath: UserDefaults.ThemeConstant.themeMode)
     }
     
+    @objc
     class func themeMode() -> ThemeMode {
         let value = UserDefaults.standard.integer(forKey: UserDefaults.ThemeConstant.themeMode)
         return ThemeMode(rawValue: value) ?? ThemeMode.light

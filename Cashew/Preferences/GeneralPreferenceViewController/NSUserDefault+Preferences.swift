@@ -212,31 +212,38 @@ extension UserDefaults {
 
 extension UserDefaults {
     
+    @objc
     class func shouldShowBothOpenAndClosedInRepositorySearch() -> Bool {
         return UserDefaults.repositorySearchPreference() == .all
     }
 
+    @objc
     class func shouldShowBothOpenAndClosedInMilestoneSearch() -> Bool {
         return UserDefaults.milestoneSearchPreference() == .all
     }
     
+    @objc
     class func shouldShowOnlyOpenInRepositorySearch() -> Bool {
         return UserDefaults.repositorySearchPreference() == .open
     }
-    
+
+    @objc
     class func shouldShowOnlyOpenInMilestoneSearch() -> Bool {
         return UserDefaults.milestoneSearchPreference() == .open
     }
     
+    @objc
     class func shouldShowOnlyOpenMilestonesInIssueCreation() -> Bool {
         return UserDefaults.milestoneIssueCreationPreference() == .open
     }
-    
+
+    @objc
     class func shouldShowIssueCloseWarning() -> Bool {
         return UserDefaults.closeIssueWarningPreference() == .enabled
     }
     
-    @objc class func layoutModeKeyPath() -> String {
+    @objc
+    class func layoutModeKeyPath() -> String {
         return UserDefaults.PreferenceConstant.layoutMode
     }
 }

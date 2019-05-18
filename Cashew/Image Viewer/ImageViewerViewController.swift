@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 @objc(SRImageViewerItemViewController)
 class ImageViewerItemViewController: BaseViewController { }
@@ -75,12 +76,12 @@ class ImageViewerViewController: NSViewController {
         previousImageButton.image = previousImageButton.image?.withTintColor(NSColor.white)
     }
     
-    func windowWillStartLiveResize(_ notification: Notification) {
+    @objc func windowWillStartLiveResize(_ notification: Notification) {
         guard let window = self.view.window, let senderWindow = notification.object as? NSWindow , senderWindow == window else { return }
         //pageWhileResizing = currentPage
     }
     
-    func windowDidEndLiveResize(_ notification: Notification) {
+    @objc func windowDidEndLiveResize(_ notification: Notification) {
         // guard let window = self.view.window, senderWindow = notification.object as? NSWindow where senderWindow == window else { return }
         //  pageWhileResizing = nil
     }
@@ -126,7 +127,7 @@ extension ImageViewerViewController: NSPageControllerDelegate {
     
     func pageController(_ pageController: NSPageController, identifierFor object: Any) -> String {
         
-        if let url = object as? URL, let index = imageURLs.index(of: url) {
+        if let url = object as? URL, let index = imageURLs.firstIndex(of: url) {
             return String(index)
         }
         
@@ -192,7 +193,7 @@ extension ImageViewerViewController: NSPageControllerDelegate {
             progressIndicator.startAnimation(nil)
             QImageManager.shared().downloadImageURL(url, onCompletion: { [weak self] (image, downloadURL, err) in
                 guard let strongSelf = self , downloadURL == url && err == nil else {
-                    DDLogDebug("error downloading \(err)")
+                    os_log("Error downloading: %@", log: .default, type: .debug, err!.localizedDescription)
                     DispatchQueue.main.async {
                         progressIndicator.stopAnimation(nil)
                         progressIndicator.removeFromSuperview()

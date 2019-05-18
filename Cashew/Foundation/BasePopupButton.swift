@@ -128,7 +128,7 @@ class BasePopupButton: BaseView {
     }
     
     @objc func chevronImage(_ color: NSColor = CashewColor.foregroundColor()) -> NSImage {
-        let image = NSImage(named: NSImage.Name(rawValue: "chevron-down"))!.withTintColor(color)
+        let image = NSImage(named: "chevron-down")!.withTintColor(color)
         image?.size = BasePopupButton.chevronImageSize
         return image!
     }

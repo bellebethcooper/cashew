@@ -12,6 +12,7 @@
 #import "QIssueNotificationStore.h"
 #import "QAccountStore.h"
 #import "QRepositoryStore.h"
+@import os.log;
 
 @interface SRIssueNotificationSyncer() <QStoreObserver>
 
@@ -73,7 +74,7 @@
         
         if (error != nil) {
             //DDLogDebug(@"error fetching notifications -> %@", error);
-            DDLogDebug(@"[ERROR] done fetching notifications for account = %@ lastModified = %@", account.username, context.lastModified);
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "[ERROR] done fetching notifications for account = %@ lastModified = %@", account.username, context.lastModified);
             return;
         }
         
@@ -81,7 +82,7 @@
             NSDictionary *subject = notification[@"subject"];
             
             if (!subject || ![@"Issue" isEqualToString:subject[@"type"]]) {
-                DDLogDebug(@"skipping notification %@", notification);
+                os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "skipping notification %@", notification);
                 return;
             }
             
@@ -116,10 +117,10 @@
         
         
         if (context.nextPageNumber) {
-            DDLogDebug(@"fetching next notification set %@ for account = %@", context.nextPageNumber, account.username);
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "fetching next notification set %@ for account = %@", context.nextPageNumber, account.username);
             [self _fetchNotificationsForAccount:account sinceDate:date pageNumber:context.nextPageNumber.integerValue pageSize:pageSize];
         } else {
-            DDLogDebug(@"done fetching notifications for account = %@ lastModified = %@", account.username, context.lastModified);
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "done fetching notifications for account = %@ lastModified = %@", account.username, context.lastModified);
             if (context.lastModified) {
                 [QIssueNotificationStore saveNotificationModifiedOnDate:context.lastModified forAccountId:account.identifier];
             }

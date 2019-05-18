@@ -1,0 +1,4 @@
+github "AFNetworking/AFNetworking" "3.2.1"
+github "ccgus/fmdb" "2.7.5"
+github "nicklockwood/FXKeychain" "1.5.3"
+github "tonyarnold/HotKey" "v0.1.1"

@@ -188,33 +188,33 @@ class MarkdownEditorToolbarView: BaseView {
 //        buttonsConstraints.append(previewButton.leftAnchor.constraintGreaterThanOrEqualToAnchor(previousView.rightAnchor, constant: 16))
         
         let color = LightModeColor.sharedInstance.foregroundSecondaryColor()
-        tasklistButton.image = NSImage(named: NSImage.Name(rawValue: "tasklist"))?.withTintColor(color)
+        tasklistButton.image = NSImage(named: "tasklist")?.withTintColor(color)
         tasklistButton.toolTip = "Add task list"
-        orderedListButton.image = NSImage(named: NSImage.Name(rawValue: "list-ordered"))?.withTintColor(color)
+        orderedListButton.image = NSImage(named: "list-ordered")?.withTintColor(color)
         orderedListButton.toolTip = "Add a numbered list"
-        unorderedListButton.image = NSImage(named: NSImage.Name(rawValue: "list-unordered"))?.withTintColor(color)
+        unorderedListButton.image = NSImage(named: "list-unordered")?.withTintColor(color)
         unorderedListButton.toolTip = "Add a bulleted list"
-        linkButton.image = NSImage(named: NSImage.Name(rawValue: "link"))?.withTintColor(color)
+        linkButton.image = NSImage(named: "link")?.withTintColor(color)
         linkButton.toolTip = "Add a link <cmd+k>"
-        codeButton.image = NSImage(named: NSImage.Name(rawValue: "code"))?.withTintColor(color)
+        codeButton.image = NSImage(named: "code")?.withTintColor(color)
         codeButton.toolTip = "Insert code"
-        quoteButton.image = NSImage(named: NSImage.Name(rawValue: "quote"))?.withTintColor(color)
+        quoteButton.image = NSImage(named: "quote")?.withTintColor(color)
         quoteButton.toolTip = "Insert a quote"
-        italicButton.image = NSImage(named: NSImage.Name(rawValue: "italic"))?.withTintColor(color)
+        italicButton.image = NSImage(named: "italic")?.withTintColor(color)
         italicButton.toolTip = "Add italic text <cmd+i>"
-        boldButton.image = NSImage(named: NSImage.Name(rawValue: "bold"))?.withTintColor(color)
+        boldButton.image = NSImage(named: "bold")?.withTintColor(color)
         boldButton.toolTip = "Add bold text <cmd+b>"
-        textSizeButton.image = NSImage(named: NSImage.Name(rawValue: "text-size"))!.withTintColor(color)
+        textSizeButton.image = NSImage(named: "text-size")!.withTintColor(color)
         textSizeButton.toolTip = "Add header text"
-        filePickerButton.image = NSImage(named: NSImage.Name(rawValue: "add-file"))!.withTintColor(color)
+        filePickerButton.image = NSImage(named: "add-file")!.withTintColor(color)
         filePickerButton.toolTip = "Select file to upload"
-        gifButton.image = NSImage(named: NSImage.Name(rawValue: "giphy"))! //.imageWithTintColor(color)
+        gifButton.image = NSImage(named: "giphy")! //.imageWithTintColor(color)
         gifButton.toolTip = "Insert GIF"
-        emojiButton.image = NSImage(named: NSImage.Name(rawValue: "emoji"))!.withTintColor(color) //.imageWithTintColor(color)
+        emojiButton.image = NSImage(named: "emoji")!.withTintColor(color) //.imageWithTintColor(color)
         emojiButton.toolTip = "Insert emoji"
-        previewButton.image = NSImage(named: NSImage.Name(rawValue: "preview"))?.withTintColor(color)
+        previewButton.image = NSImage(named: "preview")?.withTintColor(color)
         previewButton.toolTip = "Preview"
-        helpButton.image = NSImage(named: NSImage.Name(rawValue: "help"))?.withTintColor(color)
+        helpButton.image = NSImage(named: "help")?.withTintColor(color)
         helpButton.toolTip = "Markdown tutorial"
         
         

@@ -11,7 +11,7 @@ import Cocoa
 @objc(SRIssueCellView)
 class IssueCellView: NSTableCellView {
     
-    let label = BaseLabel()
+    @objc let label = BaseLabel()
     
     required init() {
         super.init(frame: NSRect.zero)
@@ -46,7 +46,7 @@ class DotIssueCellView: IssueCellView {
         QIssueStore.remove(self)
     }
     
-    var issue: QIssue? {
+    @objc var issue: QIssue? {
         didSet {
             SyncDispatchOnMainQueue {                
                 if let issue = self.issue, let notification = issue.notification , notification.read == false {

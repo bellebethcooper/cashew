@@ -316,7 +316,8 @@ class CommentEditorView: BaseView {
     @objc func clearText() {
         textView.string = ""
     }
-    
+
+    @objc
     func clearPreviewModeIfNecessary() {
         textView.clearPreviewModeIfNecessary()
     }

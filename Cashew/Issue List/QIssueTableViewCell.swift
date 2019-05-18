@@ -59,6 +59,7 @@ class QIssueTableViewCellCircleImageView: NSImageView {
 
 // MARK: - 
 
+@objc
 class QIssueTableViewCell: NSTableRowView {
     
     @IBOutlet weak var closedImageViewLeftConstraint: NSLayoutConstraint!
@@ -293,10 +294,10 @@ class QIssueTableViewCell: NSTableRowView {
     fileprivate static let imageCache: [String: NSImage] = {
         var dict = [String: NSImage]()
         
-        let repoImage = NSImage(named: NSImage.Name(rawValue: "repo"))!
+        let repoImage = NSImage(named: "repo")!
         repoImage.size = NSSize(width: 9.0, height: 12.0)
         
-        let milestoneImage = NSImage(named: NSImage.Name(rawValue: "milestone"))!
+        let milestoneImage = NSImage(named: "milestone")!
         milestoneImage.size = NSSize(width: 10.0, height: 12.0)
         
         dict["repo-small-light-selected"] = repoImage.withTintColor(QIssueTableViewCell.repoMilestoneSelectedLightColor)
@@ -323,7 +324,7 @@ class QIssueTableViewCell: NSTableRowView {
                 return QIssueTableViewCell.imageCache["repo-small-dark"]!
             }
             
-            return NSImage(named: NSImage.Name(rawValue: "repo-small"))!
+            return NSImage(named: "repo-small")!
         }
     }
     
@@ -336,7 +337,7 @@ class QIssueTableViewCell: NSTableRowView {
                 return QIssueTableViewCell.imageCache["repo-small-dark-selected"]!
             }
             
-            return NSImage(named: NSImage.Name(rawValue: "repo-small-selected"))!
+            return NSImage(named: "repo-small-selected")!
         }
     }
     
@@ -349,7 +350,7 @@ class QIssueTableViewCell: NSTableRowView {
                 return QIssueTableViewCell.imageCache["milestone-small-dark"]!
             }
             
-            return NSImage(named: NSImage.Name(rawValue: "milestone-small"))!
+            return NSImage(named: "milestone-small")!
         }
     }
     
@@ -362,7 +363,7 @@ class QIssueTableViewCell: NSTableRowView {
                 return QIssueTableViewCell.imageCache["milestone-small-dark-selected"]!
             }
             
-            return NSImage(named: NSImage.Name(rawValue: "milestone-small-selected"))!
+            return NSImage(named: "milestone-small-selected")!
         }
     }
     
@@ -421,10 +422,10 @@ class QIssueTableViewCell: NSTableRowView {
         let title = NSMutableAttributedString(string: titleString)
         // make number bold
         let numberRange = NSMakeRange(0, numberString.count)
-        title.setAttributes([NSAttributedStringKey.font: QIssueTableViewCell.titleNumberLabelFont], range: numberRange)
+        title.setAttributes([NSAttributedString.Key.font: QIssueTableViewCell.titleNumberLabelFont], range: numberRange)
         // make title not bold
         let titleRange = NSMakeRange(numberString.count + 3, anIssue.title.count) // add 3 for the spaces and mid dot
-        title.setAttributes([NSAttributedStringKey.font: QIssueTableViewCell.titleLabelFont], range: titleRange)
+        title.setAttributes([NSAttributedString.Key.font: QIssueTableViewCell.titleLabelFont], range: titleRange)
         titleLabel.attributedStringValue = title
         
         closedIssueImageView.isHidden = true
@@ -505,8 +506,8 @@ class QIssueTableViewCell: NSTableRowView {
         let subtitleTextColor = isSelected ? subtitleLabelSelectedColor : subtitleLabelColor
         let subtitleAttrString = NSMutableAttributedString(string: "") //Opened \(issue.createdAtTimeAgo) by \(issue.authorUsername)   ")
         let subtitleRange = NSMakeRange(0, subtitleAttrString.length)
-        subtitleAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleFont, range: subtitleRange)
-        subtitleAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: subtitleTextColor, range: subtitleRange)
+        subtitleAttrString.addAttribute(NSAttributedString.Key.font, value: QIssueTableViewCell.subtitleFont, range: subtitleRange)
+        subtitleAttrString.addAttribute(NSAttributedString.Key.foregroundColor, value: subtitleTextColor, range: subtitleRange)
         
         // repo
         let repoMilestoneTextColor = isSelected ? subtitleRepoMilestoneSelectedColor : subtitleRepoMilestoneColor
@@ -524,8 +525,8 @@ class QIssueTableViewCell: NSTableRowView {
         
         
         let repoRange = NSMakeRange(0, repoAttrString.length)
-        repoAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: repoRange)
-        repoAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: repoMilestoneTextColor, range: repoRange)
+        repoAttrString.addAttribute(NSAttributedString.Key.font, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: repoRange)
+        repoAttrString.addAttribute(NSAttributedString.Key.foregroundColor, value: repoMilestoneTextColor, range: repoRange)
         subtitleAttrString.append(repoAttrString)
         
         // milestone
@@ -544,14 +545,14 @@ class QIssueTableViewCell: NSTableRowView {
             milestoneAttrString.append(NSAttributedString(string: " \(issue.milestoneTitle)"))
             
             let milestoneRange = NSMakeRange(0, milestoneAttrString.length)
-            milestoneAttrString.addAttribute(NSAttributedStringKey.font, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: milestoneRange)
-            milestoneAttrString.addAttribute(NSAttributedStringKey.foregroundColor, value: repoMilestoneTextColor, range: milestoneRange)
+            milestoneAttrString.addAttribute(NSAttributedString.Key.font, value: QIssueTableViewCell.subtitleRepoMilestoneFont, range: milestoneRange)
+            milestoneAttrString.addAttribute(NSAttributedString.Key.foregroundColor, value: repoMilestoneTextColor, range: milestoneRange)
             subtitleAttrString.append(milestoneAttrString)
         }
         
         let paragaphStyle = NSMutableParagraphStyle()
         paragaphStyle.lineBreakMode = .byTruncatingTail;
-        subtitleAttrString.addAttribute(kCTParagraphStyleAttributeName as NSAttributedStringKey, value: paragaphStyle, range: NSMakeRange(0, subtitleAttrString.length))
+        subtitleAttrString.addAttribute(kCTParagraphStyleAttributeName as NSAttributedString.Key, value: paragaphStyle, range: NSMakeRange(0, subtitleAttrString.length))
         
         return subtitleAttrString
     }
@@ -738,7 +739,7 @@ class QIssueTableViewCell: NSTableRowView {
         }
     }
     
-    override func view(_ view: NSView, stringForToolTip tag: NSView.ToolTipTag, point: NSPoint, userData data: UnsafeMutableRawPointer?) -> String {
+    func view(_ view: NSView, stringForToolTip tag: NSView.ToolTipTag, point: NSPoint, userData data: UnsafeMutableRawPointer?) -> String {
         guard let issue = self.issue else { return "" }
         if  issueStatusTooltipTag == tag { //NSPointInRect(point, self.closedIssueImageView.frame) {
             switch viewType {
@@ -802,13 +803,14 @@ extension QIssueTableViewCell: QStoreObserver {
 }
 
 extension QIssueTableViewCell {
+    @objc
     class func instantiateFromNib() -> QIssueTableViewCell? {
         var viewArray: NSArray?
         let className = NSStringFromClass(QIssueTableViewCell.self).components(separatedBy: ".").last! as String
         
         //DDLogDebug(" viewType = %@", className)
         assert(Thread.isMainThread)
-        Bundle.main.loadNibNamed(NSNib.Name(rawValue: className), owner: nil, topLevelObjects: &viewArray)
+        Bundle.main.loadNibNamed(className, owner: nil, topLevelObjects: &viewArray)
         
         for view in viewArray as! [NSObject] {
             if object_getClass(view) == QIssueTableViewCell.self {

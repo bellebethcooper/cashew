@@ -8,6 +8,7 @@
 
 #import "QThrottler.h"
 #import "Cashew-Swift.h"
+@import os.log;
 
 @implementation QThrottler {
     NSInteger _batchSize;
@@ -35,7 +36,7 @@
     dispatch_sync(_serialQueue, ^{
         _currentCount++;
         if (_currentCount % _batchSize == 0) {
-            DDLogDebug(@"throttled batchSize=%@ sleepInterval=%@ currentCount=%@", @(_batchSize), @(_sleepInterval), @(_currentCount));
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "throttled batchSize=%@ sleepInterval=%@ currentCount=%@", @(_batchSize), @(_sleepInterval), @(_currentCount));
             [NSThread sleepForTimeInterval:_sleepInterval];
         }
     });

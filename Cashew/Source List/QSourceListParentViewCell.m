@@ -7,6 +7,7 @@
 //
 
 #import "QSourceListParentViewCell.h"
+@import os.log;
 
 @interface QSourceListParentViewCell ()
 @property (weak) IBOutlet NSTextField *headerLabel;
@@ -81,13 +82,13 @@
 
 - (void)a_deleteAccount:(id)sender
 {
-    DDLogDebug(@"did delete account");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "did delete account");
     //  [_delegate headerSourceListViewCell:self didDeleteObjectValue:_node];
 }
 
 - (void)a_renameAccount:(id)sender
 {
-    DDLogDebug(@"did rename account");
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "did rename account");
 }
 
 - (void)setSelected:(BOOL)selected

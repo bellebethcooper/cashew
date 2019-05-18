@@ -23,6 +23,7 @@
 #import "QOwnerStore.h"
 #import "QUserQueryStore.h"
 #import "Cashew-Swift.h"
+@import os.log;
 
 @interface QSourceListDataSource ()<QStoreObserver>
 @property (nonatomic) NSMutableArray<QSourceListNode *> *sections;
@@ -976,7 +977,7 @@
 
 - (void)store:(Class)store didRemoveRecord:(id<NSObject>)record;
 {
-    DDLogDebug(@"SOURCE_LIST: removing record %@", record);
+    os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_DEBUG, "SOURCE_LIST: removing record %@", record);
     if ([record isKindOfClass:QRepository.class]) {
         [self _didRemoveRepository:(QRepository *)record];
     } else if ([record isKindOfClass:QUserQuery.class]) {

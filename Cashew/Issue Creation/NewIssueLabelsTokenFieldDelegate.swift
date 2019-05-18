@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import os.log
 
 class NewIssueLabelsTokenFieldDelegate: NSObject {
     var repository: QRepository? {
@@ -25,8 +26,8 @@ class NewIssueLabelsTokenFieldDelegate: NSObject {
 
 extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     
-    func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
-        DDLogDebug("NewIssueLabelsTokenFieldDelegate completionsForSubstring - \(substring) selectedIndex = \(selectedIndex)")
+    private func tokenField(_ tokenField: NSTokenField, completionsForSubstring substring: String, indexOfToken tokenIndex: Int, indexOfSelectedItem selectedIndex: UnsafeMutablePointer<UnsafeMutablePointer<Int>>?) -> [Any]? {
+        os_log("NewIssueLabelsTokenFieldDelegate completionsForSubstring - %@ selectedIndex = %d", log: .default, type: .debug, substring, selectedIndex?.pointee.pointee ?? "")
         let trimmedSubstring = substring.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if let repo = self.repository,
             trimmedSubstring.lengthOfBytes(using: String.Encoding.utf8) > 0 {
@@ -44,13 +45,12 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
         }
     }
     
-    override func controlTextDidEndEditing(_ notification: Notification) {
-        DDLogDebug("NewIssueLabelsTokenFieldDelegate controlTextDidEnd")
+    func controlTextDidEndEditing(_ notification: Notification) {
+        os_log("NewIssueLabelsTokenFieldDelegate controlTextDidEnd", log: .default, type: .debug)
         if let tokenField = notification.object as? NSTokenField {
             var finalTokenList = [String]()
             
-            if let tokens = tokenField.objectValue as? [String],
-                let repo = self.repository {
+            if let tokens = tokenField.objectValue as? [String] { //, let repo = self.repository {
                 tokens.forEach({ (token) in
 //                    let labels = QLabelStore.searchLabels(withQuery: token,
 //                                                          forAccountId: repo.account.identifier,
@@ -69,16 +69,17 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
     }
     
     func tokenField(_ tokenField: NSTokenField, shouldAdd tokens: [Any], at index: Int) -> [Any] {
-        DDLogDebug("NewIssueLabelsTokenFieldDelegate tokenField shouldAdd - tokens = \(tokens) index = \(index)")
+        os_log("NewIssueLabelsTokenFieldDelegate tokenField shouldAdd - tokens = %@ index = %d", log: .default, type: .debug, tokens, index)
+
         guard let stringTokens = tokens as? [String] else { return tokens }
         var uniqueTokens = Set<String>()
         var countOfDups: Int = 0
         for token in stringTokens {
             if let existingTokens = tokenField.objectValue as? [String] {
-                DDLogDebug("NewIssueLabelsTokenFieldDelegate shouldAdd - existing tokens: \(existingTokens)")
+                os_log("NewIssueLabelsTokenFieldDelegate shouldAdd - existing tokens: %@", log: .default, type: .debug, existingTokens)
                 existingTokens.forEach { (existingToken) in
                     if (existingToken == token) {
-                        DDLogDebug("NewIssueLabelsTokenFieldDelegate shouldAdd - found dup of: \(token) in existing tokens: \(existingTokens)")
+                        os_log("NewIssueLabelsTokenFieldDelegate shouldAdd - found dup of: %@ in existing tokens: %@", log: .default, type: .debug, token, existingTokens)
                         countOfDups += 1
                     }
                 }
@@ -89,7 +90,7 @@ extension NewIssueLabelsTokenFieldDelegate: NSTokenFieldDelegate {
         }
         
         let resultTokens = Array(uniqueTokens)
-        DDLogDebug("NewIssueLabelsDelegate shouldAdd - returning: \(resultTokens)")
+        os_log("NewIssueLabelsDelegate shouldAdd - returning: %@", log: .default, type: .debug, resultTokens)
         return resultTokens
         
     }

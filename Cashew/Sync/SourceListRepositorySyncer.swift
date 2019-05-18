@@ -73,7 +73,7 @@ class SourceListRepositorySyncer: NSObject {
                     group.leave()
                 })
             }
-            group.wait(timeout: DispatchTime.distantFuture)
+            group.wait(timeout: .distantFuture)
             
             // make sure what is stored locally is saved remotely
             for account in accounts! {
@@ -86,7 +86,7 @@ class SourceListRepositorySyncer: NSObject {
                     })
                 })
             }
-            group.wait(timeout: DispatchTime.distantFuture)
+            group.wait(timeout: .distantFuture)
         }
     }
     
@@ -116,7 +116,7 @@ extension SourceListRepositorySyncer: QStoreObserver {
             strongSelf.repositoriesCloudKitService.saveRepository(repository, onCompletion: { (record, err) in
                 semaphore.signal();
             })
-            semaphore.wait(timeout: DispatchTime.distantFuture);
+            semaphore.wait(timeout: .distantFuture);
             //DDLogDebug("Done adding cloud repository \(record)")
         }
     }
@@ -135,7 +135,7 @@ extension SourceListRepositorySyncer: QStoreObserver {
             strongSelf.repositoriesCloudKitService.delete(repository, onCompletion: { (record, err) in
                 semaphore.signal();
             })
-            semaphore.wait(timeout: DispatchTime.distantFuture);
+            semaphore.wait(timeout: .distantFuture);
             //DDLogDebug("Done removing cloud repository \(record)")
         }
         

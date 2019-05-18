@@ -147,7 +147,7 @@ class BaseImageLabelButton: BaseView {
     
     
     fileprivate func calculateLabelSize() -> CGSize {
-        let textStorage = NSTextStorage(attributedString: NSAttributedString(string: viewModel.label, attributes: [NSAttributedStringKey.font : BaseImageLabelButton.foregroundFont]))
+        let textStorage = NSTextStorage(attributedString: NSAttributedString(string: viewModel.label, attributes: [NSAttributedString.Key.font : BaseImageLabelButton.foregroundFont]))
         let textContainer = NSTextContainer(containerSize: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude) )
         let layoutManager = NSLayoutManager()
         //        let attributes = [ NSFontAttributeName: font ] as [String : AnyObject]?

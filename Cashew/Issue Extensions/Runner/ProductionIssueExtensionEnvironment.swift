@@ -8,38 +8,19 @@
 
 import Cocoa
 import JavaScriptCore
-
-//(SRIssueExtensionLogFileManagerDefault)
-class IssueExtensionLogFileManagerDefault: DDLogFileManagerDefault {
-    //    let timestampFormatter: NSDateFormatter  = {
-    //        let formatter = NSDateFormatter()
-    //        formatter.dateFormat = "YYYY.MM.dd" //-HH.mm.ss"
-    //
-    //        return formatter
-    //    }()
-    
-    override var newLogFileName: String!  {
-        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier");
-        //let timestamp = timestampFormatter.stringFromDate(NSDate())
-        return "\(appName!)-CodeExtensions.log"
-    }
-    
-    override func isLogFile(withName fileName: String!) -> Bool {
-        return false
-    }
-    
-}
+import os.log
 
 @objc(SRProductionIssueExtensionEnvironment)
 class ProductionIssueExtensionEnvironment: NSObject, CodeExtensionEnvironmentProtocol {
-    
+
+    private let log = OSLog(subsystem: Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as! String, category: "Code Extensions")
+
     fileprivate var consoleLogDateFormatter: DateFormatter = {
         let consoleLogDateFormatter = DateFormatter()
         consoleLogDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return consoleLogDateFormatter
     }()
     
-    fileprivate static let codeExtensionLogContext: Int = 7654
     fileprivate let operationQueue = OperationQueue()
     
     required override init() {
@@ -47,21 +28,6 @@ class ProductionIssueExtensionEnvironment: NSObject, CodeExtensionEnvironmentPro
         
         operationQueue.name = "co.cashewapp.ProductionIssueExtensionEnvironment"
         operationQueue.maxConcurrentOperationCount = 3
-        
-        let logFileManager = IssueExtensionLogFileManagerDefault(logsDirectory: DDLogFileManagerDefault().logsDirectory);
-//        let contextFormatter = DDContextWhitelistFilterLogFormatter()
-        let fileLogger: DDFileLogger = DDFileLogger(logFileManager: logFileManager)
-        
-//        contextFormatter.addToWhitelist(UInt(ProductionIssueExtensionEnvironment.codeExtensionLogContext))
-        
-        //fileLogger.rollingFrequency = 60*60*24  // 24 hours
-        //fileLogger.logFileManager.maximumNumberOfLogFiles = 10
-        fileLogger.rollingFrequency = 0
-        fileLogger.maximumFileSize = 0
-//        fileLogger.logFormatter = contextFormatter
-        
-        
-        DDLog.add(fileLogger)
     }
     
     func consoleLog(_ arguments: [AnyObject], logLevel: LogLevel) {
@@ -80,8 +46,8 @@ class ProductionIssueExtensionEnvironment: NSObject, CodeExtensionEnvironmentPro
         NSPasteboard.general.setString(str, forType: .string)
     }
     
-    func ExtensionLogInfo(_ message: @autoclosure () -> String, level: DDLogLevel = defaultDebugLevel, context: Int = ProductionIssueExtensionEnvironment.codeExtensionLogContext, file: StaticString = #file, function: StaticString = #function, line: UInt = #line, tag: AnyObject? = nil, asynchronous async: Bool = true, ddlog: DDLog = DDLog.sharedInstance) {
-        _DDLogMessage(message, level: level, flag: .info, context: context, file: file, function: function, line: line, tag: tag, asynchronous: async, ddlog: ddlog)
+    func ExtensionLogInfo(_ message: @autoclosure () -> String, type: OSLogType = .default, file: StaticString = #file, function: StaticString = #function, line: UInt = #line) {
+        os_log("%@", log: self.log, type: type, message())
     }
 }
 
@@ -100,7 +66,7 @@ extension ProductionIssueExtensionEnvironment: MilestoneServiceExtensionEnvironm
             return
         }
         let milestones = QMilestoneStore.milestones(forAccountId: account?.identifier, repositoryId: repositoryId, includeHidden: false)
-        onCompletion.call(withArguments: milestones?.flatMap( { $0.toExtensionModel() }))
+        onCompletion.call(withArguments: milestones?.compactMap( { $0.toExtensionModel() }))
     }
     
 }
@@ -119,7 +85,7 @@ extension ProductionIssueExtensionEnvironment: OwnerServiceExtensionEnvironmentP
             return
         }
         let owners = QOwnerStore.owners(forAccountId: account?.identifier, repositoryId: repositoryId)
-        onCompletion.call(withArguments: owners?.flatMap({ $0.toExtensionModel() }))
+        onCompletion.call(withArguments: owners?.compactMap({ $0.toExtensionModel() }))
     }
     
 }
@@ -138,7 +104,7 @@ extension ProductionIssueExtensionEnvironment: LabelServiceExtensionEnvironmentP
             return
         }
         let labels = QLabelStore.labels(forAccountId: account?.identifier, repositoryId: repositoryId, includeHidden: false)
-        onCompletion.call(withArguments: labels?.flatMap({ $0.toExtensionModel() }))
+        onCompletion.call(withArguments: labels?.compactMap({ $0.toExtensionModel() }))
     }
     
 }
@@ -174,7 +140,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
 
     }
@@ -209,7 +175,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -247,7 +213,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
         
     }
@@ -285,7 +251,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -305,7 +271,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 return
         }
         
-        let labelNames: [String] = (labels == nil) ? [String]() : labels!.flatMap({ (item) in
+        let labelNames: [String] = (labels == nil) ? [String]() : labels!.compactMap({ (item) in
             if let label = item as? NSDictionary, let name = label["name"] as? String {
                 return name
             }
@@ -329,7 +295,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -365,7 +331,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -401,7 +367,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     
@@ -437,7 +403,7 @@ extension ProductionIssueExtensionEnvironment: IssueServiceExtensionEnvironmentP
                 semaphore.signal()
             }
             
-            semaphore.wait(timeout: DispatchTime.distantFuture)
+            semaphore.wait(timeout: .distantFuture)
         }
     }
     

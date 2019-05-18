@@ -10,7 +10,8 @@ import Foundation
 
 
 extension NSAlert {
-    
+
+    @objc
     class func showWarningMessage(_ message: String, body: String, onConfirmation: (() -> ())) {
         let alert = NSAlert()
         
@@ -24,7 +25,8 @@ extension NSAlert {
             onConfirmation()
         }
     }
-    
+
+    @objc
     class func showWarningMessage(_ message: String, onConfirmation: (() -> ())) {
         let alert = NSAlert()
         
@@ -38,7 +40,7 @@ extension NSAlert {
         }
     }
     
-    
+    @objc
     class func showOKWarningMessage(_ message: String, onCompletion: (() -> ())? = nil) {
         let alert = NSAlert()
         
@@ -52,7 +54,8 @@ extension NSAlert {
             }
         }
     }
-    
+
+    @objc
     class func showOKMessage(_ message: String, body: String? = nil, onCompletion: (() -> ())? = nil) {
         let alert = NSAlert()
         

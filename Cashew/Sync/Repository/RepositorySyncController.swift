@@ -64,7 +64,7 @@ class RepositorySyncController: NSObject {
                 let nextDate = Calendar.current.date(from: components)!
                 strongSelf.timer = Timer(fireAt: nextDate, interval: interval * 60, target: strongSelf, selector: #selector(RepositorySyncController.runSyncher(_:)), userInfo: nil, repeats: true)
                 // [[NSRunLoop mainRunLoop] addTimer:_syncTimer forMode:NSDefaultRunLoopMode];
-                RunLoop.main.add(strongSelf.timer!, forMode: RunLoopMode.defaultRunLoopMode)
+                RunLoop.main.add(strongSelf.timer!, forMode: RunLoop.Mode.default)
             } else if forced {
                 strongSelf.runSyncerNow(forced: forced)
             }

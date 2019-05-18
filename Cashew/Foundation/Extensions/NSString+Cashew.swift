@@ -13,7 +13,7 @@ extension NSString {
     
     
     @objc
-    public func textSizeForWithAttributes(_ attrs: [NSAttributedStringKey : Any], containerSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) -> NSSize {
+    public func textSizeForWithAttributes(_ attrs: [NSAttributedString.Key : Any], containerSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)) -> NSSize {
         let attributedStr = NSMutableAttributedString(string: String(self), attributes: attrs)
         return attributedStr.textSize(containerSize: containerSize)
     }

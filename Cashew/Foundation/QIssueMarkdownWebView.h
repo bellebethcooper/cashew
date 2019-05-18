@@ -22,6 +22,6 @@ typedef void(^QIssueMarkdownWebViewDidResize)(NSRect rect);
 //@property (nonatomic) BOOL scrollingEnabled;
 
 - (instancetype)initWithHTMLString:(NSString *)html onFrameLoadCompletion:(QIssueMarkdownWebViewFrameLoadCompletion)block;
-- (instancetype)initWithHTMLString:(NSString *)html onFrameLoadCompletion:(QIssueMarkdownWebViewFrameLoadCompletion)block scrollingEnabled:(BOOL)scrollingEnabled forceLightMode:(BOOL)foreLightMode;
+- (instancetype)initWithHTMLString:(NSString *)html onFrameLoadCompletion:(QIssueMarkdownWebViewFrameLoadCompletion)block forceLightMode:(BOOL)foreLightMode;
 
 @end

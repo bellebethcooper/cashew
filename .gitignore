@@ -2,6 +2,7 @@
 Pods/
 !Podfile
 !Podfile.lock
+Carthage/Build
 
 xcuserdata/
 Cashew.xcworkspace

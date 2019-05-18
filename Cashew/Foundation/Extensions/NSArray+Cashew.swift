@@ -10,7 +10,8 @@ import Foundation
 
 
 extension NSArray {
-    
+
+    @objc
     func insertionIndexOf(_ obj: NSObject, comparator: Comparator) -> Int {
         
         let newIndex: Int = index(of: obj, inSortedRange: NSMakeRange(0, self.count), options: .insertionIndex, usingComparator: comparator)

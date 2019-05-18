@@ -46,7 +46,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
     }
     
     var selectedIndexes: IndexSet {
-        if let selectedMilestone = selectedMilestone, let index = results.index(of: selectedMilestone) {
+        if let selectedMilestone = selectedMilestone, let index = results.firstIndex(of: selectedMilestone) {
             let indexSet = NSMutableIndexSet()
             indexSet.add(index)
             return indexSet as IndexSet
@@ -65,7 +65,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
             return [QRepository]()
         }
         let issues = Array(selectionMap.keys)
-        let repos = Array(Set(issues.flatMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
+        let repos = Array(Set(issues.compactMap { $0.repository })).sorted(by: { $0.fullName.compare($1.fullName) == .orderedAscending })
         return repos
 //        guard let currentIssues = self.sourceIssue != nil ? [self.sourceIssue!] : QContext.shared().currentIssues else  {
 //            return [QRepository]()
@@ -94,7 +94,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
             onCompletion()
             return
         }
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QMilestoneStore.searchMilestone(withQuery: String(format:"%@*", string), forAccountId: repository.account.identifier, repositoryId: repository.identifier) as AnyObject as? [QMilestone] {
                 self.results = results
             }
@@ -110,7 +110,7 @@ class MilestoneSearchablePickerDataSource: NSObject, SearchablePickerDataSource 
             return
         }
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             if let results = QMilestoneStore.milestones(forAccountId: repository.account.identifier, repositoryId: repository.identifier, includeHidden: false) as AnyObject as? [QMilestone] {
                 
                 self.results = results.sorted(by: { (repo1, repo2) -> Bool in

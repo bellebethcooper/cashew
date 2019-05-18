@@ -74,7 +74,7 @@ class SourceListUserQuerySyncher: NSObject {
                     group.leave()
                 })
             }
-            group.wait(timeout: DispatchTime.distantFuture)
+            group.wait(timeout: .distantFuture)
             
             // make sure what is stored locally is saved remotely
             for account in accounts! {
@@ -87,7 +87,7 @@ class SourceListUserQuerySyncher: NSObject {
                     })
                 })
             }
-            group.wait(timeout: DispatchTime.distantFuture)
+            group.wait(timeout: .distantFuture)
         }
     }
     
@@ -124,7 +124,7 @@ extension SourceListUserQuerySyncher: QStoreObserver {
             strongSelf.userQueryCloudKitService.deleteUserQuery(userQuery, onCompletion: { (deletedRecord, err) in
                 semaphore.signal();
             })
-            semaphore.wait(timeout: DispatchTime.distantFuture);
+            semaphore.wait(timeout: .distantFuture);
         }
         
     }
@@ -144,7 +144,7 @@ extension SourceListUserQuerySyncher: QStoreObserver {
             strongSelf.userQueryCloudKitService.saveUserQuery(userQuery, onCompletion: { (createdRecord, err) in
                 semaphore.signal();
             })
-            semaphore.wait(timeout: DispatchTime.distantFuture);
+            semaphore.wait(timeout: .distantFuture);
             //DDLogDebug("Done adding cloud userQuery \(userQuery)")
         }
     }

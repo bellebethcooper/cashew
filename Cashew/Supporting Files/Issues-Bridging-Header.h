@@ -35,8 +35,8 @@
 #import "QIssueCommentStore.h"
 #import "NSColor+Hex.h"
 #import <limits.h>
-#import <hoedown/html.h>
-#import <hoedown/document.h>
+#import "html.h"
+#import "document.h"
 #import "MarkdownParser.h"
 #import "AppDelegate.h"
 #import "QIssueSync.h"
@@ -52,14 +52,7 @@
 #import "QIssueFavoriteStore.h"
 #import "SRExtension.h"
 #import "SRExtensionStore.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "SRIssueReaction.h"
 #import "SRIssueCommentReaction.h"
 #import "SRIssueReactionStore.h"
 #import "SRIssueCommentReactionStore.h"
-
-#ifdef DEBUG
-static const DDLogLevel ddLogLevel = DDLogLevelVerbose;
-#else
-static const DDLogLevel ddLogLevel = DDLogLevelWarning;
-#endif

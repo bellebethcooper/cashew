@@ -16,7 +16,7 @@ enum IssueEventTypeInfo: String {
 }
 
 @objc(SRIssueEventInfo)
-protocol IssueEventInfo: NSObjectProtocol, SRIssueDetailItem {
+protocol IssueEventInfo: SRIssueDetailItem {
     var actor: QOwner! { get set }
     var event: NSString? { get set }
     var createdAt: Date! { get set }

@@ -11,7 +11,8 @@ import FMDB
 
 
 extension FMResultSet {
-    
+
+    @objc
     func hasColumnNamed(_ named: String) -> Bool {
         return columnNameToIndexMap[named] != nil
     }
